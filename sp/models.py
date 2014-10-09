@@ -79,4 +79,23 @@ class GameEvent(models.Model):
     property = models.IntegerField()
     umpires = models.CharField(max_length=20)
     
+class GroupGame(models.Model):
+    group = models.ForeignKey(Group)
+    game = models.ForeignKey(Game)
+    group_num = models.CharField(max_length=20)
+    group_name = models.CharField(max_length=30)
+    group_principal = models.CharField(max_length=20)
+    prin_contact = models.CharField(max_length=30)
+    group_status = models.IntegerField()
+    score = models.IntegerField()
+    award = models.CharField(max_length=50)
+    pay_status = models.IntegerField()
+    members = models.CharField(max_length=100)
+    
+class StudentEvent(models.Model):
+    event = models.ForeignKey(GameEvent)
+    stu_number = models.CharField(max_length=20)
+    group_num = models.CharField(max_length=20)
+    score = models.IntegerField()
+    award = models.CharField(max_length=50)
     
