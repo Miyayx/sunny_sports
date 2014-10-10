@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sunny_sports.sp'
+    #'sunny_sports.sp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -85,7 +85,7 @@ USE_TZ = True
 
 # Template files(HTML)
 TEMPLATE_DIRS=( 
-        os.path.join(BASE_DIR, 'templates').replace('\\','/'), 
+        os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'), 
         ) 
 
 # Static files (CSS, JavaScript, Images)
