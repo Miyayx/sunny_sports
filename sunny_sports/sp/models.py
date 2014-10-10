@@ -11,7 +11,7 @@ class User(models.Model):
     role = models.ForeignKey(Role)
     
 class StudentProperty(models.Model):
-    id = models.CharField(max_length=15)
+    stu_id = models.CharField(max_length=15)
     name = models.CharField(max_length=20)
     sex = models.CharField(max_length=4)
     email = models.EmailField()
@@ -48,7 +48,7 @@ class Game(models.Model):
     status = models.IntegerField()
     
 class Group(models.Model):
-    id = models.CharField(max_length=15)
+    group_id = models.CharField(max_length=15)
     province = models.CharField(max_length=20)
     city = models.CharField(max_length=30)
     company = models.CharField(max_length=50)
