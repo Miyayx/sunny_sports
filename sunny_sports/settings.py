@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'sunny_sports.sp',
+    'sunny_sports.sp',
 )
 
 MIDDLEWARE_CLASSES = (
