@@ -1,6 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+import os
+
+print (os.path.dirname(__file__))
+
 urlpatterns = patterns('',
     # Examples:
      url(r'^$', 'sunny_sports.views.home', name='home'),
@@ -41,6 +45,9 @@ urlpatterns = patterns('',
      url(r'^admin/center$', 'sunny_sports.views.a_center'),
      url(r'^admin/old_game$', 'sunny_sports.views.a_old_game_info'),
 
+     url(r'^static/(?P<path>.*)$)','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
 
     url(r'^admin/', include(admin.site.urls)),
 )
+print 
+
