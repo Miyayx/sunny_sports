@@ -65,31 +65,31 @@
 		<!-- ace scripts -->
 		<script src="../../static/js/ace-elements.min.js"></script>
 		<script src="../../static/js/ace.min.js"></script>
-		<script type="text/javascript">
-			//Load content via ajax
-					jQuery(function($) {
-					  if('enable_ajax_content' in ace) {
-						var options = {
-						  content_url: function(url) {
-							//this is for Ace demo only, you should change it
-							//please refer to documentation for more info
-						
-							if(!url.match(/^page\//)) return false;
-							
-							var path = document.location.pathname;
-							
-							//for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-							if(path.match(/ajax\.html/)) return path.replace(/ajax\.html/, url.replace(/^page\//, '')+'.html') ;
-					
-							//for Ace PHP demo version convert "page/dashboard" to "?page=dashboard" and load it
-							return path + "?" + url.replace(/\//, "=");
-						  },
-						  default_url: 'page/index'//default url
-						}
-						ace.enable_ajax_content($, options)
-					  }
-					    
-					})
-		</script>
+		//<script type="text/javascript">
+		//	//Load content via ajax
+		//			jQuery(function($) {
+		//			  if('enable_ajax_content' in ace) {
+		//				var options = {
+		//				  content_url: function(url) {
+		//					//this is for Ace demo only, you should change it
+		//					//please refer to documentation for more info
+		//				
+		//					if(!url.match(/^page\//)) return false;
+		//					
+		//					var path = document.location.pathname;
+		//					
+		//					//for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+		//					if(path.match(/ajax\.html/)) return path.replace(/ajax\.html/, url.replace(/^page\//, '')+'.html') ;
+		//			
+		//					//for Ace PHP demo version convert "page/dashboard" to "?page=dashboard" and load it
+		//					return path + "?" + url.replace(/\//, "=");
+		//				  },
+		//				  default_url: 'page/index'//default url
+		//				}
+		//				ace.enable_ajax_content($, options)
+		//			  }
+		//			    
+		//			})
+		//</script>
 	</body>
 </html>
