@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 PAGE_MAPPING = {
+        "index":"index.html",
         "login":"login.html",
         "password":"password.html",
         "student/sign_up":"student/sign_up.html",

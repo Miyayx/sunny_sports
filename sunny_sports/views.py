@@ -8,7 +8,7 @@ from .mapping import PAGE_MAPPING
 
 def home(req):
 
-    t = get_template(PAGE_MAPPING["login"])
+    t = get_template(PAGE_MAPPING["index"])
     c = Context({})
     html = t.render(c)
     return HttpResponse(html)
