@@ -4,6 +4,7 @@ PAGE_MAPPING = {
         "index":"index.html",
         "login":"login.html",
         "password":"password.html",
+        "error":"error-404.html",
         "student":"student/base.html",
         "student/sign_up":"student/sign_up.html",
         "student/complete_info":"student/complete_info.html",
@@ -15,6 +16,7 @@ PAGE_MAPPING = {
         "student/center":"student/center.html",
 
         ### 参赛队 ###
+        "group":"group/base.html",
         "group/sign_up":"group/sign_up.html",
         "group/games":"group/games.html",
         "group/join":"group/join.html",
@@ -26,6 +28,7 @@ PAGE_MAPPING = {
         "group/center":"group/center.html",
 
         ### 管理员 ###
+        "admin":"admin/base.html",
         "admin/games":"admin/games.html",
         "admin/publish":"admin/publish.html",
         "admin/game_admin":"admin/game_admin.html",

@@ -112,30 +112,45 @@ if('ontouchstart' in document.documentElement) document.write("<script src='../.
 <script src="../../static/js/ace-elements.min.js"></script>
 <script src="../../static/js/ace.min.js"></script>
 <script type="text/javascript">
-//Load content via ajax
-jQuery(function($) {
-        if('enable_ajax_content' in ace) {
-        var options = {
-content_url: function(url) {
-//this is for Ace demo only, you should change it
-//please refer to documentation for more info
+  //Load content via ajax
+  jQuery(function($) {
+          if('enable_ajax_content' in ace) {
+          var options = {
+              content_url: function(url) {
+              //this is for Ace demo only, you should change it
+              //please refer to documentation for more info
+  
+              if(!url.match(/^page\//)) return false;
+              
+              var path = document.location.pathname;
+              
+              //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+              return url.replace(/^page\//,"") ;
+              
+          },
+              default_url: 'index',//default url
+        }
+        ace.enable_ajax_content($, options);
+        }
+  
+  });
 
-if(!url.match(/^page\//)) return false;
-
-var path = document.location.pathname;
-
-//for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-if(path.match(/ajax\.html/)) return path.replace(/ajax\.html/, url.replace(/^page\//, '')+'.html') ;
-
-//for Ace PHP demo version convert "page/dashboard" to "?page=dashboard" and load it
-return path + "?" + url.replace(/\//, "=");
-},
-default_url: 'page/index'//default url
-}
-ace.enable_ajax_content($, options)
-}
-
-})
-<script>
+// jQuery(document)
+//     .on('ajaxloaderror', function(e, params) {
+//             //params.url and params.hash are available
+//          ace.enable_ajax_content(jQuery, {
+//            content_url: function(url) {
+//            //this is for Ace demo only, you should change it
+//            //url is the value from document url hash
+//
+//            //take "url" param and return the relevant url to load
+//              return "error";
+//            },
+//            update_active: false,
+//            default_url: 'index',//default url
+//            loading_icon: "fa-cog fa-2x blue"
+//         });
+//        });
+</script>
 </body>
 </html>

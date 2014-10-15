@@ -1,0 +1,40 @@
+{% extends "./base/base.html" %}
+
+{% block title %} 管理员 {% endblock %}
+
+{% block menu %}
+  <ul class="nav nav-list">
+    <li class="">
+    <a data-url="admin/game_list" href="#page/admin/games">
+      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛列表</span>
+    </a>
+
+    <b class="arrow"></b>
+    </li>
+
+    <li class="">
+    <a data-url="admin/publish" href="#page/admin/publish">
+      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 发布比赛</span>
+    </a>
+
+    <b class="arrow"></b>
+    </li>
+
+    <li class="">
+    <a data-url="admin/game_admin" href="#page/admin/game_admin">
+      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛管理</span>
+    </a>
+
+    <b class="arrow"></b>
+    </li>
+
+    <li class="">
+    <a data-url="password" href="#page/password">
+      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 密码修改</span>
+    </a>
+
+    <b class="arrow"></b>
+    </li>
+
+  </ul><!-- /.nav-list -->
+{% endblock %}
