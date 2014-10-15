@@ -4,6 +4,7 @@ PAGE_MAPPING = {
         "index":"index.html",
         "login":"login.html",
         "password":"password.html",
+        "student":"student/base.html",
         "student/sign_up":"student/sign_up.html",
         "student/complete_info":"student/complete_info.html",
         "student/games":"student/games.html",
