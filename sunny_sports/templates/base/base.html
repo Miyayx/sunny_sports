@@ -49,14 +49,14 @@ try{ace.settings.check('main-container' , 'fixed')}catch(e){}
     </script>
 
     {% block sidebar %}
-<!-- #section:basics/sidebar -->
-<div id="sidebar" class="sidebar responsive">
-  <script type="text/javascript">
+    <!-- #section:basics/sidebar -->
+    <div id="sidebar" class="sidebar responsive">
+        <script type="text/javascript">
 try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-  </script>
+        </script>
 
-  <!-- #section:basics/navbar.user_menu -->
-  <!-- <div class="light-blue">
+        <!-- #section:basics/navbar.user_menu -->
+        <!-- <div class="light-blue">
     <img class="nav-user-photo" src="../../static/avatars/user.jpg" alt="Jason's Photo" />
     <span class="user-info">
       <small>Welcome,</small>
@@ -64,21 +64,21 @@ try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
     </span>
   </div> -->
 
-  {% block menu %}
-  {% endblock %}
+        {% block menu %}
+        {% endblock %}
 
-  <!-- #section:basics/sidebar.layout.minimize -->
-  <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-    <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-  </div>
+        <!-- #section:basics/sidebar.layout.minimize -->
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
 
-  <!-- /section:basics/sidebar.layout.minimize -->
-  <script type="text/javascript">
+        <!-- /section:basics/sidebar.layout.minimize -->
+        <script type="text/javascript">
 try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-  </script>
-</div>
+        </script>
+    </div>
 
-<!-- /section:basics/sidebar -->
+    <!-- /section:basics/sidebar -->
     {% endblock %}
     {% include './base/main-content.html' %}
     {% include './base/footer.html' %}
@@ -112,28 +112,28 @@ if('ontouchstart' in document.documentElement) document.write("<script src='../.
 <script src="../../static/js/ace-elements.min.js"></script>
 <script src="../../static/js/ace.min.js"></script>
 <script type="text/javascript">
-  //Load content via ajax
-  jQuery(function($) {
-          if('enable_ajax_content' in ace) {
-          var options = {
-              content_url: function(url) {
-              //this is for Ace demo only, you should change it
-              //please refer to documentation for more info
-  
-              if(!url.match(/^page\//)) return false;
-              
-              var path = document.location.pathname;
-              
-              //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-              return url.replace(/^page\//,"") ;
-              
-          },
-              default_url: 'index',//default url
-        }
-        ace.enable_ajax_content($, options);
-        }
-  
-  });
+//Load content via ajax
+jQuery(function($) {
+        if('enable_ajax_content' in ace) {
+        var options = {
+content_url: function(url) {
+//this is for Ace demo only, you should change it
+//please refer to documentation for more info
+
+if(!url.match(/^page\//)) return false;
+
+var path = document.location.pathname;
+
+//for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+return url.replace(/^page\//,"") ;
+
+},
+default_url: 'index',//default url
+}
+ace.enable_ajax_content($, options);
+}
+
+});
 
 // jQuery(document)
 //     .on('ajaxloaderror', function(e, params) {
