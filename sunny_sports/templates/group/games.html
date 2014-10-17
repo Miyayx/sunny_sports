@@ -69,7 +69,7 @@
           </div>
 
           <div class="widget-toolbox padding-4 clearfix">
-            <button class="btn btn-xs btn-info pull-right">
+            <button class="btn btn-xs btn-info pull-right" id="group-join" >
               <span class="bigger-120 dark">报名</span>
 
               <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
@@ -79,34 +79,57 @@
       </div>
       </li>
       {% else %}
-    <li>
-    <div class="col-xs-12 col-sm-10 widget-container-col">
-      <div class="widget-box widget-color-grey">
-        <div class="widget-header">
-          <h5 class="widget-title">比赛BCD</h5>
+      <li>
+      <div class="col-xs-12 col-sm-10 widget-container-col">
+        <div class="widget-box widget-color-grey">
+          <div class="widget-header">
+            <h5 class="widget-title">比赛BCD</h5>
 
-          <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-              <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
-            </a>
-          </div>
-        </div> <!-- header -->
+            <div class="widget-toolbar">
+              <a href="#" data-action="collapse">
+                <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+              </a>
+            </div>
+          </div> <!-- header -->
 
-        <div class="widget-body">
-          <div class="widget-main">
-            <div class="alert alert-success">
-              <div class="col-sm-6"><strong>比赛名称：</strong> <span>某某比赛A</span></div>
-              <div class="col-sm-6"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
-              <div class="col-sm-12"><strong>所属参赛队：</strong> ABC参赛队</div>
-              <p>&nbsp&nbsp&nbsp&nbsp某年某月某日某组织举办了某比赛：比赛A</p>
+          <div class="widget-body">
+            <div class="widget-main">
+              <div class="alert alert-success">
+                <div class="col-sm-6"><strong>比赛名称：</strong> <span>某某比赛A</span></div>
+                <div class="col-sm-6"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
+                <div class="col-sm-12"><strong>所属参赛队：</strong> ABC参赛队</div>
+                <p>&nbsp&nbsp&nbsp&nbsp某年某月某日某组织举办了某比赛：比赛A</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      </li>
-      {% endif %}
-      {% endfor %}
+        </li>
+        {% endif %}
+        {% endfor %}
 
-    </ol>
+      </ol>
 
-  </div>
+    </div>
+<script src="../../static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+    
+    $('button').click(function(){
+      
+    $.get('/group/join',function(data) {
+        bootbox.dialog({
+          message: data,
+          title: "请确认参赛信息",
+          buttons: {
+            success: {
+              label: '<i class="ace-icon fa fa-check"></i>确认',
+              className: "btn btn-info",
+            },
+          reset: {
+              label: '<i class="ace-icon fa fa-undo"></i>重置',
+              className: "btn",
+          },
+          }
+        });
+      });
+    });
+</script>
