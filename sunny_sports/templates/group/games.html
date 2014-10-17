@@ -1,1 +1,112 @@
-<body><div><h1>group/games.html</h1></div></body>
+
+<div>
+  <ol>
+    <!--
+    {% for i in "123456789" %}
+    {% if forloop.first %}
+    <li class="dd-item dd2-item dd-colored" data-id="13">
+    <div class="dd-handle dd2-handle btn-info" style="height:100%">
+      <i class="normal-icon ace-icon fa fa-eye bigger-130"></i>
+
+      <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+    </div>
+    <div class="dd2-content " >
+      <div class="alert alert-success">
+        <div class="pull-left"><strong>比赛名称：</strong> 某某比赛A</div>
+        <div class="pull-right"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
+        <span class="sticker"><span class="label label-info arrowed-in">未报名</span></span>
+        <div><strong>所属参赛队：</strong> ABC参赛队</div>
+        <p>某年某月某日某组织举办了某比赛：比赛A</p>
+      </div>
+    </div>
+    </li>
+    {% else %}
+    <li class="dd-item dd2-item" data-id="14">
+    <div class="dd-handle dd2-handle">
+      <i class="normal-icon ace-icon fa fa-clock-o pink bigger-130"></i>
+
+      <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+    </div>
+    <div class="dd2-content ">
+      <div class="alert alert-info">
+        <div class="pull-left"><strong>比赛名称：</strong> <span>某某比赛A</span></div>
+        <div class="pull-right"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
+        <div><strong>所属参赛队：</strong> ABC参赛队</div>
+        <p>某年某月某日某组织举办了某比赛：比赛A</p>
+      </div>
+    </div>
+    </li>
+    {% endif %}
+    {{ object }}
+    {% endfor %}
+
+    -->
+
+    {% for i in "123456789" %}
+    {% if forloop.first %}
+    <li>
+    <div class="col-xs-12 col-sm-10 widget-container-col">
+      <div class="widget-box widget-color-pink">
+        <div class="widget-header">
+          <h5 class="widget-title">比赛ABC</h5>
+
+          <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+              <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+            </a>
+          </div>
+        </div> <!-- header -->
+
+        <div class="widget-body">
+          <div class="widget-main">
+            <div class="alert alert-info">
+              <div class="col-sm-6"><strong>比赛名称：</strong> <span>某某比赛A</span></div>
+              <div class="col-sm-6"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
+              <div class="col-sm-6"><strong>所属参赛队：</strong> ABC参赛队</div>
+              <div class="col-sm-6"><strong>当前状态：</strong> 未报名</div>
+              <p>&nbsp&nbsp&nbsp&nbsp某年某月某日某组织举办了某比赛：比赛A</p>
+            </div>
+          </div>
+
+          <div class="widget-toolbox padding-4 clearfix">
+            <button class="btn btn-xs btn-info pull-right">
+              <span class="bigger-120 dark">报名</span>
+
+              <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      </li>
+      {% else %}
+    <li>
+    <div class="col-xs-12 col-sm-10 widget-container-col">
+      <div class="widget-box widget-color-grey">
+        <div class="widget-header">
+          <h5 class="widget-title">比赛BCD</h5>
+
+          <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+              <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
+            </a>
+          </div>
+        </div> <!-- header -->
+
+        <div class="widget-body">
+          <div class="widget-main">
+            <div class="alert alert-success">
+              <div class="col-sm-6"><strong>比赛名称：</strong> <span>某某比赛A</span></div>
+              <div class="col-sm-6"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
+              <div class="col-sm-12"><strong>所属参赛队：</strong> ABC参赛队</div>
+              <p>&nbsp&nbsp&nbsp&nbsp某年某月某日某组织举办了某比赛：比赛A</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+    </ol>
+
+  </div>
