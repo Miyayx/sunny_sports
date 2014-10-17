@@ -1,1 +1,47 @@
-<body><div><h1>admin/score_elist.html</h1></div></body>
+<div class="col-xs-12">
+  <div class="sol-xs-10">
+    <h3 class="header pink">项目成绩</h3>
+    <div class="dd" id="nestable">
+      <ol class="dd-list">
+        <li class="dd-item" data-id="1">
+        <div class="dd-handle">单项</div>
+
+        <ol class="dd-list">
+          {% for i in "1234" %}
+          <li class="dd-item" data-id={{i}}>
+          <div class="dd-handle">
+            Event {{i}}
+          </div>
+          </li>
+          {% endfor %}
+        </ol>
+        </li>
+        <li class="dd-item" data-id="2">
+        <div class="dd-handle">团体</div>
+
+        <ol class="dd-list">
+          {% for i in "5678" %}
+          <li class="dd-item" data-id={{i}}>
+          <div class="dd-handle">
+            Event {{i}}
+          </div>
+          </li>
+          {% endfor %}
+        </ol>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div>
+    <h3 class="header purple">团队成绩</h3>
+    <div class="dd" id="nestable">
+      <ol class="dd-list">
+        <li class="dd-item" data-id="1">
+        <div class="dd-handle">团体</div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
