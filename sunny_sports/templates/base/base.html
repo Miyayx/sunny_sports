@@ -39,6 +39,7 @@
 </head>
 
 <body class="no-skin">
+{% block body %}
 
 <!-- #section:basics/navbar.layout -->
 {% include './base/header.html' %}
@@ -88,6 +89,8 @@ try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
     </a>
 </div><!-- /.main-container -->
 {% endblock %} <!-- end main-container -->
+
+{% endblock %}
 
 <!-- basic scripts -->
 

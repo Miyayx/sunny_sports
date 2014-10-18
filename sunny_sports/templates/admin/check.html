@@ -1,6 +1,5 @@
 <div class="row">
   <div class="col-sm-12 widget-container-col">
-    <!-- #section:custom/widget-box.options.transparent -->
     <div class="widget-box transparent">
       <div class="widget-header">
         <h4 class="widget-title blue">未审核参赛队</h4>
@@ -24,9 +23,15 @@
 
       <div class="widget-body">
         <div class="widget-main no-padding">
-          <table class="table table-striped table-bordered table-hover">
+          <table id="not-check-table" class="table table-striped table-bordered table-hover">
             <thead class="thin-border-bottom">
               <tr>
+                <th class="center">
+                  <label class="position-relative">
+                    <input type="checkbox" class="ace" id="chech-all">
+                    <span class="lbl"></span>
+                  </label>
+                </th>
                 <th class="center">
                   <i class="ace-icon fa fa-user"></i>
                   参赛队
@@ -36,18 +41,18 @@
                 <th class="center">单位</th>
                 <th class="center">比赛项目</th>
                 <th class="center hidden-480">审核状态</th>
-                <th class="center">
-                  <label class="position-relative">
-                    <input type="checkbox" class="ace" id="chech-all">
-                    <span class="lbl"></span>
-                  </label>
-                </th>
               </tr>
             </thead>
 
             <tbody>
             {% for i in "1234567890123456789" %}
             <tr>
+              <td class="center">
+                <label class="position-relative">
+                  <input name="sub-box" type="checkbox" class="ace"/>
+                  <span class="lbl"></span>
+                </label>
+              </td>
               <td>ABC</td>
               <td>123456</td>
               <td>北京市海淀区</td>
@@ -55,12 +60,6 @@
               <td></td>
               <td>
                 <span class="label label-warning arrowed-in arrowed-in-right">未审核</span>
-              </td>
-              <td class="center">
-                <label class="position-relative">
-                  <input name="sub-box" type="checkbox" class="ace"/>
-                  <span class="lbl"></span>
-                </label>
               </td>
             </tr>
             {% endfor %}
@@ -98,7 +97,7 @@
 
       <div class="widget-body">
         <div class="widget-main no-padding">
-          <table class="table table-striped table-bordered table-hover">
+          <table id="checked-table" class="table table-striped table-bordered table-hover">
             <thead class="thin-border-bottom">
               <tr>
                 <th class="center">
@@ -141,24 +140,11 @@
 //全选，反选
 $(function(){
 
-    initCheckbox = function(){
-    
-      $("#check-all").click(function(){
-        $('input[name="sub-box"]').attr("checked", this.checked);
-        });
-
-      var $subBox = $("input[name='sub-box']");
-      $subBox.click(function(){
-        $("#check-all").attr("checked",$subBox.length == $("input[name='sub-box']:checked").length ? true : false);
-      });
-    
-    }
-
     showGroupDetail = function(){
     //show detail group info
-      $('tr').click(function(){
+      $('tr td:gt(0)').click(function(){
         
-      $.get('/group/group_detail',function(data) {
+      $.get('/admin',function(data) {
           bootbox.dialog({
             message: data,
             title: "参赛队详细信息",
@@ -176,9 +162,25 @@ $(function(){
     initMultiCheckBtn = function(){
     //确认框，判断是否有选项
       $('#multi-check').click(function(){
+          checkedItems = [];
+
+    			$('#not-check-table').find('tr > td:first-child input[name="sub-box"]')
+    			.each(function(){
+            if(this.checked){
+            checkedItems.push($(this).closest('tr').find('td:nth-child(2)').text());
+            }
+    			});
+
+          //所有选中的item形成一个list，在box里显示用
+          itemList = $('<ul></ul>');
+          for(i = 0; i < checkedItems.length; i++){
+            item = $('<li>'+checkedItems[i]+'</li>');
+            itemList.append(item);
+          }
+
           bootbox.dialog({
             title: "是否确认以下参赛队审核通过？",
-            message: data,
+            message: itemList,
             buttons: {
               success: {
                 label: '<i class="ace-icon fa fa-check"></i>确认',
@@ -193,12 +195,82 @@ $(function(){
           });
     }
 
-    initCheckbox();
     showGroupDetail();
     initMultiCheckBtn();
 
  });
 
-
     
+</script>
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+	var scripts = [null,"../../static/js/jquery.dataTables.min.js","../../static/js/jquery.dataTables.bootstrap.js", null]
+	ace.load_ajax_scripts(scripts, function() {
+	  //inline scripts related to this page
+		 jQuery(function($) {
+		var oTable1 = 
+		$('#not-check-table')
+		//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+		.dataTable( {
+			bAutoWidth: false,
+			"aoColumns": [
+			  { "bSortable": false },
+			  null, null,null, null, null,
+			  { "bSortable": false }
+			],
+			"aaSorting": [],
+	
+			//,
+			//"sScrollY": "200px",
+			//"bPaginate": false,
+	
+			//"sScrollX": "100%",
+			//"sScrollXInner": "120%",
+			//"bScrollCollapse": true,
+			//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
+			//you may want to wrap the table inside a "div.dataTables_borderWrap" element
+	
+			//"iDisplayLength": 50
+	    } );
+		/**
+		var tableTools = new $.fn.dataTable.TableTools( oTable1, {
+			"sSwfPath": "../../copy_csv_xls_pdf.swf",
+	        "buttons": [
+	            "copy",
+	            "csv",
+	            "xls",
+				"pdf",
+	            "print"
+	        ]
+	    } );
+	    $( tableTools.fnContainer() ).insertBefore('#sample-table-2');
+		*/
+	
+	
+		$(document).on('click', 'th input:checkbox' , function(){
+			var that = this;
+			$(this).closest('table').find('tr > td:first-child input:checkbox')
+			.each(function(){
+				this.checked = that.checked;
+				$(this).closest('tr').toggleClass('selected');
+			});
+		});
+	
+	
+		$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
+		function tooltip_placement(context, source) {
+			var $source = $(source);
+			var $parent = $source.closest('table')
+			var off1 = $parent.offset();
+			var w1 = $parent.width();
+	
+			var off2 = $source.offset();
+			//var w2 = $source.width();
+	
+			if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
+			return 'left';
+		}
+	
+	})
+	});
 </script>
