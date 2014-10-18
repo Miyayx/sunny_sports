@@ -1,1 +1,204 @@
-{% extends './base.html' %}
+<div class="row">
+  <div class="col-sm-12 widget-container-col">
+    <!-- #section:custom/widget-box.options.transparent -->
+    <div class="widget-box transparent">
+      <div class="widget-header">
+        <h4 class="widget-title blue">未审核参赛队</h4>
+
+        <div class="widget-toolbar no-border">
+          <button class="btn btn-xs btn-inverse" style="margin-right:20px;" id="multi-check">
+            <span class="bigger110">批量审核</span>
+          </button>
+          <a href="#" data-action="fullscreen" class="oranges">
+            <i class="ace-icon fa fa-expand"></i>
+          </a>
+          <a href="#" data-action="reload">
+            <i class="ace-icon fa fa-refresh"></i>
+          </a>
+
+          <a href="#" data-action="collapse">
+            <i class="ace-icon fa fa-chevron-up"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="thin-border-bottom">
+              <tr>
+                <th class="center">
+                  <i class="ace-icon fa fa-user"></i>
+                  参赛队
+                </th>
+                <th class="center">参赛队编号</th>
+                <th class="center">所属地</th>
+                <th class="center">单位</th>
+                <th class="center">比赛项目</th>
+                <th class="center hidden-480">审核状态</th>
+                <th class="center">
+                  <label class="position-relative">
+                    <input type="checkbox" class="ace" id="chech-all">
+                    <span class="lbl"></span>
+                  </label>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for i in "1234567890123456789" %}
+            <tr>
+              <td>ABC</td>
+              <td>123456</td>
+              <td>北京市海淀区</td>
+              <td>XYZ幼儿园</td>
+              <td></td>
+              <td>
+                <span class="label label-warning arrowed-in arrowed-in-right">未审核</span>
+              </td>
+              <td class="center">
+                <label class="position-relative">
+                  <input name="sub-box" type="checkbox" class="ace"/>
+                  <span class="lbl"></span>
+                </label>
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</br>
+</br>
+
+<div class="row">
+  <div class="col-sm-10 widget-container-col">
+    <!-- #section:custom/widget-box.options.transparent -->
+    <div class="widget-box transparent">
+      <div class="widget-header">
+        <h4 class="widget-title purple">已审核参赛队</h4>
+
+        <div class="widget-toolbar no-border">
+          <a href="#" data-action="fullscreen" class="oranges">
+            <i class="ace-icon fa fa-expand"></i>
+          </a>
+          <a href="#" data-action="reload">
+            <i class="ace-icon fa fa-refresh"></i>
+          </a>
+
+          <a href="#" data-action="collapse">
+            <i class="ace-icon fa fa-chevron-up"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="widget-body">
+        <div class="widget-main no-padding">
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="thin-border-bottom">
+              <tr>
+                <th class="center">
+                  <i class="ace-icon fa fa-user"></i>
+                  参赛队名
+                </th>
+                <th class="center">参赛队编号</th>
+                <th class="center">所属地</th>
+                <th class="center">单位</th>
+                <th class="center">比赛项目</th>
+                <th class="center hidden-480">审核状态</th>
+                <th class="center">比赛编号</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for i in "1234567890123456789" %}
+            <tr>
+              <td>BCD</td>
+              <td>123456</td>
+              <td>北京市海淀区</td>
+              <td>XYZ幼儿园</td>
+              <td></td>
+              <td>
+                <span class="label label-success arrowed-in arrowed-in-right">已审核</span>
+              </td>
+              <td>group1</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+
+//全选，反选
+$(function(){
+
+    initCheckbox = function(){
+    
+      $("#check-all").click(function(){
+        $('input[name="sub-box"]').attr("checked", this.checked);
+        });
+
+      var $subBox = $("input[name='sub-box']");
+      $subBox.click(function(){
+        $("#check-all").attr("checked",$subBox.length == $("input[name='sub-box']:checked").length ? true : false);
+      });
+    
+    }
+
+    showGroupDetail = function(){
+    //show detail group info
+      $('tr').click(function(){
+        
+      $.get('/group/group_detail',function(data) {
+          bootbox.dialog({
+            message: data,
+            title: "参赛队详细信息",
+            buttons: {
+              success: {
+                label: '<i class="ace-icon fa fa-check"></i>确认',
+                className: "btn btn-info",
+              },
+            },
+          });
+        });
+      });
+    }
+
+    initMultiCheckBtn = function(){
+    //确认框，判断是否有选项
+      $('#multi-check').click(function(){
+          bootbox.dialog({
+            title: "是否确认以下参赛队审核通过？",
+            message: data,
+            buttons: {
+              success: {
+                label: '<i class="ace-icon fa fa-check"></i>确认',
+                className: "btn btn-info",
+              },
+              cancel: {
+                label: '<i class="ace-icon fa fa-times"></i>取消',
+                className: "btn",
+              }
+            },
+          });
+          });
+    }
+
+    initCheckbox();
+    showGroupDetail();
+    initMultiCheckBtn();
+
+ });
+
+
+    
+</script>
