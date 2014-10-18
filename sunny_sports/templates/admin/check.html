@@ -146,7 +146,7 @@ $(function(){
 
     showGroupDetail = function(){
     //show detail group info
-      $('tr td:gt(0)').click(function(){
+      $('tr').find('td:gt(0)').click(function(){
         
       $.get('/admin/group_detail',function(data) {
           bootbox.dialog({
