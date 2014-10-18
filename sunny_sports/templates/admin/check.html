@@ -40,6 +40,7 @@
                 <th class="center">所属地</th>
                 <th class="center">单位</th>
                 <th class="center">比赛项目</th>
+                <th class="center">报名时间</th>
                 <th class="center hidden-480">审核状态</th>
               </tr>
             </thead>
@@ -58,6 +59,7 @@
               <td>北京市海淀区</td>
               <td>XYZ幼儿园</td>
               <td></td>
+              <td>2014/10/18</td>
               <td>
                 <span class="label label-warning arrowed-in arrowed-in-right">未审核</span>
               </td>
@@ -102,12 +104,13 @@
               <tr>
                 <th class="center">
                   <i class="ace-icon fa fa-user"></i>
-                  参赛队名
+                  参赛队
                 </th>
                 <th class="center">参赛队编号</th>
                 <th class="center">所属地</th>
                 <th class="center">单位</th>
                 <th class="center">比赛项目</th>
+                <th class="center">报名时间</th>
                 <th class="center hidden-480">审核状态</th>
                 <th class="center">比赛编号</th>
               </tr>
@@ -121,6 +124,7 @@
               <td>北京市海淀区</td>
               <td>XYZ幼儿园</td>
               <td></td>
+              <td>2014/10/18</td>
               <td>
                 <span class="label label-success arrowed-in arrowed-in-right">已审核</span>
               </td>
@@ -144,7 +148,7 @@ $(function(){
     //show detail group info
       $('tr td:gt(0)').click(function(){
         
-      $.get('/admin',function(data) {
+      $.get('/admin/group_detail',function(data) {
           bootbox.dialog({
             message: data,
             title: "参赛队详细信息",
