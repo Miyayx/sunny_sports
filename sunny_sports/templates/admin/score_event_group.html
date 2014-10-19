@@ -29,26 +29,23 @@
                     <span class="lbl"></span>
                   </label>
                 </th>
+                <th class="center">项目名称</th>
                 <th class="center">参赛队</th>
+                <th class="center">选手姓名</th>
+                <th class="center">选手参赛编号</th>
                 <th class="center">成绩</th>
-                <th class="center">奖项</th>
               </tr>
             </thead>
 
             <tbody>
             {% for i in "1234567890123456789" %}
             <tr>
+              <td></td>
               <td>ABC{% i %}</td>
+              <td>选手{% i %}</td>
+              <td>{% i %}</td>
               <td>
                 <input class="input-sm" type="text"></input>
-              </td>
-              <td>
-                <select class="form-control" id="form-field-select-1">
-                  <option value="">无</option>
-                  <option value="first">单项一等奖</option>
-                  <option value="second">单项二等奖<</option>
-                  <option value="third">单项三等奖<</option>
-                </select>
               </td>
             </tr>
             {% endfor %}
