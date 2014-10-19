@@ -35,8 +35,9 @@ PAGE_MAPPING = {
         "admin/group_check":"admin/check.html",
         "admin/group_detail":"admin/group_detail.html",
         "admin/score_elist":"admin/score_elist.html",
-        "admin/score_e":"admin/score_event.html",
-        "admin/score_g":"admin/score_group.html",
+        "admin/score_event_group":"admin/score_event_group.html",
+        "admin/score_event_person":"admin/score_event_person.html",
+        "admin/score_group":"admin/score_group.html",
         "admin/center":"admin/center.html",
         "admin/old_game":"admin/old_game_info.html"
 

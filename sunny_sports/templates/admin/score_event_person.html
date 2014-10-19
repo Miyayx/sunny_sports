@@ -23,12 +23,6 @@
           <table id="not-check-table" class="table table-striped table-bordered table-hover">
             <thead class="thin-border-bottom">
               <tr>
-                <th class="center">
-                  <label class="position-relative">
-                    <input type="checkbox" class="ace" id="chech-all">
-                    <span class="lbl"></span>
-                  </label>
-                </th>
                 <th class="center">项目名称</th>
                 <th class="center">参赛队</th>
                 <th class="center">选手姓名</th>
@@ -42,9 +36,9 @@
             {% for i in "1234567890123456789" %}
             <tr>
               <td></td>
-              <td>ABC{% i %}</td>
-              <td>选手{% i %}</td>
-              <td>{% i %}</td>
+              <td>ABC{{ i }}</td>
+              <td>选手{{ i }}</td>
+              <td>{{i}}</td>
               <td>
                 <input class="input-sm" type="text"></input>
               </td>
