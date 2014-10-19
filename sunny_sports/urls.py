@@ -3,13 +3,12 @@ from django.contrib import admin
 
 import os
 
-print (os.path.dirname(__file__))
-
 urlpatterns = patterns('',
     # Examples:
      url(r'^$', 'sunny_sports.views.home', name='home'),
+     url(r'^favicon.ico$', 'sunny_sports.views.home'),
      url(r'^w*', 'sunny_sports.views.all', name='all'),
-    # url(r'^blog/', include('blog.urls')),
+     #url(r'^blog/', include('blog.urls')),
      #url(r'^student/', include('student.urls')),
      #url(r'^group/', include('group.urls')),
      #url(r'^admin_/', include('admin_.urls')),
@@ -50,5 +49,4 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 )
-print 
 
