@@ -2,9 +2,11 @@
   <div class="col-sm-12 widget-container-col">
     <div class="widget-box transparent">
       <div class="widget-header">
-        <h4 class="widget-title blue">团体成绩</h4>
+        <h4 class="widget-title blue">团体子项目：{{event}}</h4>
 
         <div class="widget-toolbar no-border">
+          <button class="btn btn-xs btn-success center">保存</button>
+          <button class="btn btn-xs btn-danger center">发布</button>
           <a href="#" data-action="fullscreen" class="oranges">
             <i class="ace-icon fa fa-expand"></i>
           </a>
@@ -23,26 +25,23 @@
           <table id="not-check-table" class="table table-striped table-bordered table-hover">
             <thead class="thin-border-bottom">
               <tr>
+                <th class="center">项目名称</th>
                 <th class="center">参赛队</th>
+                <th class="center">选手姓名</th>
+                <th class="center">选手参赛编号</th>
                 <th class="center">成绩</th>
-                <th class="center">奖项</th>
               </tr>
             </thead>
 
             <tbody>
             {% for i in "1234567890123456789" %}
             <tr>
+              <td>{{event}}</td>
               <td>ABC{{ i }}</td>
+              <td>选手{{ i }}</td>
+              <td>{{ i }}</td>
               <td class="center">
                 <input class="input-sm" type="text"></input>
-              </td>
-              <td>
-                <select class="form-control" id="form-field-select-1">
-                  <option value="">无</option>
-                  <option value="first">团体一等奖</option>
-                  <option value="second">团体二等奖</option>
-                  <option value="third">团体三等奖</option>
-                </select>
               </td>
             </tr>
             {% endfor %}
