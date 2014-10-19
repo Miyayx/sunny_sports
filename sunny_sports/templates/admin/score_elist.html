@@ -6,12 +6,12 @@
         <li class="dd-item" data-id="1">
         <div class="dd-handle">单项</div>
 
-        <ol class="dd-list" id="group-elist">
+        <ol class="dd-list" id="person-elist">
           {% for i in "1234" %}
           <li class="dd-item" data-id={{i}}>
-          <div class="dd-handle" data-url="admin/score_event_person">
+          <a class="dd-handle" data-url="admin/score_event_person" href="#page/admin/score_event_person?event=Event{{i}}">
             Event {{i}}
-          </div>
+          </a>
           </li>
           {% endfor %}
         </ol>
@@ -19,12 +19,12 @@
         <li class="dd-item" data-id="2">
         <div class="dd-handle">团体</div>
 
-        <ol class="dd-list" id="person-elist">
+        <ol class="dd-list" id="group-elist">
           {% for i in "5678" %}
           <li class="dd-item" data-id={{i}}>
-          <div class="dd-handle" data-url="admin/score_event_group">
+          <a class="dd-handle" data-url="admin/score_event_group" href="#page/admin/score_event_group?event=Event{{i}}">
             Event {{i}}
-          </div>
+          </a>
           </li>
           {% endfor %}
         </ol>
@@ -39,7 +39,7 @@
     <div class="dd" id="nestable">
       <ol class="dd-list" id="group">
         <li class="dd-item" data-id="1">
-        <div class="dd-handle">团体</div>
+        <a class="dd-handle" data-url="admin/score_group" href="#page/admin/score_group">团体成绩</a>
         </li>
       </ol>
     </div>
@@ -48,32 +48,6 @@
 
 <script>
 $(function(){
-
-    $('#group-elist li').click(function(){
-      t = $(this).find('div').text();
-      $.get('/admin/score_event_group?event='+t, function(data){
-        $area = $(".page-content-area");
-        $area.empty();
-        $area.append($(data));
-        });
-    });
-
-    $('#person-elist li').click(function(){
-      t = $(this).find('div').text();
-      $.get('/admin/score_event_person?event='+t, function(data){
-        $area = $(".page-content-area");
-        $area.empty();
-        $area.append($(data));
-        });
-    });
-
-    $('#group li').click(function(){
-      $.get('/admin/score_group', function(data){
-        $area = $(".page-content-area");
-        $area.empty();
-        $area.append($(data));
-        });
-    });
 
 });
 </script>

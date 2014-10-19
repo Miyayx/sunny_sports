@@ -2,9 +2,11 @@
   <div class="col-sm-12 widget-container-col">
     <div class="widget-box transparent">
       <div class="widget-header">
-        <h4 class="widget-title blue">event</h4>
+        <h4 class="widget-title blue">团体子项目：{{event}}</h4>
 
         <div class="widget-toolbar no-border">
+          <button class="btn btn-xs btn-success center">保存</button>
+          <button class="btn btn-xs btn-danger center">发布</button>
           <a href="#" data-action="fullscreen" class="oranges">
             <i class="ace-icon fa fa-expand"></i>
           </a>
@@ -34,7 +36,7 @@
             <tbody>
             {% for i in "1234567890123456789" %}
             <tr>
-              <td></td>
+              <td>{{event}}</td>
               <td>ABC{{ i }}</td>
               <td>选手{{ i }}</td>
               <td>{{ i }}</td>
