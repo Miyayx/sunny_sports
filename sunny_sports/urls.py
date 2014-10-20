@@ -5,7 +5,7 @@ import os
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', 'sunny_sports.views.home', name='home'),
+     url(r'^$', 'sunny_sports.views.login', name='login'),
      url(r'^favicon.ico$', 'sunny_sports.views.home'),
      url(r'^admin/score_event_person', 'sunny_sports.views.a_score_event_person'),
      url(r'^admin/score_event_group', 'sunny_sports.views.a_score_event_group'),
