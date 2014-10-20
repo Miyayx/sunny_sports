@@ -23,7 +23,10 @@ def all(req):
     return HttpResponse(html)
 
 def login(req):
-    pass
+    t = get_template('login.html')
+    c = Context({})
+    html = t.render(c)
+    return HttpResponse(html)
 
 def password(req):
     pass
