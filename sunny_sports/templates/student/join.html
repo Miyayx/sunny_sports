@@ -5,18 +5,10 @@
         $('.chosen-select').chosen({allow_single_deselect:true});
     });
 </script>
-<div class="page-header">
-    <h1>
-                        学员
-        <small>
-            <i class="ace-icon fa fa-angle-double-right"></i>
-                                    参赛队报名
-        </small>
-    </h1>
-</div><!-- /.page-header -->
+
 <div class="row">
     <div class="col-xs-12">
-        {% for i in "1" %}
+        {% for i in "12" %}
         {% if forloop.first %}
         <h4>您未报名</h4>
         <form class="form-horizontal" role="form">
