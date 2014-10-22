@@ -1,1 +1,63 @@
-<body><div><h1>group/choose_member.html</h1></div></body>
+<script src="../../static/js/chosen.jquery.min.js"></script>
+<link rel="stylesheet" href="../../static/css/chosen.css" />
+<script type="text/javascript">
+    jQuery(function($) {
+        $('.chosen-select').chosen({allow_single_deselect:true});
+        
+        $(window)
+        .off('resize.chosen')
+        .on('resize.chosen', function() {
+            $('.chosen-select').each(function() {
+				var $this = $(this);
+				$this.next().css({'width': $this.parent().width()});
+			})
+		}).trigger('resize.chosen');
+    });
+</script>
+
+<div class="page-header">
+	<h1>选择队员</h1>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-sm-4">
+		<form class="form-horizontal" role="form">
+			<div>
+				<div class="row">
+					<div class="col-sm-6">
+						<span class="bigger-110">请选择队员：</span>
+					</div>
+					<!-- /.span -->
+				</div>
+
+				</p>
+				<select multiple="" class="chosen-select tag-input-style" id="choose-members" data-placeholder="请选择。。。">
+					<option value="AL">Alabama</option>
+					<option value="AK">Alaska</option>
+					<option value="AZ">Arizona</option>
+					<option value="AR">Arkansas</option>
+					<option value="CA">California</option>
+					<option value="CO">Colorado</option>
+					<option value="CT">Connecticut</option>
+					<option value="DE">Delaware</option>
+					<option value="FL">Florida</option>
+					<option value="GA">Georgia</option>
+					<option value="HI">Hawaii</option>
+					<option value="ID">Idaho</option>
+					<option value="IL">Illinois</option>
+					<option value="IN">Indiana</option>
+					<option value="IA">Iowa</option>
+					<option value="KS">Kansas</option>
+					<option value="KY">Kentucky</option>
+					<option value="LA">Louisiana</option>
+					<option value="ME">Maine</option>
+					<option value="MD">Maryland</option>
+				</select>
+			</div>
+			</p>
+			<button class="btn btn-sm btn-success">&nbsp;保存&nbsp;</button>
+			&nbsp;
+			<button class="btn btn-sm btn-primary">&nbsp;提交&nbsp;</button>
+		</form>
+	</div>
+</div>

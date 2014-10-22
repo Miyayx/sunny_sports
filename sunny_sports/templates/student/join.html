@@ -1,1 +1,56 @@
-<body><div><h1>student/join.html</h1></div></body>
+<script src="../../static/js/chosen.jquery.min.js"></script>
+<link rel="stylesheet" href="../../static/css/chosen.css" />
+<script type="text/javascript">
+    jQuery(function($) {
+        $('.chosen-select').chosen({allow_single_deselect:true});
+        
+        $(window)
+        .off('resize.chosen')
+        .on('resize.chosen', function() {
+            $('.chosen-select').each(function() {
+                var $this = $(this);
+                $this.next().css({'width': $this.parent().width()});
+            })
+        }).trigger('resize.chosen');
+    });
+</script>
+
+<div class="page-header">
+    <h1>
+    	选择参赛队
+    </h1>
+</div><!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12 col-sm-4">
+        <h4>您未报名</h4>
+        <form class="form-horizontal" role="form">
+            <div>
+                <label for="choose-group">请选择参赛队：</label>
+                <br />
+                <select class="chosen-select" id="choose-group" data-placeholder="请选择。。。">
+                    <option value="">  </option>
+                    <option value="AL">队1</option>
+                    <option value="AK">队2</option>
+                    <option value="AZ">三队</option>
+                    <option value="AR">四队</option>
+                    <option value="CA">Queen</option>
+                    <option value="CO">拉拉队</option>
+                    <option value="CT">3511</option>
+                    <option value="DE">七朵花</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    {% for i in "12345" %}
+                    <option value="IN">Indiana</option>
+                    {% endfor %}
+                </select>
+                <br/>
+                </p>
+                <button class="btn btn-sm btn-primary">确认选择</button>
+            </div>
+        </form>
+    </div>
+</div>
