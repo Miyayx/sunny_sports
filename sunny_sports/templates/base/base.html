@@ -114,33 +114,55 @@ if('ontouchstart' in document.documentElement) document.write("<script src='../.
 <!-- ace scripts -->
 <script src="../../static/js/ace-elements.min.js"></script>
 <script src="../../static/js/ace.min.js"></script>
+
+<script src="../../static/custom/base.js"></script>
+
 <script type="text/javascript">
 //Load content via ajax
-jQuery(function($) {
-  if('enable_ajax_content' in ace) {
-    var options = {
-      content_url: function(url) {
-      //this is for Ace demo only, you should change it
-      //please refer to documentation for more info
-              
-      if(!url.match(/^page\//)) return false;
-              
-      var path = document.location.pathname;
-              
-      //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-      return url.replace(/^page\//,"") ;
-
-      },
-      default_url: 'index',//default url
-    }
-    ace.enable_ajax_content($, options);
-  }
-});
-
- jQuery(document)
-     .on('ajaxloaddone', function(e, params) {
-             $('.ajax-loading-overlay').remove();
-        });
+//jQuery(function($) {
+//  if('enable_ajax_content' in ace) {
+//    var options = {
+//      content_url: function(url) {
+//      //this is for Ace demo only, you should change it
+//      //please refer to documentation for more info
+//              
+//      if(!url.match(/^page\//)) return false;
+//              
+//      var path = document.location.pathname;
+//              
+//      //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+//      return path.replace(/admin/, url.replace(/^page\//,"")) ;
+//
+//      },
+//      default_url: 'index',//default url
+//    }
+//    ace.enable_ajax_content($, options);
+//  }
+//});
+//
+// jQuery(document)
+//     .on('ajaxloaddone', function(e, params) {
+//             $('.ajax-loading-overlay').remove();
+//             //somehow get a reference to our newly clicked(selected) element's parent "LI"
+//             var new_active = $(this).parent();
+//
+//             //remove ".active" class from all (previously) ".active" elements
+//             $('.nav-list li.active').removeClass('active');
+//
+//             //add ".active" class to our newly selected item and all its parent "LI" elements
+//             new_active.addClass('active').parents('.nav-list li').addClass('active');
+//
+//             //you can also update breadcrumbs:
+//             var breadcrumb_items = [];
+//             //$(this) is a reference to our clicked/selected element
+//             $(this).parents('.nav-list li').each(function() {
+//                   var link = $(this).find('> a');
+//                     var text = link.text();
+//                       var href = link.attr('href');
+//                         breadcrumb_items.push({'text': text, 'href': href});
+//                         })
+//             //now we have a breadcrumbs list and can replace breadcrumbs area
+//        });
 </script>
 </body>
 </html>
