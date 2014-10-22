@@ -1,2 +1,4 @@
 *.pyc
 /sunny_sports/settings.py.back
+css+js/
+/sunny_sports/templates/base/include.back
