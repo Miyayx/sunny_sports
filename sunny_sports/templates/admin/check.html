@@ -1,5 +1,6 @@
 <div class="row">
-  <div class="col-sm-12 widget-container-col">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10 widget-container-col">
     <div class="widget-box transparent">
       <div class="widget-header">
         <h4 class="widget-title blue">未审核参赛队</h4>
@@ -77,6 +78,7 @@
 </br>
 
 <div class="row">
+  <div class="col-sm-1"></div>
   <div class="col-sm-10 widget-container-col">
     <!-- #section:custom/widget-box.options.transparent -->
     <div class="widget-box transparent">
@@ -111,8 +113,8 @@
                 <th class="center">单位</th>
                 <th class="center">比赛项目</th>
                 <th class="center">报名时间</th>
-                <th class="center hidden-480">审核状态</th>
                 <th class="center">比赛编号</th>
+                <th class="center hidden-480">审核状态</th>
               </tr>
             </thead>
 
@@ -125,10 +127,10 @@
               <td>XYZ幼儿园</td>
               <td></td>
               <td>2014/10/18</td>
+              <td>group1</td>
               <td>
                 <span class="label label-success arrowed-in arrowed-in-right">已审核</span>
               </td>
-              <td>group1</td>
             </tr>
             {% endfor %}
             </tbody>
@@ -139,6 +141,8 @@
   </div>
 </div>
 <script src="../../static/js/bootbox.min.js"></script>
+<script src="../../static/js/jquery.dataTables.min.js"></script>
+<script src="../../static/js/jquery.dataTables.bootstrap.js"></script>
 <script type="text/javascript">
 
 //全选，反选
