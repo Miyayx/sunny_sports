@@ -1,1 +1,84 @@
-<body><div><h1>group/choose_event.html</h1></div></body>
+<script src="../../static/js/chosen.jquery.min.js"></script>
+<link rel="stylesheet" href="../../static/css/chosen.css" />
+<script type="text/javascript">
+    jQuery(function($) {
+        $('.chosen-select').chosen({allow_single_deselect:true});
+        
+        $(window)
+        .off('resize.chosen')
+        .on('resize.chosen', function() {
+            $('.chosen-select').each(function() {
+                var $this = $(this);
+                $this.next().css({'width': $this.parent().width()});
+            })
+        }).trigger('resize.chosen');
+    });
+</script>
+
+
+<div class="page-header">
+    <h1>请选择参与项目与参数队员</h1>
+</div>
+
+<div class="row">
+    
+        <form class="form-horizontal" role="form">
+        <div class="col-xs-12">
+        <div class="col-sm-3"><label for="choose-event">请选择项目：</label></div>
+        <div class="col-sm-3"><label for="choose-members">请选择参赛队员：</label></div>
+        <div class="col-sm-6"></div></div>
+        {% for i in "123" %}
+        <div class="col-xs-12">
+            <div class="col-sm-3">
+                <br />
+                <select class="chosen-select" id="choose-event" data-placeholder="请选择。。。">
+                    <option value="">  </option>
+                    <option value="AL">队1</option>
+                    <option value="AK">队2</option>
+                    <option value="AZ">三队</option>
+                    <option value="AR">四队</option>
+                    <option value="CA">Queen</option>
+                    <option value="CO">拉拉队</option>
+                    <option value="CT">3511</option>
+                    <option value="DE">七朵花</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    {% for i in "12345" %}
+                    <option value="IN">Indiana</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <select multiple="" class="chosen-select tag-input-style" id="choose-members" data-placeholder="请选择。。。">
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiana</option>
+                    <option value="ME">Maine</option>
+                    <option value="MD">Maryland</option>
+                </select>
+            </div>
+            <div class="col-sm-6"></div>
+            </div>
+            {% endfor %}
+        </form>
+    
+</div>
