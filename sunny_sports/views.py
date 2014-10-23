@@ -24,7 +24,7 @@ def all(req):
 
 def login(req):
     t = get_template('login.html')
-    c = Context({})
+    c = Context({'first',1})
     html = t.render(c)
     return HttpResponse(html)
 

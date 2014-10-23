@@ -116,6 +116,7 @@ if('ontouchstart' in document.documentElement) document.write("<script src='../.
 <script src="../../static/js/ace.min.js"></script>
 
 <script src="../../static/custom/base.js"></script>
+<script src="../../static/js/bootbox.min.js"></script>
 
 <script type="text/javascript">
 //Load content via ajax
@@ -145,5 +146,7 @@ jQuery(function($) {
              $('.ajax-loading-overlay').remove();
         });
 </script>
+{% block script %}
+{% endblock %}
 </body>
 </html>

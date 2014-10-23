@@ -32,3 +32,39 @@
 
 </ul><!-- /.nav-list -->
 {% endblock %}
+
+{% block script %}
+<script>
+$(function(){
+        var first = window.location.search.split('=')[1]
+        console.log(first);
+        
+  if(first){
+    $.get('/student/complete_info',function(data) {
+      bootbox.dialog({
+message: data,
+title: "请补全个人信息",
+buttons: {
+success: {
+label: '<i class="ace-icon fa fa-check"></i>确认',
+className: "btn btn-info btn-sm",
+callback:function(){
+window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
+
+}
+},
+cancel: {
+label: '<i class="ace-icon fa fa-undo"></i>重置',
+className: "btn btn-sm",
+},
+}
+});
+      });
+
+}else{
+window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
+}
+        });
+
+</script>
+{% endblock %}
