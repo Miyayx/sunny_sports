@@ -1,5 +1,7 @@
+<div class="page-header"><h1>参赛队审核</h1></div>
 <div class="row">
-  <div class="col-sm-12 widget-container-col">
+  <div class="col-xs-1"></div>
+  <div class="col-xs-10 widget-container-col">
     <div class="widget-box transparent">
       <div class="widget-header">
         <h4 class="widget-title blue">未审核参赛队</h4>
@@ -54,7 +56,7 @@
                   <span class="lbl"></span>
                 </label>
               </td>
-              <td>ABC</td>
+              <td class="center" style="cursor:pointer"><span class="label label-inverse">ABC</span></td>
               <td>123456</td>
               <td>北京市海淀区</td>
               <td>XYZ幼儿园</td>
@@ -77,6 +79,7 @@
 </br>
 
 <div class="row">
+  <div class="col-sm-1"></div>
   <div class="col-sm-10 widget-container-col">
     <!-- #section:custom/widget-box.options.transparent -->
     <div class="widget-box transparent">
@@ -111,24 +114,24 @@
                 <th class="center">单位</th>
                 <th class="center">比赛项目</th>
                 <th class="center">报名时间</th>
-                <th class="center hidden-480">审核状态</th>
                 <th class="center">比赛编号</th>
+                <th class="center hidden-480">审核状态</th>
               </tr>
             </thead>
 
             <tbody>
             {% for i in "1234567890123456789" %}
             <tr>
-              <td>BCD</td>
+              <td class="center" style="cursor:pointer"><span class="label label-inverse">BCD</span></td>
               <td>123456</td>
               <td>北京市海淀区</td>
               <td>XYZ幼儿园</td>
               <td></td>
               <td>2014/10/18</td>
+              <td>group1</td>
               <td>
                 <span class="label label-success arrowed-in arrowed-in-right">已审核</span>
               </td>
-              <td>group1</td>
             </tr>
             {% endfor %}
             </tbody>
@@ -138,143 +141,6 @@
     </div>
   </div>
 </div>
-<script src="../../static/js/bootbox.min.js"></script>
-<script type="text/javascript">
-
-//全选，反选
-$(function(){
-
-    showGroupDetail = function(){
-    //show detail group info
-      $('tr').find('td:gt(0)').click(function(){
-        
-      $.get('/admin/group_detail',function(data) {
-          bootbox.dialog({
-            message: data,
-            title: "参赛队详细信息",
-            buttons: {
-              success: {
-                label: '<i class="ace-icon fa fa-check"></i>确认',
-                className: "btn btn-info",
-              },
-            },
-          });
-        });
-      });
-    }
-
-    initMultiCheckBtn = function(){
-    //确认框，判断是否有选项
-      $('#multi-check').click(function(){
-          checkedItems = [];
-
-    			$('#not-check-table').find('tr > td:first-child input[name="sub-box"]')
-    			.each(function(){
-            if(this.checked){
-            checkedItems.push($(this).closest('tr').find('td:nth-child(2)').text());
-            }
-    			});
-
-          //所有选中的item形成一个list，在box里显示用
-          itemList = $('<ul></ul>');
-          for(i = 0; i < checkedItems.length; i++){
-            item = $('<li>'+checkedItems[i]+'</li>');
-            itemList.append(item);
-          }
-
-          bootbox.dialog({
-            title: "是否确认以下参赛队审核通过？",
-            message: itemList,
-            buttons: {
-              success: {
-                label: '<i class="ace-icon fa fa-check"></i>确认',
-                className: "btn btn-info",
-              },
-              cancel: {
-                label: '<i class="ace-icon fa fa-times"></i>取消',
-                className: "btn",
-              }
-            },
-          });
-          });
-    }
-
-    showGroupDetail();
-    initMultiCheckBtn();
-
- });
-
-    
-</script>
-<!-- page specific plugin scripts -->
-<script type="text/javascript">
-	var scripts = [null,"../../static/js/jquery.dataTables.min.js","../../static/js/jquery.dataTables.bootstrap.js", null]
-	ace.load_ajax_scripts(scripts, function() {
-	  //inline scripts related to this page
-		 jQuery(function($) {
-		var oTable1 = 
-		$('#not-check-table')
-		//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
-		.dataTable( {
-			bAutoWidth: false,
-			"aoColumns": [
-			  { "bSortable": false },
-			  null, null,null, null, null,
-			  { "bSortable": false }
-			],
-			"aaSorting": [],
-	
-			//,
-			//"sScrollY": "200px",
-			//"bPaginate": false,
-	
-			//"sScrollX": "100%",
-			//"sScrollXInner": "120%",
-			//"bScrollCollapse": true,
-			//Note: if you are applying horizontal scrolling (sScrollX) on a ".table-bordered"
-			//you may want to wrap the table inside a "div.dataTables_borderWrap" element
-	
-			//"iDisplayLength": 50
-	    } );
-		/**
-		var tableTools = new $.fn.dataTable.TableTools( oTable1, {
-			"sSwfPath": "../../copy_csv_xls_pdf.swf",
-	        "buttons": [
-	            "copy",
-	            "csv",
-	            "xls",
-				"pdf",
-	            "print"
-	        ]
-	    } );
-	    $( tableTools.fnContainer() ).insertBefore('#sample-table-2');
-		*/
-	
-	
-		$(document).on('click', 'th input:checkbox' , function(){
-			var that = this;
-			$(this).closest('table').find('tr > td:first-child input:checkbox')
-			.each(function(){
-				this.checked = that.checked;
-				$(this).closest('tr').toggleClass('selected');
-			});
-		});
-	
-	
-		$('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
-		function tooltip_placement(context, source) {
-			var $source = $(source);
-			var $parent = $source.closest('table')
-			var off1 = $parent.offset();
-			var w1 = $parent.width();
-	
-			var off2 = $source.offset();
-			//var w2 = $source.width();
-	
-			if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) return 'right';
-			return 'left';
-		}
-	
-	})
-	});
-</script>
+<script type="text/javascript" src="../../static/js/jquery.dataTables.min.js"></script>
+<script type="text/javascipt" src="../../static/js/jquery.dataTables.bootstrap.js"></script>
+<script type="text/javascript" src="../../static/custom/admin-check.js"></script>

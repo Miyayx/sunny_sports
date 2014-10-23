@@ -24,7 +24,7 @@ def all(req):
 
 def login(req):
     t = get_template('login.html')
-    c = Context({})
+    c = Context({'first',1})
     html = t.render(c)
     return HttpResponse(html)
 
@@ -89,14 +89,17 @@ def a_group_check(req):
     pass
 
 def a_group_detail(req):
-    pass
+    checked = int(req.GET['checked'])
+    t = get_template("admin/group_detail.html")
+    c = Context({'checked':checked})
+    html = t.render(c)
+    return HttpResponse(html)
 
 def a_score_elist(req):
     pass
 
 def a_score_event_group(req):
     event = req.GET['event']
-    print (event)
     t = get_template("admin/score_event_group.html")
     c = Context({'event':event})
     html = t.render(c)
@@ -104,7 +107,6 @@ def a_score_event_group(req):
 
 def a_score_event_person(req):
     event = req.GET['event']
-    print (event)
     t = get_template("admin/score_event_person.html")
     c = Context({'event':event})
     html = t.render(c)

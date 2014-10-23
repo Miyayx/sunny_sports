@@ -114,6 +114,10 @@ if('ontouchstart' in document.documentElement) document.write("<script src='../.
 <!-- ace scripts -->
 <script src="../../static/js/ace-elements.min.js"></script>
 <script src="../../static/js/ace.min.js"></script>
+
+<script src="../../static/custom/base.js"></script>
+<script src="../../static/js/bootbox.min.js"></script>
+
 <script type="text/javascript">
 //Load content via ajax
 jQuery(function($) {
@@ -128,7 +132,7 @@ jQuery(function($) {
       var path = document.location.pathname;
               
       //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-      return url.replace(/^page\//,"") ;
+      return url.replace(/^page\//,"");
 
       },
       default_url: 'index',//default url
@@ -142,5 +146,7 @@ jQuery(function($) {
              $('.ajax-loading-overlay').remove();
         });
 </script>
+{% block script %}
+{% endblock %}
 </body>
 </html>

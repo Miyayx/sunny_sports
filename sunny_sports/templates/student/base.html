@@ -21,7 +21,7 @@
     </li>
 
     <li class="">
-     <a data-url="student/new_game" href="#page/student/new_game">
+    <a data-url="student/new_game" href="#page/student/new_game">
         <i class="menu-icon fa fa-list"></i> <span class="menu-text"> (暂时)正在进行的比赛信息</span>
     </a>
 
@@ -29,42 +29,49 @@
     </li>
 
     <li class="">
-    <a href="#" class="dropdown-toggle">
+    <a data-url="student/center" href="#page/student/center">
         <i class="menu-icon fa fa-users"></i>
         <span class="menu-text"> 个人中心 </span>
-
-        <b class="arrow fa fa-angle-down"></b>
     </a>
 
     <b class="arrow"></b>
-
-    <ul class="submenu">
-        <li class="">
-        <a data-url="student/center" href="#page/student/center">
-            <i class="menu-icon fa fa-caret-right"></i>
-            个人信息
-        </a>
-
-        <b class="arrow"></b>
-        </li>
-<!--
-        <li class="">
-        <a data-url="password" href="#page/password">
-            <i class="menu-icon fa fa-caret-right"></i>
-            密码修改
-        </a>
-        <b class="arrow"></b>
-        </li>
-    -->
-     <li class="">
-        <a data-url="student/new_game" href="#page/student/new_game">
-            <i class="menu-icon fa fa-caret-right"></i>
-            密码修改
-        </a>
-        <b class="arrow"></b>
-    </li>
-    </ul>
     </li>
 
 </ul><!-- /.nav-list -->
+{% endblock %}
+
+{% block script %}
+<script>
+$(function(){
+        var first = window.location.search.split('=')[1]
+        console.log(first);
+        
+  if(first){
+    $.get('/student/complete_info',function(data) {
+      bootbox.dialog({
+message: data,
+title: "请补全个人信息",
+buttons: {
+success: {
+label: '<i class="ace-icon fa fa-check"></i>确认',
+className: "btn btn-info btn-sm",
+callback:function(){
+window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
+
+}
+},
+cancel: {
+label: '<i class="ace-icon fa fa-undo"></i>重置',
+className: "btn btn-sm",
+},
+}
+});
+      });
+
+}else{
+window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
+}
+        });
+
+</script>
 {% endblock %}

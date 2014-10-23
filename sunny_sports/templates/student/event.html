@@ -1,1 +1,188 @@
-<body><div><h1>student/event.html</h1></div></body>
+<script src="../../static/js/jquery.dataTables.min.js"></script>
+<script src="../../static/js/jquery.dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		var oTable1 = $('#sample-table-2')
+		//.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+		.dataTable({
+			bAutoWidth : false,
+			"aoColumns" : [ null, null, null, null, null ],
+			"aaSorting" : [],
+		});
+	})
+</script>
+
+<div class="page-header">
+	<h1>某项目参赛情况</h1>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="col-sm-1"></div>
+
+		<div class="col-sm-10">
+			<div class="table-header">某项目参赛情况</div>
+			<div>
+				<table id="sample-table-2"
+					class="table table-striped table-bordered table-hover">
+					<thead>
+						<tr>
+
+							<th>参赛队</th>
+
+							<th>参赛队员</th>
+							<th>成绩</th>
+							<th>奖项</th>
+							<th class="hidden-480">状态</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td class="hidden-480">Queen</td>
+							<td><a href="#">靓靓</a></td>
+
+							<td>100</td>
+							<td>一等奖</td>
+							<td class="hidden-480"><span
+								class="label label-sm label-warning">成绩发布</span></td>
+						</tr>
+
+						<tr>
+							<td class="hidden-480">Queen</td>
+							<td><a href="#">yy</a></td>
+
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-success">比赛中</span></td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">毛毛虫队</td>
+							<td><a href="#">二毛</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-warning">已结束</span></td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">毛毛虫队</td>
+							<td><a href="#">三毛</a></td>
+
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-inverse arrowed-in">Flagged</span></td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">毛毛虫</td>
+							<td><a href="#">大毛</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-success">Registered</span></td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">名人队</td>
+							<td><a href="#">张三</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-inverse arrowed-in">Flagged</span></td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">名人队</td>
+							<td><a href="#">李四</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-info arrowed arrowed-righ">Sold</span>
+							</td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">程序猿队</td>
+							<td><a href="#">王五</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-success">Registered</span></td>
+						</tr>
+
+						<tr>
+
+
+							<td class="hidden-480">萌萌队</td>
+							<td><a href="#">萌萌哒</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-info arrowed arrowed-righ">Sold</span>
+							</td>
+
+
+						</tr>
+
+						<tr>
+
+							<td class="hidden-480">五杀队</td>
+							<td><a href="#">凯撒</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-warning">Expiring</span></td>
+
+						</tr>
+						{% for i in "12345" %}
+						<tr>
+
+							<td class="hidden-480">天机</td>
+							<td><a href="#">老人</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-inverse arrowed-in">Flagged</span></td>
+
+
+						</tr>
+						{% endfor %} {% for i in "123456789" %}
+						<tr>
+							<td class="hidden-480">古剑</td>
+							<td><a href="#">ss</a></td>
+							<td></td>
+							<td></td>
+							<td class="hidden-480"><span
+								class="label label-sm label-success">Registered</span></td>
+						</tr>
+						{% endfor %}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

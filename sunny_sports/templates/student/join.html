@@ -3,19 +3,32 @@
 <script type="text/javascript">
     jQuery(function($) {
         $('.chosen-select').chosen({allow_single_deselect:true});
+        
+        $(window)
+        .off('resize.chosen')
+        .on('resize.chosen', function() {
+            $('.chosen-select').each(function() {
+                var $this = $(this);
+                $this.next().css({'width': $this.parent().width()});
+            })
+        }).trigger('resize.chosen');
     });
 </script>
 
+<div class="page-header">
+    <h1>
+    	选择参赛队
+    </h1>
+</div><!-- /.page-header -->
+
 <div class="row">
-    <div class="col-xs-12">
-        {% for i in "12" %}
-        {% if forloop.first %}
+    <div class="col-xs-12 col-sm-4">
         <h4>您未报名</h4>
         <form class="form-horizontal" role="form">
             <div>
-                <label for="form-field-select-3">请选择参赛队：</label>
+                <label for="choose-group">请选择参赛队：</label>
                 <br />
-                <select class="chosen-select" id="form-field-select-3" style="width:331px" data-placeholder="请选择。。。">
+                <select class="chosen-select" id="choose-group" data-placeholder="请选择。。。">
                     <option value="">  </option>
                     <option value="AL">队1</option>
                     <option value="AK">队2</option>
@@ -30,25 +43,14 @@
                     <option value="HI">Hawaii</option>
                     <option value="ID">Idaho</option>
                     <option value="IL">Illinois</option>
+                    {% for i in "12345" %}
                     <option value="IN">Indiana</option>
-                    <option value="IA">Iowa</option>
-                    <option value="KS">Kansas</option>
-                    <option value="KY">Kentucky</option>
-                    <option value="LA">Louisiana</option>
-                    <option value="WY">Wyoming</option>
+                    {% endfor %}
                 </select>
                 <br/>
                 </p>
                 <button class="btn btn-sm btn-primary">确认选择</button>
             </div>
         </form>
-        {% else %}
-        <div>
-            <h4>您已报名</h4>
-            <h3>参赛队：</h3>
-            <h4>queen&nbsp&nbsp&nbsp&nbsp(正在审核)</h4>
-        </div>
-        {% endif %}
-        {% endfor %}
     </div>
 </div>
