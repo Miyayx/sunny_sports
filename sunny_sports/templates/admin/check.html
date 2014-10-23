@@ -1,6 +1,7 @@
+<div class="page-header"><h1>参赛队审核</h1></div>
 <div class="row">
-  <div class="col-sm-1"></div>
-  <div class="col-sm-10 widget-container-col">
+  <div class="col-xs-1"></div>
+  <div class="col-xs-10 widget-container-col">
     <div class="widget-box transparent">
       <div class="widget-header">
         <h4 class="widget-title blue">未审核参赛队</h4>
@@ -55,7 +56,7 @@
                   <span class="lbl"></span>
                 </label>
               </td>
-              <td>ABC</td>
+              <td class="center" style="cursor:pointer"><span class="label label-inverse">ABC</span></td>
               <td>123456</td>
               <td>北京市海淀区</td>
               <td>XYZ幼儿园</td>
@@ -121,7 +122,7 @@
             <tbody>
             {% for i in "1234567890123456789" %}
             <tr>
-              <td>BCD</td>
+              <td class="center" style="cursor:pointer"><span class="label label-inverse">BCD</span></td>
               <td>123456</td>
               <td>北京市海淀区</td>
               <td>XYZ幼儿园</td>
@@ -150,9 +151,15 @@ $(function(){
 
     showGroupDetail = function(){
     //show detail group info
-      $('tr').find('td:gt(0)').click(function(){
+    $('span.label').parents('td').click(function(){
+      id_ = $(this).closest('table').attr('id');
+      console.log(id_)
+      checked = 0;
+      if (id_=="checked-table"){
+          checked = 1;
+      }
         
-      $.get('/admin/group_detail',function(data) {
+      $.get('/admin/group_detail?checked='+checked,function(data) {
           bootbox.dialog({
             message: data,
             title: "参赛队详细信息",
