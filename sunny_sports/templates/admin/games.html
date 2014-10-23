@@ -6,42 +6,47 @@
       {% if forloop.first %}
       <li class="dd-item dd2-item dd-colored" data-id="13">
       <div class="dd-handle dd2-handle btn-info" style="height:100%">
-        <i class="normal-icon ace-icon fa fa-eye bigger-130"></i>
+        <i class="normal-icon ace-icon fa fa-eye green bigger-130"></i>
 
         <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
       </div>
       <div class="dd2-content " >
-        <div class="alert alert-success">
-          <div class="pull-left"><strong>比赛名称：</strong> 某某比赛A</div>
-          <div class="pull-right"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
-          <span class="sticker"><span class="label label-info arrowed-in">未报名</span></span>
-          <div><strong>所属参赛队：</strong> ABC参赛队</div>
-          <p>某年某月某日某组织举办了某比赛：比赛A</p>
+        <span class="label label-xlg label-success arrowed-right">某某比赛A</span>
+        <a data-url="admin/game_admin" href="#page/admin/game_admin" class="green">详细信息</a>
+        <div class="space-4"></div>
+        <div class="alert alert-block alert-success">
+          <div class="row">
+            <div class="col-xs-6"><strong class="green">比赛时间：</strong> 2014.10.15-2014.10.15</div>
+            <div class="col-xs-6"><strong class="green">所属参赛队：</strong> ABC参赛队</div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
+          </div>
         </div>
-      </div>
-      </li>
-      {% else %}
-      <li class="dd-item dd2-item" data-id="14">
-      <div class="dd-handle dd2-handle">
-        <i class="normal-icon ace-icon fa fa-clock-o pink bigger-130"></i>
+        </li>
+        {% else %}
+        <li class="dd-item dd2-item" data-id="14">
+        <div class="dd-handle dd2-handle" style="height:100%">
+          <i class="normal-icon ace-icon fa fa-clock-o pink bigger-130"></i>
 
-        <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
-      </div>
-      <div class="dd2-content ">
-        <div class="alert alert-info">
-          <div class="pull-left"><strong>比赛名称：</strong> <span>某某比赛A</span></div>
-          <div class="pull-right"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
-          <div><strong>所属参赛队：</strong> ABC参赛队</div>
-          <p>某年某月某日某组织举办了某比赛：比赛A</p>
+          <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
         </div>
-      </div>
-      </li>
-      {% endif %}
-      {{ object }}
-      {% endfor %}
+        <div class="dd2-content ">
+          <span class="label label-xlg label-info arrowed-right">某某比赛B</span>
+          <a data-url="admin/game_admin" href="#page/admin/game_admin" class="blue">详细信息</a>
+        <div class="space-4"></div>
+          <div class="alert alert-info alert-info">
+            <div class="row">
+              <div class="col-xs-6"><strong class="blue">比赛时间：</strong> 2014.10.15-2014.10.15</div>
+              <div class="col-xs-6"><strong class="blue">所属参赛队：</strong> ABC参赛队</div>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
+            </div>
+          </div>
+          </li>
+          {% endif %}
+          {{ object }}
+          {% endfor %}
 
 
-   <!--
+          <!--
       {% for i in "123456789" %}
       {% if forloop.first %}
       <li>
@@ -104,6 +109,19 @@
       {% endif %}
       {% endfor %}
      -->
-    </ol>
-  </div>
-</div>
+        </ol>
+      </div>
+    </div>
+
+    <script src="../../static/custom/base.js"></script>
+    <script>
+$(function(){
+    $('.dd2-content a').click(function() {
+
+      url = $(this).attr('data-url');
+      freshPage(url);
+
+      });
+    });
+
+    </script>
