@@ -1,3 +1,4 @@
+<div class="page-header"><h1>比赛列表</h1></div>
 <div class="row">
   <div class="col-xs-1"></div>
   <div class="col-xs-10">
@@ -39,32 +40,34 @@
             <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
           </div>
         </div>
-        </li>
-        {% else %}
-        <li class="dd-item dd2-item" data-id="14">
-        <div class="dd-handle dd2-handle" style="height:100%">
-          <i class="normal-icon ace-icon fa fa-clock-o pink bigger-130"></i>
+      </div>
+      </li>
+      {% else %}
+      <li class="dd-item dd2-item" data-id="14">
+      <div class="dd-handle dd2-handle" style="height:100%">
+        <i class="normal-icon ace-icon fa fa-clock-o pink bigger-130"></i>
 
-          <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
-        </div>
-        <div class="dd2-content ">
-          <span class="label label-xlg label-info arrowed-right">某某比赛B</span>
-          <a data-url="student/old_game" href="#page/student/old_game" class="detail blue">详细信息</a>
+        <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
+      </div>
+      <div class="dd2-content ">
+        <span class="label label-xlg label-info arrowed-right">某某比赛B</span>
+        <a data-url="student/old_game" href="#page/student/old_game" class="detail blue">详细信息</a>
         <div class="space-4"></div>
-          <div class="alert alert-info alert-info">
-            <div class="row">
-              <div class="col-xs-6"><strong class="blue">比赛时间：</strong> 2014.10.15-2014.10.15</div>
-              <div class="col-xs-6"><strong class="blue">所属参赛队：</strong> ABC参赛队</div>
-              <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
-            </div>
+        <div class="alert alert-info alert-info">
+          <div class="row">
+            <div class="col-xs-6"><strong class="blue">比赛时间：</strong> 2014.10.15-2014.10.15</div>
+            <div class="col-xs-6"><strong class="blue">所属参赛队：</strong> ABC参赛队</div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
           </div>
-          </li>
-          {% endif %}
-          {{ object }}
-          {% endfor %}
+        </div>
+      </div>
+      </li>
+      {% endif %}
+      {{ object }}
+      {% endfor %}
 
 
-          <!--
+      <!--
       {% for i in "123456789" %}
       {% if forloop.first %}
       <li>
@@ -127,13 +130,13 @@
       {% endif %}
       {% endfor %}
      -->
-        </ol>
-      </div>
-    </div>
+    </ol>
+  </div>
+</div>
 
-    <script src="../../static/custom/base.js"></script>
+<script src="../../static/custom/base.js"></script>
 <script src="../../static/js/bootbox.min.js"></script>
-    <script>
+<script>
 $(function(){
     $('.dd2-content .detail').click(function() {
 
@@ -143,26 +146,26 @@ $(function(){
       });
     });
 
-    </script>
+</script>
 <script type="text/javascript">
-    
-    $('a .label').click(function(){
-      
+
+$('a .label').click(function(){
+
     $.get('/student/join',function(data) {
-        bootbox.dialog({
-          message: data,
-          title: "请选择参赛队",
-          buttons: {
-            success: {
-              label: '<i class="ace-icon fa fa-check"></i>确认',
-              className: "btn btn-info btn-sm",
-            },
-          cancel: {
-              label: '<i class="ace-icon fa fa-undo"></i>取消',
-              className: "btn btn-sm",
-          },
-          }
-        });
+      bootbox.dialog({
+message: data,
+title: "请选择参赛队",
+buttons: {
+success: {
+label: '<i class="ace-icon fa fa-check"></i>确认',
+className: "btn btn-info btn-sm",
+},
+cancel: {
+label: '<i class="ace-icon fa fa-undo"></i>取消',
+className: "btn btn-sm",
+},
+}
+});
       });
     });
 </script>
