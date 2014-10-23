@@ -12,7 +12,7 @@
       </div>
       <div class="dd2-content " >
         <span class="label label-xlg label-success arrowed-right">某某比赛A</span>
-        <a data-url="student/new_game" href="#page/student/new_game" class="green">详细信息</a>
+        <a data-url="student/new_game" href="#page/student/new_game" class="detail green">详细信息</a>
         <div class="space-4"></div>
         <div class="alert alert-block alert-success">
           <div class="row">
@@ -21,19 +21,19 @@
             <div class="col-xs-12">
               <strong class="green">当前状态：</strong> 
               未报名&nbsp;&nbsp;
-              <span class="label label-lg label-inverse arrowed-right">报名</span>
+              <a href="#"><span class="label label-lg label-inverse arrowed-right">报名</span></a>
             </div>
             <div class="col-xs-12"><strong class="green">当前状态：</strong> 等待参赛队挑选</div>
             <div class="col-xs-12">
               <strong class="green">当前状态：</strong> 
               未被参赛队选中&nbsp;&nbsp;
-              <span class="label label-lg label-inverse arrowed-right">报名</span>
+              <a href="#"><span class="label label-lg label-inverse arrowed-right">报名</span></a>
             </div>
             <div class="col-xs-12"><strong class="green">当前状态：</strong> 等待参赛队审核</div>
             <div class="col-xs-12">
               <strong class="green">当前状态：</strong> 
               参赛队审核失败&nbsp;&nbsp;
-              <span class="label label-lg label-inverse arrowed-right">报名</span>
+              <a href="#"><span class="label label-lg label-inverse arrowed-right">报名</span></a>
             </div>
             <div class="col-xs-12"><strong class="green">当前状态：</strong> 参赛队审核成功</div>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
@@ -49,7 +49,7 @@
         </div>
         <div class="dd2-content ">
           <span class="label label-xlg label-info arrowed-right">某某比赛B</span>
-          <a data-url="student/old_game" href="#page/student/old_game" class="blue">详细信息</a>
+          <a data-url="student/old_game" href="#page/student/old_game" class="detail blue">详细信息</a>
         <div class="space-4"></div>
           <div class="alert alert-info alert-info">
             <div class="row">
@@ -132,9 +132,10 @@
     </div>
 
     <script src="../../static/custom/base.js"></script>
+<script src="../../static/js/bootbox.min.js"></script>
     <script>
 $(function(){
-    $('.dd2-content a').click(function() {
+    $('.dd2-content .detail').click(function() {
 
       url = $(this).attr('data-url');
       freshPage(url);
@@ -143,3 +144,25 @@ $(function(){
     });
 
     </script>
+<script type="text/javascript">
+    
+    $('a .label').click(function(){
+      
+    $.get('/student/join',function(data) {
+        bootbox.dialog({
+          message: data,
+          title: "请选择参赛队",
+          buttons: {
+            success: {
+              label: '<i class="ace-icon fa fa-check"></i>确认',
+              className: "btn btn-info btn-sm",
+            },
+          cancel: {
+              label: '<i class="ace-icon fa fa-undo"></i>取消',
+              className: "btn btn-sm",
+          },
+          }
+        });
+      });
+    });
+</script>
