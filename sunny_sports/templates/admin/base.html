@@ -54,3 +54,14 @@
 
   </ul><!-- /.nav-list -->
 {% endblock %}
+
+{% block script %}
+<script>
+$(function(){
+        if(windows.location.search.length > 0){
+window.location.href=window.location.origin+window.location.pathname+"#page/admin/games";
+}
+        });
+
+</script>
+{% endblock %}
