@@ -88,8 +88,8 @@
 <script>
 $(function(){
     $('.dd-list .dd-item').click(function(){
-      e = $(this).attr('data-id');
-      url = "";
+      var e = $(this).attr('data-id');
+      var url;
       switch($(this).parent().attr('id')){
           case "person-elist":
               url = "admin/score_event_person";
@@ -104,13 +104,16 @@ $(function(){
               return false;
               }
 
-      console.log(url);
-      $.ajax({
-        url:url+"?event="+e
-        }).done(function(data){
-          $('.page-content-area').html(data);
-          });
-      
+      window.location.href="#page/"+url+"?event="+e;
+
+      //$.ajax({
+      //  url:url+"?event="+e
+      //  }).done(function(data){
+      //    console.log(url);
+      //    $('.page-content-area').html(data);
+      //    window.location.href="#page/"+url;
+      //    });
+
       });
 
     });
