@@ -43,8 +43,8 @@
 {% block script %}
 <script>
 $(function(){
-        var first = window.location.search.split('=')[1]
-        console.log(first);
+        //var first = window.location.search.split('=')[1]
+        var first = 0;
         
   if(first){
     $.get('/student/complete_info',function(data) {
