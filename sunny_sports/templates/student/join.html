@@ -9,17 +9,11 @@
         .on('resize.chosen', function() {
             $('.chosen-select').each(function() {
                 var $this = $(this);
-                $this.next().css({'width': $this.parent().width()});
+                $this.next().css({'width': '400px'});
             })
         }).trigger('resize.chosen');
     });
 </script>
-
-<div class="page-header">
-    <h1>
-    	选择参赛队
-    </h1>
-</div><!-- /.page-header -->
 
 <div class="row">
     <div class="col-xs-12 col-sm-4">
@@ -47,9 +41,6 @@
                     <option value="IN">Indiana</option>
                     {% endfor %}
                 </select>
-                <br/>
-                </p>
-                <button class="btn btn-sm btn-primary">确认选择</button>
             </div>
         </form>
     </div>
