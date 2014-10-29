@@ -5,6 +5,11 @@ PAGE_MAPPING = {
         "login":"login.html",
         "password":"password.html",
         "error":"error-404.html",
+
+        "coach":"coach/base.html",
+
+        "judge":"judge/base.html",
+
         "student":"student/base.html",
         "student/sign_up":"student/sign_up.html",
         "student/complete_info":"student/complete_info.html",

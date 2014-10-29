@@ -1,27 +1,34 @@
 {% extends "./base/base.html" %}
 
-{% block title %} 学员页面 {% endblock %}
+{% block title %} 俱乐部页面 {% endblock %}
 
 {% block menu %}
 <ul class="nav nav-list">
-
     <li class="">
-    <a data-url="student/test" href="#page/student/test">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 学员考级</span>
+    <a data-url="student/games" href="#page/student/games">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 资格评定 </span>
     </a>
     <b class="arrow"></b>
     </li>
 
     <li class="">
-    <a class="dropdown-toggle" data-url="student/games" href="#page/student/games">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛列表 </span>
+    <a data-url="student/test" href="#page/student/test">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 年审 </span>
+    </a>
+    <b class="arrow"></b>
+    </li>
+
+    <li class="">
+    <a data-url="student/center" href="#page/student/center">
+        <i class="menu-icon fa fa-users"></i>
+        <span class="menu-text"> 信息管理 </span>
     </a>
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
         <a data-url="page/tables" href="ajax.html#page/tables">
             <i class="menu-icon fa fa-caret-right"></i>
-            正在进行的比赛信息
+            基本信息
         </a>
         <b class="arrow"></b>
         </li>
@@ -29,18 +36,11 @@
         <li class="">
         <a data-url="page/jqgrid" href="ajax.html#page/jqgrid">
             <i class="menu-icon fa fa-caret-right"></i>
-            历史比赛
+            成员管理
         </a>
         <b class="arrow"></b>
         </li>
     </ul>
-    </li>
-
-    <li class="">
-    <a data-url="student/center" href="#page/student/center">
-        <i class="menu-icon fa fa-users"></i> <span class="menu-text"> 个人中心 </span>
-    </a>
-    <b class="arrow"></b>
     </li>
 
 </ul><!-- /.nav-list -->
@@ -51,10 +51,10 @@
 $(function(){
         //var first = window.location.search.split('=')[1]
         var first = 0;
-
-        if(first){
-        $.get('/student/complete_info',function(data) {
-            bootbox.dialog({
+        
+  if(first){
+    $.get('/student/complete_info',function(data) {
+      bootbox.dialog({
 message: data,
 title: "请补全个人信息",
 buttons: {
@@ -72,14 +72,14 @@ className: "btn btn-sm",
 },
 }
 });
-            });
+      });
 
 }else{
-    if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-        window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
-    }
+        if(window.location.search.length > 0 || !window.location.href.match(/page/)){
+window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
+        }
 }
-});
+        });
 
 </script>
 {% endblock %}
