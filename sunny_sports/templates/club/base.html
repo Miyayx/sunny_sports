@@ -5,36 +5,37 @@
 {% block menu %}
 <ul class="nav nav-list">
     <li class="">
-    <a data-url="student/games" href="#page/student/games">
+    <a data-url="club/evaluate" href="#page/club/evaluate">
         <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 资格评定 </span>
     </a>
     <b class="arrow"></b>
     </li>
 
     <li class="">
-    <a data-url="student/test" href="#page/student/test">
+    <a data-url="club/annual_check" href="#page/club/annual_check">
         <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 年审 </span>
     </a>
     <b class="arrow"></b>
     </li>
 
     <li class="">
-    <a data-url="student/center" href="#page/student/center">
+    <a class="dropdown-toggle" href="#">
         <i class="menu-icon fa fa-users"></i>
         <span class="menu-text"> 信息管理 </span>
+        <b class="arrow fa fa-angle-down"></b>
     </a>
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
-        <a data-url="page/tables" href="ajax.html#page/tables">
+        <a data-url="club/center" href="#page/club/center">
             <i class="menu-icon fa fa-caret-right"></i>
             基本信息
         </a>
         <b class="arrow"></b>
         </li>
-        
+
         <li class="">
-        <a data-url="page/jqgrid" href="ajax.html#page/jqgrid">
+        <a data-url="club/member_admin" href="#page/club/member_admin">
             <i class="menu-icon fa fa-caret-right"></i>
             成员管理
         </a>
@@ -49,36 +50,9 @@
 {% block script %}
 <script>
 $(function(){
-        //var first = window.location.search.split('=')[1]
-        var first = 0;
-        
-  if(first){
-    $.get('/student/complete_info',function(data) {
-      bootbox.dialog({
-message: data,
-title: "请补全个人信息",
-buttons: {
-success: {
-label: '<i class="ace-icon fa fa-check"></i>确认',
-className: "btn btn-info btn-sm",
-callback:function(){
-window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
-
-}
-},
-cancel: {
-label: '<i class="ace-icon fa fa-undo"></i>重置',
-className: "btn btn-sm",
-},
-}
-});
-      });
-
-}else{
         if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-window.location.href=window.location.origin+window.location.pathname+"#page/student/games";
+        window.location.href=window.location.origin+window.location.pathname+"#page/club/home";
         }
-}
         });
 
 </script>
