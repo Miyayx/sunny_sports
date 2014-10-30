@@ -6,13 +6,27 @@ PAGE_MAPPING = {
         "password":"password.html",
         "error":"error-404.html",
 
-        "coach":"coach/base.html",
+        ### 教练 ###
+        "coach":"coach/home.html",
+        "coach/home":"coach/home.html",
+        "coach/train":"coach/train.html",
+        "coach/test":"coach/test.html",
+        "coach/center":"coach/center.html",
 
-        "judge":"judge/base.html",
+        ### 裁判 ###
+        "judge":"judge/home.html",
+        "judge/home":"judge/home.html",
+        "judge/train":"judge/train.html",
+        "judge/test":"judge/test.html",
+        "judge/center":"judge/center.html",
 
-        "student":"student/base.html",
+        ### 学员 ###
+        "student":"student/home.html",
+        "student/home":"student/home.html",
         "student/sign_up":"student/sign_up.html",
         "student/complete_info":"student/complete_info.html",
+        "student/home":"student/home.html",
+        "student/test":"student/test.html",
         "student/games":"student/games.html",
         "student/join":"student/join.html",
         "student/new_game":"student/new_game_info.html",
@@ -21,7 +35,7 @@ PAGE_MAPPING = {
         "student/center":"student/center.html",
 
         ### 参赛队 ###
-        "group":"group/base.html",
+        "group":"group/home.html",
         "group/sign_up":"group/sign_up.html",
         "group/games":"group/games.html",
         "group/join":"group/join.html",
@@ -33,7 +47,7 @@ PAGE_MAPPING = {
         "group/center":"group/center.html",
 
         ### 管理员 ###
-        "admin":"admin/base.html",
+        "admin":"admin/home.html",
         "admin/games":"admin/games.html",
         "admin/publish":"admin/publish.html",
         "admin/game_admin":"admin/game_admin.html",
@@ -44,6 +58,23 @@ PAGE_MAPPING = {
         "admin/score_event_person":"admin/score_event_person.html",
         "admin/score_group":"admin/score_group.html",
         "admin/center":"admin/center.html",
-        "admin/old_game":"admin/old_game_info.html"
+        "admin/old_game":"admin/old_game_info.html",
+        "admin/train_publish":"admin/train_publish.html",
+        "admin/train_input":"admin/train_input.html",
+        "admin/train_query":"admin/train_query.html",
+        "admin/test_publish":"admin/test_publish.html",
+        "admin/test_input":"admin/test_input.html",
+        "admin/test_query":"admin/test_query.html",
+        "admin/club_evaluate":"admin/club_evaluate.html",
+        "admin/annual_check":"admin/annual_check.html",
+        "admin/ratio_setting":"admin/ratio_setting.html",
+
+        ### 俱乐部 ###
+        "club":"club/home.html",
+        "club/home":"club/home.html",
+        "club/evaluate":"club/evaluate.html",
+        "club/annual_check":"club/annual_check.html",
+        "club/center":"club/center.html",
+        "club/member_admin":"club/member_admin.html"
 
         }
