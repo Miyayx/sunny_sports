@@ -1,169 +1,293 @@
-<div class="page-header"><h1>比赛列表</h1></div>
+<body>
+<div class="page-header">
+  <h1>
+    比赛进行
+  </h1>
+</div><!-- /.page-header -->
 <div class="row">
-  <div class="col-xs-1"></div>
-  <div class="col-xs-10">
-    <ol>
-      {% for i in "12345678910345" %}
-      {% if forloop.first %}
-      <li class="dd-item dd2-item dd-colored" data-id="13">
-      <div class="dd-handle dd2-handle btn-info" style="height:100%">
-        <i class="normal-icon ace-icon fa fa-eye green bigger-130"></i>
-
-        <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
-      </div>
-      <div class="dd2-content " >
-        <span class="label label-xlg label-success arrowed-right">某某比赛A</span>
-        <a data-url="student/new_game" href="#page/student/new_game" class="detail green">详细信息</a>
-        <div class="space-4"></div>
-        <div class="alert alert-block alert-success">
-          <div class="row">
-            <div class="col-xs-6"><strong class="green">比赛时间：</strong> 2014.10.15-2014.10.15</div>
-            <div class="col-xs-6"><strong class="green">所属参赛队：</strong> ABC参赛队</div>
-            <div class="col-xs-12">
-              <strong class="green">当前状态：</strong> 
-              未报名&nbsp;&nbsp;
-              <a href="#"><span class="label label-lg label-inverse arrowed-right">报名</span></a>
-            </div>
-            <div class="col-xs-12"><strong class="green">当前状态：</strong> 等待参赛队挑选</div>
-            <div class="col-xs-12">
-              <strong class="green">当前状态：</strong> 
-              未被参赛队选中&nbsp;&nbsp;
-              <a href="#"><span class="label label-lg label-inverse arrowed-right">报名</span></a>
-            </div>
-            <div class="col-xs-12"><strong class="green">当前状态：</strong> 等待参赛队审核</div>
-            <div class="col-xs-12">
-              <strong class="green">当前状态：</strong> 
-              参赛队审核失败&nbsp;&nbsp;
-              <a href="#"><span class="label label-lg label-inverse arrowed-right">报名</span></a>
-            </div>
-            <div class="col-xs-12"><strong class="green">当前状态：</strong> 参赛队审核成功</div>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
+  <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+    <!-- #section:pages/timeline -->
+    <div class="timeline-container">
+      <div class="timeline-items">
+        <div class="timeline-item clearfix">
+          <div class="timeline-info">
+            <i class="timeline-indicator ace-icon fa fa-leaf btn btn-primary no-hover green"></i>
           </div>
-        </div>
-      </div>
-      </li>
-      {% else %}
-      <li class="dd-item dd2-item" data-id="14">
-      <div class="dd-handle dd2-handle" style="height:100%">
-        <i class="normal-icon ace-icon fa fa-clock-o pink bigger-130"></i>
 
-        <i class="drag-icon ace-icon fa fa-arrows bigger-125"></i>
-      </div>
-      <div class="dd2-content ">
-        <span class="label label-xlg label-info arrowed-right">某某比赛B</span>
-        <a data-url="student/old_game" href="#page/student/old_game" class="detail blue">详细信息</a>
-        <div class="space-4"></div>
-        <div class="alert alert-info alert-info">
-          <div class="row">
-            <div class="col-xs-6"><strong class="blue">比赛时间：</strong> 2014.10.15-2014.10.15</div>
-            <div class="col-xs-6"><strong class="blue">所属参赛队：</strong> ABC参赛队</div>
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;某年某月某日某组织举办了某比赛：比赛A</p>
-          </div>
-        </div>
-      </div>
-      </li>
-      {% endif %}
-      {{ object }}
-      {% endfor %}
+          <!-- /section:pages/timeline.info -->
+          <div class="widget-box transparent">
+            <div class="widget-header widget-header-small">
+              <h5 class="widget-title smaller">
+                比赛介绍
+              </h5>
 
+              <span class="widget-toolbar no-border">
+                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                16:22
+              </span>
 
-      <!--
-      {% for i in "123456789" %}
-      {% if forloop.first %}
-      <li>
-      <div class="col-xs-12 col-sm-11 widget-container-col">
-        <div class="widget-box widget-color-pink">
-          <div class="widget-header">
-            <h5 class="widget-title">比赛ABC</h5>
+              <span class="widget-toolbar">
+                <a href="#" data-action="reload">
+                  <i class="ace-icon fa fa-refresh"></i>
+                </a>
 
-            <div class="widget-toolbar">
-              <a href="#" data-action="collapse">
-                <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
-              </a>
+                <a href="#" data-action="collapse">
+                  <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+              </span>
             </div>
-          </div> 
 
-      <div class="widget-body">
-        <div class="widget-main">
-          <div class="alert alert-info">
-            <div class="col-sm-6"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
-            <div class="col-sm-6"><strong>所属参赛队：</strong> ABC参赛队</div>
-            <div class="col-sm-12"><strong>当前状态：</strong> 未报名</div>
-            <p>&nbsp&nbsp&nbsp&nbsp某年某月某日某组织举办了某比赛：比赛A</p>
-          </div>
-        </div>
+            <div class="widget-body">
+              <div class="widget-main">
+                呵呵呵呵呵呵
+                <div class="space-6"></div>
 
-        <div class="widget-toolbox padding-4 clearfix">
-          <button class="btn btn-xs btn-info pull-right">
-            <span class="bigger-120 dark">报名</span>
-            <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-    </li>
-    {% else %}
-    <li>
-    <div class="col-xs-12 col-sm-11 widget-container-col">
-      <div class="widget-box widget-color-grey">
-        <div class="widget-header">
-          <h5 class="widget-title">比赛BCD</h5>
+                <div class="widget-toolbox clearfix">
+                  <div class="pull-left">
+                    <i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
+                    <a href="#" class="bigger-110">点击查看更多 &hellip;</a>
+                  </div>
 
-          <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-              <i class="1 ace-icon fa fa-chevron-up bigger-125"></i>
-            </a>
-          </div>
-        </div> 
+                  <!-- #section:custom/extra.action-buttons -->
+                  <div class="pull-right action-buttons">
+                    <a href="#">
+                      <i class="ace-icon fa fa-check green bigger-130"></i>
+                    </a>
 
-        <div class="widget-body">
-          <div class="widget-main">
-            <div class="alert alert-success">
-              <div class="col-sm-6"><strong>比赛时间：</strong> 2014.10.15-2014.10.15</div>
-              <div class="col-sm-6"><strong>所属参赛队：</strong> ABC参赛队</div>
-              <p>&nbsp&nbsp&nbsp&nbsp某年某月某日某组织举办了某比赛：比赛A</p>
+                    <a href="#">
+                      <i class="ace-icon fa fa-pencil blue bigger-125"></i>
+                    </a>
+
+                    <a href="#">
+                      <i class="ace-icon fa fa-times red bigger-125"></i>
+                    </a>
+                  </div>
+
+                  <!-- /section:custom/extra.action-buttons -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </div><!-- /.timeline-items -->
+    </div><!-- /.timeline-container -->
+
+    <div class="timeline-container">
+      <div class="timeline-label">
+          <span class="label label-primary arrowed-in-right label-lg">
+          <b>报名开始   2014年5月17日</b>
+          </span>
       </div>
-      </li>
-      {% endif %}
-      {% endfor %}
-     -->
-    </ol>
+      <div class="timeline-item clearfix">
+        <div class="timeline-info">
+          <i class="timeline-indicator ace-icon fa fa-bug btn btn-danger no-hover"></i>
+        </div>
+        <div class="widget-box widget-color-red2">
+          <div class="widget-header widget-header-small">
+            <h5 class="widget-title smaller">当前状态</h5>
+              <span class="widget-toolbar no-border">
+                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                9:15
+              </span>
+              <span class="widget-toolbar">
+                <a href="#" data-action="reload">
+                  <i class="ace-icon fa fa-refresh"></i>
+                </a>
+                <a href="#" data-action="collapse">
+                  <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+              </span>
+          </div>
+          <div class="widget-body">
+            <div class="widget-main">
+              <span>未报名</span>
+              <a href="#"><button id="enroll" class="btn btn-xs btn-primary join">报名</button></a>
+            </div>
+            <div class="widget-main">
+              <span>未组队</span>
+              <a href="#"><button id="team-up" class="btn btn-xs btn-primary join">挑选队员</button></a>
+            </div>
+            <div class="widget-main">
+              <span>等待审核</span>
+            </div>
+            <div class="widget-main">
+               <span>审核通过</span>
+               <a href="#page/group/event"><span>查看队员（下拉）</span></a>
+              <span>未报送项目</span>
+              <a href="#"><button id="select-e" class="btn btn-xs btn-primary join">选择项目</button></a>
+            </div>
+            <div class="widget-main">
+              <span>审核失败</span>
+              <a href="#"><button id="team-up" class="btn btn-xs btn-primary join">挑选队员</button></a>
+            </div>
+            <div class="widget-main">
+              <span>正在比赛</span>
+              <a href="#page/group/event"><span>查看队员（下拉）</span></a>
+            </div>
+          </div>
+          </div>
+        </div>
+
+              <div class="timeline-item clearfix">
+        <div class="timeline-info">
+          <i class="timeline-indicator ace-icon fa fa-bug btn btn-danger no-hover"></i>
+        </div>
+        <div class="widget-box widget-color-red2">
+          <div class="widget-header widget-header-small">
+            <h5 class="widget-title smaller">当前状态（带下拉的例子）</h5>
+              <span class="widget-toolbar no-border">
+                <i class="ace-icon fa fa-clock-o bigger-110"></i>
+                9:15
+              </span>
+              <span class="widget-toolbar">
+                <a href="#" data-action="reload">
+                  <i class="ace-icon fa fa-refresh"></i>
+                </a>
+                <a href="#" data-action="collapse">
+                  <i class="ace-icon fa fa-chevron-up"></i>
+                </a>
+              </span>
+          </div>
+            <div class="widget-main">
+               <span>审核通过 未报送项目</span>
+              <a href="#page/group/event"><span>查看队员（下拉）</span></a>
+              <a href="#"><button class="btn btn-xs btn-primary join">选择项目</button></a>
+            </div>
+          </div>
+          </div>
+          <div class="timeline-label">
+          <span class="label label-primary arrowed-in-right label-lg">
+          <b>比赛开始   2014年6月17日</b>
+          </span>
+        </div>
+
+      <div class="timeline-items">
+        <div class="timeline-item clearfix">
+          <div class="timeline-info">
+            <i class="timeline-indicator ace-icon fa fa-trophy btn btn-pink no-hover green"></i>
+          </div>
+
+          <div class="widget-box transparent">
+            <div class="widget-header widget-header-small">
+              <h5 class="widget-title smaller">比赛项目</h5>
+            </div>
+
+            <div class="widget-body">
+              <div class="widget-main">
+                <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>项目名称</th>
+                          <th class="hidden-480">成绩</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="#page/student/event">ace.com</a>
+                          </td>
+                          <td>95</td>
+                        </tr>
+
+                        <tr>                          
+                          <td>
+                            <a href="#page/student/event">ace.com</a>
+                          </td>
+                          <td>未发布</td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <a href="#page/student/event">ace.com</a>
+                          </td>
+                          <td>未发布</td>
+                        </tr>
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="timeline-label">
+        <span class="label label-success arrowed-in-right label-lg">
+          <b>比赛结束  2014年10月24日</b>
+        </span>
+      </div>
+
+      </div>
+        </div>
+        <!-- /.timeline-items -->
+    </div><!-- /.timeline-container -->
+
+
+
+    <!-- /section:pages/timeline -->
   </div>
 </div>
 
-<script>
-$(function(){
-    $('.dd2-content .detail').click(function() {
-
-      url = $(this).attr('data-url');
-      freshPage(url);
-
-      });
-    });
-
-</script>
 <script type="text/javascript">
 
-$('a .label').click(function(){
+$('#enroll').click(function(){
 
-    $.get('/student/join',function(data) {
+    $.get('/group/join',function(data) {
       bootbox.dialog({
 message: data,
-title: "请选择参赛队",
+title: "请确认参赛信息",
 buttons: {
 success: {
 label: '<i class="ace-icon fa fa-check"></i>确认',
 className: "btn btn-info btn-sm",
 },
-cancel: {
-label: '<i class="ace-icon fa fa-undo"></i>取消',
+reset: {
+label: '<i class="ace-icon fa fa-undo"></i>重置',
 className: "btn btn-sm",
 },
 }
 });
       });
     });
+
+$('#team-up').click(function(){
+
+    $.get('/group/member',function(data) {
+      bootbox.dialog({
+message: data,
+title: "请选择队员",
+buttons: {
+save: {
+label: '<i class="ace-icon fa fa-save"></i>保存',
+className: "btn btn-success btn-sm",
+},
+success: {
+label: '<i class="ace-icon fa fa-check"></i>提交',
+className: "btn btn-info btn-sm",
+},
+}
+});
+      });
+    });
+
+$('#select-e').click(function(){
+
+    $.get('/group/choose_event',function(data) {
+      bootbox.dialog({
+message: data,
+title: "请确定项目以及参赛人员",
+buttons: {
+save: {
+label: '<i class="ace-icon fa fa-save"></i>保存',
+className: "btn btn-success btn-sm",
+},
+success: {
+label: '<i class="ace-icon fa fa-check"></i>提交',
+className: "btn btn-info btn-sm",
+},
+}
+});
+      });
+    });
 </script>
+
+</body>

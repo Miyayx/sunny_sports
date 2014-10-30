@@ -9,28 +9,18 @@
         .on('resize.chosen', function() {
             $('.chosen-select').each(function() {
 				var $this = $(this);
-				$this.next().css({'width': $this.parent().width()});
+				$this.next().css({'width': '400px'});
 			})
 		}).trigger('resize.chosen');
     });
 </script>
 
-<div class="page-header">
-	<h1>选择队员</h1>
-</div>
-
 <div class="row">
 	<div class="col-xs-12 col-sm-4">
 		<form class="form-horizontal" role="form">
 			<div>
-				<div class="row">
-					<div class="col-sm-6">
-						<span class="bigger-110">请选择队员：</span>
-					</div>
-					<!-- /.span -->
-				</div>
+				<label for="choose-members">请选择队员：</label>
 
-				</p>
 				<select multiple="" class="chosen-select tag-input-style" id="choose-members" data-placeholder="请选择。。。">
 					<option value="AL">Alabama</option>
 					<option value="AK">Alaska</option>
@@ -54,10 +44,6 @@
 					<option value="MD">Maryland</option>
 				</select>
 			</div>
-			</p>
-			<button class="btn btn-sm btn-success">&nbsp;保存&nbsp;</button>
-			&nbsp;
-			<button class="btn btn-sm btn-primary">&nbsp;提交&nbsp;</button>
 		</form>
 	</div>
 </div>
