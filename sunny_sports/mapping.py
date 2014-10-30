@@ -7,21 +7,21 @@ PAGE_MAPPING = {
         "error":"error-404.html",
 
         ### 教练 ###
-        "coach":"coach/home.html",
+        "coach":"coach/base.html",
         "coach/home":"coach/home.html",
         "coach/train":"coach/train.html",
         "coach/test":"coach/test.html",
         "coach/center":"coach/center.html",
 
         ### 裁判 ###
-        "judge":"judge/home.html",
+        "judge":"judge/base.html",
         "judge/home":"judge/home.html",
         "judge/train":"judge/train.html",
         "judge/test":"judge/test.html",
         "judge/center":"judge/center.html",
 
         ### 学员 ###
-        "student":"student/home.html",
+        "student":"student/base.html",
         "student/home":"student/home.html",
         "student/sign_up":"student/sign_up.html",
         "student/complete_info":"student/complete_info.html",
@@ -35,7 +35,7 @@ PAGE_MAPPING = {
         "student/center":"student/center.html",
 
         ### 参赛队 ###
-        "group":"group/home.html",
+        "group":"group/base.html",
         "group/sign_up":"group/sign_up.html",
         "group/games":"group/games.html",
         "group/join":"group/join.html",
@@ -47,7 +47,7 @@ PAGE_MAPPING = {
         "group/center":"group/center.html",
 
         ### 管理员 ###
-        "admin":"admin/home.html",
+        "admin":"admin/base.html",
         "admin/games":"admin/games.html",
         "admin/publish":"admin/publish.html",
         "admin/game_admin":"admin/game_admin.html",
@@ -70,7 +70,7 @@ PAGE_MAPPING = {
         "admin/ratio_setting":"admin/ratio_setting.html",
 
         ### 俱乐部 ###
-        "club":"club/home.html",
+        "club":"club/base.html",
         "club/home":"club/home.html",
         "club/evaluate":"club/evaluate.html",
         "club/annual_check":"club/annual_check.html",
