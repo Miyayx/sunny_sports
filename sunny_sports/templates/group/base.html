@@ -4,22 +4,31 @@
 
 {% block menu %}
 <ul class="nav nav-list">
-    <li class="">
-    <a data-url="group/games" href="#page/group/games">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛列表</span>
+
+    <li class="active">
+    <a class="dropdown-toggle" href="#">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛列表 </span>
+        <b class="arrow fa fa-angle-down"></b>
     </a>
-
     <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+        <a data-url="group/new_game" href="#page/group/new_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            正在进行的比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+        
+        <li class="">
+        <a data-url="group/old_game" href="#page/group/old_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            历史比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+    </ul>
     </li>
-
-    <li class="">
-    <a data-url="group/new_game" href="#page/group/new_game">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> (暂时)正在进行的比赛信息</span>
-    </a>
-
-    <b class="arrow"></b>
-    </li>
-
     <li class="">
     <a data-url="group/center" href="#page/group/center">
         <i class="menu-icon fa fa-users"></i>
