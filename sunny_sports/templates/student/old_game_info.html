@@ -2,272 +2,255 @@
 <script src="../../static/js/jquery.dataTables.bootstrap.js"></script>
 
 <script type="text/javascript">
-	jQuery(function($) {
-		var oTable1 = $('#sample-table-2')
-		.dataTable({
-			bAutoWidth : false,
-			"aoColumns" : [ null, null, null, null, null, null, ],
-			"aaSorting" : [],
-		});
-	})
+jQuery(function($) {
+    var oTable1 = $('#sample-table-2')
+    .dataTable({
+bAutoWidth : false,
+"aoColumns" : [ null, null, null, null, null, null, ],
+"aaSorting" : [],
+});
+    })
 </script>
 
-<div class="page-header">
-	<h1>某某比赛名</h1>
-</div>
+<div class="page-header"><h1>历史比赛列表</h1></div>
 <!-- /.page-header -->
 
 <div class="row">
-	<div class="col-xs-12">
-		<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs" id="stu-history-tab">
+        {% for i in "ABCDEFG" %}
+        {% if forloop.first %}
+        <li class="active">
+        {% else %}
+        <li>
+        {% endif %}
+        <a data-toggle="tab" href="#game{{i}}">
+          <i class="pink ace-icon fa fa-tachometer bigger-110"></i>
+          比赛{{i}}
+        </a>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="tab-content">
+        {% for i in "ABCDEFG" %}
+        {% if forloop.first %}
+        <div id="game{{i}}" class="tab-pane in active">
+          {% else %}
+          <div id="game{{i}}" class="tab-pane">
+            {% endif %}
+            <h2 class="purple">bisai{{i}}</h2>
+            <hr/>
+            <div id="intro"
+              class="accordion-style1 panel-group accordion-style2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                      data-parent="#intro" href="#content"> <i
+                        class="ace-icon fa fa-angle-down bigger-110"
+                        data-icon-hide="ace-icon fa fa-angle-down"
+                        data-icon-show="ace-icon fa fa-angle-right"></i> 比赛介绍
+                    </a>
+                  </h4>
+                </div>
+
+                <div class="panel-collapse collapse in" id="content">
+                  <div class="panel-body">谁、什么时候举办了这场比赛，比赛内容，宗旨。。。。</div>
+                </div>
+              </div>
+            </div>
+            <div class="space"> </div>
+            <div id="group"
+              class="accordion-style1 panel-group accordion-style2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                      data-parent="#group" href="#info"> <i
+                        class="ace-icon fa fa-angle-down bigger-110"
+                        data-icon-hide="ace-icon fa fa-angle-down"
+                        data-icon-show="ace-icon fa fa-angle-right"></i> 参赛队——某某队名
+                    </a>
+                  </h4>
+                </div>
+
+                <div class="panel-collapse collapse in" id="info">
+                  <div class="panel-body">
+                    队号：CSD20141111
+                    </p>
+                    比赛号：CSD20141111group111
+                    </p>
+                    负责人：洋洋姐（电话：111111111）
+                    </p>
+                    队员：靓靓、红红。。。。。。。。
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="space"></div>
+            <div id="result"
+              class="accordion-style1 panel-group accordion-style2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                      data-parent="#result" href="#detail"> <i
+                        class="ace-icon fa fa-angle-down bigger-110"
+                        data-icon-hide="ace-icon fa fa-angle-down"
+                        data-icon-show="ace-icon fa fa-angle-right"></i> 比赛结果
+                    </a>
+                  </h4>
+                </div>
+
+                <div class="panel-collapse collapse in" id="detail">
+                  <table id="sample-table-2"
+                    class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>项目名</th>
+                        <th>项目性质</th>
+                        <th>参赛队员</th>
+                        <th>成绩</th>
+                        <th>奖项</th>
+                        <th class="hidden-480">状态</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+
+                      <td><a href="#">跳高</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">ll</td>
+                      <td>99</td>
+                      <td>二等奖</td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-warning">成绩发布</span></td>
+                    </tr>
+
+                    <tr>
 
 
-			<div class="col-sm-1"></div>
-			<div class="col-sm-10">
-				<div id="intro"
-					class="accordion-style1 panel-group accordion-style2">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a class="accordion-toggle" data-toggle="collapse"
-									data-parent="#intro" href="#content"> <i
-									class="ace-icon fa fa-angle-down bigger-110"
-									data-icon-hide="ace-icon fa fa-angle-down"
-									data-icon-show="ace-icon fa fa-angle-right"></i> 比赛介绍
-								</a>
-							</h4>
-						</div>
-
-						<div class="panel-collapse collapse in" id="content">
-							<div class="panel-body">谁、什么时候举办了这场比赛，比赛内容，宗旨。。。。</div>
-						</div>
-					</div>
-				</div>
-
-				<hr />
-				<div id="group"
-					class="accordion-style1 panel-group accordion-style2">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a class="accordion-toggle" data-toggle="collapse"
-									data-parent="#group" href="#info"> <i
-									class="ace-icon fa fa-angle-down bigger-110"
-									data-icon-hide="ace-icon fa fa-angle-down"
-									data-icon-show="ace-icon fa fa-angle-right"></i> 参赛队——某某队名
-								</a>
-							</h4>
-						</div>
-
-						<div class="panel-collapse collapse in" id="info">
-							<div class="panel-body">
-								队号：CSD20141111
-								</p>
-								比赛号：CSD20141111group111
-								</p>
-								负责人：洋洋姐（电话：111111111）
-								</p>
-								队员：靓靓、红红。。。。。。。。
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<hr />
-				<div id="result"
-					class="accordion-style1 panel-group accordion-style2">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a class="accordion-toggle" data-toggle="collapse"
-									data-parent="#result" href="#detail"> <i
-									class="ace-icon fa fa-angle-down bigger-110"
-									data-icon-hide="ace-icon fa fa-angle-down"
-									data-icon-show="ace-icon fa fa-angle-right"></i> 比赛结果
-								</a>
-							</h4>
-						</div>
-
-						<div class="panel-collapse collapse in" id="detail">
-							<table id="sample-table-2"
-								class="table table-striped table-bordered table-hover">
-								<thead>
-									<tr>
-										<th>项目名</th>
-										<th>项目性质</th>
-										<th>参赛队员</th>
-										<th>成绩</th>
-										<th>奖项</th>
-										<th class="hidden-480">状态</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<tr>
-
-										<td><a href="#">跳高</a></td>
-										<td>单项</td>
-										<td class="hidden-480">ll</td>
-										<td>99</td>
-										<td>二等奖</td>
-										<td class="hidden-480"><span
-											class="label label-sm label-warning">成绩发布</span></td>
-									</tr>
-
-									<tr>
+                      <td><a href="#">跳远</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">yy</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-success">Registered</span></td>
 
 
-										<td><a href="#">跳远</a></td>
-										<td>单项</td>
-										<td class="hidden-480">yy</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-success">Registered</span></td>
+                    </tr>
+
+                    <tr>
 
 
-									</tr>
+                      <td><a href="#">乒乓球</a></td>
+                      <td>团体</td>
+                      <td class="hidden-480"></td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-warning">Expiring</span></td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">跳水</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">毛毛</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-inverse arrowed-in">Flagged</span></td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">跳水</a></td>
+                      <td>团体</td>
+                      <td class="hidden-480">mm</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-success">Registered</span></td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">游泳</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">苏苏</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-inverse arrowed-in">Flagged</span></td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">游泳</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">靓靓</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-info arrowed arrowed-righ">Sold</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">游泳</a></td>
+                      <td>团体</td>
+                      <td class="hidden-480"></td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-success">Registered</span></td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">跳绳</a></td>
+                      <td>团体</td>
+                      <td class="hidden-480"></td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-info arrowed arrowed-righ">Sold</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#">铅球</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">小胖</td>
+                      <td>90</td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-warning">成绩发布</span></td>
+                    </tr>
+                    {% for i in "12345" %}
+                    <tr>
+                      <td><a href="#">射击</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">华华</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-inverse arrowed-in">Flagged</span></td>
+                    </tr>
+                    {% endfor %} {% for i in "123456789" %}
+                    <tr>
+                      <td><a href="#">标枪</a></td>
+                      <td>单项</td>
+                      <td class="hidden-480">hh</td>
+                      <td></td>
+                      <td></td>
+                      <td class="hidden-480"><span
+                          class="label label-sm label-success">Registered</span></td>
+                    </tr>
+                    {% endfor %}
 
-									<tr>
-
-
-										<td><a href="#">乒乓球</a></td>
-										<td>团体</td>
-										<td class="hidden-480"></td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-warning">Expiring</span></td>
-
-
-									</tr>
-
-									<tr>
-
-
-										<td><a href="#">跳水</a></td>
-										<td>单项</td>
-										<td class="hidden-480">毛毛</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-inverse arrowed-in">Flagged</span></td>
-
-
-									</tr>
-
-									<tr>
-
-
-										<td><a href="#">跳水</a></td>
-										<td>团体</td>
-										<td class="hidden-480">mm</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-success">Registered</span></td>
-
-
-									</tr>
-
-									<tr>
-
-										<td><a href="#">游泳</a></td>
-										<td>单项</td>
-										<td class="hidden-480">苏苏</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-inverse arrowed-in">Flagged</span></td>
-
-
-									</tr>
-
-									<tr>
-
-
-										<td><a href="#">游泳</a></td>
-										<td>单项</td>
-										<td class="hidden-480">靓靓</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-info arrowed arrowed-righ">Sold</span>
-										</td>
-
-
-									</tr>
-
-									<tr>
-										<td><a href="#">游泳</a></td>
-										<td>团体</td>
-										<td class="hidden-480"></td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-success">Registered</span></td>
-									</tr>
-
-									<tr>
-
-
-										<td><a href="#">跳绳</a></td>
-										<td>团体</td>
-										<td class="hidden-480"></td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-info arrowed arrowed-righ">Sold</span>
-										</td>
-
-
-									</tr>
-
-									<tr>
-
-										<td><a href="#">铅球</a></td>
-										<td>单项</td>
-										<td class="hidden-480">小胖</td>
-										<td>90</td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-warning">成绩发布</span></td>
-
-									</tr>
-									{% for i in "12345" %}
-									<tr>
-
-										<td><a href="#">射击</a></td>
-										<td>单项</td>
-										<td class="hidden-480">华华</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-inverse arrowed-in">Flagged</span></td>
-
-
-									</tr>
-									{% endfor %} {% for i in "123456789" %}
-									<tr>
-										<td><a href="#">标枪</a></td>
-										<td>单项</td>
-										<td class="hidden-480">hh</td>
-										<td></td>
-										<td></td>
-										<td class="hidden-480"><span
-											class="label label-sm label-success">Registered</span></td>
-									</tr>
-									{% endfor %}
-
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /.col -->
-	</div>
-	<!-- /.col -->
-</div>
-<!-- /.row -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div><!-- /.tab-content -->
+      </div><!-- /.tabbable -->
+    </div><!-- /.col-ms-10 -->
+  </div><!-- /.row -->
