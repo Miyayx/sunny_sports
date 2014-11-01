@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <!-- #section:elements.tab.position -->
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs" id="stu_test_tab">
+        {% for i in "1234567890" %}
+        {% if forloop.counter == 3 %}
+        <li class="active">
+        {% else %}
+        <li>
+        {% endif %}
+        <a data-toggle="tab" href="#level{{i}}">
+          <i class="pink ace-icon fa fa-tachometer bigger-110"></i>
+          等级{{i}}
+        </a>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <div class="tab-content">
+        {% for i in "1234567890" %}
+        {% if forloop.counter == 3 %}
+        <div id="level{{i}}" class="tab-pane in active">
+          {% else %}
+          <div id="level{{i}}" class="tab-pane">
+            {% endif %}
+         {% if forloop.counter == 3%}
+            <h2>Level{{i}}</h2>
+            <div class="center"><button class="btn btn-info btn-sm">报名</button></div>
+            <hr>
+            <p>代码写在这里哦～</p>
+         {% elif forloop.counter < 3%}
+            <h2>Level{{i}}</h2>
+            <div class="center"><span class="label label-xlg label-danger arrowed-in-right arrowed-in">已通过</span></div>
+            <hr>
+            <p>代码写在这里哦～</p>
+         {% else %}
+            <h2>Level{{i}}</h2>
+            <div class="center"><button class="btn disabled btn-sm">未开始</button></div>
+            <hr>
+            <p>代码写在这里哦～</p>
+          {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- /section:elements.tab.position -->
+  </div><!-- /.col -->
