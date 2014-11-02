@@ -1,3 +1,5 @@
+<div class="page-header"><h1>考级列表</h1></div>
+
 <div class="row">
   <div class="col-sm-1"></div>
   <div class="col-sm-10">
@@ -28,24 +30,50 @@
          {% if forloop.counter == 3%}
             <h2>Level{{i}}</h2>
             <div class="center"><button class="btn btn-info btn-sm">报名</button></div>
-            <hr>
-            <p>代码写在这里哦～</p>
          {% elif forloop.counter < 3%}
             <h2>Level{{i}}</h2>
             <div class="center"><span class="label label-xlg label-danger arrowed-in-right arrowed-in">已通过</span></div>
-            <hr>
-            <p>代码写在这里哦～</p>
          {% else %}
             <h2>Level{{i}}</h2>
             <div class="center"><button class="btn disabled btn-sm">未开始</button></div>
-            <hr>
-            <p>代码写在这里哦～</p>
           {% endif %}
+          <hr>
+            <div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                <ul class="list-unstyled spaced2">
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>考试时间：</b></font>
+                        &nbsp;2014-11-04 下午 3:00</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>考试地点：</b></font>
+                        &nbsp; 国家体育馆</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>举办组织：</b></font>
+                        &nbsp;某某俱乐部</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>考试内容：</b></font>
+                        &nbsp;3级体操训练</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>注意事项：</b></font>
+                        &nbsp;请携带。。。于几点之前到达考试地点。。。请勿作弊，违者取消考试资格！
+                    </li>
+                    </ul>
+                </div>
+            </div>
           </div>
           {% endfor %}
         </div>
       </div>
     </div>
-
-    <!-- /section:elements.tab.position -->
-  </div><!-- /.col -->
+</div>
+</div><!-- /.col -->
