@@ -1,3 +1,46 @@
+<link rel="stylesheet" href="../../static/css/fullcalendar.css" />
+<script src="../../static/js/date-time/moment.min.js"></script>
+<script src="../../static/js/fullcalendar.min.js"></script>
+        
+<script type="text/javascript">
+jQuery(function($) {
+    /* initialize the calendar
+    -----------------------------------------------------------------*/
+
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+
+    
+    var calendar = $('#calendar2').fullCalendar({
+        //isRTL: true,
+         buttonHtml: {
+            prev: '<i class="ace-icon fa fa-chevron-left"></i>',
+            next: '<i class="ace-icon fa fa-chevron-right"></i>'
+        },
+    
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month'
+        },
+        events: [
+          {
+            title: '8点到',
+            start: new Date(y, m, d-5, 8, 0),
+            className: 'label-success'
+          },
+          {
+            title: '迟到',
+            start: new Date(y, m, d-3, 10, 30),
+            className: 'label-danger'
+          }
+        ]
+    });
+    })
+</script>
+
 <div class="page-header"><h1>考试管理</h1></div>
 <div class="row">
   <div class="col-sm-1"></div>
@@ -29,19 +72,144 @@
           <h2>低级</h2>
           <div class="center"><span class="label label-xlg label-danger arrowed-in-right arrowed-in">已结束</span></div>
           <hr>
-          <p>代码写在这里哦～</p>
+          <div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                <ul class="list-unstyled spaced2">
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训级别：</b></font>
+                        &nbsp;初级体操培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训班次：</b></font>
+                        &nbsp;分两个班培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训内容：</b></font>
+                        &nbsp;初级体操培训，基本动作</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训地点：</b></font>
+                        &nbsp; 国家体育馆</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>时间安排：</b></font>
+                        &nbsp;2014-11-10 至 2014-11-30 每周二周五</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>实践课成绩：</b></font>
+                        &nbsp;90</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>考勤情况：</b></font><p/>
+                        <div id="calendar1"></div>
+                    </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="level-middle" class="tab-pane in active">
           <h2>中级</h2>
           <div class="center"><button class="btn btn-info btn-sm">报名</button></div>
           <hr>
-          <p>代码写在这里哦～</p>
+          <div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                <ul class="list-unstyled spaced2">
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训级别：</b></font>
+                        &nbsp;中级体操培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训班次：</b></font>
+                        &nbsp;分两个班培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训内容：</b></font>
+                        &nbsp;中级体操培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训地点：</b></font>
+                        &nbsp; 国家体育馆</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>时间安排：</b></font>
+                        &nbsp;2014-11-10 至 2014-11-30 每周二周五</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>实践课成绩：</b></font>
+                        &nbsp;</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>考勤情况：</b></font><p/>
+                        <div><div class="col-sm-1"></div>
+                        <div id="calendar2" class="col-sm-10"></div>
+                        </div>
+                    </li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="level-high" class="tab-pane">
           <h2>高级</h2>
           <div class="center"><button class="btn disabled btn-sm">未开始</button></div>
           <hr>
-          <p>代码写在这里哦～</p>
+          <div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                <ul class="list-unstyled spaced2">
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训级别：</b></font>
+                        &nbsp;高级体操培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训班次：</b></font>
+                        &nbsp;分两个班培训</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训内容：</b></font>
+                        &nbsp;高级体操培训，自编动作</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>培训地点：</b></font>
+                        &nbsp; 国家体育馆</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>时间安排：</b></font>
+                        &nbsp;2014-11-10 至 2014-11-30 每周二周五</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>实践课成绩：</b></font>
+                        &nbsp;</p>
+                    </li>
+                    <li>
+                        <i class="ace-icon fa fa-circle green"></i>
+                        <font size="4px"><b>考勤情况：</b></font><p/>
+                        <div id="calendar3"></div>
+                    </li>
+                    </ul>
+                </div>
+            </div>
         </div>
       </div>
     </div>
