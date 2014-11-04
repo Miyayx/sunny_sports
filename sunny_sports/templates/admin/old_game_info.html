@@ -1,109 +1,116 @@
 <script src="../../static/js/jquery.dataTables.min.js"></script>
 <script src="../../static/js/jquery.dataTables.bootstrap.js"></script>
 
-<script type="text/javascript">
-    jQuery(function($) {
-        var oTable1 = $('#sample-table-2')
-        .dataTable({
-            bAutoWidth : false,
-            "aoColumns" : [ null, null, null, null, null, null, ],
-            "aaSorting" : [],
-        });
-    })
-</script>
-
-<div class="page-header">
-    <h1>某某比赛名</h1>
-</div>
+<div class="page-header"><h1>历史比赛列表</h1></div>
 <!-- /.page-header -->
 
 <div class="row">
-    <div class="col-xs-12">
-        <div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs" id="stu-history-tab">
+        {% for i in "ABCDEFG" %}
+        {% if forloop.first %}
+        <li class="active">
+        {% else %}
+        <li>
+        {% endif %}
+        <a data-toggle="tab" href="#game{{i}}">
+          <i class="pink ace-icon fa fa-tachometer bigger-110"></i>
+          比赛{{i}}
+        </a>
+        </li>
+        {% endfor %}
+      </ul>
 
-
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10">
-                <div id="intro"
-                    class="accordion-style1 panel-group accordion-style2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse"
-                                    data-parent="#intro" href="#content"> <i
-                                    class="ace-icon fa fa-angle-down bigger-110"
-                                    data-icon-hide="ace-icon fa fa-angle-down"
-                                    data-icon-show="ace-icon fa fa-angle-right"></i> 比赛介绍
-                                </a>
-                            </h4>
-                        </div>
-
-                        <div class="panel-collapse collapse in" id="content">
-                            <div class="panel-body">谁、什么时候举办了这场比赛，比赛内容，宗旨。。。。</div>
-                        </div>
-                    </div>
+      <div class="tab-content">
+        {% for i in "ABCDEFG" %}
+        {% if forloop.first %}
+        <div id="game{{i}}" class="tab-pane in active">
+          {% else %}
+          <div id="game{{i}}" class="tab-pane">
+            {% endif %}
+            <h2 class="purple">比赛{{i}}</h2>
+            <hr/>
+            <div id="intro"
+              class="accordion-style1 panel-group accordion-style2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                      data-parent="#intro" href="#content"> <i
+                        class="ace-icon fa fa-angle-down bigger-110"
+                        data-icon-hide="ace-icon fa fa-angle-down"
+                        data-icon-show="ace-icon fa fa-angle-right"></i> 比赛介绍
+                    </a>
+                  </h4>
                 </div>
 
-                <hr />
-                <div id="group"
-                    class="accordion-style1 panel-group accordion-style2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse"
-                                    data-parent="#group" href="#info"> <i
-                                    class="ace-icon fa fa-angle-down bigger-110"
-                                    data-icon-hide="ace-icon fa fa-angle-down"
-                                    data-icon-show="ace-icon fa fa-angle-right"></i>本次比赛项目
-                                </a>
-                            </h4>
-                        </div>
-
-                        <div class="panel-collapse collapse in" id="info">
-                            <div class="panel-body">
-                                团体项目：跳高、跳远
-                                {% for i in "123" %}
-                            、<a href="#page/student/event">跳马</a>
-                            {% endfor %}
-                                </p>
-                                单项项目：跳水、铅球、射击、游泳
-                                {% for i in "123" %}
-                            、<a href="#page/student/event">跳高</a>
-                            {% endfor %}
-                            </div>
-                        </div>
-                    </div>
+                <div class="panel-collapse collapse in" id="content">
+                  <div class="panel-body">谁、什么时候举办了这场比赛，比赛内容，宗旨。。。。</div>
                 </div>
-
-                <hr />
-                <div id="result"
-                    class="accordion-style1 panel-group accordion-style2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse"
-                                    data-parent="#result" href="#detail"> <i
-                                    class="ace-icon fa fa-angle-down bigger-110"
-                                    data-icon-hide="ace-icon fa fa-angle-down"
-                                    data-icon-show="ace-icon fa fa-angle-right"></i> 本次比赛参赛队
-                                </a>
-                            </h4>
-                        </div>
-
-                        <div class="panel-collapse collapse in" id="detail">
-                            <div class="panel-body">
-                            Queen、毛毛虫队、古剑队、名人队
-                            {% for i in "123" %}
-                            、<a href="#page/group/event">萌萌队</a>
-                            {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-        </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.col -->
-</div>
-<!-- /.row -->
+
+            <hr />
+            <div id="group"
+              class="accordion-style1 panel-group accordion-style2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                      data-parent="#group" href="#info"> <i
+                        class="ace-icon fa fa-angle-down bigger-110"
+                        data-icon-hide="ace-icon fa fa-angle-down"
+                        data-icon-show="ace-icon fa fa-angle-right"></i>本次比赛项目
+                    </a>
+                  </h4>
+                </div>
+
+                <div class="panel-collapse collapse in" id="info">
+                  <div class="panel-body">
+                    团体项目：跳高、跳远
+                    {% for i in "123" %}
+                    、<a href="#page/student/event">跳马</a>
+                    {% endfor %}
+                    </p>
+                    单项项目：跳水、铅球、射击、游泳
+                    {% for i in "123" %}
+                    、<a href="#page/student/event">跳高</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+            <div id="result"
+              class="accordion-style1 panel-group accordion-style2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a class="accordion-toggle" data-toggle="collapse"
+                      data-parent="#result" href="#detail"> <i
+                        class="ace-icon fa fa-angle-down bigger-110"
+                        data-icon-hide="ace-icon fa fa-angle-down"
+                        data-icon-show="ace-icon fa fa-angle-right"></i> 本次比赛参赛队
+                    </a>
+                  </h4>
+                </div>
+
+                <div class="panel-collapse collapse in" id="detail">
+                  <div class="panel-body">
+                    Queen、毛毛虫队、古剑队、名人队
+                    {% for i in "123" %}
+                    、<a href="#page/group/event">萌萌队</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div><!-- /.tab-content -->
+      </div><!-- /.tabbable -->
+    </div><!-- /.col-ms-10 -->
+  </div><!-- /.row -->
