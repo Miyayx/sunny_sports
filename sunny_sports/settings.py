@@ -60,7 +60,7 @@ WSGI_APPLICATION = 'sunny_sports.wsgi.application'
 DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.mysql',
-        'ENGINE': 'mysql.connector.django',
+        #'ENGINE': 'mysql.connector.django',
         'NAME': 'sunny_sports',
         'USER': 'root',
         'PASSWORD': '123',
