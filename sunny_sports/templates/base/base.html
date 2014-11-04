@@ -38,6 +38,20 @@
         <![endif]-->
 </head>
 
+<style type="text/css">
+.user-block{
+
+
+}
+.user-block .nav-user-photo{
+    min-height:60px;
+    min-width:60px;
+    border-radius: 100%;
+    border: 2px solid #FFF;
+    margin:10px;
+}
+</style>
+
 <body class="no-skin">
 {% block body %}
 
@@ -56,14 +70,8 @@ try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
         </script>
 
-        <!-- #section:basics/navbar.user_menu -->
-        <!-- <div class="light-blue">
-    <img class="nav-user-photo" src="../../static/avatars/user.jpg" alt="Jason's Photo" />
-    <span class="user-info">
-      <small>Welcome,</small>
-      Jason
-    </span>
-  </div> -->
+        {% block user%}
+        {% endblock %}
 
         {% block menu %}
         {% endblock %}
@@ -121,30 +129,30 @@ if('ontouchstart' in document.documentElement) document.write("<script src='../.
 <script type="text/javascript">
 //Load content via ajax
 jQuery(function($) {
-  if('enable_ajax_content' in ace) {
-    var options = {
-      content_url: function(url) {
-      //this is for Ace demo only, you should change it
-      //please refer to documentation for more info
-              
-      if(!url.match(/^page\//)) return false;
-              
-      var path = document.location.pathname;
-              
-      //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-      return url.replace(/^page\//,"");
+        if('enable_ajax_content' in ace) {
+        var options = {
+content_url: function(url) {
+//this is for Ace demo only, you should change it
+//please refer to documentation for more info
 
-      },
-      default_url: 'index',//default url
-    }
-    ace.enable_ajax_content($, options);
-  }
+if(!url.match(/^page\//)) return false;
+
+var path = document.location.pathname;
+
+//for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+return url.replace(/^page\//,"");
+
+},
+default_url: 'index',//default url
+}
+ace.enable_ajax_content($, options);
+}
 });
 
- jQuery(document)
-     .on('ajaxloaddone', function(e, params) {
-             $('.ajax-loading-overlay').remove();
-        });
+jQuery(document)
+    .on('ajaxloaddone', function(e, params) {
+            $('.ajax-loading-overlay').remove();
+            });
 </script>
 {% block script %}
 {% endblock %}
