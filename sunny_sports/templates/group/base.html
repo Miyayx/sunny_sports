@@ -19,7 +19,7 @@
         </a>
         <b class="arrow"></b>
         </li>
-        
+
         <li class="">
         <a data-url="group/old_game" href="#page/group/old_game">
             <i class="menu-icon fa fa-caret-right"></i>
@@ -43,11 +43,11 @@
 
 {% block script %}
 <script>
-$(function(){
+    $(function(){
         if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-window.location.href=window.location.origin+window.location.pathname+"#page/group/home";
-}
-        });
+            window.location.href=window.location.origin+window.location.pathname+"#page/group/home";
+        }
+    });
 
 </script>
 {% endblock %}
