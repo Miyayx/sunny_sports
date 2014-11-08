@@ -1,5 +1,5 @@
 <script type="text/javascript" src="../../static/js/jquery.dataTables.min.js"></script> <script type="text/javascipt" src="../../static/js/jquery.dataTables.bootstrap.js"></script>
-<script type="text/javascript" src="../../static/custom/admin-check.js"></script>
+<script type="text/javascript" src="../../static/custom/judge-check.js"></script>
 
 <div class="page-header"><h1>裁判申请</h1></div>
 <div class="row">
@@ -44,8 +44,10 @@
                     <i class="ace-icon fa fa-user"></i>
                     裁判员
                   </th>
+                  <th class="center">等级</th>
                   <th class="center">所属地</th>
                   <th class="center">单位</th>
+                  <th class="center">申请时间</th>
                 </tr>
               </thead>
 
@@ -59,8 +61,10 @@
                   </label>
                 </td>
                 <td class="center" style="cursor:pointer"><span class="label label-inverse">ABC{{i}}</span></td>
+                <td>高级</td>
                 <td>北京市海淀区</td>
                 <td>XYZ幼儿园</td>
+                <td>2014.10.29</td>
               </tr>
               {% endfor %}
               </tbody>
