@@ -19,6 +19,7 @@ PAGE_MAPPING = {
         "judge/train":"judge/train.html",
         "judge/test":"judge/test.html",
         "judge/center":"judge/center.html",
+        "judge/apply":"judge/apply.html",
 
         ### 学员 ###
         "student":"student/base.html",

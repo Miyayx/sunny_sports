@@ -1,0 +1,72 @@
+<div class="page-header"><h1>通级委员会申请</h1></div>
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <div>
+      <h3>基本信息</h3>
+      <div class="profile-user-info profile-user-info-striped">
+        <div class="profile-info-row">
+          <div class="profile-info-name">姓名</div>
+          <div class="profile-info-value">张三</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name">等级</div>
+          <div class="profile-info-value">高级</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name">所属俱乐部</div>
+          <div class="profile-info-value">XXX俱乐部</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name">常驻地</div>
+          <div class="profile-info-value">北京市海淀区</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>填报申请信息</h3>
+      <div class="profile-user-info profile-user-info-striped">
+        <div class="profile-info-row">
+          <div class="profile-info-name">委员会名称</div>
+          <div class="profile-info-value">
+            <select class="form-control" id="committee-select">
+              <option value>请选择委员会</option>
+              <option value>AAA委员会</option>
+              <option value>BBB委员会</option>
+              <option value>CCC委员会</option>
+              <option value>DDD委员会</option>
+              <option value>EEE委员会</option>
+            </select>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name">委员会所在地</div>
+          <div class="profile-info-value">
+            <div id="city-select">
+              <select class="prov"></select> 
+              <select class="city" disabled="disabled"></select>
+              <select class="dist" disabled="disabled"></select>
+            </div>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name">自我陈述</div>
+          <div class="profile-info-value">
+            <textarea id="state-area" class="autosize-transition form-control" rows=10></textarea>
+          </div>
+        </div>
+      </div><!-- /.profile-user-info -->
+    </div>
+    <div class="row center">
+      <button class="btn btn-success">保存</button>
+      <button class="btn btn-info">提交</button>
+    </div>
+  </div>
+</div>
+
+{% block script %}
+<script src="../../static/custom/jquery.cityselect.js"></script>
+<script>
+  $("#city-select").citySelect({prov:"省", city:"市", dist:"县/区"}); 
+</script>
+{% endblock %}
