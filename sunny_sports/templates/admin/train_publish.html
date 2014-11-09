@@ -1,140 +1,149 @@
 <body>
-<div class="page-content">
-<div class="page-content-area" style="opacity: 1;">
 <!-- ajax layout which only needs content area -->
 <div class="page-header">
 	<h1>
 		发布培训信息
 	</h1>
 </div><!-- /.page-header -->
-
 <div class="row">
-	<div class="col-xs-12">
+<div class="col-sm-1"></div>
+	<div class="col-sm-10">
 		<!-- PAGE CONTENT BEGINS -->
 		<form class="form-horizontal" role="form">
 			<!-- #section:elements.form -->
 			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 培训级别 </label>
-
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训角色</label>
 				<div class="col-sm-9">
-					<input type="text" id="form-field-1" placeholder="级别" class="col-xs-10 col-sm-5">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 培训地点 </label>
-
-				<div class="col-sm-9">
-					<input type="text" id="form-field-1-1" placeholder="地点" class="form-control">
-				</div>
-			</div>
-
-			<!-- /section:elements.form -->
-			<div class="space-4"></div>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训教师</label>
-				<div class="col-sm-9">
+				<span class="input-icon input-icon-right">
 				<select class="form-control" id="form-field-select-1">
 					<option value=""></option>
-					<option value="AL">Alabama</option>
-					<option value="AK">Alaska</option>
-					<option value="AZ">Arizona</option>
-					<option value="AR">Arkansas</option>
-					<option value="CA">California</option>
-					<option value="CO">Colorado</option>
-					<option value="CT">Connecticut</option>
-					<option value="DE">Delaware</option>
-					<option value="FL">Florida</option>
-					<option value="GA">Georgia</option>
-					<option value="HI">Hawaii</option>
-					<option value="ID">Idaho</option>
-					<option value="IL">Illinois</option>
-					<option value="IN">Indiana</option>
-					<option value="IA">Iowa</option>
-					<option value="KS">Kansas</option>
-					<option value="KY">Kentucky</option>
-					<option value="LA">Louisiana</option>
-					<option value="ME">Maine</option>
-					<option value="MD">Maryland</option>
-					<option value="MA">Massachusetts</option>
-					<option value="MI">Michigan</option>
-					<option value="MN">Minnesota</option>
-					<option value="MS">Mississippi</option>
-					<option value="MO">Missouri</option>
-					<option value="MT">Montana</option>
-					<option value="NE">Nebraska</option>
-					<option value="NV">Nevada</option>
-					<option value="NH">New Hampshire</option>
-					<option value="NJ">New Jersey</option>
-					<option value="NM">New Mexico</option>
-					<option value="NY">New York</option>
-					<option value="NC">North Carolina</option>
-					<option value="ND">North Dakota</option>
-					<option value="OH">Ohio</option>
-					<option value="OK">Oklahoma</option>
-					<option value="OR">Oregon</option>
-					<option value="PA">Pennsylvania</option>
-					<option value="RI">Rhode Island</option>
-					<option value="SC">South Carolina</option>
-					<option value="SD">South Dakota</option>
-					<option value="TN">Tennessee</option>
-					<option value="TX">Texas</option>
-					<option value="UT">Utah</option>
-					<option value="VT">Vermont</option>
-					<option value="VA">Virginia</option>
-					<option value="WA">Washington</option>
-					<option value="WV">West Virginia</option>
-					<option value="WI">Wisconsin</option>
-					<option value="WY">Wyoming</option>
+					<option value="AL">裁判员</option>
+					<option value="AK">教练员</option>
 				</select>
+				</span>	
 				</div>
 			</div>
-
-			<div class="space-4"></div>
-
 			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 培训时间 </label>
-
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 培训级别 </label>
 				<div class="col-sm-9">
-					<input type="text" class="col-xs-10 col-sm-5" id="form-input-readonly" value="" >
-					<span class="help-inline col-xs-12 col-sm-7">
-						<label class="middle">
-							<input class="ace" type="checkbox" id="id-disable-check">
-						</label>
+					<span class="input-icon input-icon-right">
+					<select class="form-control" id="form-field-select-1">
+					<option value=""></option>
+					<option value="low">低</option>
+					<option value="middle">中</option>
+					<option value="high">高</option>
+					</select>
 					</span>
 				</div>
 			</div>
-
-			<div class="space-4"></div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right">人数限制</label>
-
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 培训地点 </label>
 				<div class="col-sm-9">
 					<!-- #section:elements.form.input-icon -->
-					<span class="input-icon">
+					<span>
+						<select  id="form-field-select-1">
+						<option value=""></option>
+						<option value="BJ">北京</option>
+						<option value="TJ">天津</option>
+						<option value="HB">河北</option>
+						</select>
+						省
+					</span>
+					<span>
+						<select  id="form-field-select-1">
+						<option value=""></option>
+						<option value="BJ">北京</option>
+						<option value="TJ">天津</option>
+						<option value="LF">廊坊</option>
+						</select>
+						市
+					</span>
+					<span>
+						<select  id="form-field-select-1">
+						<option value=""></option>
+						<option value="HD">海淀</option>
+						<option value="CY">朝阳</option>
+						<option value="FT">丰台</option>
+						</select>
+						区
+					</span>
+					<span>
 						<input type="text" id="form-field-icon-1">
 					</span>
 					<!-- /section:elements.form.input-icon -->
 				</div>
 			</div>
 
+			<!-- /section:elements.form -->
 			<div class="space-4"></div>
-
 			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-field-11">培训内容</label>
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训教师</label>
 				<div class="col-sm-9">
-				<textarea id="form-field-11" class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 52px;"></textarea>
+				<span class="input-icon input-icon-right">
+				<select class="form-control" id="form-field-select-1">
+					<option value=""></option>
+					<option value="AL">李老师</option>
+					<option value="AK">牛老师</option>
+				</select>
+				</span>
 				</div>
 			</div>
 
+			<div class="space-4"></div>
+			<div class="form-group">
+				<span id="time_list">
+				<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 培训时间</label>
+				<div class="col-sm-9">
+					<span class="col-sm-3" style="padding-left:1px">
+						<div class="input-group" style="on-padding-left">
+							<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">
+								<span class="input-group-addon">
+									<i class="fa fa-calendar bigger-110"></i>
+								</span>
+						</div>
+					</span>
+					<span class="col-sm-3">
+						<div class="input-group bootstrap-timepicker">
+									<input id="timepicker1" type="text" class="form-control">
+									<span class="input-group-addon">
+										<i class="fa fa-exchange"></i>
+									</span>
+									<input id="timepicker1" type="text" class="form-control">
+						</div>
+					</span>
+					<span>
+                	<i class="ace-icon glyphicon glyphicon-plus" id="add_train"></i>
+            		</span>
+				</div>
+				</span>
+			</div>
+
+			<div class="space-4"></div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">人数限制</label>
+				<div class="col-sm-9">
+					<!-- #section:elements.form.input-icon -->
+					<span>
+						<input class="col-xs-1" type="text" id="form-field-5">
+					</span>
+					<!-- /section:elements.form.input-icon -->
+				</div>
+			</div>
+
+			<div class="space-4"></div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-11">培训内容</label>
+				<div class="col-sm-9">
+				<textarea id="form-field-11" class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 52px;width:500px">
+				</textarea>
+				</div>
+			</div>
 			<div class="clearfix form-actions">
 				<div class="col-md-offset-3 col-md-9">
 					<button class="btn btn-info" type="button">
 						<i class="ace-icon fa fa-check bigger-110"></i>
 						发布
 					</button>
-
 					&nbsp; &nbsp; &nbsp;
 					<button class="btn" type="reset">
 						<i class="ace-icon fa fa-undo bigger-110"></i>
@@ -147,8 +156,6 @@
 	</div><!-- /.col -->
 </div><!-- /.row -->
 
-<!-- page specific plugin scripts -->
-
 <!--[if lte IE 8]>
   <script src="../../assets/js/excanvas.min.js"></script>
 <![endif]-->
@@ -157,6 +164,46 @@
 	ace.load_ajax_scripts(scripts, function() {
 	  //inline scripts related to this page
 		 jQuery(function($) {
+
+		 $('#add_train').on('click',function(){
+		 	 $("#time_list").append('\
+		 	 	<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> </label>\
+        		<div class="col-sm-9">\
+					<span class="col-sm-3" style="padding-left:1px">\
+						<div class="input-group">\
+							<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">\
+								<span class="input-group-addon">\
+									<i class="fa fa-calendar bigger-110"></i>\
+								</span>\
+						</div>\
+					</span>\
+					<span class="col-sm-3">\
+						<div class="input-group bootstrap-timepicker">\
+							<input id="timepicker1" type="text" class="form-control">\
+									<span class="input-group-addon">\
+										<i class="fa fa-exchange"></i>\
+									</span>\
+									<input id="timepicker1" type="text" class="form-control">\
+						</div>\
+					</span>\
+				</div>\
+        ');
+        
+        
+        $(window)
+        .off('resize.chosen')
+        .on('resize.chosen', function() {
+            $('.chosen-select').each(function() {
+                var $this = $(this);
+                $this.next().css({'width': $this.parent().width()});
+            })
+        }).trigger('resize.chosen');
+        $('.glyphicon-minus').click(function(){
+            $(this).parent().parent().remove();
+            });
+        
+		 });
+
 		$('#id-disable-check').on('click', function() {
 			var inp = $('#form-input-readonly').get(0);
 			if(inp.hasAttribute('disabled')) {
@@ -170,7 +217,7 @@
 				inp.value="This text field is disabled!";
 			}
 		});
-	
+		
 	
 		$('.chosen-select').chosen({allow_single_deselect:true}); 
 		//resize the chosen on window resize
@@ -416,9 +463,7 @@
 		});
 	
 		//or change it into a date range picker
-		$('.input-daterange').datepicker({autoclose:true});
-	
-	
+		$('.input-daterange').datepicker({autoclose:true});	
 		//to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
 		$('input[name=date-range-picker]').daterangepicker({
 			'applyClass' : 'btn-sm btn-success',
@@ -431,8 +476,6 @@
 		.prev().on(ace.click_event, function(){
 			$(this).next().focus();
 		});
-	
-	
 		$('#timepicker1').timepicker({
 			minuteStep: 1,
 			showSeconds: true,
