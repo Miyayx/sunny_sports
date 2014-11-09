@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#-*-coding:utf-8-*-
 
 PAGE_MAPPING = {
         "index":"index.html",
@@ -76,6 +77,15 @@ PAGE_MAPPING = {
         "club/evaluate":"club/evaluate.html",
         "club/annual_check":"club/annual_check.html",
         "club/center":"club/center.html",
-        "club/member_admin":"club/member_admin.html"
+        "club/member_admin":"club/member_admin.html",
+
+        ### 委员会 ###
+        "committee":"committee/base.html",
+        "committee/home":"committee/home.html",
+        "committee/test_publish":"committee/test_publish.html",
+        "committee/test_input":"committee/test_input.html",
+        "committee/test_query":"committee/test_query.html",
+        "committee/check":"committee/check.html",
+        "committee/center":"committee/center.html"
 
         }

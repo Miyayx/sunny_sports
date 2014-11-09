@@ -1,0 +1,72 @@
+{% extends "./base/base.html" %}
+
+{% block title %} 通级委员会页面 {% endblock %}
+
+{% block menu %}
+<ul class="nav nav-list">
+    <li class="">
+    <a data-url="committee/home" href="#page/committee/home">
+        <i class="menu-icon fa fa-dashboard"></i> <span class="menu-text"> 首页 </span>
+    </a>
+    <b class="arrow"></b>
+    </li>
+
+    <li class="active">
+    <a href="#">
+      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 考试管理 </span>
+      <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+        <a data-url="committee/test_publish" href="#page/committee/test_publish">
+            <i class="menu-icon fa fa-caret-right"></i>
+            发布考试信息
+        </a>
+        <b class="arrow"></b>
+        </li>
+
+        <li class="">
+        <a data-url="committee/test_input" href="#page/committee/test_input">
+            <i class="menu-icon fa fa-caret-right"></i>
+            考试信息录入
+        </a>
+        <b class="arrow"></b>
+        </li>
+        <li class="">
+        <a data-url="committee/test_query" href="#page/committee/test_query">
+            <i class="menu-icon fa fa-caret-right"></i>
+            考试信息查看
+        </a>
+        <b class="arrow"></b>
+        </li>
+    </ul>
+    </li>
+
+    <li class="">
+    <a data-url="committee/check" href="#page/committee/check">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 裁判审核</span>
+    </a>
+    <b class="arrow"></b>
+    </li>
+
+    <li class="">
+    <a data-url="committee/center" href="#page/committee/center">
+        <i class="menu-icon fa fa-users"></i> <span class="menu-text"> 个人中心 </span>
+    </a>
+    <b class="arrow"></b>
+    </li>
+
+</ul><!-- /.nav-list -->
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function(){
+        if(window.location.search.length > 0 || !window.location.href.match(/page/)){
+            window.location.href=window.location.origin+window.location.pathname+"#page/committee/home";
+        }
+    });
+
+</script>
+{% endblock %}
