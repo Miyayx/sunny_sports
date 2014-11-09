@@ -8,6 +8,10 @@
 				<div class="page-header">
 					<h1>
 						个人中心
+						<small>
+						<i class="ace-icon fa "></i>
+						注册时间：2014年11月1日
+						</small>
 					</h1>
 				</div><!-- /.page-header -->
 
@@ -52,7 +56,17 @@
 													<h4 class="header blue bolder smaller">基本信息</h4>
 													<div class="row">
 														<div class="col-xs-12 col-sm-4">
-																	<label class="ace-file-input ace-file-multiple"><input type="file"><span class="ace-file-container" data-title="Change avatar"><span class="ace-file-name" data-title="No File ..."><i class=" ace-icon ace-icon fa fa-picture-o"></i></span></span><a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a></label>
+															<label class="ace-file-input ace-file-multiple">
+																<input type="file">
+																<span class="ace-file-container" data-title="Change avatar">
+																	<span class="ace-file-name" data-title="No File ...">
+																		<i class=" ace-icon ace-icon fa fa-picture-o"></i>
+																	</span>
+																</span>
+																<a class="remove" href="#">
+																	<i class=" ace-icon fa fa-times"></i>
+																</a>
+															</label>
 														</div>
 														<div class="vspace-12-sm"></div>
 														<div class="col-xs-12 col-sm-8">
@@ -60,6 +74,13 @@
 																<label class="col-sm-4 control-label no-padding-right" for="form-field-username">姓名</label>
 																<div class="col-sm-8">
 																	<input class="col-xs-12 col-sm-10" type="text" id="form-field-username" placeholder="Username" value="alexdoe" />
+																</div>
+															</div>
+															<div class="space-4"></div>
+															<div class="form-group">
+																<label class="col-sm-4 control-label no-padding-right" for="form-field-stunum">学号</label>
+																<div class="col-sm-8">
+																	<input class="col-xs-12 col-sm-10" type="text" id="form-field-stunum" placeholder="Stunum" value="2013121234" readonly="true" />
 																</div>
 															</div>
 															<div class="space-4"></div>
@@ -86,8 +107,7 @@
 																</label>
 																<div class="col-sm-8">
 																	<span class="input-icon input-icon-right">
-																	<input type="identity" id="form-field-identity"/>
-																	<i class="ace-icon fa fa-envelope"></i>
+																	<input type="text" id="form-field-identity"/>
 																	</span>
 																</div>
 															</div>	
@@ -126,11 +146,10 @@
 													</div>
 													<div class="space-4"></div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-email">单位</label>
+														<label class="col-sm-3 control-label no-padding-right" for="form-field-company">单位</label>
 														<div class="col-sm-9">
 															<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-email"/>
-																<i class="ace-icon fa fa-envelope"></i>
+																<input type="text" id="form-field-company"/>
 															</span>
 														</div>
 													</div>
@@ -149,21 +168,17 @@
 													</div>
 													<div class="space-4"></div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-email">常驻地</label>
-
+														<label class="col-sm-3 control-label no-padding-right" for="form-field-place">常驻地</label>
 														<div class="col-sm-9">
 															<span class="input-icon input-icon-right">
-																<input type="email" id="form-field-email" value="alexdoe@gmail.com" />
-																<i class="ace-icon fa fa-envelope"></i>
+																<input type="text" id="form-field-place" value="北京" />
 															</span>
 														</div>
 													</div>
 													<div class="space"></div>
 													<h4 class="header blue bolder smaller">联系方式</h4>
-
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-email">邮箱</label>
-
 														<div class="col-sm-9">
 															<span class="input-icon input-icon-right">
 																<input type="email" id="form-field-email" value="alexdoe@gmail.com" />
@@ -172,10 +187,8 @@
 														</div>
 													</div>
 													<div class="space-4"></div>
-
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-phone">电话</label>
-
 														<div class="col-sm-9">
 															<span class="input-icon input-icon-right">
 																<input class="input-medium input-mask-phone" type="text" id="form-field-phone" />
@@ -186,10 +199,8 @@
 												</div>
 												<div id="edit-password" class="tab-pane">
 													<div class="space-10"></div>
-
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-pass1">新密码</label>
-
 														<div class="col-sm-9">
 															<input type="password" id="form-field-pass1" />
 														</div>
@@ -199,7 +210,6 @@
 
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-pass2">确认密码</label>
-
 														<div class="col-sm-9">
 															<input type="password" id="form-field-pass2" />
 														</div>
@@ -212,13 +222,12 @@
 											<div class="col-md-offset-3 col-md-9">
 												<button class="btn btn-info" type="button">
 													<i class="ace-icon fa fa-check bigger-110"></i>
-													Save
+													保存
 												</button>
-
 												&nbsp; &nbsp;
 												<button class="btn" type="reset">
 													<i class="ace-icon fa fa-undo bigger-110"></i>
-													Reset
+													重置
 												</button>
 											</div>
 										</div>
@@ -241,25 +250,13 @@
 	var scripts = [null,"../../static/js/jquery-ui.custom.min.js","../../static/js/jquery.ui.touch-punch.min.js","../../static/js/jquery.gritter.min.js","../../static/js/bootbox.min.js","../../static/js/jquery.easypiechart.min.js","../../static/js/date-time/bootstrap-datepicker.min.js","../../static/js/jquery.hotkeys.min.js","../../static/js/bootstrap-wysiwyg.min.js","../../static/js/select2.min.js","../../static/js/fuelux/fuelux.spinner.min.js","../../static/js/x-editable/bootstrap-editable.min.js","../../static/js/x-editable/ace-editable.min.js","../../static/js/jquery.maskedinput.min.js", null]
 	ace.load_ajax_scripts(scripts, function() {
 	  //inline scripts related to this page
-		 jQuery(function($) {
-	
-		//editables on first profile page
-		$.fn.editable.defaults.mode = 'inline';
-		$.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
-	    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
-	                                '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
-		
-		//editables 
-		
+		 jQuery(function($) {			
 		//text editable
 	    $('#username')
 		.editable({
 			type: 'text',
 			name: 'username'
-	    });
-	
-	
-		
+	    });	
 		//select2 editable
 		var countries = [];
 	    $.each({ "CA": "Canada", "IN": "India", "NL": "Netherlands", "TR": "Turkey", "US": "United States"}, function(k, v) {
@@ -597,31 +594,7 @@
 			size: size
 		}).css('color', barColor);
 		});
-	  
-		///////////////////////////////////////////
-	
-		//right & left position
-		//show the user info on right or left depending on its position
-		$('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
-			var $this = $(this);
-			var $parent = $this.closest('.tab-pane');
-	
-			var off1 = $parent.offset();
-			var w1 = $parent.width();
-	
-			var off2 = $this.offset();
-			var w2 = $this.width();
-	
-			var place = 'left';
-			if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) place = 'right';
-			
-			$this.find('.popover').removeClass('right left').addClass(place);
-		}).on('click', function(e) {
-			e.preventDefault();
-		});
-	
-	
-		///////////////////////////////////////////
+	///////////////////////////////////////////
 		$('#user-profile-3')
 		.find('input[type=file]').ace_file_input({
 			style:'well',
