@@ -67,7 +67,6 @@ PAGE_MAPPING = {
         "admin/test_publish":"admin/test_publish.html",
         "admin/test_input":"admin/test_input.html",
         "admin/test_query":"admin/test_query.html",
-        "admin/test_info":"admin/test_info.html",
         "admin/club_evaluate":"admin/club_evaluate.html",
         "admin/annual_check":"admin/annual_check.html",
         "admin/ratio_setting":"admin/ratio_setting.html",
