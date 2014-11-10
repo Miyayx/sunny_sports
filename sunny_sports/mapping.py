@@ -71,10 +71,14 @@ PAGE_MAPPING = {
         "admin/club_evaluate":"admin/club_evaluate.html",
         "admin/annual_check":"admin/annual_check.html",
         "admin/ratio_setting":"admin/ratio_setting.html",
+        "admin/test_info":"admin/test_info.html",
+        "admin/train_info":"admin/train_info.html",
+        "admin/club_evaluate_detail":"admin/club_evaluate_detail.html",
 
         ### 俱乐部 ###
         "club":"club/base.html",
         "club/home":"club/home.html",
+        "club/add_course":"club/add_course.html",
         "club/evaluate":"club/evaluate.html",
         "club/annual_check":"club/annual_check.html",
         "club/center":"club/center.html",
