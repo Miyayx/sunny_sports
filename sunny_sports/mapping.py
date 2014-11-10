@@ -75,6 +75,7 @@ PAGE_MAPPING = {
         ### 俱乐部 ###
         "club":"club/base.html",
         "club/home":"club/home.html",
+        "club/add_course":"club/add_course.html",
         "club/evaluate":"club/evaluate.html",
         "club/annual_check":"club/annual_check.html",
         "club/center":"club/center.html",
