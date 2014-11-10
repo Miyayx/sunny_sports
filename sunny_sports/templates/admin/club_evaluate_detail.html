@@ -39,6 +39,10 @@
 			'width' : '90%',
 			'min-height' : '150px'
 		});
+		var placeholder_coach = $('#piechart-placeholder-coach').css({
+			'width' : '90%',
+			'min-height' : '150px'
+		});
 		var data = [ {
 			label : "一级",
 			data : 38.7,
@@ -114,6 +118,35 @@
 			}
 
 		});//结束
+		
+		//第二个图表
+		
+		drawPieChart(placeholder_coach, data);
+		placeholder_coach.data('chart', data);
+		placeholder_coach.data('draw', drawPieChart);
+		
+
+		placeholder_coach.on('plothover', function(event, pos, item) {
+			if (item) {
+				if (previousPoint != item.seriesIndex) {
+					previousPoint = item.seriesIndex;
+					var tip = item.series['label'] + " : "
+							+ item.series['percent'] + '%';
+					$tooltip.show().children(0).text(tip);
+				}
+				$tooltip.css({
+					top : pos.pageY + 10,
+					left : pos.pageX + 10
+				});
+			} else {
+				$tooltip.hide();
+				previousPoint = null;
+			}
+
+		});
+		
+		
+		
 	})
 </script>
 <div class="page-header">
@@ -248,7 +281,7 @@
 
 								<div class="widget-body">
 									<div class="widget-main">
-										<div id="piechart-placeholder"></div>
+										<div id="piechart-placeholder-coach"></div>
 									</div>
 								</div>
 							</div>
