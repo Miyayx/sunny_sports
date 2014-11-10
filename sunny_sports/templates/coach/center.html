@@ -63,7 +63,9 @@
 															<div class="form-group">
 																<label class="col-sm-4 control-label no-padding-right" for="form-field-username">姓名</label>
 																<div class="col-sm-8">
-																	<input class="col-xs-12 col-sm-10" type="text" id="form-field-username" placeholder="Username" value="alexdoe" />
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="username">alexdoe</span>
+																</div>
 																</div>
 															</div>
 															<div class="space-4"></div>
@@ -73,7 +75,7 @@
 																</label>
 																<div class="col-sm-8">
 																<label class="inline">
-																	<input name="form-field-radio" type="radio" class="ace" />
+																	<input name="form-field-radio" type="radio" class="ace" checked/>
 																	<span class="lbl middle">男</span>
 																</label>
 																&nbsp; &nbsp; &nbsp;
@@ -89,9 +91,9 @@
 																	身份证号
 																</label>
 																<div class="col-sm-8">
-																	<span class="input-icon input-icon-right">
-																	<input type="text" id="form-field-identity"/>
-																	</span>
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="identity">371028309381928312</span>
+																</div>
 																</div>
 															</div>	
 															<div class="space-4"></div>
@@ -100,9 +102,9 @@
 																	等级
 																</label>
 																<div class="col-sm-8">
-																	<span class="input-icon input-icon-right">
-																	<input type="text" id="form-field-rank"/>
-																	</span>
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="rank">低</span>
+																</div>
 																</div>
 															</div>	
 															<div class="space-4"></div>
@@ -111,9 +113,9 @@
 																	职称
 																</label>
 																<div class="col-sm-8">
-																	<span class="input-icon input-icon-right">
-																	<input type="text" id="form-field-post"/>
-																	</span>
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="post">一级</span>
+																</div>
 																</div>
 															</div>	
 														</div>
@@ -121,33 +123,19 @@
 													<hr />
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-date">出生日期</label>
-														<div class="col-sm-9">
-															<div class="input-medium">
-																<div class="input-group">
-																	<input class="input-medium date-picker" id="form-field-date" type="text" data-date-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" />
-																	<span class="input-group-addon">
-																		<i class="ace-icon fa fa-calendar"></i>
-																	</span>
-																</div>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="birth">1999-12-22</span>
 															</div>
 														</div>
 													</div>
 													<div class="space-4"></div>
 													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-hometown">籍贯</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-hometown"/>
-															</span>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-company">单位</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-company"/>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="company">北京少年宫</span>
+															</div>
 														</div>
 													</div>
 													<div class="space-4"></div>
@@ -176,33 +164,30 @@
 													<h4 class="header blue bolder smaller">联系方式</h4>
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-email">邮箱</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input type="email" id="form-field-email" value="alexdoe@gmail.com" />
-																<i class="ace-icon fa fa-envelope"></i>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="email">sdedsdf@gmail.com</span>
+															</div>
 														</div>
 													</div>
 													<div class="space-4"></div>
 
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-phone">电话</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input class="input-medium input-mask-phone" type="text" id="form-field-phone" />
-																<i class="ace-icon fa fa-phone fa-flip-horizontal"></i>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="phone">131029424384</span>
+															</div>
 														</div>
 													</div>
 													<div class="space-4"></div>
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-qq">QQ</label>
 
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input class="input-medium input-mask-phone" type="text" id="form-field-qq" />
-																<i class="ace-icon fa fa-phone fa-flip-horizontal"></i>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="qq">281034823</span>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -279,8 +264,45 @@
 			type: 'text',
 			name: 'username'
 	    });
-	
-	
+	 	$('#rank')
+		.editable({
+			type: 'text',
+			name: 'rank'
+	    });	
+	     $('#post')
+		.editable({
+			type: 'text',
+			name: 'post'
+	    });	
+		$('#birth').editable({
+		type: 'adate',
+		date: {
+				//datepicker plugin options
+				format: 'yyyy-mm-dd',
+				viewformat: 'yyyy-mm-dd',
+				weekStart: 1
+			}
+		})
+		$('#email')
+		.editable({
+			type: 'text',
+			name: 'email'
+	    });	
+	    $('#phone')
+		.editable({
+			type: 'text',
+			name: 'phone'
+	    });	
+	    $('#company')
+	    .editable({
+	    	type:'text',
+	    	name:'company'
+	    });
+	    $('#qq')
+		.editable({
+			type: 'text',
+			name: 'email'
+	    });	
 		
 		//select2 editable
 		var countries = [];
