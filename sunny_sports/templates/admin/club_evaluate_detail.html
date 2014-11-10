@@ -1,125 +1,269 @@
-<div class="page-header">
-	<h1>
-		Club - Evaluate
-	</h1>
-</div><!-- /.page-header -->
-<div class="row">
-   <div class="col-xs-12">
-      <!-- PAGE CONTENT BEGINS -->
-      <div id="user-profile-3" class="user-profile row">
-         <div class="col-sm-offset-1 col-sm-10">
-            <form class="form-horizontal">
-               <div class="tabbable">
-                  <div class="tab-content profile-edit-tab-content">
-                     <div id="edit-basic" class="tab-pane in active">
-                        <div class="row">
-                           <div class="col-xs-12 col-sm-8">
-                              <div class="space-8"></div>
-                              
-                              <div class="space-4"></div>
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-weight">club description</label>
-                                 <div class="col-sm-8">
-                                    <textarea rows="5" cols="100%" class="col-xs-12 col-sm-10" type="text" id="form-field-weight"/>
-                                 </div>
-                              </div>
-                              <div class="space-4"></div>
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-weight">scanned certificate</label>
-                                 <div class="col-sm-8">
-                                    <input class="col-xs-12 col-sm-10" type="file" id="form-field-weight"/>
-                                 </div>
-                              </div>
-							  <div class="space-4"></div>
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-weight">building layout</label>
-                                 <div class="col-sm-8">
-                                    <input class="col-xs-12 col-sm-10" type="file" id="form-field-weight"/>
-                                 </div>
-                              </div>
-							  <div class="space-4"></div>
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-weight">instrument content</label>
-                                 <div class="col-sm-8">
-                                    <input class="col-xs-12 col-sm-10" type="file" id="form-field-weight"/>
-                                 </div>
-                              </div>
-							  <div class="space-4"></div>
-                              <div class="form-group">
-                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-weight">choose coaches</label>
-                                 <div class="col-sm-8">
-									<div class="row">
-										<div class="col-xs-12 col-sm-8">
-											<div class="col-sm-4">
-												<select id="coaches-level" size="1" >                   
-													<option value='1'>level 1</option>
-													<option value='2'>level 2</option>
-													<option value='3'>level 3</option>
-												</select>
-											</div>
-											<div class="col-sm-8">
-												<select id="coaches-name" size="1" style="width:100%">                   
-													<option value='Raj' selected="true">Raj</option>
-													<option value='Amy'>Amy</option>
-													<option value='Howard'>Howard</option>
-												</select>
-											</div>
-											
-										</div>
-									</div>
-								</div>
-							  </div>
-							  <div class="space-4"></div>
-                               <div class="form-group">
-                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-weight">choose judges</label>
-                                 <div class="col-sm-8">
-									<div class="row">
-										<div class="col-xs-12 col-sm-8">
-											<div class="col-sm-4">
-												<select id="coaches-level" size="1" >                   
-													<option value='1'>level 1</option>
-													<option value='2'>level 2</option>
-													<option value='3'>level 3</option>
-												</select>
-											</div>
-											<div class="col-sm-8">
-												<select id="coaches-name" size="1" style="width:100%">                   
-													<option value='Raj' selected="true">Sheldon</option>
-													<option value='Amy'>Lenard</option>
-													<option value='Howard'>Penny</option>
-												</select>
-											</div>
-											
-										</div>
-									</div>
-								</div>
-							  </div>
-                           </div>
-                          
-                        </div>
-						<div class="clearfix form-actions">
-							<div class="col-md-offset-3 col-md-9">
-								<button class="btn btn-info" type="button">
-									<i class="ace-icon fa fa-check bigger-110"></i>
-									save
-								</button>
+<script src="../../static/js/jquery.colorbox-min.js"></script>
+<link rel="stylesheet" href="../../static/css/colorbox.css" />
 
-								&nbsp; &nbsp;
-								<button class="btn" type="reset">
-									<i class="ace-icon fa fa-undo bigger-110"></i>
-									reset
-								</button>
+<script src="../../static/js/flot/jquery.flot.min.js"></script>
+<script src="../../static/js/flot/jquery.flot.pie.min.js"></script>
+<script src="../../static/js/flot/jquery.flot.resize.min.js"></script>
+<script type="text/javascript">
+	jQuery(function($) {
+		var colorbox_params = {
+			rel : 'colorbox',
+			reposition : true,
+			scalePhotos : true,
+			scrolling : false,
+			previous : '<i class="ace-icon fa fa-arrow-left"></i>',
+			next : '<i class="ace-icon fa fa-arrow-right"></i>',
+			close : '&times;',
+			current : '{current} of {total}',
+			maxWidth : '100%',
+			maxHeight : '100%',
+			onOpen : function() {
+				$overflow = document.body.style.overflow;
+				document.body.style.overflow = 'hidden';
+			},
+			onClosed : function() {
+				document.body.style.overflow = $overflow;
+			},
+			onComplete : function() {
+				$.colorbox.resize();
+			}
+		};
+		$('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+		
+		
+		
+
+		//图表
+		$.resize.throttleWindow = false;
+		var placeholder = $('#piechart-placeholder').css({
+			'width' : '90%',
+			'min-height' : '150px'
+		});
+		var data = [ {
+			label : "一级",
+			data : 38.7,
+			color : "#68BC31"
+		}, {
+			label : "二级",
+			data : 24.5,
+			color : "#2091CF"
+		}, {
+			label : "三级",
+			data : 8.2,
+			color : "#AF4E96"
+		}, {
+			label : "四级",
+			data : 18.6,
+			color : "#DA5430"
+		}, {
+			label : "五级",
+			data : 10,
+			color : "#FEE074"
+		} ]
+		function drawPieChart(placeholder, data, position) {
+			$.plot(placeholder, data, {
+				series : {
+					pie : {
+						show : true,
+						tilt : 0.8,
+						highlight : {
+							opacity : 0.25
+						},
+						stroke : {
+							color : '#fff',
+							width : 2
+						},
+						startAngle : 2
+					}
+				},
+				legend : {
+					show : true,
+					position : position || "ne",
+					labelBoxBorderColor : null,
+					margin : [ -30, 15 ]
+				},
+				grid : {
+					hoverable : true,
+					clickable : true
+				}
+			})
+		}
+		drawPieChart(placeholder, data);
+		placeholder.data('chart', data);
+		placeholder.data('draw', drawPieChart);
+		var $tooltip = $(
+				"<div class='tooltip top in'><div class='tooltip-inner'></div></div>")
+				.hide().appendTo('body');
+		var previousPoint = null;
+
+		placeholder.on('plothover', function(event, pos, item) {
+			if (item) {
+				if (previousPoint != item.seriesIndex) {
+					previousPoint = item.seriesIndex;
+					var tip = item.series['label'] + " : "
+							+ item.series['percent'] + '%';
+					$tooltip.show().children(0).text(tip);
+				}
+				$tooltip.css({
+					top : pos.pageY + 10,
+					left : pos.pageX + 10
+				});
+			} else {
+				$tooltip.hide();
+				previousPoint = null;
+			}
+
+		});//结束
+	})
+</script>
+<div class="page-header">
+	<h1>俱乐部详细信息</h1>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			<div class="space-10"></div>
+			<form class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-4 control-label no-padding-right" for="grade">请评定级别</label>
+					<div class="col-sm-2">
+						<select class="form-control" id="grade">
+							<option value=""></option>
+							<option value="AL">一级</option>
+							<option value="AK">二级</option>
+							<option value="AZ">三级</option>
+							<option value="AR">四级</option>
+							<option value="CA">五级</option>
+						</select>
+					</div>
+					<button class="btn btn-sm btn-primary">确认</button>
+				</div>
+			</form>
+			<hr />
+			<form class="form-horizontal">
+				<div class="tab-content profile-edit-tab-content">
+					<div class="space-10"></div>
+					<div class="col-sm-2"></div>
+					<div>
+						<ul class="ace-thumbnails clearfix">
+							<li><a href="../../static/images/gallery/image-4.jpg"
+								data-rel="colorbox"> <img width="150" height="150"
+									alt="150x150" src="../../static/images/gallery/thumb-4.jpg" />
+									<div class="text">
+										<div class="inner">点击放大</div>
+									</div>
+							</a></li>
+							<li><a href="../../static/images/gallery/image-5.jpg"
+								data-rel="colorbox"> <img width="150" height="150"
+									alt="150x150" src="../../static/images/gallery/thumb-5.jpg" />
+									<div class="text">
+										<div class="inner">点击放大</div>
+									</div>
+							</a></li>
+							<li><a href="../../static/images/gallery/image-1.jpg"
+								data-rel="colorbox"> <img width="150" height="150"
+									alt="150x150" src="../../static/images/gallery/thumb-1.jpg" />
+									<div class="text">
+										<div class="inner">点击放大</div>
+									</div>
+							</a></li>
+						</ul>
+					</div>
+					<hr />
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">俱乐部名称:</label>
+
+						<label class="col-sm-9">俱乐部AAA</label>
+
+					</div>
+					<div class="space-4"></div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">地址:</label>
+
+						<label class="col-sm-9">北京市海淀区</label>
+
+					</div>
+					<div class="space-4"></div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">注册时间:</label>
+
+						<label class="col-sm-9">2014-01-01</label>
+
+					</div>
+					<div class="space-4"></div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">裁判数量:</label>
+
+						<label class="col-sm-9">30</label>
+
+					</div>
+
+					<div class="space-4"></div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">裁判员统计图:</label>
+
+						<div class="col-sm-9 col-sm-5">
+							<div class="widget-box">
+								<div
+									class="widget-header widget-header-flat widget-header-small">
+									<h5 class="widget-title">
+										<i class="ace-icon fa fa-signal"></i> 裁判员统计图
+									</h5>
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										<!-- #section:plugins/charts.flotchart -->
+										<div id="piechart-placeholder"></div>
+									</div>
+								</div>
 							</div>
 						</div>
-                     </div>
-                  </div>
-               </div>
-            </form>
-         </div>
-         <!-- /.span -->
-      </div>
-      <!-- /.user-profile -->
-      <!-- PAGE CONTENT ENDS -->
-   </div>
-   <!-- /.col -->
+					</div>
+					<div class="space-4"></div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">教练数量:</label>
+
+						<label class="col-sm-9">40</label>
+
+					</div>
+					<div class="space-4"></div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">教练员统计图:</label>
+
+						<div class="col-sm-9 col-sm-5">
+							<div class="widget-box">
+								<div
+									class="widget-header widget-header-flat widget-header-small">
+									<h5 class="widget-title">
+										<i class="ace-icon fa fa-signal"></i> 教练员统计图
+									</h5>
+								</div>
+
+								<div class="widget-body">
+									<div class="widget-main">
+										<div id="piechart-placeholder"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="space-4"></div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label no-padding-right">俱乐部情况描述:</label>
+
+						<label class="col-sm-9">一大段</label>
+
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
