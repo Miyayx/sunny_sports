@@ -63,14 +63,18 @@
 															<div class="form-group">
 																<label class="col-sm-4 control-label no-padding-right" for="form-field-username">队名</label>
 																<div class="col-sm-8">
-																	<input class="col-xs-12 col-sm-10" type="text" id="form-field-username" placeholder="Username" value="alexdoe" />
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="username">喜羊羊</span>
+																</div>
 																</div>
 															</div>
 															<div class="space-4"></div>
 															<div class="form-group">
 																<label class="col-sm-4 control-label no-padding-right" for="form-field-groupnum">编号</label>
 																<div class="col-sm-8">
-																	<input class="col-xs-12 col-sm-10" type="text" id="form-field-groupnum" placeholder="Username" value="2013121234" readonly="true" />
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="groupnum">20131115</span>
+																</div>
 																</div>
 															</div>
 															<div class="space-4"></div>
@@ -90,40 +94,39 @@
 															<div class="form-group">
 																<label class="col-sm-4 control-label no-padding-right" for="form-field-company">单位</label>
 																<div class="col-sm-8">
-																<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-company"/>
-																</span>
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="company">北京市少年宫</span>
+																</div>
 																</div>
 															</div>
 															<div class="space-4"></div>
 															<div class="form-group">
 																<label class="col-sm-4 control-label no-padding-right" for="form-field-orgnum">组织机构代码</label>
 																<div class="col-sm-8">
-																<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-orgnum"/>
-																</span>
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="orgnum">ABC</span>
+																</div>
 																</div>
 															</div>
 															
 														</div>
 													</div>
-													<hr />
+													<h4 class="header blue bolder smaller">联系方式</h4>
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-manager">负责人</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-manager"/>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="manager">李老师</span>
+															</div>
 														</div>
 													</div>
 													<div class="space-4"></div>
 													<div class="form-group">
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-phone">电话</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input class="input-medium input-mask-phone" type="text" id="form-field-phone" />
-																<i class="ace-icon fa fa-phone fa-flip-horizontal"></i>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="phone">13148576789</span>
+															</div>
 														</div>
 													</div>
 													<div class="space-4"></div>
@@ -131,10 +134,10 @@
 														<label class="col-sm-3 control-label no-padding-right" for="form-field-identity">
 															身份证号
 														</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-															<input type="text" id="form-field-identity"/>
-															</span>
+														<div class="col-sm-8">
+															<div class="profile-info-value">
+																<span class="editable editable-click" id="identity">371023187191021924</span>
+															</div>
 														</div>
 													</div>	
 												</div>
@@ -207,9 +210,36 @@
 			type: 'text',
 			name: 'username'
 	    });
-	
-	
-		
+	    $('#groupnum')
+	    .editable({
+	    	type:'text',
+	    	name:'groupnum'
+	    });
+	    $('#company')
+	    .editable({
+	    	type:'text',
+	    	name:'company'
+	    });
+	    $('#orgnum')
+	    .editable({
+	    	type:'text',
+	    	name:'orgnum'
+	    });
+		$('#manager')
+		.editable({
+			type: 'text',
+			name: 'email'
+	    });	
+	    $('#phone')
+		.editable({
+			type: 'text',
+			name: 'phone'
+	    });	
+	 	$('#identity')
+		.editable({
+			type: 'text',
+			name: 'phone'
+	    });	
 		//select2 editable
 		var countries = [];
 	    $.each({ "CA": "Canada", "IN": "India", "NL": "Netherlands", "TR": "Turkey", "US": "United States"}, function(k, v) {
