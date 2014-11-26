@@ -38,6 +38,7 @@ PAGE_MAPPING = {
 
         ### 参赛队 ###
         "group":"group/base.html",
+        "group/home":"group/home.html",
         "group/sign_up":"group/sign_up.html",
         "group/games":"group/games.html",
         "group/join":"group/join.html",
