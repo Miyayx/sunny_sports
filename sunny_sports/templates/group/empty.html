@@ -1,0 +1,43 @@
+{% extends "./base/base.html" %}
+
+{% block title %} 参赛队页面 {% endblock %}
+
+{% block menu %}
+<ul class="nav nav-list">
+
+    <li class="hsub">
+    <a class="dropdown-toggle" href="#">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛列表 </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+        <a data-url="" href="#page/group/new_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            正在进行的比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+
+        <li class="">
+        <a data-url="" href="#page/group/old_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            历史比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+    </ul>
+    </li>
+    <li class="">
+    <a data-url="" href="#page/group/center">
+        <i class="menu-icon fa fa-users"></i>
+        <span class="menu-text"> 个人中心 </span>
+    </a>
+
+    <b class="arrow"></b>
+    </li>
+
+</ul><!-- /.nav-list -->
+{% endblock %}
+
