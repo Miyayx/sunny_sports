@@ -18,7 +18,9 @@ urlpatterns = patterns('',
         url(r'^coach$', TemplateView.as_view(template_name='coach/base.html')),
         url(r'^coach/', views.all),
         url(r'^centre$', TemplateView.as_view(template_name='centre/base.html')),
+        url(r'^centre/', views.all),
         url(r'^coach_org$', TemplateView.as_view(template_name='coach_org/base.html')),
+        url(r'^coach_org/', views.all),
 
         #url(r'^blog/', include('blog.urls')),
 
