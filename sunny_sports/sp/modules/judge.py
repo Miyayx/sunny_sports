@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
+
 from django.db import models
 
-class CoachProperty(models.Model):
+class JudgeProperty(models.Model):
     stu_id = models.CharField(max_length=15)
     name = models.CharField(max_length=20)
     sex = models.CharField(max_length=4)
@@ -18,3 +19,5 @@ class CoachProperty(models.Model):
     county = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     
+    class Meta:
+        app_label='sp'

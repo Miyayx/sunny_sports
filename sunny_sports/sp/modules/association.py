@@ -17,6 +17,9 @@ class Student(models.Model):
     level = models.IntegerField()
     status = models.IntegerField()
     regtime = models.DateTimeField()
+
+    class Meta:
+        app_label='sp'
     
 class Judge(models.Model):
     property = models.ForeignKey(StudentProperty)
@@ -24,6 +27,8 @@ class Judge(models.Model):
     level = models.IntegerField()
     status = models.IntegerField()
     regtime = models.DateTimeField()
+    class Meta:
+        app_label='sp'
 
 class Coach(models.Model):
     property = models.ForeignKey(StudentProperty)
@@ -31,3 +36,5 @@ class Coach(models.Model):
     level = models.IntegerField()
     status = models.IntegerField()
     regtime = models.DateTimeField()
+    class Meta:
+        app_label='sp'

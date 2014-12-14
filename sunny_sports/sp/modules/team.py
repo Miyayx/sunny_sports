@@ -13,3 +13,6 @@ class Team(models.Model):
     contact = models.CharField(max_length=30)
     regtime = models.DateTimeField()
 
+    class Meta:
+        app_label='sp'
+

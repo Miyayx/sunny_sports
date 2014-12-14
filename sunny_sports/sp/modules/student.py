@@ -3,7 +3,7 @@
 
 from django.db import models
 
-class JudgeProperty(models.Model):
+class StudentProperty(models.Model):
     stu_id = models.CharField(max_length=15)
     name = models.CharField(max_length=20)
     sex = models.CharField(max_length=4)
@@ -12,6 +12,8 @@ class JudgeProperty(models.Model):
     birthday = models.DateField()
     age = models.IntegerField()
     identity = models.IntegerField()
+    height = models.IntegerField()
+    weight = models.IntegerField()
     photo = models.URLField()
     company = models.CharField(max_length=50)
     province = models.CharField(max_length=20)
@@ -19,3 +21,5 @@ class JudgeProperty(models.Model):
     county = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     
+    class Meta:
+        app_label='sp'

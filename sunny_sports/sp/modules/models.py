@@ -9,6 +9,7 @@ from club import *
 from team import *
 from committee import *
 from coach_org import *
+from association import *
 
 # Create your models here.
 
@@ -33,7 +34,7 @@ class Game(models.Model):
     status = models.IntegerField()
     
 class StudentTeam(models.Model):
-    team = models.ForeignKey(Group)
+    team = models.ForeignKey(Team)
     student = models.ForeignKey(Student)
     game = models.ForeignKey(Game)
     stu_number = models.CharField(max_length=20)
@@ -54,7 +55,7 @@ class GameEvent(models.Model):
     umpires = models.CharField(max_length=20)
     
 class TeamGame(models.Model):
-    team = models.ForeignKey(Group)
+    team = models.ForeignKey(Team)
     game = models.ForeignKey(Game)
     team_num = models.CharField(max_length=20)
     team_name = models.CharField(max_length=30)
