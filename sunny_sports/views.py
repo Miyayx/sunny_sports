@@ -15,7 +15,7 @@ def home(req):
 
 def all(req):
     url = req.path[req.path.index("/"):].strip("/")
-    print (url)
+    print ("url:",url)
 
     t = get_template(PAGE_MAPPING[url])
     c = Context({})
@@ -111,13 +111,4 @@ def a_score_event_person(req):
     c = Context({'event':event})
     html = t.render(c)
     return HttpResponse(html)
-
-def a_score_group(req):
-    pass
-
-def a_center(req):
-    pass
-
-def a_old_game_info(req):
-    pass
 
