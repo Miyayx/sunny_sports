@@ -1,4 +1,14 @@
+#!/usr/bin/env python
+#-*-coding:utf-8-*-
 from django.db import models
+
+from student import *
+from coach import *
+from judge import *
+from club import *
+from team import *
+from committee import *
+from coach_org import *
 
 # Create your models here.
 
@@ -9,31 +19,6 @@ class User(models.Model):
     username = models.CharField(max_length=15)
     password = models.CharField(max_length=32)
     role = models.ForeignKey(Role)
-    
-class StudentProperty(models.Model):
-    stu_id = models.CharField(max_length=15)
-    name = models.CharField(max_length=20)
-    sex = models.CharField(max_length=4)
-    email = models.EmailField()
-    phone = models.IntegerField()
-    birthday = models.DateField()
-    age = models.IntegerField()
-    identity = models.IntegerField()
-    height = models.IntegerField()
-    weight = models.IntegerField()
-    photo = models.URLField()
-    company = models.CharField(max_length=50)
-    province = models.CharField(max_length=20)
-    city = models.CharField(max_length=30)
-    county = models.CharField(max_length=50)
-    address = models.CharField(max_length=100)
-    
-class Student(models.Model):
-    property = models.ForeignKey(StudentProperty)
-    club_id = models.IntegerField()
-    level = models.IntegerField()
-    status = models.IntegerField()
-    regtime = models.DateTimeField()
     
 class Game(models.Model):
     name = models.CharField(max_length=50)
@@ -47,19 +32,8 @@ class Game(models.Model):
     team_min = models.IntegerField()
     status = models.IntegerField()
     
-class Group(models.Model):
-    group_id = models.CharField(max_length=15)
-    province = models.CharField(max_length=20)
-    city = models.CharField(max_length=30)
-    company = models.CharField(max_length=50)
-    code = models.CharField(max_length=20)
-    name = models.CharField(max_length=30)
-    principal = models.CharField(max_length=20)
-    contact = models.CharField(max_length=30)
-    regtime = models.DateTimeField()
-    
-class StudentGroup(models.Model):
-    group = models.ForeignKey(Group)
+class StudentTeam(models.Model):
+    team = models.ForeignKey(Group)
     student = models.ForeignKey(Student)
     game = models.ForeignKey(Game)
     stu_number = models.CharField(max_length=20)
@@ -79,14 +53,14 @@ class GameEvent(models.Model):
     property = models.IntegerField()
     umpires = models.CharField(max_length=20)
     
-class GroupGame(models.Model):
-    group = models.ForeignKey(Group)
+class TeamGame(models.Model):
+    team = models.ForeignKey(Group)
     game = models.ForeignKey(Game)
-    group_num = models.CharField(max_length=20)
-    group_name = models.CharField(max_length=30)
-    group_principal = models.CharField(max_length=20)
+    team_num = models.CharField(max_length=20)
+    team_name = models.CharField(max_length=30)
+    team_principal = models.CharField(max_length=20)
     prin_contact = models.CharField(max_length=30)
-    group_status = models.IntegerField()
+    team_status = models.IntegerField()
     score = models.IntegerField()
     award = models.CharField(max_length=50)
     pay_status = models.IntegerField()
@@ -95,7 +69,7 @@ class GroupGame(models.Model):
 class StudentEvent(models.Model):
     event = models.ForeignKey(GameEvent)
     stu_number = models.CharField(max_length=20)
-    group_num = models.CharField(max_length=20)
+    team_num = models.CharField(max_length=20)
     score = models.IntegerField()
     award = models.CharField(max_length=50)
     
