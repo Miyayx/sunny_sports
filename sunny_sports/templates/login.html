@@ -366,14 +366,8 @@
                                 <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
+                                {% include "components/register/email.html"%}
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input id="emailLabel" type="email" name="email" class="form-control" placeholder="Email" />
-                                    <i class="ace-icon fa fa-envelope"></i>
-                                  </span>
-                                </label>
-                                <label id="emailErr" style="display: none; color: red"></label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -391,19 +385,7 @@
                                 </label>
                                 <label id="idErr" style="display: none; color: red"></label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="password" class="form-control" name="password" placeholder="密码" />
-                                    <i class="ace-icon fa fa-lock"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="password" class="form-control" name="password_again" placeholder="重复密码" />
-                                    <i class="ace-icon fa fa-retweet"></i>
-                                  </span>
-                                </label>
+                                {% include "components/register/password.html"%}
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -426,20 +408,8 @@
                                   </span>
                                 </label>
 
-                                <div class="space-4"></div>
+                                {% include "components/register/reg_btn.html" %}
 
-                                <div class="clearfix">
-                                  <button type="reset" class="width-45 pull-left btn btn-sm">
-                                    <i class="ace-icon fa fa-refresh"></i>
-                                    <span class="bigger-110">重填</span>
-                                  </button>
-
-                                  <button id="studentSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
-                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
-                                    <span class="bigger-110">注册</span>
-
-                                  </button>
-                                </div>
                               </fieldset>
                             </form>
 
@@ -495,27 +465,9 @@
                                 </label>
                                 <label id="phoneErr" style="display: none; color: red"></label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input name="email" id="emailLabel" type="email" class="form-control" placeholder="Email" />
-                                    <i class="ace-icon fa fa-envelope"></i>
-                                  </span>
-                                </label>
-                                <label id="emailErr" style="display: none; color: red"></label>
+                                {% include "components/register/email.html"%}
+                                {% include "components/register/password.html"%}
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" name="password" type="password" class="form-control" placeholder="密码" />
-                                    <i class="ace-icon fa fa-lock"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" name="password_again" type="password" class="form-control" placeholder="重复密码" />
-                                    <i class="ace-icon fa fa-retweet"></i>
-                                  </span>
-                                </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -537,19 +489,8 @@
                                   </span>
                                 </label>
 
-                                <div class="space-4"></div>
+                                {% include "components/register/reg_btn.html" %}
 
-                                <div class="clearfix">
-                                  <button type="reset" class="width-45 pull-left btn btn-sm">
-                                    <i class="ace-icon fa fa-refresh"></i>
-                                    <span class="bigger-110">重填</span>
-                                  </button>
-
-                                  <button id="judgeSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
-                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
-                                    <span class="bigger-110">注册</span>
-                                  </button>
-                                </div>
                               </fieldset>
                             </form>
 
@@ -605,27 +546,8 @@
                                 </label>
                                 <label id="phoneErr" style="display: none; color: red"></label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input id="emailLabel" type="email" class="form-control" placeholder="Email" name="email"/>
-                                    <i class="ace-icon fa fa-envelope"></i>
-                                  </span>
-                                </label>
-                                <label id="emailErr" style="display: none; color: red"></label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" name="password" type="password" class="form-control" placeholder="密码" />
-                                    <i class="ace-icon fa fa-lock"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" name="password_again" type="password" class="form-control" placeholder="重复密码" />
-                                    <i class="ace-icon fa fa-retweet"></i>
-                                  </span>
-                                </label>
+                                {% include "components/register/email.html"%}
+                                {% include "components/register/password.html"%}
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -648,19 +570,8 @@
                                   </span>
                                 </label>
 
-                                <div class="space-4"></div>
+                                {% include "components/register/reg_btn.html" %}
 
-                                <div class="clearfix">
-                                  <button type="reset" class="width-45 pull-left btn btn-sm">
-                                    <i class="ace-icon fa fa-refresh"></i>
-                                    <span class="bigger-110">重填</span>
-                                  </button>
-
-                                  <button id="coachSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
-                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
-                                    <span class="bigger-110">注册</span>
-                                  </button>
-                                </div>
                               </fieldset>
                             </form>
                           </div>
@@ -715,20 +626,7 @@
                                   </span>
                                 </label>
 
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="password" class="form-control" placeholder="密码" name="password"/>
-                                    <i class="ace-icon fa fa-lock"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="password" class="form-control" placeholder="重复密码" name="password_again"/>
-                                    <i class="ace-icon fa fa-retweet"></i>
-                                  </span>
-                                </label>
+                                {% include "components/register/password.html"%}
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -751,19 +649,8 @@
                                   </span>
                                 </label>
 
-                                <div class="space-4"></div>
+                                {% include "components/register/reg_btn.html" %}
 
-                                <div class="clearfix">
-                                  <button type="reset" class="width-45 pull-left btn btn-sm">
-                                    <i class="ace-icon fa fa-refresh"></i>
-                                    <span class="bigger-110">重填</span>
-                                  </button>
-
-                                  <button id="teamSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
-                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
-                                    <span class="bigger-110">注册</span>
-                                  </button>
-                                </div>
                               </fieldset>
                             </form>
 
@@ -798,19 +685,7 @@
                                   </span>
                                 </label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="password" class="form-control" placeholder="密码" name="password"/>
-                                    <i class="ace-icon fa fa-lock"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="password" class="form-control" placeholder="重复密码" name="password_again"/>
-                                    <i class="ace-icon fa fa-retweet"></i>
-                                  </span>
-                                </label>
+                                {% include "components/register/password.html"%}
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -833,19 +708,7 @@
                                   </span>
                                 </label>
 
-                                <div class="space-4"></div>
-
-                                <div class="clearfix">
-                                  <button type="reset" class="width-45 pull-left btn btn-sm">
-                                    <i class="ace-icon fa fa-refresh"></i>
-                                    <span class="bigger-110">重填</span>
-                                  </button>
-
-                                  <button id="teamSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
-                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
-                                    <span class="bigger-110">注册</span>
-                                  </button>
-                                </div>
+                                {% include "components/register/reg_btn.html" %}
                               </fieldset>
                             </form>
                             -->
@@ -1002,6 +865,7 @@
               $("#teamForm").show();
             });
 
+
             //email验证
             $("#emailLabel").blur(function () {
               var email = $("#emailLabel").val();
@@ -1022,7 +886,7 @@
             });
 
             //phone验证
-            $("#phoneLabel").blur(function () {
+            $("input[type=phone]").blur(function () {
               var phone = $("#phoneLabel").val();
               var flag = true;
 
