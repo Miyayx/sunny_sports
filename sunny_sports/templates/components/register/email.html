@@ -1,0 +1,31 @@
+
+<label class="block clearfix">
+  <span class="block input-icon input-icon-right">
+    <input type="email" name="email" class="form-control" placeholder="Email" />
+    <i class="ace-icon fa fa-envelope"></i>
+  </span>
+</label>
+<label class="emailErr" style="display: none; color: red"></label>
+
+<script type="text/javascript">
+  jQuery(function($) {
+    //email验证
+    $("input[type=email]").blur(function () {
+      var email = $(this).val();
+      var flag = true;
+      var sReg = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+$/;
+      if(!sReg.test(email)){
+        flag = false;
+      }
+      if (!flag) {
+        $(this).closest("form").find(".emailErr").show();
+        $(this).closest("form").find(".emailErr").text("邮箱格式错误");
+        $("input[type=submit]").attr("disabled", true);
+      } else {
+        $(this).closest("form").find(".emailErr").hide();
+        $("input[type=submit]").attr("disabled", false);
+      }
+
+    });
+  });
+</script>
