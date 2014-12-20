@@ -367,24 +367,9 @@
                                 <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
                                 {% include "components/register/email.html"%}
+                                {% include "components/register/phone.html"%}
 
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" id="phoneLabel" type="phone" name="phone" class="form-control" placeholder="手机号码" />
-                                    <i class="ace-icon fa fa-phone"></i>
-                                  </span>
-                                </label>
-                                <label id="phoneErr" style="display: none; color: red"></label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" id="idLabel" type="id" name="id_" class="form-control" placeholder="身份证号" />
-                                    <i class="ace-icon fa fa-pencil"></i>
-                                  </span>
-                                </label>
-                                <label id="idErr" style="display: none; color: red"></label>
-
+                                {% include "components/register/id.html"%}
                                 {% include "components/register/password.html"%}
 
                                 <label class="block clearfix">
@@ -428,13 +413,7 @@
                                 <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" id="idLabel" name="id_" type="text" class="form-control" placeholder="身份证号" />
-                                    <i class="ace-icon fa fa-pencil"></i>
-                                  </span>
-                                </label>
-                                <label id="idErr" style="display: none; color: red"></label>
+                                {% include "components/register/id.html"%}
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -457,13 +436,7 @@
                                   </span>
                                 </label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" name="phone" id="phoneLabel" type="phone" class="form-control" placeholder="电话" />
-                                    <i class="ace-icon fa fa-phone"></i>
-                                  </span>
-                                </label>
-                                <label id="phoneErr" style="display: none; color: red"></label>
+                                {% include "components/register/phone.html"%}
 
                                 {% include "components/register/email.html"%}
                                 {% include "components/register/password.html"%}
@@ -509,12 +482,8 @@
                                 <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" id="idLabel" type="id" class="form-control" name="id_" placeholder="身份证号" />
-                                    <i class="ace-icon fa fa-pencil"></i>
-                                  </span>
-                                </label>
+                                {% include "components/register/id.html"%}
+
                                 <label id="idErr" style="display: none; color: red"></label>
 
                                 <label class="block clearfix">
@@ -538,13 +507,7 @@
                                   </span>
                                 </label>
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" id="phoneLabel" type="phone" class="form-control" placeholder="电话" name="phone"/>
-                                    <i class="ace-icon fa fa-phone"></i>
-                                  </span>
-                                </label>
-                                <label id="phoneErr" style="display: none; color: red"></label>
+                                {% include "components/register/phone.html"%}
 
                                 {% include "components/register/email.html"%}
                                 {% include "components/register/password.html"%}
@@ -611,14 +574,7 @@
                                 </label>
 
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" id="phoneLabel" type="phone" class="form-control" placeholder="负责人手机号码" name="phone"/>
-                                    <i class="ace-icon fa fa-phone"></i>
-                                  </span>
-                                </label>
-
-                                <label id="phoneErr" style="display: none; color: red"></label>
+                                {% include "components/register/phone.html"%}
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
                                     <input required="required" type="text" class="form-control" placeholder="所属地" name="place"/>
@@ -865,74 +821,6 @@
               $("#teamForm").show();
             });
 
-
-            //email验证
-            $("#emailLabel").blur(function () {
-              var email = $("#emailLabel").val();
-              var flag = true;
-              var sReg = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+$/;
-              if(!sReg.test(email)){
-                flag = false;
-              }
-              if (!flag) {
-                $("#emailErr").show();
-                $("#emailErr").text("邮箱格式错误");
-                $("#studentSubmitButton").attr("disabled", true);
-              } else {
-                $("#emailErr").hide();
-                $("#studentSubmitButton").attr("disabled", false);
-              }
-
-            });
-
-            //phone验证
-            $("input[type=phone]").blur(function () {
-              var phone = $("#phoneLabel").val();
-              var flag = true;
-
-              var num= /^[0-9]+.?[0-9]*$/;
-              for(var i=0;i<phone.length;i++){
-                if(!num.test(phone.charAt(i))){
-                  flag = false;
-                }
-              }
-              if (!flag) {
-                $("#phoneErr").show();
-                $("#phoneErr").text("电话号码应为数字");
-                $("#studentSubmitButton").attr("disabled", true);
-              } else {
-                $("#phoneErr").hide();
-                $("#studentSubmitButton").attr("disabled", false);
-              }
-
-            });
-
-            //id 验证
-            $("#idLabel").blur(function () {
-              var id = $("#idLabel").val();
-              var flag = true;
-              if (id.length != 18) {
-                flag = false;
-              }
-              else{
-                var num= /^[0-9]+.?[0-9]*$/;
-                for(var i=0;i<17;i++){
-                  if(!num.test(id.charAt(i))){
-                    flag = false;
-                  }
-                }
-
-              }
-              if (!flag) {
-                $("#idErr").show();
-                $("#idErr").text("身份证号应为18位数字");
-                $("#studentSubmitButton").attr("disabled", true);
-              } else {
-                $("#idErr").hide();
-                $("#studentSubmitButton").attr("disabled", false);
-              }
-
-            });
             });
           </script>
         </body>
