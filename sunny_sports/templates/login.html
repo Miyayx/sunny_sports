@@ -554,6 +554,7 @@
                             </form>
 
                             <form id="coachForm" style="display: none;" action="register" method="post">
+                              <input type="hidden" name="role2" value="coach"/>
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -688,7 +689,8 @@
 
                             <div class="space"></div>
 
-                            <form id="clubForm" style="display: none;" action="register" method="post">
+                            <form id="clubForm"  action="register" method="post">
+                              <input type="hidden" name="role2" value="club"/>
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
@@ -698,6 +700,14 @@
                                 </label>
 
 
+                                <label class="block clearfix">
+                                  <span class="block input-icon input-icon-right">
+                                    <input required="required" id="phoneLabel" type="phone" class="form-control" placeholder="负责人手机号码" name="phone"/>
+                                    <i class="ace-icon fa fa-phone"></i>
+                                  </span>
+                                </label>
+
+                                <label id="phoneErr" style="display: none; color: red"></label>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
                                     <input required="required" type="text" class="form-control" placeholder="所属地" name="place"/>
@@ -759,6 +769,7 @@
 
                             <!--
                             <form id="teamForm" style="display: none;" action="register" method="post">
+                              <input type="hidden" name="role2" value="team"/>
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
