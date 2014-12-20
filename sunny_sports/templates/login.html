@@ -90,35 +90,35 @@
                               <i class="ace-icon fa fa-coffee green"></i>
                               请输入您的帐号密码
                             </h4>
+                            <form action="login" method="post">
 
-                            <div class="btn-group" data-toggle="buttons">
-                              <button class="btn btn-primary btn-sm active">
-                                <input type="radio" name="student" /> 学员
-                              </button>
+                              <div class="btn-group" data-toggle="buttons">
+                                <button class="btn btn-primary btn-sm active">
+                                  <input type="radio" name="role" value="student" /> 学员
+                                </button>
 
-                              <button class="btn btn-primary btn-sm">
-                                <input type="radio" name="judge" /> 裁判
-                              </button>
+                                <button class="btn btn-primary btn-sm">
+                                  <input type="radio" name="role" value="judge" /> 裁判
+                                </button>
 
-                              <button class="btn btn-primary btn-sm">
-                                <input type="radio" name="coach" /> 教练
-                              </button>
-                            </div>  
+                                <button class="btn btn-primary btn-sm">
+                                  <input type="radio" name="role" value="coach"/> 教练
+                                </button>
+                              </div>  
 
-                            <form>
                               <fieldset> 
                                 <div class="space"></div>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="帐号" />
+                                    <input required="required" type="text" class="form-control" placeholder="帐号" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" type="password" class="form-control" placeholder="密码" />
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
@@ -131,7 +131,7 @@
                                     <span class="lbl"> 记住密码</span>
                                   </label>
 
-                                  <button type="button" class="login-btn width-35 pull-right btn btn-sm btn-primary">
+                                  <button type="sumbit" class="login-btn width-35 pull-right btn btn-sm btn-primary">
                                     <i class="ace-icon fa fa-key"></i>
                                     <span class="bigger-110">登录</span>
                                   </button>
@@ -147,31 +147,34 @@
                               <i class="ace-icon fa fa-coffee green"></i>
                               请输入您的帐号密码
                             </h4>
-                            <div class="btn-group" data-toggle="buttons">
-                              <button class="btn btn-primary btn-sm active">
-                                <input type="radio" name="club" /> 俱乐部
-                              </button>
-                              <button class="btn btn-primary btn-sm">
-                                <input type="radio" name="team" /> 参赛队
-                              </button>
-                              <button class="btn btn-primary btn-sm">
-                                <input type="radio" name="committee" /> 通级委员会
-                              </button>
-                            </div>  
-                            <form>
+
+                            <form action="login" method="post">
+                              <div class="btn-group" data-toggle="buttons">
+                                <button class="btn btn-primary btn-sm active">
+                                  <input type="radio" name="role" value="club" /> 俱乐部
+                                </button>
+                                <!--
+                                <button class="btn btn-primary btn-sm">
+                                  <input type="radio" name="role" value="team" /> 参赛队
+                                </button>
+                                <button class="btn btn-primary btn-sm">
+                                  <input type="radio" name="role" value="committee" /> 通级委员会
+                                </button>
+                                -->
+                              </div>  
                               <fieldset> 
                                 <div class="space"></div>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="帐号" />
+                                    <input required="required" type="text" class="form-control" placeholder="帐号" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" type="password" class="form-control" placeholder="密码" />
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
@@ -184,7 +187,7 @@
                                     <span class="lbl"> 记住密码</span>
                                   </label>
 
-                                  <button type="button" class="login-btn width-35 pull-right btn btn-sm btn-primary">
+                                  <button type="submit" class="login-btn width-35 pull-right btn btn-sm btn-primary">
                                     <i class="ace-icon fa fa-key"></i>
                                     <span class="bigger-110">登录</span>
                                   </button>
@@ -202,26 +205,26 @@
                               请输入您的帐号密码
                             </h4>
 
-                            <div class="btn-group" data-toggle="buttons">
-                              <button class="btn btn-primary btn-sm active">
-                                <input type="radio" name="admin" /> 管理员
-                              </button>
-                            </div>  
-
                             <form>
+                              <div class="btn-group" data-toggle="buttons">
+                                <button class="btn btn-primary btn-sm active">
+                                  <input type="radio" name="role" value="admin" /> 管理员
+                                </button>
+                              </div>  
+
                               <fieldset> 
                                 <div class="space"></div>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="帐号" />
+                                    <input required="required" type="text" class="form-control" placeholder="帐号" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" type="password" class="form-control" placeholder="密码" />
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
@@ -234,7 +237,7 @@
                                     <span class="lbl"> 记住密码</span>
                                   </label>
 
-                                  <button type="button" class="login-btn width-35 pull-right btn btn-sm btn-primary">
+                                  <button type="submit" class="login-btn width-35 pull-right btn btn-sm btn-primary">
                                     <i class="ace-icon fa fa-key"></i>
                                     <span class="bigger-110">登录</span>
                                   </button>
@@ -337,35 +340,36 @@
 
                             <div class="btn-group" data-toggle="buttons">
                               <label id="student2" class="btn btn-success">
-                                <input type="radio" name="student" /> 学员
+                                <input type="radio" name="role2" value="student" /> 学员
                               </label>
                               <label id="judge2" class="btn btn-success">
-                                <input type="radio" name="judge" /> 裁判
+                                <input type="radio" name="role2" value="judge" /> 裁判
                               </label>
                               <label id="coach2" class="btn btn-success">
-                                <input type="radio" name="coach" /> 教练
+                                <input type="radio" name="role2" value="coach" /> 教练
                               </label>
                             </div>  
 
                             <div class="space"></div>
 
-                            <form id="studentForm" style="display: none;">
+                            <form id="studentForm" style="display: none;" action="register" method="post">
+                              <input type="hidden" name="role2" value="student"/>
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="姓名" />
+                                    <input trequired="required" ype="text" class="form-control" placeholder="姓名" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
                                 性别：
-                                <input id="male" type="radio" name="type" value="男">
+                                <input id="male" type="radio" name="gender" value="male">
                                 <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input id="female" type="radio" name="type" value="女">
+                                <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="emailLabel" type="email" class="form-control" placeholder="Email" />
+                                    <input id="emailLabel" type="email" name="email" class="form-control" placeholder="Email" />
                                     <i class="ace-icon fa fa-envelope"></i>
                                   </span>
                                 </label>
@@ -373,7 +377,7 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="phoneLabel" type="email" class="form-control" placeholder="电话" />
+                                    <input required="required" id="phoneLabel" type="phone" name="phone" class="form-control" placeholder="手机号码" />
                                     <i class="ace-icon fa fa-phone"></i>
                                   </span>
                                 </label>
@@ -381,7 +385,7 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="idLabel" type="email" class="form-control" placeholder="身份证号" />
+                                    <input required="required" id="idLabel" type="id" name="id_" class="form-control" placeholder="身份证号" />
                                     <i class="ace-icon fa fa-pencil"></i>
                                   </span>
                                 </label>
@@ -389,20 +393,33 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" type="password" class="form-control" name="password" placeholder="密码" />
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="重复密码" />
+                                    <input required="required" type="password" class="form-control" name="password_again" placeholder="重复密码" />
                                     <i class="ace-icon fa fa-retweet"></i>
                                   </span>
                                 </label>
 
+                                <label class="block clearfix">
+                                  <span class="block input-icon input-icon-right">
+                                    <input type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
+                                    <i class="ace-icon fa fa-barcode"></i>
+                                  </span>
+                                </label>
+
+                                <label class="block clearfix">
+                                  <span class="block input-icon input-icon-right">
+                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">点击获取短信验证码</button>
+                                  </span>
+                                </label>
+
                                 <label class="block">
-                                  <input type="checkbox" class="ace" />
+                                  <input type="checkbox"/>
                                   <span class="lbl">
                                     我同意
                                     <a href="#">服务条款</a>
@@ -412,44 +429,45 @@
                                 <div class="space-4"></div>
 
                                 <div class="clearfix">
-                                  <button type="reset" class="width-30 pull-left btn btn-sm">
+                                  <button type="reset" class="width-45 pull-left btn btn-sm">
                                     <i class="ace-icon fa fa-refresh"></i>
                                     <span class="bigger-110">重填</span>
                                   </button>
 
-                                  <button id="studentSubmitButton" type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                  <button id="studentSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
+                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
                                     <span class="bigger-110">注册</span>
 
-                                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                   </button>
                                 </div>
                               </fieldset>
                             </form>
 
-                            <form id="judgeForm" style="display: none;">
+                            <form id="judgeForm" style="display: none;" action="register" method="post">
+                              <input type="hidden" name="role2" value="judge"/>
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="姓名" />
+                                    <input required="required" type="text" class="form-control" name="name" placeholder="姓名" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
                                 性别：
-                                <input id="male" type="radio" name="type" value="男">
+                                <input id="male" type="radio" name="gender" value="male">
                                 <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input id="female" type="radio" name="type" value="女">
+                                <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input class="input-medium date-picker" id="form-field-date" type="text" data-date-format="dd-mm-yyyy" placeholder="出生日期" />
+                                    <input name="birth" class="input-medium date-picker" id="form-field-date" type="text" data-date-format="dd-mm-yyyy" placeholder="出生日期" />
                                     <i class="ace-icon fa fa-calendar"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="idLabel" type="email" class="form-control" placeholder="身份证号" />
+                                    <input required="required" id="idLabel" name="id_" type="text" class="form-control" placeholder="身份证号" />
                                     <i class="ace-icon fa fa-pencil"></i>
                                   </span>
                                 </label>
@@ -457,28 +475,28 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="籍贯" />
+                                    <input name="nativeplace" type="text" class="form-control" placeholder="籍贯" />
                                     <i class="ace-icon fa fa-globe"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="居住地" />
+                                    <input name="homeplace" type="text" class="form-control" placeholder="居住地" />
                                     <i class="ace-icon fa fa-home"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="工作单位" />
+                                    <input required="required" name="workplace" type="text" class="form-control" placeholder="工作单位" />
                                     <i class="ace-icon fa fa-home"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="phoneLabel" type="email" class="form-control" placeholder="电话" />
+                                    <input required="required" name="phone" id="phoneLabel" type="phone" class="form-control" placeholder="电话" />
                                     <i class="ace-icon fa fa-phone"></i>
                                   </span>
                                 </label>
@@ -486,7 +504,7 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="emailLabel" type="email" class="form-control" placeholder="Email" />
+                                    <input name="email" id="emailLabel" type="email" class="form-control" placeholder="Email" />
                                     <i class="ace-icon fa fa-envelope"></i>
                                   </span>
                                 </label>
@@ -494,21 +512,14 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="qq号" />
-                                    <i class="ace-icon fa fa-star"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" name="password" type="password" class="form-control" placeholder="密码" />
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="重复密码" />
+                                    <input required="required" name="password_again" type="password" class="form-control" placeholder="重复密码" />
                                     <i class="ace-icon fa fa-retweet"></i>
                                   </span>
                                 </label>
@@ -524,44 +535,43 @@
                                 <div class="space-4"></div>
 
                                 <div class="clearfix">
-                                  <button type="reset" class="width-30 pull-left btn btn-sm">
+                                  <button type="reset" class="width-45 pull-left btn btn-sm">
                                     <i class="ace-icon fa fa-refresh"></i>
                                     <span class="bigger-110">重填</span>
                                   </button>
 
-                                  <button id="judgeSubmitButton" type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                  <button id="judgeSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
+                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
                                     <span class="bigger-110">注册</span>
-
-                                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                   </button>
                                 </div>
                               </fieldset>
                             </form>
 
-                            <form id="coachForm" style="display: none;">
+                            <form id="coachForm" style="display: none;" action="register" method="post">
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="姓名" />
+                                    <input required="required" type="text" class="form-control" placeholder="姓名" name="name" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
                                 性别：
-                                <input id="male" type="radio" name="type" value="男">
+                                <input id="male" type="radio" name="gender" value="male">
                                 <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input id="female" type="radio" name="type" value="女">
+                                <input id="female" type="radio" name="gender" value="female">
                                 <label id="femaleLabel" for="female">女</label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input class="input-medium date-picker" id="form-field-date" type="text" data-date-format="dd-mm-yyyy" placeholder="出生日期" />
+                                    <input class="input-medium date-picker" name="birth" id="form-field-date" type="text" data-date-format="dd-mm-yyyy" placeholder="出生日期" />
                                     <i class="ace-icon fa fa-calendar"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="idLabel" type="email" class="form-control" placeholder="身份证号" />
+                                    <input required="required" id="idLabel" type="id" class="form-control" name="id_" placeholder="身份证号" />
                                     <i class="ace-icon fa fa-pencil"></i>
                                   </span>
                                 </label>
@@ -569,28 +579,28 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="籍贯" />
+                                    <input type="text" class="form-control" name="nativeplace" placeholder="籍贯" />
                                     <i class="ace-icon fa fa-globe"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="居住地" />
+                                    <input type="text" class="form-control" placeholder="居住地" name="homeplace" />
                                     <i class="ace-icon fa fa-home"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="工作单位" />
+                                    <input required="required" type="text" class="form-control" placeholder="工作单位" name="workplace"/>
                                     <i class="ace-icon fa fa-home"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="phoneLabel" type="email" class="form-control" placeholder="电话" />
+                                    <input required="required" id="phoneLabel" type="phone" class="form-control" placeholder="电话" name="phone"/>
                                     <i class="ace-icon fa fa-phone"></i>
                                   </span>
                                 </label>
@@ -598,7 +608,7 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input id="emailLabel" type="email" class="form-control" placeholder="Email" />
+                                    <input id="emailLabel" type="email" class="form-control" placeholder="Email" name="email"/>
                                     <i class="ace-icon fa fa-envelope"></i>
                                   </span>
                                 </label>
@@ -606,21 +616,14 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="qq号" />
-                                    <i class="ace-icon fa fa-star"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" name="password" type="password" class="form-control" placeholder="密码" />
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="重复密码" />
+                                    <input required="required" name="password_again" type="password" class="form-control" placeholder="重复密码" />
                                     <i class="ace-icon fa fa-retweet"></i>
                                   </span>
                                 </label>
@@ -636,20 +639,18 @@
                                 <div class="space-4"></div>
 
                                 <div class="clearfix">
-                                  <button type="reset" class="width-30 pull-left btn btn-sm">
+                                  <button type="reset" class="width-45 pull-left btn btn-sm">
                                     <i class="ace-icon fa fa-refresh"></i>
                                     <span class="bigger-110">重填</span>
                                   </button>
 
-                                  <button id="coachSubmitButton" type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                  <button id="coachSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
+                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
                                     <span class="bigger-110">注册</span>
-
-                                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                   </button>
                                 </div>
                               </fieldset>
                             </form>
-
                           </div>
 
                           <div id="organization-signup-tab" class="tab-pane">
@@ -664,21 +665,21 @@
 
                             <div class="btn-group" data-toggle="buttons">
                               <label id="club2" class="btn btn-success">
-                                <input type="radio" name="club" /> 俱乐部
+                                <input type="radio" name="role" value="club" /> 俱乐部
                               </label>
                               <label id="team2" class="btn btn-success">
-                                <input type="radio" name="team" /> 参赛队
+                                <input type="radio" name="role" value="team" /> 参赛队
                               </label>
 
                             </div>  
 
                             <div class="space"></div>
 
-                            <form id="clubForm" style="display: none;">
+                            <form id="clubForm" style="display: none;" action="register" method="post">
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="俱乐部名" />
+                                    <input required="required" type="text" class="form-control" placeholder="俱乐部名" name="name"/>
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
@@ -686,7 +687,7 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="所属地" />
+                                    <input required="required" type="text" class="form-control" placeholder="所属地" name="place"/>
                                     <i class="ace-icon fa fa-globe"></i>
                                   </span>
                                 </label>
@@ -694,14 +695,14 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" type="password" class="form-control" placeholder="密码" name="password"/>
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="重复密码" />
+                                    <input required="required" type="password" class="form-control" placeholder="重复密码" name="password_again"/>
                                     <i class="ace-icon fa fa-retweet"></i>
                                   </span>
                                 </label>
@@ -717,59 +718,58 @@
                                 <div class="space-4"></div>
 
                                 <div class="clearfix">
-                                  <button type="reset" class="width-30 pull-left btn btn-sm">
+                                  <button type="reset" class="width-45 pull-left btn btn-sm">
                                     <i class="ace-icon fa fa-refresh"></i>
                                     <span class="bigger-110">重填</span>
                                   </button>
 
-                                  <button id="teamSubmitButton" type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                  <button id="teamSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
+                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
                                     <span class="bigger-110">注册</span>
-
-                                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                   </button>
                                 </div>
                               </fieldset>
                             </form>
 
-                            <form id="teamForm" style="display: none;">
+                            <form id="teamForm" style="display: none;" action="register" method="post">
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="队名" />
+                                    <input required="required" type="text" class="form-control" placeholder="队名" name="name"/>
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="单位名称" />
+                                    <input required="required" type="text" class="form-control" placeholder="单位名称" name="org_name"/>
                                     <i class="ace-icon fa fa-home"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="所属地" />
-                                    <i class="ace-icon fa fa-globe"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input type="email" class="form-control" placeholder="组织编号" />
+                                    <input type="text" class="form-control" placeholder="组织编号" name="org_code"/>
                                     <i class="ace-icon fa fa-pencil"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="密码" />
+                                    <input required="required" type="text" class="form-control" placeholder="所属地" name="place"/>
+                                    <i class="ace-icon fa fa-globe"></i>
+                                  </span>
+                                </label>
+
+                                <label class="block clearfix">
+                                  <span class="block input-icon input-icon-right">
+                                    <input required="required" type="password" class="form-control" placeholder="密码" name="password"/>
                                     <i class="ace-icon fa fa-lock"></i>
                                   </span>
                                 </label>
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input type="password" class="form-control" placeholder="重复密码" />
+                                    <input required="required" type="password" class="form-control" placeholder="重复密码" name="password_again"/>
                                     <i class="ace-icon fa fa-retweet"></i>
                                   </span>
                                 </label>
@@ -785,21 +785,19 @@
                                 <div class="space-4"></div>
 
                                 <div class="clearfix">
-                                  <button type="reset" class="width-30 pull-left btn btn-sm">
+                                  <button type="reset" class="width-45 pull-left btn btn-sm">
                                     <i class="ace-icon fa fa-refresh"></i>
                                     <span class="bigger-110">重填</span>
                                   </button>
 
-                                  <button id="teamSubmitButton" type="button" class="width-65 pull-right btn btn-sm btn-success">
+                                  <button id="teamSubmitButton" type="submit" class="width-45 pull-right btn btn-sm btn-success">
+                                    <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
                                     <span class="bigger-110">注册</span>
-
-                                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                   </button>
                                 </div>
                               </fieldset>
                             </form>
                           </div>
-
                         </div>
                       </div>
                     </div>
@@ -812,7 +810,6 @@
                   </div><!-- /.widget-body -->
                 </div><!-- /.signup-box -->
               </div><!-- /.position-relative -->
-
             </div>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -876,42 +873,41 @@
                 $(this).css('active');
               });
 
-              $('.login-btn').click(function(){
-                type = $(this).closest('.tab-pane').find('.btn.active input').attr('name');
-                switch(type){
-                  case "student":
-                    window.location.href = "/student";
-                    break;
-                  case "team":
-                    window.location.href = "/team";
-                    break;
-                  case "club":
-                    window.location.href = "/club";
-                    break;
-                  case "committee":
-                    window.location.href = "/committee";
-                    break;
-                  case "coach":
-                    window.location.href = "/coach";
-                    break;
-                  case "judge":
-                    window.location.href = "/judge";
-                    break;
-                  case "admin":
-                    window.location.href = "/centre";
-                    break;
-                  default:
-                    break;
-                }
-
-              });
-              //	$('#students').click(function () {
-                //		$("#studnetsLabel").css("font-weight","bold");
-                //		$("#studnetsLabel").css("color","#0066FF ");
-                //		$("#teamsLabel").css("font-weight","normal");
-                //		$("#teamsLabel").css("color","black");
-                //		$("#adminLabel").css("font-weight","normal");
-                //		$("#adminLabel").css("color","black");
+              //$('.login-btn').click(function(){
+                //  type = $(this).closest('.tab-pane').find('.btn.active input').attr('name');
+                //  switch(type){
+                  //    case "student":
+                    //      window.location.href = "/student";
+                    //      break;
+                  //    case "team":
+                    //      window.location.href = "/team";
+                    //      break;
+                  //    //case "club":
+                    //    //  window.location.href = "/club";
+                    //    //  break;
+                  //    //case "committee":
+                    //    //  window.location.href = "/committee";
+                    //    //  break;
+                  //    case "coach":
+                    //      window.location.href = "/coach";
+                    //      break;
+                  //    case "judge":
+                    //      window.location.href = "/judge";
+                    //      break;
+                  //    case "admin":
+                    //      window.location.href = "/centre";
+                    //      break;
+                  //    default:
+                    //      break;
+                    //  }
+            //});
+            //	$('#students').click(function () {
+              //		$("#studnetsLabel").css("font-weight","bold");
+              //		$("#studnetsLabel").css("color","#0066FF ");
+              //		$("#teamsLabel").css("font-weight","normal");
+              //		$("#teamsLabel").css("color","black");
+              //		$("#adminLabel").css("font-weight","normal");
+              //		$("#adminLabel").css("color","black");
             //	});
             //	$('#teams').click(function () {
               //		$("#teamsLabel").css("font-weight","bold");
@@ -953,6 +949,7 @@
               $("#clubForm").hide();
               $("#teamForm").show();
             });
+
             //email验证
             $("#emailLabel").blur(function () {
               var email = $("#emailLabel").val();
@@ -971,6 +968,7 @@
               }
 
             });
+
             //phone验证
             $("#phoneLabel").blur(function () {
               var phone = $("#phoneLabel").val();
@@ -992,6 +990,7 @@
               }
 
             });
+
             //id 验证
             $("#idLabel").blur(function () {
               var id = $("#idLabel").val();
