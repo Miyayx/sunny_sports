@@ -91,23 +91,31 @@
                               请输入您的帐号密码
                             </h4>
                             <form action="login" method="post">
+                              {% csrf_token %}
 
-                              <div class="btn-group" data-toggle="buttons">
-                                <button class="btn btn-primary btn-sm active">
-                                  <input type="radio" name="role" value="student" /> 学员
-                                </button>
+                              <fieldset> 
+                                <!--
+                                <div class="btn-group" data-toggle="buttons">
+                                  <button class="btn btn-primary btn-sm active">
+                                    <input type="radio" name="role" value="student" /> 学员
+                                  </button>
 
-                                <button class="btn btn-primary btn-sm">
-                                  <input type="radio" name="role" value="judge" /> 裁判
-                                </button>
+                                  <button class="btn btn-primary btn-sm">
+                                    <input type="radio" name="role" value="judge" /> 裁判
+                                  </button>
 
-                                <button class="btn btn-primary btn-sm">
-                                  <input type="radio" name="role" value="coach"/> 教练
-                                </button>
-                              </div>  
+                                  <button class="btn btn-primary btn-sm">
+                                    <input type="radio" name="role" value="coach"/> 教练
+                                  </button>
+                                </div>  
+                                -->
+                                    <input type="radio" name="role" value="student"checked="true" /> 学员
+                                    <input type="radio" name="role" value="judge" /> 裁判
+                                    <input type="radio" name="role" value="coach"/> 教练
 
-                              {% include "components/login.html"%}
+                                {% include "components/login.html"%}
 
+                              </fieldset>
                             </form>
                           </div>
 
@@ -118,19 +126,21 @@
                             </h4>
 
                             <form action="login" method="post">
+                              {% csrf_token %}
+                              <!--
                               <div class="btn-group" data-toggle="buttons">
                                 <button class="btn btn-primary btn-sm active">
                                   <input type="radio" name="role" value="club" /> 俱乐部
                                 </button>
-                                <!--
                                 <button class="btn btn-primary btn-sm">
                                   <input type="radio" name="role" value="team" /> 参赛队
                                 </button>
                                 <button class="btn btn-primary btn-sm">
                                   <input type="radio" name="role" value="committee" /> 通级委员会
                                 </button>
-                                -->
                               </div>  
+                              -->
+                                  <input type="radio" name="role" value="club" checked="true"/> 俱乐部
                               {% include "components/login.html"%}
                             </form>
                           </div>
@@ -143,11 +153,15 @@
                             </h4>
 
                             <form>
+                              {% csrf_token %}
+                              <!--
                               <div class="btn-group" data-toggle="buttons">
                                 <button class="btn btn-primary btn-sm active">
                                   <input type="radio" name="role" value="admin" /> 管理员
                                 </button>
                               </div>  
+                              -->
+                              <input type="hidden" name="role" value="admin"/>
 
                               {% include "components/login.html"%}
                             </form>
@@ -189,6 +203,7 @@
                       </p>
 
                       <form>
+                              {% csrf_token %}
                         <fieldset>
                           <label class="block clearfix">
                             <span class="block input-icon input-icon-right">
@@ -258,11 +273,12 @@
                             <div class="space"></div>
 
                             <form id="studentForm" style="display: none;" action="register" method="post">
+                              {% csrf_token %}
                               <input type="hidden" name="role2" value="student"/>
                               <fieldset>
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <input required="required" ype="text" class="form-control" placeholder="姓名" />
+                                    <input required="required" type="text" class="form-control" placeholder="姓名" />
                                     <i class="ace-icon fa fa-user"></i>
                                   </span>
                                 </label>
@@ -304,6 +320,7 @@
                             </form>
 
                             <form id="judgeForm" style="display: none;" action="register" method="post">
+                              {% csrf_token %}
                               <input type="hidden" name="role2" value="judge"/>
                               <fieldset>
                                 <label class="block clearfix">
@@ -373,6 +390,7 @@
                             </form>
 
                             <form id="coachForm" style="display: none;" action="register" method="post">
+                              {% csrf_token %}
                               <input type="hidden" name="role2" value="coach"/>
                               <fieldset>
                                 <label class="block clearfix">
@@ -469,6 +487,7 @@
                             <div class="space"></div>
 
                             <form id="clubForm"  action="register" method="post">
+                              {% csrf_token %}
                               <input type="hidden" name="role2" value="club"/>
                               <fieldset>
                                 <label class="block clearfix">
@@ -517,6 +536,7 @@
 
                             <!--
                             <form id="teamForm" style="display: none;" action="register" method="post">
+                              {% csrf_token %}
                               <input type="hidden" name="role2" value="team"/>
                               <fieldset>
                                 <label class="block clearfix">

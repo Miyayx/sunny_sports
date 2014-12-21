@@ -3,30 +3,28 @@
 from django.template.loader import get_template
 from django.template import Context
 from django.http import HttpResponse
+from django.core.context_processors import csrf
+from django.shortcuts import render_to_response
 
 from .mapping import PAGE_MAPPING
 
 def home(req):
-
-    t = get_template(PAGE_MAPPING["index"])
-    c = Context({})
-    html = t.render(c)
-    return HttpResponse(html)
+    c = {}
+    c.update(csrf(req))
+    return render_to_response(PAGE_MAPPING["index"], c)
 
 def all(req):
     url = req.path[req.path.index("/"):].strip("/")
     print ("url:",url)
 
-    t = get_template(PAGE_MAPPING[url])
-    c = Context({})
-    html = t.render(c)
-    return HttpResponse(html)
+    c = {}
+    c.update(csrf(req))
+    return render_to_response(PAGE_MAPPING[url], c)
 
 def login(req):
-    t = get_template('login.html')
-    c = Context({'first',1})
-    html = t.render(c)
-    return HttpResponse(html)
+    c = {}
+    c.update(csrf(req))
+    return render_to_response("login.html", c)
 
 def password(req):
     pass
