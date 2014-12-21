@@ -2,7 +2,7 @@
 #-*-coding:utf8-*-
 from django.db import models
 
-class Coach_Org(models.Model):
+class Centre(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=20)
     real_name = models.CharField(max_length=4)
