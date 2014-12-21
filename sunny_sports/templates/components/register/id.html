@@ -27,10 +27,10 @@
       if (!flag) {
         $(this).closest("form").find(".idErr").show();
         $(this).closest("form").find(".idErr").text("身份证号应为18位数字");
-        $(this).closest("form").find("input[type=submit]").attr("disabled", true);
+        $(this).closest("form").find("button[type=submit]").attr("disabled", true);
       } else {
         $(this).closest("form").find(".idErr").hide();
-        $(this).closest("form").find("input[type=submit]").attr("disabled", false);
+        $(this).closest("form").find("button[type=submit]").attr("disabled", false);
       }
     });
   });

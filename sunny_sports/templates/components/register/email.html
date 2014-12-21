@@ -20,10 +20,10 @@
       if (!flag) {
         $(this).closest("form").find(".emailErr").show();
         $(this).closest("form").find(".emailErr").text("邮箱格式错误");
-        $("input[type=submit]").attr("disabled", true);
+        $(this).closest("form").find("button[type=submit]").attr("disabled", true);
       } else {
         $(this).closest("form").find(".emailErr").hide();
-        $("input[type=submit]").attr("disabled", false);
+        $(this).closest("form").find("button[type=submit]").attr("disabled", false);
       }
 
     });
