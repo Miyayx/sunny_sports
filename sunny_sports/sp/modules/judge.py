@@ -4,7 +4,6 @@
 from django.db import models
 
 class JudgeProperty(models.Model):
-    stu_id = models.CharField(max_length=15)
     name = models.CharField(max_length=20)
     sex = models.CharField(max_length=4)
     email = models.EmailField()

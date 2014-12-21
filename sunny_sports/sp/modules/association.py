@@ -22,7 +22,7 @@ class Student(models.Model):
         app_label='sp'
     
 class Judge(models.Model):
-    property = models.ForeignKey(StudentProperty)
+    property = models.ForeignKey(JudgeProperty)
     club_id = models.IntegerField()
     level = models.IntegerField()
     status = models.IntegerField()
@@ -31,7 +31,7 @@ class Judge(models.Model):
         app_label='sp'
 
 class Coach(models.Model):
-    property = models.ForeignKey(StudentProperty)
+    property = models.ForeignKey(CoachProperty)
     club_id = models.IntegerField()
     level = models.IntegerField()
     status = models.IntegerField()

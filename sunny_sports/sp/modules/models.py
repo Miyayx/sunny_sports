@@ -74,3 +74,30 @@ class StudentEvent(models.Model):
     score = models.IntegerField()
     award = models.CharField(max_length=50)
     
+class Code(models.Model):
+    phone = models.IntegerField()
+    code = models.CharField(max_length=10)
+    time = models.DateTimeField()
+    
+class Train(models.Model):
+    name = models.CharField(max_length=30)
+    demo = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    level = models.IntegerField()
+    max = models.IntegerField()
+    money = models.IntegerField()
+    org_id = models.IntegerField()
+    reg_stime = models.DateTimeField()
+    reg_etime = models.DateTimeField()
+    train_stime = models.DateTimeField()
+    
+    
+class Coach_Train(models.Model):
+    coach_id = models.IntegerField()
+    train_id = models.IntegerField()
+    number = models.IntegerField()
+    score = models.IntegerField()
+    status = models.IntegerField()
+    certificate = models.CharField(max_length=100)
+    get_time = models.DateTimeField()
+    
