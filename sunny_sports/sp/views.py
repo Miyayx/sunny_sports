@@ -49,10 +49,13 @@ def index(req):
     return render_to_response('index.html', {'username': username}, context_instance=RequestContext(req))
           
 def logout(req):
+    c = {}
+    c.update(csrf(req))
+    print "logout"
     session = req.session.get('username', False)
     if session:
         del req.session['username']
-        return render_to_response('login.html',context_instance=RequestContext(req))
+        return render_to_response('login.html',c)
     else:
         return HttpResponse('please login!')
 
