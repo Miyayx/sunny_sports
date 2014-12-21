@@ -68,6 +68,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+AUTH_PROFILE_MODULE = 'sp.User'     
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

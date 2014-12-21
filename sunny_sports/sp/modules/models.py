@@ -15,11 +15,15 @@ from association import *
 
 class Role(models.Model):
     name = models.CharField(max_length=10)
+    class Meta:
+        app_label='sp'
     
 class User(models.Model):
     username = models.CharField(max_length=15)
     password = models.CharField(max_length=32)
     role = models.ForeignKey(Role)
+    class Meta:
+        app_label='sp'
     
 class Game(models.Model):
     name = models.CharField(max_length=50)
@@ -32,6 +36,8 @@ class Game(models.Model):
     team_max = models.IntegerField()
     team_min = models.IntegerField()
     status = models.IntegerField()
+    class Meta:
+        app_label='sp'
     
 class StudentTeam(models.Model):
     team = models.ForeignKey(Team)
@@ -39,20 +45,28 @@ class StudentTeam(models.Model):
     game = models.ForeignKey(Game)
     stu_number = models.CharField(max_length=20)
     stu_status = models.IntegerField()
+    class Meta:
+        app_label='sp'
     
 class Event(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField(max_length=200)
+    class Meta:
+        app_label='sp'
     
 class Umpire(models.Model):
     name = models.CharField(max_length=10)
     level = models.IntegerField()
+    class Meta:
+        app_label='sp'
     
 class GameEvent(models.Model):
     game = models.ForeignKey(Game)
     event = models.ForeignKey(Event)
     property = models.IntegerField()
     umpires = models.CharField(max_length=20)
+    class Meta:
+        app_label='sp'
     
 class TeamGame(models.Model):
     team = models.ForeignKey(Team)
@@ -66,6 +80,8 @@ class TeamGame(models.Model):
     award = models.CharField(max_length=50)
     pay_status = models.IntegerField()
     members = models.CharField(max_length=100)
+    class Meta:
+        app_label='sp'
     
 class StudentEvent(models.Model):
     event = models.ForeignKey(GameEvent)
@@ -73,6 +89,8 @@ class StudentEvent(models.Model):
     team_num = models.CharField(max_length=20)
     score = models.IntegerField()
     award = models.CharField(max_length=50)
+    class Meta:
+        app_label='sp'
     
 class Code(models.Model):
     phone = models.IntegerField()
