@@ -1,16 +1,17 @@
 from django.contrib import admin
 
 # Register your models here.
-from modules import *
-from modules.models import *
+from models import *
+from models.models import *
 
-admin.site.register(student.StudentProperty)
-admin.site.register(coach.CoachProperty)
-admin.site.register(judge.JudgeProperty)
-admin.site.register(team.Team)
+admin.site.register(role.StudentProperty)
+admin.site.register(role.CoachProperty)
+admin.site.register(role.JudgeProperty)
+admin.site.register(game.Team)
 admin.site.register(association.Student)
 admin.site.register(association.Coach)
 admin.site.register(association.Judge)
+admin.site.register(train.Train)
 admin.site.register(Role)
 admin.site.register(User)
 admin.site.register(Game)

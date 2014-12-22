@@ -62,12 +62,16 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'mysql.connector.django',
         'NAME': 'sunny_sports',
-        'USER': 'root',
-        'PASSWORD': '123',
-        'HOST': '127.0.0.1',
+        #'USER': 'root',
+        #'PASSWORD': '123',
+        #'HOST': '127.0.0.1',
+        'USER': 'queen',
+        'PASSWORD': 'dorm',
+        'HOST': '104.236.146.204',
         'PORT': '3306',
     }
 }
+
 AUTH_PROFILE_MODULE = 'sp.User'     
 
 # Internationalization

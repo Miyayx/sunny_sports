@@ -11,3 +11,5 @@ class Club(models.Model):
     county = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     level = models.IntegerField()
+    class Meta:
+        app_label='sp'
