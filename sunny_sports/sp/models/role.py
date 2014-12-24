@@ -5,7 +5,7 @@ from django.db import models
 from models import *
 
 class PersonProperty(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(MyUser)
     name = models.CharField(max_length=20)
     sex = models.CharField(max_length=4)
     email = models.EmailField()

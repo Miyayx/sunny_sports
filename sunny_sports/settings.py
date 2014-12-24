@@ -72,7 +72,8 @@ DATABASES = {
     }
 }
 
-AUTH_PROFILE_MODULE = 'sp.User'     
+AUTH_USER_MODEL = 'sp.MyUser'     
+AUTHENTICATION_BACKENDS = ( 'sunny_sports.sp.backend.MyBackend', )
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

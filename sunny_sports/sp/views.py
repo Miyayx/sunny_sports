@@ -1,48 +1,63 @@
-# -*- coding:utf-8-*-
+# -*- coding:utf-8 -*-
 from django import forms
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+#from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate
+
+from django.views.decorators.http import require_http_methods
+
+from sunny_sports.sp.models import *
+from sunny_sports.sp.backend import MyBackend 
+
+from forms import *
           
 # Create your views here.
-
-class UserForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget = forms.PasswordInput)
           
+@require_http_methods(["POST"])
 def regist(req):
-    if req.method == 'POST':
-        uf = UserForm(req.POST)
-        if uf.is_valid():
-            username = uf.cleaned_data['username']
-            password = uf.cleaned_data['password']
-            User.objects.create(username = username, password = password)
-            return HttpResponseRedirect('/login/')
-    else:
-        uf = UserForm()
-    return render_to_response('regist.html', {'uf': uf}, context_instance=RequestContext(req))
-          
-def login(req):
     c = {}
     c.update(csrf(req))
     if req.method == 'POST':
-        username = req.POST.get('username','Unknow')              #用户名
-        password = req.POST.get('password')                #密码
-        role     = req.POST.get('role')                #
-        #user = User.objects.filter(username = username, password = password, role=role)
-        #if user:
-        print role
-        print req.POST.keys()
-        req.session['username'] = username
-        if role in ["student","coach","judge","club"]:
-            return HttpResponseRedirect('/'+role)
-        elif role == "admin":
-            return HttpResponseRedirect('/'+role)
-        else:
-            return HttpResponseRedirect('/')
+        phone = req.POST.get('username')
+        password = req.POST.get('password')
+        role     = req.POST.get('role')                
+        MyUser.objects.create(phone = phone, password = password, role = role)
+        return HttpResponseRedirect('/login/')
     else:
-        return HttpResponseRedirect('/')
+        uf = UserForm()
+    return render_to_response('login.html')
+          
+@require_http_methods(["POST"])
+def login(req):
+    if req.method == 'POST':
+        un = req.POST['username']
+        pw = req.POST['password']
+        role = req.POST['role']
+        user = None
+        print un
+        if un and len(un) >0: #如果用用户名
+            user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
+        if user is not None:
+            # the password verified for the user
+            if user.is_active:
+                print("User is valid, active and authenticated")
+                req.session['username'] = un
+                print "role:",role
+                if role in ["student","coach","judge","club"]:
+                    return HttpResponseRedirect('/'+role)
+                elif role == "admin":
+                    return HttpResponseRedirect('/'+role)
+                else:
+                    return HttpResponseRedirect('/')
+            else:
+                print("The password is valid, but the account has been disabled!")
+        else:
+        # the authentication system was unable to verify the username and password
+            print("The username and password were incorrect.")
+            return HttpResponseRedirect('/')
           
 def index(req):
     username = req.session.get('username', 'anybody')
