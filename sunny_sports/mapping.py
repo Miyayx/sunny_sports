@@ -52,6 +52,7 @@ PAGE_MAPPING = {
         ### 培训机构 ###
         "coach_org":"coach_org/base.html",
         "coach_org/train_publish":"coach_org/train_publish.html",
+        "coach_org/enroll":"coach_org/enroll.html",
         "coach_org/train_query":"coach_org/train_query.html",
         "coach_org/score_input":"coach_org/score_input.html",
         "coach_org/password":"coach_org/password.html",

@@ -6,7 +6,7 @@
   <ul class="nav nav-list">
     <li class="hsub">
     <a href="#" class="dropdown-toggle">
-      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 培训管理 </span>
+      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 培训与考试管理 </span>
       <b class="arrow fa fa-angle-down"></b>
     </a>
     <b class="arrow"></b>
@@ -14,112 +14,15 @@
         <li class="">
         <a data-url="admin/train_publish" href="#page/admin/train_publish">
             <i class="menu-icon fa fa-caret-right"></i>
-            发布培训信息
+            考试结果审核
         </a>
         <b class="arrow"></b>
         </li>
         
         <li class="">
-        <a data-url="admin/train_input" href="#page/admin/train_input">
-            <i class="menu-icon fa fa-caret-right"></i>
-            培训信息录入
-        </a>
-        <b class="arrow"></b>
-        </li>
-        <li class="">
         <a data-url="admin/train_query" href="#page/admin/train_query">
             <i class="menu-icon fa fa-caret-right"></i>
-            培训信息查看
-        </a>
-        <b class="arrow"></b>
-        </li>
-    </ul>
-    </li>
-
-    <li class="hsub">
-    <a href="#" class="dropdown-toggle">
-      <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 考试管理 </span>
-      <b class="arrow fa fa-angle-down"></b>
-    </a>
-    <b class="arrow"></b>
-    <ul class="submenu">
-        <li class="">
-        <a data-url="admin/test_publish" href="#page/admin/test_publish">
-            <i class="menu-icon fa fa-caret-right"></i>
-            发布考试信息
-        </a>
-        <b class="arrow"></b>
-        </li>
-
-        <li class="">
-        <a data-url="admin/test_input" href="#page/admin/test_input">
-            <i class="menu-icon fa fa-caret-right"></i>
-            考试信息录入
-        </a>
-        <b class="arrow"></b>
-        </li>
-        <li class="">
-        <a data-url="admin/test_query" href="#page/admin/test_query">
-            <i class="menu-icon fa fa-caret-right"></i>
-            考试信息查看
-        </a>
-        <b class="arrow"></b>
-        </li>
-    </ul>
-    </li>
-
-    <li class="hsub">
-    <a  href="#" class="dropdown-toggle">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 俱乐部管理 </span>
-        <b class="arrow fa fa-angle-down"></b>
-    </a>
-    <b class="arrow"></b>
-    <ul class="submenu">
-        <li class="">
-        <a data-url="admin/club_evaluate" href="#page/admin/club_evaluate">
-            <i class="menu-icon fa fa-caret-right"></i>
-            俱乐部资格评定
-        </a>
-        <b class="arrow"></b>
-        </li>
-
-        <li class="">
-        <a data-url="admin/annual_check" href="#page/admin/annual_check">
-            <i class="menu-icon fa fa-caret-right"></i>
-            俱乐部年审
-        </a>
-        <b class="arrow"></b>
-        </li>
-    </ul>
-    </li>
-
-    <li class="hsub">
-    <a href="#" class="dropdown-toggle">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛管理</span>
-        <b class="arrow fa fa-angle-down"></b>
-    </a>
-
-    <b class="arrow"></b>
-    <ul class="submenu">
-        <li class="">
-        <a data-url="admin/game_admin" href="#page/admin/game_admin">
-            <i class="menu-icon fa fa-caret-right"></i>
-            正在进行比赛
-        </a>
-        <b class="arrow"></b>
-        </li>
-
-        <li class="">
-        <a data-url="admin/old_game" href="#page/admin/old_game">
-            <i class="menu-icon fa fa-caret-right"></i>
-            历史比赛
-        </a>
-        <b class="arrow"></b>
-        </li>
-        <li class="">
-        <a data-url="admin/publish" href="#page/admin/publish">
-            <i class="menu-icon fa fa-caret-right"></i>
-            发布比赛
+            历史信息查看
         </a>
         <b class="arrow"></b>
         </li>
@@ -134,29 +37,6 @@
     <b class="arrow"></b>
     </li>
 
-    <li class="">
-    <a data-url="admin/ratio_setting" href="#page/admin/ratio_setting">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 设定报名费比例</span>
-    </a>
-
-    <b class="arrow"></b>
-    </li>
-
-    <li class="">
-    <a data-url="admin/score_elist" href="#page/admin/score_elist">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text">（暂时）录入成绩</span>
-    </a>
-
-    <b class="arrow"></b>
-    </li>
-
-    <li class="">
-    <a data-url="admin/group_check" href="#page/admin/group_check">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text">（暂时）审核</span>
-    </a>
-
-    <b class="arrow"></b>
-    </li>
 
 </ul><!-- /.nav-list -->
 {% endblock %}
@@ -165,7 +45,7 @@
 <script>
     $(function(){
         if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-            window.location.href=window.location.origin+window.location.pathname+"#page/admin/games";
+            //window.location.href=window.location.origin+window.location.pathname+"#page/admin/password";
         }
     });
 
