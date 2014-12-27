@@ -9,21 +9,10 @@ from role import *
 from club import *
 from game import *
 from committee import *
-from coach_org import *
 from association import *
+from status import *
 
 # Create your models here.
-
-ROLE_LIST = (
-        (0, 'centre'),
-        (1, 'coach_org'),
-        (2, 'student'),
-        (3, 'judge'),
-        (4, 'coach'),
-        (5, 'club'),
-        (6, 'team'),
-        (7, 'committee'),
-        )
 
 class Role(models.Model):
     role = models.IntegerField(choices=ROLE_LIST, unique=True)
