@@ -18,11 +18,8 @@ urlpatterns = patterns('',
         url(r'^team/', TemplateView.as_view(template_name='team/empty.html')),
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
         url(r'^coach$', TemplateView.as_view(template_name='coach/base.html')),
-        url(r'^coach/', views.all),
         url(r'^centre$', TemplateView.as_view(template_name='centre/base.html')),
-        url(r'^centre/', views.all),
         url(r'^coach_org$', TemplateView.as_view(template_name='coach_org/base.html')),
-        url(r'^coach_org/', views.all),
 
         #url(r'^blog/', include('blog.urls')),
 
@@ -31,3 +28,22 @@ urlpatterns = patterns('',
         url(r'^admin/', include(admin.site.urls)),
         )
 
+# centre
+urlpatterns += patterns('sunny_sports.sp.centre_views',
+        url(r'^centre/test_check/$','test_check'),
+        url(r'^centre/test_check/(?P<train_id>\d{10})/$','test_check'),
+        url(r'^centre/history_view$','history_view'),
+        url(r'^centre/history_view/(?P<train_id>\d{10})/$','history_view'),
+        #url(r'^centre/', views.all),
+        )
+
+# coach_org
+urlpatterns += patterns('sunny_sports.sp',
+        url(r'^coach_org/', views.all), #你们自己的定义都加在这句话上面哦,但是它的优先级比能传参数的url高，如果需要url传参，把它注释了
+        )
+
+# coach
+urlpatterns += patterns('sunny_sports.sp',
+        url(r'^coach/', views.all), #你们自己的定义都加在这句话上面哦,但是它的优先级比能传参数的url高，如果需要url传参，把它注释了
+
+        )
