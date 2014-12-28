@@ -9,15 +9,19 @@ from game import *
 from train import *
 from committee import *
 
+def make_ct_num():
+    import random
+    return random.randint(0,100)
+
+
 class Coach_Train(models.Model):
-    stu_num = models.IntegerField()
+    number = models.IntegerField(default=make_ct_num())
     coach = models.ForeignKey(Coach)
     train = models.ForeignKey(Train)
-    number = models.IntegerField()
-    score = models.IntegerField() 
-    status = models.IntegerField()
-    certificate = models.CharField(max_length=100)
-    get_time = models.DateTimeField()
+    score = models.IntegerField(default=0) 
+    status = models.IntegerField(default=0)
+    certificate = models.CharField(max_length=100, null=True)
+    get_time = models.DateTimeField(null=True)
     class Meta:
         app_label='sp'
     

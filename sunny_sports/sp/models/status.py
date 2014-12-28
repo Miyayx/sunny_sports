@@ -4,11 +4,16 @@ ROLE_LIST = (
         (0, 'centre'),
         (1, 'coach_org'),
         (2, 'student'),
-        (3, 'judge'),
-        (4, 'coach'),
+        (3, 'coach'),
+        (4, 'judge'),
         (5, 'club'),
         (6, 'team'),
         (7, 'committee'),
+        )
+
+SEX = (
+        (0,'male'),
+        (1,'female'),
         )
 
 #成绩是否发布

@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
+
+from uuid import uuid4
+
 from django.db import models
 from django.contrib.auth.models import (
         UserManager, BaseUserManager, AbstractBaseUser
@@ -15,7 +18,7 @@ from status import *
 # Create your models here.
 
 class Role(models.Model):
-    role = models.IntegerField(choices=ROLE_LIST, unique=True)
+    role = models.IntegerField(choices=ROLE_LIST, unique=True, primary_key=True)
     class Meta:
         app_label='sp'
 
@@ -31,8 +34,8 @@ class MyUserManager(BaseUserManager):
 
         user = self.model(
             phone=phone,
-            nickname=nickname,
             email=email,
+            nickname=nickname,
         )
 
         user.set_password(password)
@@ -54,13 +57,14 @@ class MyUserManager(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser):
+    id = models.CharField(default=uuid4(), primary_key=True, max_length=40)
     role = models.ManyToManyField(Role)
     nickname = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    email    = models.EmailField(max_length=255, unique=True, null=True, blank=True)
+    email    = models.EmailField(max_length=255, unique=True, blank=True)
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
     #password = models.CharField(max_length=64) #password 在abstract class里有
 
-    regist_time = models.DateTimeField(auto_now_add=True, blank=True)
+    regist_time = models.DateTimeField(auto_now_add=True,blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
