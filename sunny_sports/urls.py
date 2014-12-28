@@ -38,12 +38,14 @@ urlpatterns += patterns('sunny_sports.sp.centre_views',
         )
 
 # coach_org
-urlpatterns += patterns('sunny_sports.sp',
+urlpatterns += patterns('sunny_sports.sp.coach_org_views',
         url(r'^coach_org/', views.all), #你们自己的定义都加在这句话上面哦,但是它的优先级比能传参数的url高，如果需要url传参，把它注释了
         )
 
 # coach
-urlpatterns += patterns('sunny_sports.sp',
-        url(r'^coach/', views.all), #你们自己的定义都加在这句话上面哦,但是它的优先级比能传参数的url高，如果需要url传参，把它注释了
+urlpatterns += patterns('sunny_sports.sp.coach_views',
+        url(r'^coach/home$', 'home'),
+        url(r'^coach/center$', 'center'),
+        url(r'^coach/train$', 'train'),
 
         )

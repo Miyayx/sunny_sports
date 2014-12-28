@@ -13,7 +13,7 @@ from sunny_sports.sp.models.models import *
 def test_check(req, train_id=None):
     print "test_check, id %s"%train_id
     if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
-        c_t = Coach_Train.objects.filter(train_id=train_id)
+        c_t = Coach_Train.objects.filter(train_id=train_id, train__pub_status=0)
         #train = Train.objects.get(id=train_id)
         #filter return a list
         #get return an item
@@ -40,7 +40,7 @@ def check_unpass(req):
 
 def history_view(req, train_id=None):
     if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
-        c_t = Coach_Train.objects.filter(train_id=train_id)
+        c_t = Coach_Train.objects.filter(train_id=train_id, train__pub_status=1)
         train = c_t[0].train
         return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train})
     else:#否则返回课程列表

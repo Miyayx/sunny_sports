@@ -37,14 +37,13 @@ def login(req):
         pw = req.POST['password']
         role = req.POST['role']
         user = None
-        print un
         if un and len(un) >0: #如果用用户名
             user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
         if user is not None:
             # the password verified for the user
             if user.is_active:
                 print("User is valid, active and authenticated")
-                req.session['username'] = un
+                req.session['uuid'] = user.id
                 print "role:",role
                 if role in ["student","coach","judge","club"]:
                     return HttpResponseRedirect('/'+role)
