@@ -1,0 +1,1131 @@
+[
+{
+  "fields": {
+    "model": "logentry",
+    "name": "log entry",
+    "app_label": "admin"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 1
+},
+{
+  "fields": {
+    "model": "permission",
+    "name": "permission",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 2
+},
+{
+  "fields": {
+    "model": "group",
+    "name": "group",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 3
+},
+{
+  "fields": {
+    "model": "contenttype",
+    "name": "content type",
+    "app_label": "contenttypes"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 4
+},
+{
+  "fields": {
+    "model": "session",
+    "name": "session",
+    "app_label": "sessions"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 5
+},
+{
+  "fields": {
+    "model": "club",
+    "name": "club",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 6
+},
+{
+  "fields": {
+    "model": "game",
+    "name": "game",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 7
+},
+{
+  "fields": {
+    "model": "event",
+    "name": "event",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 8
+},
+{
+  "fields": {
+    "model": "umpire",
+    "name": "umpire",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 9
+},
+{
+  "fields": {
+    "model": "team",
+    "name": "team",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 10
+},
+{
+  "fields": {
+    "model": "role",
+    "name": "role",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 11
+},
+{
+  "fields": {
+    "model": "myuser",
+    "name": "my user",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 12
+},
+{
+  "fields": {
+    "model": "code",
+    "name": "code",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 13
+},
+{
+  "fields": {
+    "model": "studentproperty",
+    "name": "student property",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 14
+},
+{
+  "fields": {
+    "model": "coachproperty",
+    "name": "coach property",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 15
+},
+{
+  "fields": {
+    "model": "judgeproperty",
+    "name": "judge property",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 16
+},
+{
+  "fields": {
+    "model": "student",
+    "name": "student",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 17
+},
+{
+  "fields": {
+    "model": "judge",
+    "name": "judge",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 18
+},
+{
+  "fields": {
+    "model": "coach",
+    "name": "coach",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 19
+},
+{
+  "fields": {
+    "model": "coach_org",
+    "name": "coach_ org",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 20
+},
+{
+  "fields": {
+    "model": "train",
+    "name": "train",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 21
+},
+{
+  "fields": {
+    "model": "coach_train",
+    "name": "coach_ train",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 22
+},
+{
+  "fields": {
+    "model": "centre",
+    "name": "centre",
+    "app_label": "sp"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 23
+},
+{
+  "fields": {},
+  "model": "sp.role",
+  "pk": 0
+},
+{
+  "fields": {},
+  "model": "sp.role",
+  "pk": 1
+},
+{
+  "fields": {},
+  "model": "sp.role",
+  "pk": 2
+},
+{
+  "fields": {},
+  "model": "sp.role",
+  "pk": 3
+},
+{
+  "fields": {},
+  "model": "sp.role",
+  "pk": 4
+},
+{
+  "fields": {},
+  "model": "sp.role",
+  "pk": 5
+},
+{
+  "fields": {
+    "role": [
+      4
+    ],
+    "is_active": true,
+    "phone": "44444",
+    "last_login": "2014-12-27T14:55:11Z",
+    "regist_time": "2014-12-27T14:55:11Z",
+    "is_admin": false,
+    "password": "pbkdf2_sha256$12000$n2zqaK8Hlkqt$oVxoDEMq9s6wN2CuXGvGJkUPg0Xyb4ayAB1iYi8fGA8=",
+    "nickname": "judge",
+    "email": "judge@test.com"
+  },
+  "model": "sp.myuser",
+  "pk": "2f4cbfbf-378b-48d1-84f2-46de23559c77"
+},
+{
+  "fields": {
+    "role": [
+      1
+    ],
+    "is_active": true,
+    "phone": "11111",
+    "last_login": "2014-12-27T14:54:18Z",
+    "regist_time": "2014-12-27T14:54:18Z",
+    "is_admin": false,
+    "password": "pbkdf2_sha256$12000$4KbC3yaC75iv$pv+1jnFpIMjN26Cqlrvc6va9W32pN+WT+AJEAVEvC+A=",
+    "nickname": "org1",
+    "email": "org1@test.com"
+  },
+  "model": "sp.myuser",
+  "pk": "3680919d-2c24-4e41-98b8-9ccccb82ab25"
+},
+{
+  "fields": {
+    "role": [
+      1
+    ],
+    "is_active": true,
+    "phone": "111111",
+    "last_login": "2014-12-27T14:54:34Z",
+    "regist_time": "2014-12-27T14:54:34Z",
+    "is_admin": false,
+    "password": "pbkdf2_sha256$12000$D0rOh4HDtOSL$TrAhEnrhzGWKBAI1A40TZi6KbYYSMts40H2jo0gnnYw=",
+    "nickname": "org2",
+    "email": "org2@test.com"
+  },
+  "model": "sp.myuser",
+  "pk": "55129dcc-07b2-4582-b4fa-22a2be7e0a15"
+},
+{
+  "fields": {
+    "role": [
+      5
+    ],
+    "is_active": true,
+    "phone": "55555",
+    "last_login": "2014-12-27T14:55:23Z",
+    "regist_time": "2014-12-27T14:55:23Z",
+    "is_admin": false,
+    "password": "pbkdf2_sha256$12000$evJe5A7wI3Un$Ujfr/HDEXuAYOXtDmKXczW9kuONUBlFFgh+TsikERs8=",
+    "nickname": "club",
+    "email": "club@test.com"
+  },
+  "model": "sp.myuser",
+  "pk": "9737f335-2e26-43c2-9e41-1cb70ee9e6bb"
+},
+{
+  "fields": {
+    "role": [
+      0
+    ],
+    "is_active": true,
+    "phone": "00000",
+    "last_login": "2014-12-27T14:53:56Z",
+    "regist_time": "2014-12-27T14:53:56Z",
+    "is_admin": true,
+    "password": "pbkdf2_sha256$12000$kuG7Eu6XnbTj$fFx51wfeszoMkA90WDBzGjlbe4Q5foQrnyaJKteGJjM=",
+    "nickname": "centre",
+    "email": ""
+  },
+  "model": "sp.myuser",
+  "pk": "9ada28aa-8fe9-457a-8320-833ede30e286"
+},
+{
+  "fields": {
+    "role": [
+      2
+    ],
+    "is_active": true,
+    "phone": "22222",
+    "last_login": "2014-12-27T14:54:46Z",
+    "regist_time": "2014-12-27T14:54:47Z",
+    "is_admin": false,
+    "password": "pbkdf2_sha256$12000$68zl11EaDDsS$phxO8x0Z9vQ8bXwfaI4MDK4VQW9ds/qYnwTSq1ydVpw=",
+    "nickname": "student",
+    "email": "student@test.com"
+  },
+  "model": "sp.myuser",
+  "pk": "dc8bb058-7a4f-4472-a80c-80dfb278a462"
+},
+{
+  "fields": {
+    "role": [
+      3
+    ],
+    "is_active": true,
+    "phone": "33333",
+    "last_login": "2014-12-27T14:54:58Z",
+    "regist_time": "2014-12-27T14:54:59Z",
+    "is_admin": false,
+    "password": "pbkdf2_sha256$12000$E0MzzSWwIz6t$YnmsSoDeVbi1yDTL/DamHSp5cQvjwOdgnxmFnTknTlY=",
+    "nickname": "coach",
+    "email": "coach@test.com"
+  },
+  "model": "sp.myuser",
+  "pk": "f7a02049-b31d-422f-90ba-7a3eaf9726f7"
+},
+{
+  "fields": {
+    "province": "",
+    "city": "",
+    "name": "kkk",
+    "photo": null,
+    "age": null,
+    "sex": 0,
+    "county": "",
+    "birthday": "1990-09-08",
+    "user": "f7a02049-b31d-422f-90ba-7a3eaf9726f7",
+    "address": "",
+    "company": "",
+    "identity": "1234567890"
+  },
+  "model": "sp.coachproperty",
+  "pk": 1
+},
+{
+  "fields": {
+    "status": 0,
+    "club": null,
+    "ifreg": false,
+    "p_level": 3,
+    "property": 1,
+    "t_level": 3
+  },
+  "model": "sp.coach",
+  "pk": 1
+},
+{
+  "fields": {
+    "org_name": "\u5357\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org111",
+    "county": "",
+    "user": "3680919d-2c24-4e41-98b8-9ccccb82ab25",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 1
+},
+{
+  "fields": {
+    "org_name": "\u5357\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org111",
+    "county": "",
+    "user": "3680919d-2c24-4e41-98b8-9ccccb82ab25",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 2
+},
+{
+  "fields": {
+    "org_name": "\u5317\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org222",
+    "county": "",
+    "user": "55129dcc-07b2-4582-b4fa-22a2be7e0a15",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 3
+},
+{
+  "fields": {
+    "org_name": "\u5357\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org111",
+    "county": "",
+    "user": "3680919d-2c24-4e41-98b8-9ccccb82ab25",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 4
+},
+{
+  "fields": {
+    "org_name": "\u5317\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org222",
+    "county": "",
+    "user": "55129dcc-07b2-4582-b4fa-22a2be7e0a15",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 5
+},
+{
+  "fields": {
+    "org_name": "\u5357\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org111",
+    "county": "",
+    "user": "3680919d-2c24-4e41-98b8-9ccccb82ab25",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 6
+},
+{
+  "fields": {
+    "org_name": "\u5317\u65b9\u673a\u6784",
+    "province": "",
+    "city": "",
+    "org_num": "org222",
+    "county": "",
+    "user": "55129dcc-07b2-4582-b4fa-22a2be7e0a15",
+    "address": ""
+  },
+  "model": "sp.coach_org",
+  "pk": 7
+},
+{
+  "fields": {
+    "demo": "",
+    "sub_status": 0,
+    "money": 200,
+    "name": "2013\u5e74\u7b2c\u4e00\u6b21\u57f9\u8bad",
+    "level": 3,
+    "max": 10,
+    "reg_stime": "2015-03-31T16:00:00Z",
+    "reg_etime": "2015-04-14T16:00:00Z",
+    "train_stime": "2015-04-30T16:00:00Z",
+    "address": "\u5317\u4eac\u4f53\u80b2\u4e2d\u5fc3",
+    "org": 6,
+    "pub_status": 0
+  },
+  "model": "sp.train",
+  "pk": "2014125135"
+},
+{
+  "fields": {
+    "status": 0,
+    "coach": 1,
+    "certificate": null,
+    "train": "2014125135",
+    "number": 45,
+    "score": 0,
+    "get_time": null
+  },
+  "model": "sp.coach_train",
+  "pk": 1
+},
+{
+  "fields": {
+    "codename": "add_logentry",
+    "name": "Can add log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 1
+},
+{
+  "fields": {
+    "codename": "change_logentry",
+    "name": "Can change log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 2
+},
+{
+  "fields": {
+    "codename": "delete_logentry",
+    "name": "Can delete log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 3
+},
+{
+  "fields": {
+    "codename": "add_permission",
+    "name": "Can add permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 4
+},
+{
+  "fields": {
+    "codename": "change_permission",
+    "name": "Can change permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 5
+},
+{
+  "fields": {
+    "codename": "delete_permission",
+    "name": "Can delete permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 6
+},
+{
+  "fields": {
+    "codename": "add_group",
+    "name": "Can add group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 7
+},
+{
+  "fields": {
+    "codename": "change_group",
+    "name": "Can change group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 8
+},
+{
+  "fields": {
+    "codename": "delete_group",
+    "name": "Can delete group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 9
+},
+{
+  "fields": {
+    "codename": "add_contenttype",
+    "name": "Can add content type",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 10
+},
+{
+  "fields": {
+    "codename": "change_contenttype",
+    "name": "Can change content type",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 11
+},
+{
+  "fields": {
+    "codename": "delete_contenttype",
+    "name": "Can delete content type",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 12
+},
+{
+  "fields": {
+    "codename": "add_session",
+    "name": "Can add session",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 13
+},
+{
+  "fields": {
+    "codename": "change_session",
+    "name": "Can change session",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 14
+},
+{
+  "fields": {
+    "codename": "delete_session",
+    "name": "Can delete session",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 15
+},
+{
+  "fields": {
+    "codename": "add_club",
+    "name": "Can add club",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 16
+},
+{
+  "fields": {
+    "codename": "change_club",
+    "name": "Can change club",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 17
+},
+{
+  "fields": {
+    "codename": "delete_club",
+    "name": "Can delete club",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 18
+},
+{
+  "fields": {
+    "codename": "add_game",
+    "name": "Can add game",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 19
+},
+{
+  "fields": {
+    "codename": "change_game",
+    "name": "Can change game",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 20
+},
+{
+  "fields": {
+    "codename": "delete_game",
+    "name": "Can delete game",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 21
+},
+{
+  "fields": {
+    "codename": "add_event",
+    "name": "Can add event",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 22
+},
+{
+  "fields": {
+    "codename": "change_event",
+    "name": "Can change event",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 23
+},
+{
+  "fields": {
+    "codename": "delete_event",
+    "name": "Can delete event",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 24
+},
+{
+  "fields": {
+    "codename": "add_umpire",
+    "name": "Can add umpire",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 25
+},
+{
+  "fields": {
+    "codename": "change_umpire",
+    "name": "Can change umpire",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 26
+},
+{
+  "fields": {
+    "codename": "delete_umpire",
+    "name": "Can delete umpire",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 27
+},
+{
+  "fields": {
+    "codename": "add_team",
+    "name": "Can add team",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 28
+},
+{
+  "fields": {
+    "codename": "change_team",
+    "name": "Can change team",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 29
+},
+{
+  "fields": {
+    "codename": "delete_team",
+    "name": "Can delete team",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 30
+},
+{
+  "fields": {
+    "codename": "add_role",
+    "name": "Can add role",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 31
+},
+{
+  "fields": {
+    "codename": "change_role",
+    "name": "Can change role",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 32
+},
+{
+  "fields": {
+    "codename": "delete_role",
+    "name": "Can delete role",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 33
+},
+{
+  "fields": {
+    "codename": "add_myuser",
+    "name": "Can add my user",
+    "content_type": 12
+  },
+  "model": "auth.permission",
+  "pk": 34
+},
+{
+  "fields": {
+    "codename": "change_myuser",
+    "name": "Can change my user",
+    "content_type": 12
+  },
+  "model": "auth.permission",
+  "pk": 35
+},
+{
+  "fields": {
+    "codename": "delete_myuser",
+    "name": "Can delete my user",
+    "content_type": 12
+  },
+  "model": "auth.permission",
+  "pk": 36
+},
+{
+  "fields": {
+    "codename": "add_code",
+    "name": "Can add code",
+    "content_type": 13
+  },
+  "model": "auth.permission",
+  "pk": 37
+},
+{
+  "fields": {
+    "codename": "change_code",
+    "name": "Can change code",
+    "content_type": 13
+  },
+  "model": "auth.permission",
+  "pk": 38
+},
+{
+  "fields": {
+    "codename": "delete_code",
+    "name": "Can delete code",
+    "content_type": 13
+  },
+  "model": "auth.permission",
+  "pk": 39
+},
+{
+  "fields": {
+    "codename": "add_studentproperty",
+    "name": "Can add student property",
+    "content_type": 14
+  },
+  "model": "auth.permission",
+  "pk": 40
+},
+{
+  "fields": {
+    "codename": "change_studentproperty",
+    "name": "Can change student property",
+    "content_type": 14
+  },
+  "model": "auth.permission",
+  "pk": 41
+},
+{
+  "fields": {
+    "codename": "delete_studentproperty",
+    "name": "Can delete student property",
+    "content_type": 14
+  },
+  "model": "auth.permission",
+  "pk": 42
+},
+{
+  "fields": {
+    "codename": "add_coachproperty",
+    "name": "Can add coach property",
+    "content_type": 15
+  },
+  "model": "auth.permission",
+  "pk": 43
+},
+{
+  "fields": {
+    "codename": "change_coachproperty",
+    "name": "Can change coach property",
+    "content_type": 15
+  },
+  "model": "auth.permission",
+  "pk": 44
+},
+{
+  "fields": {
+    "codename": "delete_coachproperty",
+    "name": "Can delete coach property",
+    "content_type": 15
+  },
+  "model": "auth.permission",
+  "pk": 45
+},
+{
+  "fields": {
+    "codename": "add_judgeproperty",
+    "name": "Can add judge property",
+    "content_type": 16
+  },
+  "model": "auth.permission",
+  "pk": 46
+},
+{
+  "fields": {
+    "codename": "change_judgeproperty",
+    "name": "Can change judge property",
+    "content_type": 16
+  },
+  "model": "auth.permission",
+  "pk": 47
+},
+{
+  "fields": {
+    "codename": "delete_judgeproperty",
+    "name": "Can delete judge property",
+    "content_type": 16
+  },
+  "model": "auth.permission",
+  "pk": 48
+},
+{
+  "fields": {
+    "codename": "add_student",
+    "name": "Can add student",
+    "content_type": 17
+  },
+  "model": "auth.permission",
+  "pk": 49
+},
+{
+  "fields": {
+    "codename": "change_student",
+    "name": "Can change student",
+    "content_type": 17
+  },
+  "model": "auth.permission",
+  "pk": 50
+},
+{
+  "fields": {
+    "codename": "delete_student",
+    "name": "Can delete student",
+    "content_type": 17
+  },
+  "model": "auth.permission",
+  "pk": 51
+},
+{
+  "fields": {
+    "codename": "add_judge",
+    "name": "Can add judge",
+    "content_type": 18
+  },
+  "model": "auth.permission",
+  "pk": 52
+},
+{
+  "fields": {
+    "codename": "change_judge",
+    "name": "Can change judge",
+    "content_type": 18
+  },
+  "model": "auth.permission",
+  "pk": 53
+},
+{
+  "fields": {
+    "codename": "delete_judge",
+    "name": "Can delete judge",
+    "content_type": 18
+  },
+  "model": "auth.permission",
+  "pk": 54
+},
+{
+  "fields": {
+    "codename": "add_coach",
+    "name": "Can add coach",
+    "content_type": 19
+  },
+  "model": "auth.permission",
+  "pk": 55
+},
+{
+  "fields": {
+    "codename": "change_coach",
+    "name": "Can change coach",
+    "content_type": 19
+  },
+  "model": "auth.permission",
+  "pk": 56
+},
+{
+  "fields": {
+    "codename": "delete_coach",
+    "name": "Can delete coach",
+    "content_type": 19
+  },
+  "model": "auth.permission",
+  "pk": 57
+},
+{
+  "fields": {
+    "codename": "add_coach_org",
+    "name": "Can add coach_ org",
+    "content_type": 20
+  },
+  "model": "auth.permission",
+  "pk": 58
+},
+{
+  "fields": {
+    "codename": "change_coach_org",
+    "name": "Can change coach_ org",
+    "content_type": 20
+  },
+  "model": "auth.permission",
+  "pk": 59
+},
+{
+  "fields": {
+    "codename": "delete_coach_org",
+    "name": "Can delete coach_ org",
+    "content_type": 20
+  },
+  "model": "auth.permission",
+  "pk": 60
+},
+{
+  "fields": {
+    "codename": "add_train",
+    "name": "Can add train",
+    "content_type": 21
+  },
+  "model": "auth.permission",
+  "pk": 61
+},
+{
+  "fields": {
+    "codename": "change_train",
+    "name": "Can change train",
+    "content_type": 21
+  },
+  "model": "auth.permission",
+  "pk": 62
+},
+{
+  "fields": {
+    "codename": "delete_train",
+    "name": "Can delete train",
+    "content_type": 21
+  },
+  "model": "auth.permission",
+  "pk": 63
+},
+{
+  "fields": {
+    "codename": "add_coach_train",
+    "name": "Can add coach_ train",
+    "content_type": 22
+  },
+  "model": "auth.permission",
+  "pk": 64
+},
+{
+  "fields": {
+    "codename": "change_coach_train",
+    "name": "Can change coach_ train",
+    "content_type": 22
+  },
+  "model": "auth.permission",
+  "pk": 65
+},
+{
+  "fields": {
+    "codename": "delete_coach_train",
+    "name": "Can delete coach_ train",
+    "content_type": 22
+  },
+  "model": "auth.permission",
+  "pk": 66
+},
+{
+  "fields": {
+    "codename": "add_centre",
+    "name": "Can add centre",
+    "content_type": 23
+  },
+  "model": "auth.permission",
+  "pk": 67
+},
+{
+  "fields": {
+    "codename": "change_centre",
+    "name": "Can change centre",
+    "content_type": 23
+  },
+  "model": "auth.permission",
+  "pk": 68
+},
+{
+  "fields": {
+    "codename": "delete_centre",
+    "name": "Can delete centre",
+    "content_type": 23
+  },
+  "model": "auth.permission",
+  "pk": 69
+}
+]
