@@ -4,6 +4,7 @@ from django.contrib import admin
 from models import *
 from models.models import *
 
+
 admin.site.register(role.StudentProperty)
 admin.site.register(role.CoachProperty)
 admin.site.register(role.JudgeProperty)
@@ -20,3 +21,5 @@ admin.site.register(MyUser)
 #admin.site.register(GameEvent)
 #admin.site.register(TeamGame)
 #admin.site.register(StudentEvent)
+
+#import data

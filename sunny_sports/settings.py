@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 """
 Django settings for sunny_sports project.
 
@@ -79,6 +80,11 @@ AUTHENTICATION_BACKENDS = ( 'sunny_sports.sp.backend.MyBackend', )
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'zh-cn'
+
+LANGUAGE=(
+        ('zh-cn', u'简体中文'), # instead of 'zh-CN'
+        ('zh-tw', u'繁體中文'), # instead of 'zh-TW'
+        )
 
 TIME_ZONE = 'Asia/Shanghai'
 
