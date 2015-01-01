@@ -84,12 +84,12 @@
 
                     <div class="widget-main">
                       <div class="widget-main padding-4">
+                        <h4 class="header blue lighter bigger">
+                          <i class="ace-icon fa fa-coffee green"></i>
+                          请输入您的帐号密码
+                        </h4>
                         <div class="tab-content padding-8">
                           <div id="person-tab" class="tab-pane active">
-                            <h4 class="header blue lighter bigger">
-                              <i class="ace-icon fa fa-coffee green"></i>
-                              请输入您的帐号密码
-                            </h4>
                             <form action="login" method="post">
                               {% csrf_token %}
 
@@ -109,9 +109,9 @@
                                   </button>
                                 </div>  
                                 -->
-                                    <input type="radio" name="role" value="student"checked="true" /> 学员
-                                    <input type="radio" name="role" value="judge" /> 裁判
-                                    <input type="radio" name="role" value="coach"/> 教练
+                                <input type="radio" name="role" value="student"checked="true" /> 学员
+                                <input type="radio" name="role" value="judge" /> 裁判
+                                <input type="radio" name="role" value="coach"/> 教练
 
                                 {% include "components/login.html"%}
 
@@ -120,11 +120,6 @@
                           </div>
 
                           <div id="organization-tab" class="tab-pane">
-                            <h4 class="header blue lighter bigger">
-                              <i class="ace-icon fa fa-coffee green"></i>
-                              请输入您的帐号密码
-                            </h4>
-
                             <form action="login" method="post">
                               {% csrf_token %}
                               <!--
@@ -140,19 +135,14 @@
                                 </button>
                               </div>  
                               -->
-                                  <input type="radio" name="role" value="club" checked="true"/> 俱乐部
+                              <input type="radio" name="role" value="club" checked="true"/> 俱乐部
                               {% include "components/login.html"%}
                             </form>
                           </div>
 
                           <div id="admin-tab" class="tab-pane">
 
-                            <h4 class="header blue lighter bigger">
-                              <i class="ace-icon fa fa-coffee green"></i>
-                              请输入您的帐号密码
-                            </h4>
-
-                            <form>
+                            <form action="login" method="post">
                               {% csrf_token %}
                               <!--
                               <div class="btn-group" data-toggle="buttons">
@@ -165,7 +155,18 @@
 
                               {% include "components/login.html"%}
                             </form>
+                          </div> <!--/admin-tab -->
+
+                          {% if messages %}
+                          <div class="alert alert-danger">
+                            {% for m in messages %}
+                            {% if forloop.first %}
+                            {{ m }}
+                            {% endif %}
+                            {% endfor %}
                           </div>
+
+                          {% endif %}
 
                         </div>
                       </div>
@@ -203,7 +204,7 @@
                       </p>
 
                       <form>
-                              {% csrf_token %}
+                        {% csrf_token %}
                         <fieldset>
                           <label class="block clearfix">
                             <span class="block input-icon input-icon-right">

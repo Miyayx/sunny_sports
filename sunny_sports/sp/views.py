@@ -6,6 +6,8 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 #from django.contrib.auth import authenticate
 from django.contrib.auth import authenticate
+from django.contrib import messages
+from django.template import RequestContext
 
 from django.views.decorators.http import require_http_methods
 
@@ -53,15 +55,15 @@ def login(req):
                 elif role in roles:
                     return HttpResponseRedirect('/%s'%role)
                 else:
-                    print(u"请选择正确的角色")
-                return HttpResponseRedirect('/')
+                    messages.error(req, u"请选择正确的角色")
+                return render_to_response("login.html", context_instance=RequestContext(req))
             else:
-                print("The password is valid, but the account has been disabled!")
-                return HttpResponseRedirect('/')
+                messages.error(req, "The password is valid, but the account has been disabled!")
+                return render_to_response("login.html", context_instance=RequestContext(req))
         else:
         # the authentication system was unable to verify the username and password
-            print("用户名或密码错误")
-            return HttpResponseRedirect('/')
+            messages.error(req, u"用户名或密码错误")
+            return render_to_response("login.html", context_instance=RequestContext(req))
           
 def index(req):
     username = req.session.get('username', 'anybody')
