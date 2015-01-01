@@ -13,7 +13,7 @@ from sunny_sports.sp.models import *
 from sunny_sports.sp.backend import MyBackend 
 
 from forms import *
-          
+
 # Create your views here.
           
 @require_http_methods(["POST"])
@@ -44,18 +44,23 @@ def login(req):
             if user.is_active:
                 print("User is valid, active and authenticated")
                 req.session['uuid'] = user.id
-                print "role:",role
-                if role in ["student","coach","judge","club"]:
-                    return HttpResponseRedirect('/'+role)
-                elif role == "admin":
-                    return HttpResponseRedirect('/'+role)
+                roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
+                print "roles:",roles
+                if role == "admin" and "centre" in roles:
+                    return HttpResponseRedirect('/centre')
+                elif role == "admin" and "coach_org" in roles:
+                    return HttpResponseRedirect('/coach_org')
+                elif role in roles:
+                    return HttpResponseRedirect('/%s'%role)
                 else:
-                    return HttpResponseRedirect('/')
+                    print(u"请选择正确的角色")
+                return HttpResponseRedirect('/')
             else:
                 print("The password is valid, but the account has been disabled!")
+                return HttpResponseRedirect('/')
         else:
         # the authentication system was unable to verify the username and password
-            print("The username and password were incorrect.")
+            print("用户名或密码错误")
             return HttpResponseRedirect('/')
           
 def index(req):

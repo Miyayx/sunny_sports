@@ -11,7 +11,11 @@ class MyBackend:
 
         try:
             # Try to find a user matching your username
-            user = (MyUser.objects.filter(phone=username) | MyUser.objects.filter(nickname=username) | MyUser.objects.filter(email=username) )[0]
+            user = (MyUser.objects.filter(phone=username) | MyUser.objects.filter(nickname=username) | MyUser.objects.filter(email=username))
+            if user and len(user) > 0:
+                user = user[0]
+            else:
+                return None
 
             #  Check the password is the reverse of the username
             pwd_valid = user.check_password(password)
