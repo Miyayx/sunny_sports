@@ -248,16 +248,16 @@
 
                     <div class="widget-main ">
                       <div class="widget-main padding-4">
+                        <h4 class="header green lighter bigger">
+                          <i class="ace-icon fa fa-users blue"></i>
+                          注册
+                        </h4>
+
                         <div class="tab-content padding-8">
                           <div id="person-signup-tab" class="tab-pane active">
-                            <h4 class="header green lighter bigger">
-                              <i class="ace-icon fa fa-users blue"></i>
-                              注册
-                            </h4>
 
                             <div class="space-6"></div>
                             <p> 请选择注册类型 </p>
-
 
                             <div class="btn-group" data-toggle="buttons">
                               <label id="student2" class="btn btn-success">
@@ -273,25 +273,13 @@
 
                             <div class="space"></div>
 
-                            <form id="studentForm" style="display: none;" action="register" method="post">
+                            <form action="register" method="post">
                               {% csrf_token %}
                               <input type="hidden" name="role2" value="student"/>
                               <fieldset>
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="姓名" />
-                                    <i class="ace-icon fa fa-user"></i>
-                                  </span>
-                                </label>
-                                性别：
-                                <input id="male" type="radio" name="gender" value="male">
-                                <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input id="female" type="radio" name="gender" value="female">
-                                <label id="femaleLabel" for="female">女</label>
-                                {% include "components/register/email.html"%}
+
                                 {% include "components/register/phone.html"%}
 
-                                {% include "components/register/id.html"%}
                                 {% include "components/register/password.html"%}
 
                                 <label class="block clearfix">
@@ -303,156 +291,14 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">点击获取短信验证码</button>
-                                  </span>
-                                </label>
-
-                                <label class="block">
-                                  <input type="checkbox" required="required"/>
-                                  <span class="lbl">
-                                    我同意
-                                    <a href="#">服务条款</a>
-                                  </span>
-                                </label>
-
-                                {% include "components/register/reg_btn.html" %}
-
-                              </fieldset>
-                            </form>
-
-                            <form id="judgeForm" style="display: none;" action="register" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="role2" value="judge"/>
-                              <fieldset>
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" name="name" placeholder="姓名" />
-                                    <i class="ace-icon fa fa-user"></i>
-                                  </span>
-                                </label>
-                                性别：
-                                <input id="male" type="radio" name="gender" value="male">
-                                <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input id="female" type="radio" name="gender" value="female">
-                                <label id="femaleLabel" for="female">女</label>
-
-                                {% include "components/register/id.html"%}
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input name="nativeplace" type="text" class="form-control" placeholder="籍贯" />
-                                    <i class="ace-icon fa fa-globe"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input name="homeplace" type="text" class="form-control" placeholder="居住地" />
-                                    <i class="ace-icon fa fa-home"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" name="workplace" type="text" class="form-control" placeholder="工作单位" />
-                                    <i class="ace-icon fa fa-home"></i>
-                                  </span>
-                                </label>
-
-                                {% include "components/register/phone.html"%}
-
-                                {% include "components/register/email.html"%}
-                                {% include "components/register/password.html"%}
-
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
-                                    <i class="ace-icon fa fa-barcode"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">点击获取短信验证码</button>
-                                  </span>
-                                </label>
-                                <label class="block">
-                                  <input type="checkbox" class="ace" />
-                                  <span class="lbl">
-                                    我同意
-                                    <a href="#">服务条款</a>
-                                  </span>
-                                </label>
-
-                                {% include "components/register/reg_btn.html" %}
-
-                              </fieldset>
-                            </form>
-
-                            <form id="coachForm" style="display: none;" action="register" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="role2" value="coach"/>
-                              <fieldset>
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="姓名" name="name" />
-                                    <i class="ace-icon fa fa-user"></i>
-                                  </span>
-                                </label>
-                                性别：
-                                <input id="male" type="radio" name="gender" value="male">
-                                <label id="maleLabel" for="male">男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <input id="female" type="radio" name="gender" value="female">
-                                <label id="femaleLabel" for="female">女</label>
-
-                                {% include "components/register/id.html"%}
-
-                                <label id="idErr" style="display: none; color: red"></label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" name="nativeplace" placeholder="籍贯" />
-                                    <i class="ace-icon fa fa-globe"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="居住地" name="homeplace" />
-                                    <i class="ace-icon fa fa-home"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="工作单位" name="workplace"/>
-                                    <i class="ace-icon fa fa-home"></i>
-                                  </span>
-                                </label>
-
-                                {% include "components/register/phone.html"%}
-
-                                {% include "components/register/email.html"%}
-                                {% include "components/register/password.html"%}
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
-                                    <i class="ace-icon fa fa-barcode"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">点击获取短信验证码</button>
+                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">获取短信验证码</button>
                                   </span>
                                 </label>
 
                                 <label class="block">
                                   <input required="required" type="checkbox" class="ace" />
                                   <span class="lbl">
-                                    我同意
+                                    我同意并遵守
                                     <a href="#">服务条款</a>
                                   </span>
                                 </label>
@@ -464,14 +310,9 @@
                           </div>
 
                           <div id="organization-signup-tab" class="tab-pane">
-                            <h4 class="header green lighter bigger">
-                              <i class="ace-icon fa fa-users blue"></i>
-                              注册
-                            </h4>
 
                             <div class="space-6"></div>
                             <p> 请选择注册类型 </p>
-
 
                             <div class="btn-group" data-toggle="buttons">
                               <label id="club2" class="btn btn-success">
@@ -482,30 +323,16 @@
                                 <input type="radio" name="role" value="team" /> 参赛队
                               </label>
                               -->
-
                             </div>  
-
                             <div class="space"></div>
 
-                            <form id="clubForm"  action="register" method="post">
+
+                            <form action="register" method="post">
                               {% csrf_token %}
                               <input type="hidden" name="role2" value="club"/>
                               <fieldset>
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="俱乐部名" name="name"/>
-                                    <i class="ace-icon fa fa-user"></i>
-                                  </span>
-                                </label>
-
 
                                 {% include "components/register/phone.html"%}
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="所属地" name="place"/>
-                                    <i class="ace-icon fa fa-globe"></i>
-                                  </span>
-                                </label>
 
                                 {% include "components/register/password.html"%}
 
@@ -518,14 +345,14 @@
 
                                 <label class="block clearfix">
                                   <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">点击获取短信验证码</button>
+                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">获取短信验证码</button>
                                   </span>
                                 </label>
 
                                 <label class="block">
                                   <input required="required" type="checkbox" class="ace" />
                                   <span class="lbl">
-                                    我同意
+                                    我同意并遵守 
                                     <a href="#">服务条款</a>
                                   </span>
                                 </label>
@@ -534,220 +361,161 @@
 
                               </fieldset>
                             </form>
-
-                            <!--
-                            <form id="teamForm" style="display: none;" action="register" method="post">
-                              {% csrf_token %}
-                              <input type="hidden" name="role2" value="team"/>
-                              <fieldset>
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="队名" name="name"/>
-                                    <i class="ace-icon fa fa-user"></i>
-                                  </span>
-                                </label>
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="单位名称" name="org_name"/>
-                                    <i class="ace-icon fa fa-home"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input type="text" class="form-control" placeholder="组织编号" name="org_code"/>
-                                    <i class="ace-icon fa fa-pencil"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="text" class="form-control" placeholder="所属地" name="place"/>
-                                    <i class="ace-icon fa fa-globe"></i>
-                                  </span>
-                                </label>
-
-                                {% include "components/register/password.html"%}
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
-                                    <i class="ace-icon fa fa-barcode"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">点击获取短信验证码</button>
-                                  </span>
-                                </label>
-
-                                <label class="block">
-                                  <input required="required" type="checkbox" class="ace" />
-                                  <span class="lbl">
-                                    我同意
-                                    <a href="#">服务条款</a>
-                                  </span>
-                                </label>
-
-                                {% include "components/register/reg_btn.html" %}
-                              </fieldset>
-                            </form>
-                            -->
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="toolbar center">
-                      <a href="#" data-target="#login-box" class="back-to-login-link">
-                        <i class="ace-icon fa fa-arrow-left"></i>
-                        登录
-                      </a>
-                    </div>
-                  </div><!-- /.widget-body -->
-                </div><!-- /.signup-box -->
-              </div><!-- /.position-relative -->
-            </div>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.main-content -->
-    </div><!-- /.main-container -->
+                  </div>
+                  <div class="toolbar center">
+                    <a href="#" data-target="#login-box" class="back-to-login-link">
+                      <i class="ace-icon fa fa-arrow-left"></i>
+                      登录
+                    </a>
+                  </div>
+                </div><!-- /.widget-body -->
+              </div><!-- /.signup-box -->
+            </div><!-- /.position-relative -->
+          </div>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.main-content -->
+  </div><!-- /.main-container -->
 
-    <!-- basic scripts -->
+  <!-- basic scripts -->
 
-    <!--[if !IE]> -->
+  <!--[if !IE]> -->
+  <script type="text/javascript">
+    window.jQuery || document.write("<script src='../../static/js/jquery.min.js'>"+"<"+"/script>");
+    </script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
     <script type="text/javascript">
-      window.jQuery || document.write("<script src='../../static/js/jquery.min.js'>"+"<"+"/script>");
+      window.jQuery || document.write("<script src='../assets/js/jquery1x.min.js'>"+"<"+"/script>");
       </script>
-
-      <!-- <![endif]-->
-
-      <!--[if IE]>
+      <![endif]-->
       <script type="text/javascript">
-        window.jQuery || document.write("<script src='../assets/js/jquery1x.min.js'>"+"<"+"/script>");
+        if('ontouchstart' in document.documentElement) document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
         </script>
-        <![endif]-->
+
+        <script src="../../static/js/bootstrap.min.js"></script>
+        <script src="../../static/js/jquery-ui.custom.min.js"></script>
+        <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
+        <script src="../../static/js/jquery.gritter.min.js"></script>
+        <script src="../../static/js/bootbox.min.js"></script>
+        <script src="../../static/js/jquery.easypiechart.min.js"></script>
+        <script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
+        <script src="../../static/js/jquery.hotkeys.min.js"></script>
+        <script src="../../static/js/bootstrap-wysiwyg.min.js"></script>
+        <script src="../../static/js/select2.min.js"></script>
+        <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
+        <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+        <script src="../../static/js/x-editable/ace-editable.min.js"></script>
+        <script src="../../static/js/jquery.maskedinput.min.js"></script>
+        <!-- ace scripts -->
+        <script src="../../static/js/ace-elements.min.js"></script>
+        <script src="../../static/js/ace.min.js"></script>
+
+        <!-- inline scripts related to this page -->
         <script type="text/javascript">
-          if('ontouchstart' in document.documentElement) document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-          </script>
+          jQuery(function($) {
 
-          <script src="../../static/js/bootstrap.min.js"></script>
-          <script src="../../static/js/jquery-ui.custom.min.js"></script>
-          <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
-          <script src="../../static/js/jquery.gritter.min.js"></script>
-          <script src="../../static/js/bootbox.min.js"></script>
-          <script src="../../static/js/jquery.easypiechart.min.js"></script>
-          <script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
-          <script src="../../static/js/jquery.hotkeys.min.js"></script>
-          <script src="../../static/js/bootstrap-wysiwyg.min.js"></script>
-          <script src="../../static/js/select2.min.js"></script>
-          <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
-          <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
-          <script src="../../static/js/x-editable/ace-editable.min.js"></script>
-          <script src="../../static/js/jquery.maskedinput.min.js"></script>
-          <!-- ace scripts -->
-          <script src="../../static/js/ace-elements.min.js"></script>
-          <script src="../../static/js/ace.min.js"></script>
-
-          <!-- inline scripts related to this page -->
-          <script type="text/javascript">
-            jQuery(function($) {
-
-              $('#person-signup-tab')
-              .find('.date-picker').datepicker().next().on(ace.click_event, function(){
-                $(this).prev().focus();
-              });
-
-              $(document).on('click', '.toolbar a[data-target]', function(e) {
-                e.preventDefault();
-                var target = $(this).data('target');
-                $('.widget-box.visible').removeClass('visible');//hide others
-                $(target).addClass('visible');//show target
-              });
-
-
-              $('.btn').click(function(){
-                $(this).css('active');
-              });
-
-              //$('.login-btn').click(function(){
-                //  type = $(this).closest('.tab-pane').find('.btn.active input').attr('name');
-                //  switch(type){
-                  //    case "student":
-                    //      window.location.href = "/student";
-                    //      break;
-                  //    case "team":
-                    //      window.location.href = "/team";
-                    //      break;
-                  //    //case "club":
-                    //    //  window.location.href = "/club";
-                    //    //  break;
-                  //    //case "committee":
-                    //    //  window.location.href = "/committee";
-                    //    //  break;
-                  //    case "coach":
-                    //      window.location.href = "/coach";
-                    //      break;
-                  //    case "judge":
-                    //      window.location.href = "/judge";
-                    //      break;
-                  //    case "admin":
-                    //      window.location.href = "/centre";
-                    //      break;
-                  //    default:
-                    //      break;
-                    //  }
-            //});
-            //	$('#students').click(function () {
-              //		$("#studnetsLabel").css("font-weight","bold");
-              //		$("#studnetsLabel").css("color","#0066FF ");
-              //		$("#teamsLabel").css("font-weight","normal");
-              //		$("#teamsLabel").css("color","black");
-              //		$("#adminLabel").css("font-weight","normal");
-              //		$("#adminLabel").css("color","black");
-            //	});
-            //	$('#teams').click(function () {
-              //		$("#teamsLabel").css("font-weight","bold");
-              //		$("#teamsLabel").css("color","#0066FF ");
-              //		$("#studnetsLabel").css("font-weight","normal");
-              //		$("#studnetsLabel").css("color","black");
-              //		$("#adminLabel").css("font-weight","normal");
-              //		$("#adminLabel").css("color","black");
-            //	});
-            //	$('#admin').click(function () {
-              //		$("#studnetsLabel").css("font-weight","normal");
-              //		$("#studnetsLabel").css("color","black");
-              //		$("#adminLabel").css("font-weight","bold");
-              //		$("#adminLabel").css("color","#0066FF ");
-              //		$("#teamsLabel").css("font-weight","normal");
-              //		$("#teamsLabel").css("color","black");
-            //	});
-
-            $('#student2').click(function () {
-              $("#studentForm").show();
-              $("#judgeForm").hide();
-              $("#coachForm").hide();
-            });
-            $('#coach2').click(function () {
-              $("#studentForm").hide();
-              $("#judgeForm").hide();
-              $("#coachForm").show();
-            });
-            $('#judge2').click(function () {
-              $("#studentForm").hide();
-              $("#judgeForm").show();
-              $("#coachForm").hide();
-            });
-            $('#club2').click(function () {
-              $("#clubForm").show();
-              $("#teamForm").hide();
-            });
-            $('#team2').click(function () {
-              $("#clubForm").hide();
-              $("#teamForm").show();
+            $('#person-signup-tab')
+            .find('.date-picker').datepicker().next().on(ace.click_event, function(){
+              $(this).prev().focus();
             });
 
+            $(document).on('click', '.toolbar a[data-target]', function(e) {
+              e.preventDefault();
+              var target = $(this).data('target');
+              $('.widget-box.visible').removeClass('visible');//hide others
+              $(target).addClass('visible');//show target
             });
-          </script>
-        </body>
-      </html>
+
+
+            $('.btn').click(function(){
+              $(this).css('active');
+            });
+
+            //$('.login-btn').click(function(){
+              //  type = $(this).closest('.tab-pane').find('.btn.active input').attr('name');
+              //  switch(type){
+                //    case "student":
+                  //      window.location.href = "/student";
+                  //      break;
+                //    case "team":
+                  //      window.location.href = "/team";
+                  //      break;
+                //    //case "club":
+                  //    //  window.location.href = "/club";
+                  //    //  break;
+                //    //case "committee":
+                  //    //  window.location.href = "/committee";
+                  //    //  break;
+                //    case "coach":
+                  //      window.location.href = "/coach";
+                  //      break;
+                //    case "judge":
+                  //      window.location.href = "/judge";
+                  //      break;
+                //    case "admin":
+                  //      window.location.href = "/centre";
+                  //      break;
+                //    default:
+                  //      break;
+                  //  }
+          //});
+          //	$('#students').click(function () {
+            //		$("#studnetsLabel").css("font-weight","bold");
+            //		$("#studnetsLabel").css("color","#0066FF ");
+            //		$("#teamsLabel").css("font-weight","normal");
+            //		$("#teamsLabel").css("color","black");
+            //		$("#adminLabel").css("font-weight","normal");
+            //		$("#adminLabel").css("color","black");
+          //	});
+          //	$('#teams').click(function () {
+            //		$("#teamsLabel").css("font-weight","bold");
+            //		$("#teamsLabel").css("color","#0066FF ");
+            //		$("#studnetsLabel").css("font-weight","normal");
+            //		$("#studnetsLabel").css("color","black");
+            //		$("#adminLabel").css("font-weight","normal");
+            //		$("#adminLabel").css("color","black");
+          //	});
+          //	$('#admin').click(function () {
+            //		$("#studnetsLabel").css("font-weight","normal");
+            //		$("#studnetsLabel").css("color","black");
+            //		$("#adminLabel").css("font-weight","bold");
+            //		$("#adminLabel").css("color","#0066FF ");
+            //		$("#teamsLabel").css("font-weight","normal");
+            //		$("#teamsLabel").css("color","black");
+          //	});
+
+          $('#student2').click(function () {
+            $("#studentForm").show();
+            $("#judgeForm").hide();
+            $("#coachForm").hide();
+          });
+          $('#coach2').click(function () {
+            $("#studentForm").hide();
+            $("#judgeForm").hide();
+            $("#coachForm").show();
+          });
+          $('#judge2').click(function () {
+            $("#studentForm").hide();
+            $("#judgeForm").show();
+            $("#coachForm").hide();
+          });
+          $('#club2').click(function () {
+            $("#clubForm").show();
+            $("#teamForm").hide();
+          });
+          $('#team2').click(function () {
+            $("#clubForm").hide();
+            $("#teamForm").show();
+          });
+
+          });
+        </script>
+      </body>
+    </html>
