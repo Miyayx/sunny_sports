@@ -1,7 +1,8 @@
 
 <label class="block clearfix">
   <span class="block input-icon input-icon-right">
-    <input required="required" type="phone" name="phone" class="form-control" placeholder="手机号码" />
+    <input style="display:none"><!-- for disable autocomplete on chrome -->
+    <input required="required" type="phone" name="phone" class="form-control" placeholder="手机号码" autocomplete="off"/>
     <i class="ace-icon fa fa-phone"></i>
   </span>
 </label>
