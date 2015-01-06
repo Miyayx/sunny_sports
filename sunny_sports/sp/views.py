@@ -25,15 +25,21 @@ def regist(req):
     if req.method == 'POST':
         phone = req.POST.get('username')
         password = req.POST.get('password')
-        role     = req.POST.get('role')                
-        MyUser.objects.create(phone = phone, password = password, role = role)
-        return HttpResponseRedirect('/login/')
+        password2 = req.POST.get('password2')
+        verify    = req.POST.get('v_code')
+        if not password == password2:
+            messages.error(req, u"两次密码输入不一致",extra_tags='regist')
+            return render_to_response('login.html', context_instance=RequestContext(req))
+        role     = req.POST.get('role2')                
+        user = MyUser.objects.create(phone = phone, password = password, role = role)
+        req.session['uuid'] = user.id
+        return HttpResponseRedirect('/%s'%role)
     else:
-        uf = UserForm()
-    return render_to_response('login.html')
-          
+        return render_to_response('login.html')
+
 @require_http_methods(["POST"])
 def login(req):
+    uuid = req.session.get('uuid',0)
     if req.method == 'POST':
         un = req.POST['username']
         pw = req.POST['password']
