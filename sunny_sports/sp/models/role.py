@@ -19,6 +19,9 @@ class PersonProperty(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return "user:%s, name:%s"%(self.user, self.name)
+
 class StudentProperty(PersonProperty):
     """
     继承于PersonProperty
@@ -33,6 +36,7 @@ class StudentProperty(PersonProperty):
     
     class Meta:
         app_label='sp'
+
 
 class CoachProperty(PersonProperty):
     """
@@ -68,6 +72,10 @@ class Student(models.Model):
 
     class Meta:
         app_label='sp'
+
+    def __str__(self):
+        return str(self.property)
+
     
 class Judge(models.Model):
     property = models.ForeignKey(JudgeProperty)
@@ -78,6 +86,10 @@ class Judge(models.Model):
     class Meta:
         app_label='sp'
 
+    def __str__(self):
+        return str(self.property)
+
+
 class Coach(models.Model):
     property = models.ForeignKey(CoachProperty)
     club = models.ForeignKey(Club, null=True)
@@ -87,6 +99,10 @@ class Coach(models.Model):
     ifreg = models.BooleanField(default=False) #今年是否注册
     class Meta:
         app_label='sp'
+
+    def __str__(self):
+        return str(self.property)
+
 
 class CoachOrg(models.Model):
     user = models.ForeignKey(MyUser)
@@ -99,3 +115,7 @@ class CoachOrg(models.Model):
     
     class Meta:
         app_label='sp'
+
+    def __str__(self):
+        return "num:%s, name:%s"%(self.org_num,self.org_name)
+

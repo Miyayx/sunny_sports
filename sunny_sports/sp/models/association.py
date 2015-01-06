@@ -24,6 +24,10 @@ class CoachTrain(models.Model):
     get_time = models.DateTimeField(null=True)
     class Meta:
         app_label='sp'
+
+    def __str__(self):
+        return "coach:%s,  train:%s"%(self.coach, self.train)
+
     
 #class StudentTeam(models.Model):
 #    team = models.ForeignKey(Team)
