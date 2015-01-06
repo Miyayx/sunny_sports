@@ -53,6 +53,7 @@ class MyUserManager(BaseUserManager):
         """
         user = self.create_user(phone, nickname, email, role, password)
         user.is_admin = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -66,6 +67,7 @@ class MyUser(AbstractBaseUser):
 
     regist_time = models.DateTimeField(auto_now_add=True,blank=True)
     is_active = models.BooleanField(default=True)
+    is_staff  = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['role','nickname','email'] #除了phone和password以外传给manager的
@@ -75,6 +77,26 @@ class MyUser(AbstractBaseUser):
 
     class Meta:
         app_label='sp'
+
+    @property
+    def is_superuser(self):
+        return self.is_admin
+
+    @property
+    def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    def get_full_name(self):
+        return "Fullname"
+
+    def get_short_name(self):
+        return "Shortname"
 
 
 class Code(models.Model):
