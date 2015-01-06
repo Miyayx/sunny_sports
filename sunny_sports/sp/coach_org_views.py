@@ -23,7 +23,7 @@ def train(req):
 
     return render_to_response('coach/train.html',{})
 
-def centre(req):
+def center(req):
     uuid = req.session['uuid']
     # 用这个id查信息哦
 
