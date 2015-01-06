@@ -26,7 +26,7 @@ def make_id():
 
 class Train(models.Model):
     id = models.CharField(max_length=10, primary_key=True, default=make_id)
-    org = models.ForeignKey(Coach_Org) #组织机构
+    org = models.ForeignKey(CoachOrg) #组织机构
     name = models.CharField(max_length=30) #培训名称
     demo = models.CharField(max_length=100, blank=True) #??
     address = models.CharField(max_length=100) #培训地点

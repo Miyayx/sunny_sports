@@ -34,16 +34,16 @@ coach_p.save()
 c1 = role.Coach(property=coach_p, t_level=3, p_level=3)
 c1.save()
 
-org1 = role.Coach_Org(user=u1, org_num="org111", org_name="南方机构")
+org1 = role.CoachOrg(user=u1, org_num="org111", org_name="南方机构")
 org1.save()
 
-org2 = role.Coach_Org(user=u11, org_num="org222", org_name="北方机构")
+org2 = role.CoachOrg(user=u11, org_num="org222", org_name="北方机构")
 org2.save()
 
 train1 = train.Train(org=org1, name=u"2013年第一次培训", address=u"北京体育中心", level=3, max=10, money=200, reg_stime="2015-04-01", reg_etime="2015-04-15", train_stime="2015-05-01")
 train1.save()
 
-c_t = association.Coach_Train(coach=c1, train=train1)
+c_t = association.CoachTrain(coach=c1, train=train1)
 c_t.save()
 
 

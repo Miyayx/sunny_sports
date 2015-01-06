@@ -14,7 +14,7 @@ def make_ct_num():
     return random.randint(0,100)
 
 
-class Coach_Train(models.Model):
+class CoachTrain(models.Model):
     number = models.IntegerField(default=make_ct_num())
     coach = models.ForeignKey(Coach)
     train = models.ForeignKey(Train)

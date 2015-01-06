@@ -88,7 +88,7 @@ class Coach(models.Model):
     class Meta:
         app_label='sp'
 
-class Coach_Org(models.Model):
+class CoachOrg(models.Model):
     user = models.ForeignKey(MyUser)
     org_num  = models.CharField(max_length=20)
     org_name = models.CharField(max_length=256)
