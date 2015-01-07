@@ -22,6 +22,7 @@ class Role(models.Model):
     class Meta:
         app_label='sp'
 
+
 class MyUserManager(BaseUserManager):
 
     def create_user(self, phone, nickname, email, role, password=None):
@@ -40,9 +41,8 @@ class MyUserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
-        r = Role(role=int(role))
-        r.save()
-        user.role.add(r)
+        r = Role.object.get(role=int(role))
+        ur = UserRole.object.create(user=user, role=r) #用objects.create可以不用save()
         user.save(using=self._db)
         return user
 
@@ -59,7 +59,7 @@ class MyUserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     id = models.CharField(default=uuid4(), primary_key=True, max_length=40)
-    role = models.ManyToManyField(Role)
+    role = models.ManyToManyField(Role, through='UserRole')
     nickname = models.CharField(max_length=255, unique=True, null=True, blank=True)
     email    = models.EmailField(max_length=255, unique=True, blank=True)
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
@@ -89,6 +89,13 @@ class MyUser(AbstractBaseUser):
 
     def get_short_name(self):
         return "Shortname"
+
+class UserRole(models.Model):
+    user = models.ForeignKey(MyUser)
+    role = models.ForeignKey(Role)
+    regist_time = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        app_label='sp'
 
 
 class Code(models.Model):
