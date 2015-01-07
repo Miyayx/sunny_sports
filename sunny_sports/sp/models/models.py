@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
 
-from uuid import uuid4
+from uuid import uuid1
 
 from django.db import models
 from django.contrib.auth.models import (
@@ -33,17 +33,19 @@ class MyUserManager(BaseUserManager):
         if not phone:
             raise ValueError('Users must have an phone number')
 
+        print phone
+
         user = self.model(
             phone=phone,
             email=email,
             nickname=nickname,
         )
 
+        user.id = uuid1()
         user.set_password(password)
-        user.save(using=self._db)
-        r = Role.object.get(role=int(role))
-        ur = UserRole.object.create(user=user, role=r) #用objects.create可以不用save()
-        user.save(using=self._db)
+        user.save()
+        r = Role.objects.get(role=int(role))
+        ur = UserRole.objects.create(user=user, role=r) #用objects.create可以不用save()
         return user
 
     def create_superuser(self, phone, nickname, email, role, password):
@@ -58,14 +60,14 @@ class MyUserManager(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser):
-    id = models.CharField(default=uuid4(), primary_key=True, max_length=40)
+    id = models.CharField(primary_key=True, max_length=40, db_index=True)
     role = models.ManyToManyField(Role, through='UserRole')
     nickname = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    email    = models.EmailField(max_length=255, unique=True, blank=True)
+    email    = models.EmailField(max_length=255, blank=True, unique=False)
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
     #password = models.CharField(max_length=64) #password 在abstract class里有
 
-    regist_time = models.DateTimeField(auto_now_add=True,blank=True)
+    regist_time = models.DateTimeField(auto_now=True,blank=True)
     is_active = models.BooleanField(default=True)
     is_staff  = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -93,7 +95,6 @@ class MyUser(AbstractBaseUser):
 class UserRole(models.Model):
     user = models.ForeignKey(MyUser)
     role = models.ForeignKey(Role)
-    regist_time = models.DateTimeField(auto_now_add=True)
     class Meta:
         app_label='sp'
 
