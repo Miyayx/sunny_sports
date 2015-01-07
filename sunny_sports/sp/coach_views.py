@@ -15,8 +15,9 @@ def home(req):
     uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
     print uuid
+    coach = Coach.objects.filter(property__user_id=uuid)
 
-    return render_to_response('coach/home.html',{})
+    return render_to_response('coach/home.html',{"coach":coach[0]})
 
 def train(req):
     uuid = req.session.get('uuid',0)
