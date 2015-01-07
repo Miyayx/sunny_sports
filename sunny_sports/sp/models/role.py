@@ -28,11 +28,11 @@ class StudentProperty(PersonProperty):
     """
     height = models.IntegerField(null=True)
     weight = models.IntegerField(null=True)
-    company = models.CharField(max_length=50, null=True)
-    province = models.CharField(max_length=20, null=True)
-    city = models.CharField(max_length=30, null=True)
-    county = models.CharField(max_length=50, null=True)
-    address = models.CharField(max_length=100, null=True)
+    company = models.CharField(max_length=50, blank=True)
+    province = models.CharField(max_length=20, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+    county = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=100, blank=True)
     
     class Meta:
         app_label='sp'
@@ -64,10 +64,23 @@ class JudgeProperty(PersonProperty):
     class Meta:
         app_label='sp'
 
+class Club(models.Model):
+    user = models.ForeignKey(MyUser, unique=True)
+    province = models.CharField(max_length=20, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+    county = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=100,blank=True)
+    level = models.IntegerField(default=0)
+    class Meta:
+        app_label='sp'
+
+    def __str__(self):
+        return self.user.nickname
+
 class Student(models.Model):
     property = models.ForeignKey(StudentProperty)
-    club = models.ForeignKey(Club)
-    level = models.IntegerField()
+    club = models.ForeignKey(Club, null=True)
+    level = models.IntegerField(choices=STUDENT_LEVEL, default=0)
     status = models.IntegerField(default=0)
 
     class Meta:
@@ -79,8 +92,8 @@ class Student(models.Model):
     
 class Judge(models.Model):
     property = models.ForeignKey(JudgeProperty)
-    club = models.ForeignKey(Club)
-    level = models.IntegerField()
+    club = models.ForeignKey(Club, null=True)
+    level = models.IntegerField(choices=COACH_LEVEL, default=0)
     status = models.IntegerField(default=0)
     ifreg = models.BooleanField(default=False)#今年是否注册
     class Meta:
@@ -93,8 +106,8 @@ class Judge(models.Model):
 class Coach(models.Model):
     property = models.ForeignKey(CoachProperty)
     club = models.ForeignKey(Club, null=True)
-    t_level = models.IntegerField() #教学等级
-    p_level = models.IntegerField() #专业等级
+    t_level = models.IntegerField(choices=COACH_LEVEL, default=0) #教学等级
+    p_level = models.IntegerField(choices=COACH_LEVEL,default=0) #专业等级
     status = models.IntegerField(default=0)
     ifreg = models.BooleanField(default=False) #今年是否注册
     class Meta:

@@ -30,7 +30,7 @@ class Train(models.Model):
     name = models.CharField(max_length=30) #培训名称
     demo = models.CharField(max_length=100, blank=True) #??
     address = models.CharField(max_length=100) #培训地点
-    level = models.IntegerField(choices=COACH_LEVEL)#培训等级
+    level = models.IntegerField(choices=TRAIN_LEVEL)#培训等级
     max = models.IntegerField() #人数上限
     money = models.IntegerField() #费用
     reg_stime = models.DateTimeField() #报名开始时间
