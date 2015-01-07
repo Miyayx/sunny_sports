@@ -17,6 +17,7 @@ admin.site.register(train.Train)
 admin.site.register(centre.Centre)
 admin.site.register(MyUser)
 admin.site.register(Role)
+admin.site.register(UserRole)
 admin.site.register(association.CoachTrain)
 
 #admin.site.register(game.Team)

@@ -22,6 +22,9 @@ class Role(models.Model):
     class Meta:
         app_label='sp'
 
+    def __str__(self):
+        return self.get_role_display()
+
 
 class MyUserManager(BaseUserManager):
 
