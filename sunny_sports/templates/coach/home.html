@@ -50,17 +50,17 @@
             <div class="profile-contact-links align-left">
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-phone bigger-120 green"></i>
-                    13333333333
+                    {{coach.property.user.phone}}
                 </a>
 
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-comment bigger-125 blue"></i>
-                    435673454
+                    {{coach.property.name}}
                 </a>
 
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-envelope bigger-120 pink"></i>
-                    moumoug@gmail.com
+                    {{coach.property.user.email}}
                 </a>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 <div class="profile-info-name"> 所属俱乐部 </div>
 
                 <div class="profile-info-value">
-                    <span>funny</span>
+                    <span>{{coach.club_id}}</span>
                 </div>
             </div>
     
@@ -116,7 +116,7 @@
                 <div class="profile-info-name"> 等级 </div>
 
                 <div class="profile-info-value">
-                    <span>1</span>
+                    <span>{{coach.p_level}}</span>
                 </div>
             </div>
             
