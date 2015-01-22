@@ -1,0 +1,35 @@
+
+<label class="block clearfix">
+  <span class="block input-icon input-icon-right">
+    <input required="required" type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
+    <i class="ace-icon fa fa-barcode"></i>
+  </span>
+</label>
+
+<label class="block clearfix">
+  <span class="block input-icon input-icon-right">
+    <button type="button" class="btn btn-sm btn-inverse v-btn ">获取短信验证码</button>
+  </span>
+  <span id="vcode-text"></span>
+</label>
+<script src='../../static/js/jquery.min.js'></script>
+<script type="text/javascript">
+  jQuery(function(){
+    $(".v-btn").click(function(){
+      phone=$(this).closest("form").find("input[type=phone]");
+      if(phone.val().length==0){
+        phone.closest(".form-group").addClass("has-error");
+      }else{
+      $.post( "/vcode", {"phone":phone.val()}, function(data) {
+        if(data['msg']=='ok'){
+          phone.closest('#vcode-text').html("发送成功,请注意查收");
+        }else{
+          phone.closest('#vcode-text').html("发送失败,请重试");
+      }
+        });
+    }
+    });
+
+  });
+
+</script>

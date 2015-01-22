@@ -27,10 +27,6 @@
     <link rel="stylesheet" href="../../static/css/datepicker.css" />
     <link rel="stylesheet" href="../../static/css/bootstrap-editable.css" />
 
-    <!--省市县><![endif]-->
-    <script src="../../static/custom/fdev-min.js"></script>
-    <script type="text/javascript" src="../../static/custom/alpCommon.js?version=3.6.6"></script>
-
     <script src="../../static/js/ace-extra.min.js"></script>
 
 
@@ -109,7 +105,7 @@
                                   </button>
                                 </div>  
                                 -->
-                                <input type="radio" name="role" value="student"checked="true" /> 学员
+                                <input type="radio" name="role" value="student"/> 学员
                                 <input type="radio" name="role" value="judge" /> 裁判
                                 <input type="radio" name="role" value="coach"/> 教练
 
@@ -256,52 +252,38 @@
                         <div class="tab-content padding-8">
                           <div id="person-signup-tab" class="tab-pane active">
 
-                            <div class="space-6"></div>
-                            <p> 请选择注册类型 </p>
-
-                            <div class="btn-group" data-toggle="buttons">
-                              <!-- 
-                              <label id="student2" class="btn btn-success">
-                              -->
-                                <input type="radio" name="role2" value="student" /> 学员
-                              <!-- 
-                              </label>
-                              <label id="judge2" class="btn btn-success">
-                              -->
-                                <input type="radio" name="role2" value="judge" /> 裁判
-                              <!-- 
-                              </label>
-                              <label id="coach2" class="btn btn-success">
-                              -->
-                                <input type="radio" name="role2" value="coach" /> 教练
-                              <!-- 
-                              </label>
-                              -->
-                            </div>  
-
-                            <div class="space"></div>
-
                             <form action="register" method="post">
                               {% csrf_token %}
-                              <input type="hidden" name="role2" value="student"/>
+
                               <fieldset>
+                                <p> 请选择注册类型 </p>
+
+                                <!-- 
+                                <div class="btn-group" data-toggle="buttons">
+                                  <label id="student2" class="btn btn-success">
+                                    -->
+                                    <input type="radio" name="role2" value="student" /> 学员
+                                    <!-- 
+                                  </label>
+                                  <label id="judge2" class="btn btn-success">
+                                    -->
+                                    <input type="radio" name="role2" value="judge" /> 裁判
+                                    <!-- 
+                                  </label>
+                                  <label id="coach2" class="btn btn-success">
+                                    -->
+                                    <input type="radio" name="role2" value="coach" /> 教练
+                                    <!-- 
+                                  </label>
+                                </div>  
+                                -->
+
+                                <div class="space"></div>
 
                                 {% include "components/register/phone.html"%}
-
                                 {% include "components/register/password.html"%}
+                                {% include "components/register/v_code.html"%}
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
-                                    <i class="ace-icon fa fa-barcode"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">获取短信验证码</button>
-                                  </span>
-                                </label>
 
                                 <label class="block">
                                   <input required="required" type="checkbox" class="ace" />
@@ -319,43 +301,30 @@
 
                           <div id="organization-signup-tab" class="tab-pane">
 
-                            <div class="space-6"></div>
-                            <p> 请选择注册类型 </p>
-
-                            <div class="btn-group" data-toggle="buttons">
-                              <label id="club2" class="btn btn-success">
-                                <input type="radio" name="role" value="club" /> 俱乐部
-                              </label>
-                              <!--
-                              <label id="team2" class="btn btn-success">
-                                <input type="radio" name="role" value="team" /> 参赛队
-                              </label>
-                              -->
-                            </div>  
-                            <div class="space"></div>
-
-
                             <form action="register" method="post">
                               {% csrf_token %}
-                              <input type="hidden" name="role2" value="club"/>
                               <fieldset>
+                              <p> 请选择注册类型 </p>
+
+                              <!--
+                              <div class="btn-group" data-toggle="buttons">
+                                <label id="club2" class="btn btn-success">
+                                  -->
+                                  <input type="radio" name="role2" value="club" /> 俱乐部
+                                <!--
+                                </label>
+                                <label id="team2" class="btn btn-success">
+                                  <input type="radio" name="role2" value="team" /> 参赛队
+                                </label>
+                              </div>  
+                                -->
+
+                                <div class="space"></div>
 
                                 {% include "components/register/phone.html"%}
-
                                 {% include "components/register/password.html"%}
+                                {% include "components/register/v_code.html"%}
 
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <input required="required" type="verify" class="form-control" name="v_code" placeholder="短信验证码" />
-                                    <i class="ace-icon fa fa-barcode"></i>
-                                  </span>
-                                </label>
-
-                                <label class="block clearfix">
-                                  <span class="block input-icon input-icon-right">
-                                    <button id="v-btn" type="button" class="btn btn-sm btn-inverse">获取短信验证码</button>
-                                  </span>
-                                </label>
 
                                 <label class="block">
                                   <input required="required" type="checkbox" class="ace" />
@@ -521,6 +490,10 @@
           $('#team2').click(function () {
             $("#clubForm").hide();
             $("#teamForm").show();
+          });
+
+          $(".v-btn").click(function(){
+            $(this).closest("")
           });
 
           });

@@ -1,4 +1,5 @@
 
+<div class="form-group">
 <label class="block clearfix">
   <span class="block input-icon input-icon-right">
     <input style="display:none"><!-- for disable autocomplete on chrome -->
@@ -7,8 +8,11 @@
   </span>
 </label>
 <label class="phoneErr" style="display: none; color: red"></label>
+</div>
+
+<script src='../../static/js/jquery.min.js'></script>
 <script type="text/javascript">
-  jQuery(function($) {
+  jQuery(function() {
 
     //phone验证
     $("input[type=phone]").blur(function () {
@@ -25,9 +29,11 @@
         $(this).closest("form").find(".phoneErr").show();
         $(this).closest("form").find(".phoneErr").text("电话号码应为数字");
         $(this).closest("form").find("button[type=submit]").attr("disabled", true);
+        $(this).closest(".form-group").addClass("has-error");
       } else {
         $(this).closest("form").find(".phoneErr").hide();
         $(this).closest("form").find("button[type=submit]").attr("disabled", false);
+        $(this).closest(".form-group").removeClass("has-error");
       }
     });
   });
