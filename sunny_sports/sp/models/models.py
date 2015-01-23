@@ -103,9 +103,27 @@ class UserRole(models.Model):
 
 
 class Code(models.Model):
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=15)
     code = models.CharField(max_length=10)
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now=True)
+
     class Meta:
         app_label='sp'
+
+class Message(models.Model):
+    title = models.CharField(max_length=1000) #消息标题
+    cont = models.CharField(max_length=3000)  #消息内容
+    time = models.DateTimeField(auto_now=True) #发布时间
+
+    class Meta:
+        app_label='sp'
+
+class UserMessage(models.Model):
+    user = models.ForeignKey(MyUser)
+    msg = models.ForeignKey(Message)
+    checked = models.BooleanField(default=False) #是否查看过
+
+    class Meta:
+        app_label='sp'
+
 
