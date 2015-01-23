@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
+from django.views.decorators.csrf import csrf_exempt
 #from django.contrib.auth import authenticate
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -15,8 +16,24 @@ from sunny_sports.sp.models import *
 from sunny_sports.sp.backend import MyBackend 
 
 from forms import *
+from utils import *
 
 # Create your views here.
+
+#客户端提交的post如果不加这段，会出现403error  
+@csrf_exempt  
+def vcode(req):
+    """
+    获取验证码请求
+    """
+    phone = req.POST.get('phone').strip()
+    if not phone or len(phone) == 0:
+        return None
+    result, code = send_vcode(phone)
+    print code
+    c = Code(phone=phone,code=code)
+    c.save()
+    return result
           
 @require_http_methods(["POST"])
 def regist(req):
