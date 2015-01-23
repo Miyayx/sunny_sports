@@ -15,22 +15,25 @@ def home(req):
     uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
     print uuid
+    coach = Coach.objects.filter(property__user_id=uuid)
 
-    return render_to_response('coach/home.html',{})
+    return render_to_response('coach/home.html',{"coach":coach[0]})
 
 def train(req):
     uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
     print uuid
-
-    return render_to_response('coach/train.html',{})
+    coach = Coach.objects.filter(property__user_id=uuid)
+    train = Train.objects.filter()
+    return render_to_response('coach/train.html',{"coach":coach[0], "train":train})
 
 def center(req):
     uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
     print uuid
-
-    return render_to_response('coach/center.html',{})
+    coach = Coach.objects.filter(property__user_id=uuid)
+    club = Club.objects.filter()
+    return render_to_response('coach/center.html',{"coach":coach[0], "club":club})
 
 
 

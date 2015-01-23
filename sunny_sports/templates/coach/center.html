@@ -1,250 +1,265 @@
 <body class="no-skin">
 
-<div class="main-container" id="main-container">
-	<div class="main-content">
-		<div class="page-content">
-			<!-- /section:settings.box -->
-			<div class="page-content-area">
-				<div class="page-header">
-					<h1>
-						个人中心
-						<small>
-						<i class="ace-icon fa "></i>
-						注册时间：2014年11月1日
-						</small>
-					</h1>
-				</div><!-- /.page-header -->
+	<div class="main-container" id="main-container">
+		<div class="main-content">
+			<div class="page-content">
+				<!-- /section:settings.box -->
+				<div class="page-content-area">
+					<div class="page-header">
+						<h1>
+							个人中心 <small> <i class="ace-icon fa "></i>
+								注册时间：{{coach.property.user.regist_time}}
+							</small>
+						</h1>
+					</div>
+					<!-- /.page-header -->
 
-				<div class="row">
-					<div class="col-xs-12">
-						<div>
-							<div id="user-profile-3" class="user-profile row">
-								<div class="col-sm-offset-1 col-sm-10">
-									<div class="well well-sm">
-										<button type="button" class="close" data-dismiss="alert">&times;</button>
-										&nbsp;
-										<div class="inline middle blue bigger-110"> Your profile is 70% complete </div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div>
+								<div id="user-profile-3" class="user-profile row">
+									<div class="col-sm-offset-1 col-sm-10">
 
-										&nbsp; &nbsp; &nbsp;
-										<div style="width:200px;" data-percent="70%" class="inline middle no-margin progress progress-striped active">
-											<div class="progress-bar progress-bar-success" style="width:70%"></div>
-										</div>
-									</div><!-- /.well -->
+										<div class="space"></div>
 
-									<div class="space"></div>
+										<form class="form-horizontal">
+											<div class="tabbable">
+												<ul class="nav nav-tabs padding-16">
+													<li class="active"><a data-toggle="tab"
+														href="#edit-basic"> <i
+															class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
+															个人信息
+													</a></li>
 
-									<form class="form-horizontal">
-										<div class="tabbable">
-											<ul class="nav nav-tabs padding-16">
-												<li class="active">
-													<a data-toggle="tab" href="#edit-basic">
-														<i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
-														个人信息
-													</a>
-												</li>
+													<li><a data-toggle="tab" href="#edit-password"> <i
+															class="blue ace-icon fa fa-key bigger-125"></i> 密码修改
+													</a></li>
+												</ul>
 
-												<li>
-													<a data-toggle="tab" href="#edit-password">
-														<i class="blue ace-icon fa fa-key bigger-125"></i>
-														密码修改
-													</a>
-												</li>
-											</ul>
-
-											<div class="tab-content profile-edit-tab-content">
-												<div id="edit-basic" class="tab-pane in active">
-													<h4 class="header blue bolder smaller">基本信息</h4>
-													<div class="row">
-														<div class="col-xs-12 col-sm-4">
-																	<label class="ace-file-input ace-file-multiple"><input type="file"><span class="ace-file-container" data-title="Change avatar"><span class="ace-file-name" data-title="No File ..."><i class=" ace-icon ace-icon fa fa-picture-o"></i></span></span><a class="remove" href="#"><i class=" ace-icon fa fa-times"></i></a></label>
-														</div>
-														<div class="vspace-12-sm"></div>
-														<div class="col-xs-12 col-sm-8">
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-username">姓名</label>
-																<div class="col-sm-8">
-																<div class="profile-info-value">
-																	<span class="editable editable-click" id="username">alexdoe</span>
+												<div class="tab-content profile-edit-tab-content">
+													<div id="edit-basic" class="tab-pane in active">
+														<h4 class="header blue bolder smaller">基本信息</h4>
+														<div class="row">
+															<div class="col-xs-12 col-sm-4">
+																<label class="ace-file-input ace-file-multiple"><input
+																	type="file"><span class="ace-file-container"
+																	data-title="Change avatar"><span
+																		class="ace-file-name" data-title="No File ..."><i
+																			class=" ace-icon ace-icon fa fa-picture-o"></i></span></span><a
+																	class="remove" href="#"><i
+																		class=" ace-icon fa fa-times"></i></a></label>
+															</div>
+															<div class="vspace-12-sm"></div>
+															<div class="col-xs-12 col-sm-8">
+																<div class="form-group">
+																	<label class="col-sm-4 control-label no-padding-right"
+																		for="form-field-username">姓名</label>
+																	<div class="col-sm-8">
+																		<div class="profile-info-value">
+																			<span class="editable editable-click" id="username">{{coach.property.name}}</span>
+																		</div>
+																	</div>
 																</div>
+																<div class="space-4"></div>
+																<div class="form-group">
+																	<label class="col-sm-4 control-label no-padding-right"
+																		for="form-field-nickname"> 昵称 </label>
+																	<div class="col-sm-8">
+																		<div class="profile-info-value">
+																			<span class="editable editable-click" id="nickname">{{coach.property.user.nickname}}</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="space-4"></div>
+
+																<div class="form-group">
+																	<label class="col-sm-4 control-label no-padding-right"
+																		for="form-field-phone">电话</label>
+																	<div class="col-sm-8">
+																		<div class="profile-info-value">
+																			<span class="editable editable-click" id="phone">{{coach.property.user.phone}}</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="space-4"></div>
+																<div class="form-group">
+																	<label class="col-sm-4 control-label no-padding-right"
+																		for="form-field-email">邮箱</label>
+																	<div class="col-sm-8">
+																		<div class="profile-info-value">
+																			<span class="editable editable-click" id="email">{{coach.property.user.email}}</span>
+																		</div>
+																	</div>
+																</div>
+																<div class="space-4"></div>
+																<div class="form-group">
+																	<label class="col-sm-4 control-label no-padding-right"
+																		for="form-field-last_log">上次登录时间</label>
+																	<div class="col-sm-8">
+																		<div class="profile-info-value">
+																			<span class="editable editable-click" id="last_log">{{coach.property.user.last_login}}</span>
+																		</div>
+																	</div>
 																</div>
 															</div>
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right">
-																	性别
-																</label>
-																<div class="col-sm-8">
-																<label class="inline">
-																	<input name="form-field-radio" type="radio" class="ace" checked/>
+														</div>
+														<hr />
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-date">出生日期</label>
+															<div class="col-sm-8">
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="birth">{{coach.property.birthday}}</span>
+																</div>
+															</div>
+														</div>
+														<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-identity"> 身份证号 </label>
+															<div class="col-sm-8">
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="identity">{{coach.property.identity}}</span>
+																</div>
+															</div>
+														</div>
+														<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right">
+																性别 </label>
+															<div class="col-sm-8">
+																<label class="inline"> <input
+																	name="form-field-radio" type="radio" class="ace"
+																	{% ifequal coach.property.sex 0 %}checked{% endifequal %} />
 																	<span class="lbl middle">男</span>
+																</label> &nbsp; &nbsp; &nbsp; <label class="inline"> <input
+																	name="form-field-radio" type="radio" class="ace"
+																	{% ifequal coach.property.sex 1 %}checked{% endifequal %} />
+																	<span class="lbl middle">女</span>
 																</label>
-																&nbsp; &nbsp; &nbsp;
-																<label class="inline">
-																<input name="form-field-radio" type="radio" class="ace" />
-																<span class="lbl middle">女</span>
-																</label>
-																</div>
 															</div>
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-identity">
-																	身份证号
-																</label>
-																<div class="col-sm-8">
+														</div>
+														<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-company">单位</label>
+															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="identity">371028309381928312</span>
+																	<span class="editable editable-click" id="company">{{coach.property.company}}</span>
 																</div>
-																</div>
-															</div>	
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-rank">
-																	等级
-																</label>
-																<div class="col-sm-8">
+															</div>
+														</div>
+														<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-club">俱乐部</label>
+															<div class="col-sm-9">
+																<span class="input-icon input-icon-right"> <select
+																	class="form-control" id="form-field-club">
+																		<option value=""></option>
+																		{% for c in club %}
+																		<option value="{{c.id}}" {% ifequal coach.club_id c.id %}selected{% endifequal %}>{{c.id}}</option>
+																		{% endfor %}
+																</select>
+																</span>
+															</div>
+														</div>
+														<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-place">常驻地</label>
+															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="rank">低</span>
+																	<span class="editable editable-click" id="address">{{coach.property.address}}</span>
 																</div>
-																</div>
-															</div>	
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-post">
-																	职称
-																</label>
-																<div class="col-sm-8">
+															</div>
+														</div>
+														<div class="space"></div>
+														<h4 class="header blue bolder smaller">级别</h4>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-rank"> 教学等级 </label>
+															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="post">一级</span>
+																	<span class="editable editable-click" id="rank">{{coach.get_t_level_display}}</span>
 																</div>
+															</div>
+														</div>
+														<div class="space-4"></div>
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-post"> 专业等级 </label>
+															<div class="col-sm-8">
+																<div class="profile-info-value">
+																	<span class="editable editable-click" id="post">{{coach.get_p_level_display}}</span>
 																</div>
-															</div>	
-														</div>
-													</div>
-													<hr />
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-date">出生日期</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="birth">1999-12-22</span>
 															</div>
 														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-company">单位</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="company">北京少年宫</span>
-															</div>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-club">俱乐部</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-															<select class="form-control" id="form-field-club">
-																<option value=""></option>
-																<option value="AL">Alabama</option>
-																<option value="AK">Alaska</option>
-															</select>
-															</span>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-place">常驻地</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input type="email" id="form-field-place" value="北京" />
-															</span>
-														</div>
-													</div>
-													<div class="space"></div>
-													<h4 class="header blue bolder smaller">联系方式</h4>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-email">邮箱</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="email">sdedsdf@gmail.com</span>
-															</div>
-														</div>
-													</div>
-													<div class="space-4"></div>
 
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-phone">电话</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="phone">131029424384</span>
+													</div>
+													<div id="edit-password" class="tab-pane">
+														<div class="space-10"></div>
+
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-pass1">新密码</label>
+
+															<div class="col-sm-9">
+																<input type="password" id="form-field-pass1" />
 															</div>
 														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-qq">QQ</label>
 
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="qq">281034823</span>
+														<div class="space-4"></div>
+
+														<div class="form-group">
+															<label class="col-sm-3 control-label no-padding-right"
+																for="form-field-pass2">确认密码</label>
+
+															<div class="col-sm-9">
+																<input type="password" id="form-field-pass2" />
 															</div>
 														</div>
 													</div>
 												</div>
-												<div id="edit-password" class="tab-pane">
-													<div class="space-10"></div>
+											</div>
 
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-pass1">新密码</label>
+											<div class="clearfix form-actions">
+												<div class="col-md-offset-3 col-md-9">
+													<button class="btn btn-info" type="button">
+														<i class="ace-icon fa fa-check bigger-110"></i> Save
+													</button>
 
-														<div class="col-sm-9">
-															<input type="password" id="form-field-pass1" />
-														</div>
-													</div>
-
-													<div class="space-4"></div>
-
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-pass2">确认密码</label>
-
-														<div class="col-sm-9">
-															<input type="password" id="form-field-pass2" />
-														</div>
-													</div>
+													&nbsp; &nbsp;
+													<button class="btn" type="reset">
+														<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+													</button>
 												</div>
 											</div>
-										</div>
+										</form>
+									</div>
+									<!-- /.span -->
+								</div>
+								<!-- /.user-profile -->
+							</div>
 
-										<div class="clearfix form-actions">
-											<div class="col-md-offset-3 col-md-9">
-												<button class="btn btn-info" type="button">
-													<i class="ace-icon fa fa-check bigger-110"></i>
-													Save
-												</button>
-
-												&nbsp; &nbsp;
-												<button class="btn" type="reset">
-													<i class="ace-icon fa fa-undo bigger-110"></i>
-													Reset
-												</button>
-											</div>
-										</div>
-									</form>
-								</div><!-- /.span -->
-							</div><!-- /.user-profile -->
+							<!-- PAGE CONTENT ENDS -->
 						</div>
-
-						<!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div><!-- /.page-content-area -->
-		</div><!-- /.page-content -->
-	</div><!-- /.main-content -->
-	<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-		<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-	</a>
-</div><!-- /.main-container -->
-<script type="text/javascript">
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.page-content-area -->
+			</div>
+			<!-- /.page-content -->
+		</div>
+		<!-- /.main-content -->
+		<a href="#" id="btn-scroll-up"
+			class="btn-scroll-up btn btn-sm btn-inverse"> <i
+			class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+		</a>
+	</div>
+	<!-- /.main-container -->
+	<script type="text/javascript">
 	var scripts = [null,"http://sunny-sports.qiniudn.com/static/js/jquery-ui.custom.min.js","../../static/js/jquery.ui.touch-punch.min.js","../../static/js/jquery.gritter.min.js","../../static/js/bootbox.min.js","../../static/js/jquery.easypiechart.min.js","../../static/js/date-time/bootstrap-datepicker.min.js","../../static/js/jquery.hotkeys.min.js","../../static/js/bootstrap-wysiwyg.min.js","../../static/js/select2.min.js","../../static/js/fuelux/fuelux.spinner.min.js","../../static/js/x-editable/bootstrap-editable.min.js","../../static/js/x-editable/ace-editable.min.js","../../static/js/jquery.maskedinput.min.js", null]
 	ace.load_ajax_scripts(scripts, function() {
 	  //inline scripts related to this page
@@ -701,13 +716,13 @@
 	
 	});
 </script>
-		<!-- basic scripts -->
+	<!-- basic scripts -->
 
-		<!--[if !IE]> -->
-		<!-- by gll
+	<!--[if !IE]> -->
+	<!-- by gll
 		<script type="text/javascript">
 			window.jQuery || document.write("<script src='../static/js/jquery.min.js'>"+"<"+"/script>");
 		</script>
 		-->
-		<!-- <![endif]-->	
+	<!-- <![endif]-->
 </body>

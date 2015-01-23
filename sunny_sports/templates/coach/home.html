@@ -4,7 +4,7 @@
 <script src="http://sunny-sports.qiniudn.com/static/js/jquery.easypiechart.min.js"></script>
 <script src="http://sunny-sports.qiniudn.com/static/js/jquery.easy-pie-chart-older.js"></script>
 <script type="text/javascript">
-jQuery(function($) {
+/*jQuery(function($) {
     $('.easy-pie-chart.percentage').each(function(){
                     var $box = $(this).closest('.infobox');
                     var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
@@ -20,7 +20,7 @@ jQuery(function($) {
                         size: size
                     });
                 })
-});
+});*/
 </script>
 
 <div class="page-header"><h1>首页</h1></div>
@@ -38,7 +38,7 @@ jQuery(function($) {
 
             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                 <div class="inline position-relative">
-                    <span class="white">王教练</span>
+                    <span class="white">{{coach.property.name}}</span>
                 </div>
             </div>
         </div>
@@ -50,17 +50,17 @@ jQuery(function($) {
             <div class="profile-contact-links align-left">
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-phone bigger-120 green"></i>
-                    13333333333
+                    {{coach.property.user.phone}}
                 </a>
 
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-comment bigger-125 blue"></i>
-                    435673454
+                    {{coach.property.name}}
                 </a>
 
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-envelope bigger-120 pink"></i>
-                    moumoug@gmail.com
+                    {{coach.property.user.email}}
                 </a>
             </div>
         </div>
@@ -74,7 +74,7 @@ jQuery(function($) {
                 <div class="profile-info-name"> 姓名 </div>
 
                 <div class="profile-info-value">
-                    <span>王教练</span>
+                    <span>{{coach.property.name}}</span>
                 </div>
             </div>
 
@@ -83,8 +83,8 @@ jQuery(function($) {
 
                 <div class="profile-info-value">
                     <i class="fa fa-map-marker light-orange bigger-110"></i>
-                    <span>北京</span>
-                    <span>海淀</span>
+                    <span>{{coach.property.province}}</span>
+                    <span>{{coach.property.city}}</span>
                 </div>
             </div>
 
@@ -92,7 +92,7 @@ jQuery(function($) {
                 <div class="profile-info-name"> 年龄 </div>
 
                 <div class="profile-info-value">
-                    <span>38</span>
+                    <span>{{coach.property.birthday}}</span>
                 </div>
             </div>
 
@@ -100,7 +100,7 @@ jQuery(function($) {
                 <div class="profile-info-name"> 工作单位 </div>
 
                 <div class="profile-info-value">
-                    <span>国家体育馆</span>
+                    <span>{{coach.property.company}}</span>
                 </div>
             </div>
     
@@ -108,7 +108,7 @@ jQuery(function($) {
                 <div class="profile-info-name"> 所属俱乐部 </div>
 
                 <div class="profile-info-value">
-                    <span>funny</span>
+                    <span>{{coach.club_id}}</span>
                 </div>
             </div>
     
@@ -116,7 +116,7 @@ jQuery(function($) {
                 <div class="profile-info-name"> 等级 </div>
 
                 <div class="profile-info-value">
-                    <span>1</span>
+                    <span>{{coach.p_level}}</span>
                 </div>
             </div>
             
