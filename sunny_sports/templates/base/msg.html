@@ -1,0 +1,32 @@
+<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+  <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+  {% if num > 0 %}
+  <span class="badge badge-important">{{num}}</span>
+  {% endif %}
+</a>
+
+<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+  <li class="dropdown-header">
+  <i class="ace-icon fa fa-exclamation-triangle"></i>
+  {{num}} 条未读消息
+  </li>
+
+  {% for m in msgs%}
+  <li>
+  <a href="#">
+    <div class="clearfix">
+      <span class="pull-left">
+        {{m.title}}
+      </span>
+    </div>
+  </a>
+  </li>
+  {% endfor %}
+
+  <li class="dropdown-footer">
+  <a href="#">
+    查看所有消息
+    <i class="ace-icon fa fa-arrow-right"></i>
+  </a>
+  </li>
+</ul>

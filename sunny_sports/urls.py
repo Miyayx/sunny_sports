@@ -23,6 +23,9 @@ urlpatterns = patterns('',
         url(r'^centre$', TemplateView.as_view(template_name='centre/base.html')),
         url(r'^coach_org$', TemplateView.as_view(template_name='coach_org/base.html')),
 
+        url(r'^msg$','sunny_sports.sp.views.get_msg'),
+
+
         #url(r'^blog/', include('blog.urls')),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
