@@ -53,14 +53,15 @@
 		<!-- #section:elements.tab.position -->
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-color-blue" id="stu_test_tab">
-				<li><a data-toggle="tab" href="#level-low"> <i
+				<li {% ifequal coach.p_level 0 %}class="active"{% endifequal %}><a data-toggle="tab" href="#level-low"> <i
 						class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 低级
-				</a>
-				<li class="active"><a data-toggle="tab" href="#level-middle">
+				</a></li>
+				<li {% ifequal coach.p_level 1 %}class="active"{% endifequal %}><a data-toggle="tab" href="#level-middle">
 						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i>
 						中级
 				</a></li>
-				<li><a data-toggle="tab" href="#level-high"> <i
+				<li {% ifequal coach.p_level 2 %}class="active"{% endifequal %} {% ifequal coach.p_level 3 %}class="active"{% endifequal %}>
+					<a data-toggle="tab" href="#level-high"> <i
 						class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 高级
 				</a></li>
 			</ul>
