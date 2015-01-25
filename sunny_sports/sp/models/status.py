@@ -16,6 +16,12 @@ SEX = (
         (1,'female'),
         )
 
+#报名是否截止
+REG_STATUS = (
+        (0,"registing"),
+        (1,"regist_end"),
+        )
+
 #成绩是否发布
 PUB_STATUS = (
         (0,"not_published"),
