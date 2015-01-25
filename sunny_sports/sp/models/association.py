@@ -20,8 +20,9 @@ class CoachTrain(models.Model):
     train = models.ForeignKey(Train)
     score = models.IntegerField(default=0) 
     status = models.IntegerField(default=0)
-    certificate = models.CharField(max_length=100, null=True)
-    get_time = models.DateTimeField(null=True)
+    certificate = models.CharField(max_length=100, null=True) #证书编号
+    reg_time = models.DateTimeField(null=True) #报名时间
+    get_time = models.DateTimeField(null=True) #通过时间
     class Meta:
         app_label='sp'
 

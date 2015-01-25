@@ -3,6 +3,7 @@ from django import forms
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template.loader import render_to_string
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 #from django.contrib.auth import authenticate
@@ -34,6 +35,19 @@ def vcode(req):
     c = Code(phone=phone,code=code)
     c.save()
     return result
+
+def get_msg(req):
+    """
+    header部分获取未读消息
+    """
+    uuid = req.session.get('uuid',0)
+    if uuid:
+        msgs = UserMessage.objects.filter(user_id=uuid, checked=False)
+        print len(msgs)
+        print msgs[:5]
+        html = render_to_string('base/msg.html', {'num':len(msgs), 'msgs': msgs[:5]})
+        return HttpResponse(html)
+    return None
           
 @require_http_methods(["POST"])
 def regist(req):
