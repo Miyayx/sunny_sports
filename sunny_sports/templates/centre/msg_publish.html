@@ -48,6 +48,7 @@
           <div class="form-group">
             <label class="col-xs-3 control-label bolder blue">内容</label>
             <div class="col-sm-9">
+              {{ form.content.as_hidden }}
               {% include "components/editor.html" %}
             </div>
           </div>
@@ -79,23 +80,31 @@
       $('#msg-form').submit(function(event) { // catch the form's submit event
         /* stop form from submitting normally */
         event.preventDefault();
+        var cont = $('#editor1').html(); //从编辑器里获得内容
+        $('#id_content').val(cont);
 
         var $form = $(this);
-        var cont = $('#editor1').html(); //从编辑器里获得内容
-        var data = $form.serializeArray();
-        data.push({"name":"content","value":cont}); //内容添加到post参数中
-        $.ajax({ // create an AJAX call...
-          data: data, // get the form data
-          type: $form.attr('method'), // GET or POST
-          url: "/centre/msg_publish", // the file to call
-          success: function(response) { // on success..
-            alert("发布成功！")
-            $form.trigger("reset");
-          },
-          error: function(e, x, r) { // on error..
-            alert("发布失败，请重试！")
-          }
-        });
+        var onCount = $("#msg-form input:checkbox:checked").length;
+        if (onCount == 0)
+          alert("请选择发送角色");
+        else if ($form.find('#id_title').val().length < 6)
+          alert("请填写标题");
+        else{
+          var data = $form.serialize();
+          $.ajax({ // create an AJAX call...
+            data: data, // get the form data
+            type: $form.attr('method'), // GET or POST
+            url: "/centre/msg_publish", // the file to call
+            success: function(response) { // on success..
+              alert("发布成功！")
+              $form.trigger("reset");
+              $('#editor1').clear(); //从编辑器里获得内容
+            },
+            error: function(e, x, r) { // on error..
+              alert("发布失败，请重试！")
+            }
+          });
+        }
         return false;
       });
     });

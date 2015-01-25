@@ -2,7 +2,6 @@
 
 from django.forms import ModelForm
 from django import forms
-from django import forms
 from django.forms.util import flatatt
 from django.template import loader
 from django.utils.datastructures import SortedDict
@@ -30,12 +29,12 @@ class SetPasswordForm(forms.Form):
     old password
     """
     error_messages = {
-        'password_mismatch': _("The two password fields didn't match."),
-    }
+            'password_mismatch': _("The two password fields didn't match."),
+            }
     new_password1 = forms.CharField(label=_("New password"),
-                                    widget=forms.PasswordInput)
+            widget=forms.PasswordInput)
     new_password2 = forms.CharField(label=_("New password confirmation"),
-                                    widget=forms.PasswordInput)
+            widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -47,8 +46,8 @@ class SetPasswordForm(forms.Form):
         if password1 and password2:
             if password1 != password2:
                 raise forms.ValidationError(
-                    self.error_messages['password_mismatch'])
-        return password2
+                        self.error_messages['password_mismatch'])
+                return password2
 
     def save(self, commit=True):
         self.user.set_password(self.cleaned_data['new_password1'])
@@ -64,10 +63,10 @@ class PasswordChangeForm(SetPasswordForm):
     """
     error_messages = dict(SetPasswordForm.error_messages, **{
         'password_incorrect': _("Your old password was entered incorrectly. "
-                                "Please enter it again."),
-    })
+            "Please enter it again."),
+        })
     old_password = forms.CharField(label=_("Old password"),
-                                   widget=forms.PasswordInput)
+            widget=forms.PasswordInput)
 
     def clean_old_password(self):
         """
@@ -76,13 +75,13 @@ class PasswordChangeForm(SetPasswordForm):
         old_password = self.cleaned_data["old_password"]
         if not self.user.check_password(old_password):
             raise forms.ValidationError(
-                self.error_messages['password_incorrect'])
-        return old_password
+                    self.error_messages['password_incorrect'])
+            return old_password
 
 PasswordChangeForm.base_fields = SortedDict([
     (k, PasswordChangeForm.base_fields[k])
     for k in ['old_password', 'new_password1', 'new_password2']
-])
+    ])
 
 
 class AdminPasswordChangeForm(forms.Form):
@@ -90,12 +89,12 @@ class AdminPasswordChangeForm(forms.Form):
     A form used to change the password of a user in the admin interface.
     """
     error_messages = {
-        'password_mismatch': _("The two password fields didn't match."),
-    }
+            'password_mismatch': _("The two password fields didn't match."),
+            }
     password1 = forms.CharField(label=_("Password"),
-                                widget=forms.PasswordInput)
+            widget=forms.PasswordInput)
     password2 = forms.CharField(label=_("Password (again)"),
-                                widget=forms.PasswordInput)
+            widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -107,8 +106,8 @@ class AdminPasswordChangeForm(forms.Form):
         if password1 and password2:
             if password1 != password2:
                 raise forms.ValidationError(
-                    self.error_messages['password_mismatch'])
-        return password2
+                        self.error_messages['password_mismatch'])
+                return password2
 
     def save(self, commit=True):
         """
@@ -118,5 +117,51 @@ class AdminPasswordChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
+
+class MessagePublishForm(forms.Form):
+    stu   = forms.BooleanField(initial=False, required=False)
+    coach = forms.BooleanField(initial=False, required=False)
+    judge = forms.BooleanField(initial=False, required=False)
+    title = forms.CharField(max_length=100)
+    content = forms.CharField(max_length=1000)
+
+   # def clean(self):
+   #     """
+   #     因为checkbox控件有点特殊，直接validate会不通过
+   #     """
+   #     cleaned_data = super(MessagePublishForm, self).clean()
+   #     stu = cleaned_data.get("stu", False)
+   #     coach = cleaned_data.get("coach", False)
+   #     judge = cleaned_data.get("judge", False)
+
+   #     title = cleaned_data.get("title",None)
+   #     if not title:
+   #        raise forms.ValidationError("No Title")
+   #     content = cleaned_data.get("content","")
+   #     print cleaned_data
+   #     return True
+
+    def save(self):
+        #消息写入数据库，选择所有学员则给所有学员与这个消息一个关联关系，教练与裁判同理
+        data = self.cleaned_data
+        msg = Message.objects.create(title=data['title'], cont=data.get('content',''))
+        msg.save()
+
+        user_list = []
+        print len(user_list)
+        if data.get('stu',False):
+            user_list += MyUser.objects.filter(role=2)
+            print len(user_list)
+        if data.get('coach',False):
+            user_list += MyUser.objects.filter(role=3)
+            print len(user_list)
+        if data.get('judge',False):
+            user_list += MyUser.objects.filter(role=4)
+            print len(user_list)
+
+        insert_list = []
+        for u in user_list:
+            insert_list.append(UserMessage(user=u, msg=msg))
+        UserMessage.objects.bulk_create(insert_list)
 
 

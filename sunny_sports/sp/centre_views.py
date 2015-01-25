@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.shortcuts import render_to_response
+from django.shortcuts import redirect
+from django.template import RequestContext
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 
@@ -9,6 +11,8 @@ from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
 from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
+
+from forms import *
 
 def test_check(req, train_id=None):
     print "test_check, id %s"%train_id
@@ -58,5 +62,28 @@ def history_print(req, train_id=None):
         return csv_generate()
     else:
         return "Wrong Train id"
+
+def msg_publish(req):
+    """
+    """
+    if req.method == 'POST': #如果是提交表单内容
+        print req.POST
+        post = req.POST.copy()
+        if post.get("stu", False):
+            post["stu"] = True
+        if post.get("coach", False):
+            post["coach"] = True
+        if post.get("judge", False):
+            post["judge"] = True
+        print post
+        form = MessagePublishForm(post)
+        print form.is_valid()
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("msg_publish")
+    else: # GET 方法请求消息发送页面
+        form = MessagePublishForm()
+        return render_to_response('centre/msg_publish.html', {'form':form}, RequestContext(req))
+
 
 
