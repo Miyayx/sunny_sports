@@ -11,12 +11,12 @@
   {{num}} 条未读消息
   </li>
 
-  {% for m in msgs%}
+  {% for m in msgs %}
   <li>
   <a href="#">
     <div class="clearfix">
       <span class="pull-left">
-        {{m.title}}
+        {{m.msg.title}}
       </span>
     </div>
   </a>

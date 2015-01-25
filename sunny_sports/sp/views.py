@@ -44,7 +44,6 @@ def get_msg(req):
     if uuid:
         msgs = UserMessage.objects.filter(user_id=uuid, checked=False)
         print len(msgs)
-        print msgs[:5]
         html = render_to_string('base/msg.html', {'num':len(msgs), 'msgs': msgs[:5]})
         return HttpResponse(html)
     return None
