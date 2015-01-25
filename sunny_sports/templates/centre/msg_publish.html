@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
-      <form action="centre/msg_publish" method="post">
+      <form action="" method="POST" id="msg-form">
         {% csrf_token %}
         <fieldset> 
           <div class="col-xs-5 col-sm-2">
@@ -70,4 +70,34 @@
     </div>
     <div class="col-sm-1"></div>
   </div>
+
+  <script type="text/javascript" src="../../static/js/jquery.min.js"> </script>
+  <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('#msg-form').submit(function(event) { // catch the form's submit event
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        var $form = $(this);
+        var cont = $('#editor1').html(); //从编辑器里获得内容
+        var data = $form.serializeArray();
+        data.push({"name":"content","value":cont}); //内容添加到post参数中
+        $.ajax({ // create an AJAX call...
+          data: data, // get the form data
+          type: $form.attr('method'), // GET or POST
+          url: "/centre/msg_publish", // the file to call
+          success: function(response) { // on success..
+            alert("发布成功！")
+            $form.trigger("reset");
+          },
+          error: function(e, x, r) { // on error..
+            alert("发布失败，请重试！")
+          }
+        });
+        return false;
+      });
+    });
+  </script>
 </body>
