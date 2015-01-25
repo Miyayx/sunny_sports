@@ -24,7 +24,11 @@ def train(req):
     # 用这个id查信息哦
     print uuid
     coach = Coach.objects.filter(property__user_id=uuid)
-    train = Train.objects.filter()
+    #if coach[0].p_level = 0:
+     #   train = Train.objects.filter()
+    #else if 
+        
+    
     return render_to_response('coach/train.html',{"coach":coach[0], "train":train})
 
 def center(req):
