@@ -17,7 +17,7 @@ def make_id():
     #_id = Train.objects.latest('_id')._id#get latest train id
     #ym,i = _id[:6],_id[6:] #get yearmonth and id
     now = datetime.datetime.now()
-    nym = str(now.year)+str(now.month) 
+    nym = "{0:0>4d}{1:0>2d}".format(now.year, now.month)
     #if ym == nym:
     #    i += 1 #如果是同一月份id+1
     #else:
