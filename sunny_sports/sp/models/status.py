@@ -32,6 +32,7 @@ PUB_STATUS = (
 SUB_STATUS = (
         (0,"not_submitted"),
         (1,"submitted"),
+        (2,"not_pass"), #管理员审核未通过
         )
 
 #培训状态，报名还是交过报名费，结束等等
