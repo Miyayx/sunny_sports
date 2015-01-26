@@ -12,16 +12,17 @@ from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 
 def home(req):
-    uuid = req.session['uuid']
+    uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
-
-    return render_to_response('coach/home.html',{})
+	print uuid
+	coachorg = CoachOrg.objects.filter(user_id=uuid)
+    return render_to_response('coach_org/home.html',{"coach_org":coachorg[0]})
 
 def train(req):
     uuid = req.session['uuid']
     # 用这个id查信息哦
 
-    return render_to_response('coach/train.html',{})
+    return render_to_response('coach/train.html',{""})
 
 def center(req):
     uuid = req.session['uuid']
