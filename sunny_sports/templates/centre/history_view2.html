@@ -5,8 +5,16 @@
   <div class="col-xs-10">
     <div>
       <div>
+        <div class="profile-info-name">培训编号</div>
+        <div class="profile-info-value">{{train.id}}</div>
+      </div>
+      <div>
         <div class="profile-info-name">培训课程</div>
         <div class="profile-info-value">{{train.name}}</div>
+      </div>
+      <div>
+        <div class="profile-info-name">培训时间</div>
+        <div class="profile-info-value">{{train.train_stime}}</div>
       </div>
       <div class="profile-info-row">
         <div class="profile-info-name">培训等级</div>
@@ -28,28 +36,28 @@
             </th>
             <th class="center">学号</th>
             <th class="center">是否通过
-            <th class="center">证书编号
-            </th>
-          </tr>
-        </thead>
+              <th class="center">证书编号
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {% for i in c_t %}
-          <tr>
-            <td class="center" style="cursor:pointer"><span class="label label-inverse">{{i.coach.property.name}}</span></td>
-            <td class="center">{{i.number}}</td>
-            <td class="center">
-              {{i.status}}
-            </td>
-            <td class="center">
-              {{i.certificate}}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <div class="row center">
+          <tbody>
+            {% for i in c_t %}
+            <tr>
+              <td class="center" style="cursor:pointer"><span class="label label-inverse">{{i.coach.property.name}}</span></td>
+              <td class="center">{{i.number}}</td>
+              <td class="center">
+                {{i.status}}
+              </td>
+              <td class="center">
+                {{i.certificate}}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="row center">
           <button class="btn btn-success">下载Excel</button>
+        </div>
+        <div class="col-xs-1"></div>
       </div>
-      <div class="col-xs-1"></div>
-    </div>

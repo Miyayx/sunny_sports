@@ -16,7 +16,7 @@
   })
 </script>
 
-<div class="page-header"><h1>培训信息查看</h1></div>
+<div class="page-header"><h1>历史培训查看</h1></div>
 
 <div class="row">
   <div class="col-sm-1"></div>
@@ -37,7 +37,7 @@
           {% for t in ctlist %}
           <tr>
             <td class="center">{{t.org.org_name}}</td>
-            <td class="center"><a href="#page/centre/test_check/{{t.id}}">{{t.name}}</a></td>
+            <td class="center"><a href="#page/centre/history_view/{{t.id}}">{{t.name}}</a></td>
             <td class="center">{{t.get_level_display}}</td>
           </tr>
           {% endfor %}
@@ -60,10 +60,10 @@
           </thead>
 
           <tbody>
-            {% for t in ctlist %}
+            {% for t in jtlist %}
             <tr>
               <td class="center">{{t.org.org_name}}</td>
-              <td class="center"><a href="#page/centre/test_check/{{t.id}}">{{t.name}}</a></td>
+              <td class="center"><a href="#page/centre/history_view/{{t.id}}">{{t.name}}</a></td>
               <td class="center">{{t.get_level_display}}</td>
             </tr>
             {% endfor %}
