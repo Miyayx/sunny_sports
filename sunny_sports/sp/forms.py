@@ -17,6 +17,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
 
 from sunny_sports.sp.models.models import *
+from utils import *
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='昵称/手机号码', max_length=255)
@@ -144,8 +145,6 @@ class MessagePublishForm(forms.Form):
     def save(self):
         #消息写入数据库，选择所有学员则给所有学员与这个消息一个关联关系，教练与裁判同理
         data = self.cleaned_data
-        msg = Message.objects.create(title=data['title'], cont=data.get('content',''))
-        msg.save()
 
         user_list = []
         print len(user_list)
@@ -159,9 +158,6 @@ class MessagePublishForm(forms.Form):
             user_list += MyUser.objects.filter(role=4)
             print len(user_list)
 
-        insert_list = []
-        for u in user_list:
-            insert_list.append(UserMessage(user=u, msg=msg))
-        UserMessage.objects.bulk_create(insert_list)
-
+        #utils.py里
+        custom_msg_publish(user_list, data['title'], data.get('content',''))
 

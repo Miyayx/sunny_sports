@@ -45,14 +45,18 @@ def check_pass(req):
     """
     if req.method == "POST":
         t_id = req.POST.get("t_id")
-        print req.POST.get("pass")
         if int(req.POST.get("pass", 0)): #审核通过
             Train.objects.filter(id=t_id).update(pub_status=1)
             Train.objects.filter(id=t_id).update(sub_status=1)
             # generate certificate
-            print req.POST.get("cert")
             ns = req.POST.get("cert",{}).keys() #get number list获得审核通过的学号列表 
-            CoachTrain.objects.filter(number__in=ns, train_id=t_id).update(certificate=str(t_id)+str(F('number')))
+            pass_c_t = CoachTrain.objects.filter(number__in=ns, train_id=t_id)            
+            not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
+            pass_c_t.update(certificate=str(t_id)+str(F('number')))
+
+            # 发布消息通知
+            title = u"考试结果"
+            content = u"恭喜培训%s考试通过"%t_id
         else: #审核不通过
             Train.objects.filter(id=t_id).update(sub_status=2)
             Train.objects.filter(id=t_id).update(pub_status=0)
@@ -64,13 +68,15 @@ def check_pass(req):
 def history_view(req, train_id=None):
     if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
         c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
-        train = c_t[0].train
-        return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train})
+        if len(c_t) > 0:
+            train = c_t[0].train
+            return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train})
+        else:
+            return HttpResponse("<h2>没有该课程的历史信息</h2>")
     else:#否则返回课程列表
         c_t = CoachTrain.objects.filter(train__pub_status=1) #这里查的是Train的status，是联合两个表的查询，用两个_
         ctlist = [i.train for i in c_t]
         jtlist = []
-        print "c"
         return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
 
 def history_print(req, train_id=None):
@@ -103,6 +109,5 @@ def msg_publish(req):
     else: # GET 方法请求消息发送页面
         form = MessagePublishForm()
         return render_to_response('centre/msg_publish.html', {'form':form}, RequestContext(req))
-
 
 

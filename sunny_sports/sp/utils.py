@@ -5,6 +5,8 @@ import requests
 import json
 import random
 
+from sunny_sports.sp.models.models import *
+
 def gen_vcode():
     return random.randint(1000,9999)
 
@@ -25,3 +27,12 @@ def send_vcode(mobile):
     result = json.loads(resp.content)
     return result,vcode
 
+
+def custom_msg_publish(user_list, title, content):
+    msg = Message.objects.create(title=title, cont=content)
+    msg.save()
+
+    insert_list = []
+    for u in user_list:
+        insert_list.append(UserMessage(user=u, msg=msg))
+    UserMessage.objects.bulk_create(insert_list)

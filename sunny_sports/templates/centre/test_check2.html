@@ -12,6 +12,10 @@
         <div class="profile-info-name">培训课程</div>
         <div class="profile-info-value">{{train.name}}</div>
       </div>
+      <div>
+        <div class="profile-info-name">培训时间</div>
+        <div class="profile-info-value">{{train.train_stime}}</div>
+      </div>
       <div class="profile-info-row">
         <div class="profile-info-name">培训等级</div>
         <div class="profile-info-value">{{train.get_level_display}}</div>
@@ -100,10 +104,10 @@
                     function(data){
                       if (data["success"]){ //提交成功后
                         //$.get('/centre/test_check', function(page){
-                        //  $('.page-content').html(page); //返回审核列表页面
+                          //  $('.page-content').html(page); //返回审核列表页面
                           alert("已发布");
                           window.location.href = window.location.pathname + "#page/centre/test_check/";
-                        //});
+                  //});
                       }
                     });
                 }
@@ -126,10 +130,10 @@
                     function(data){
                       if (data["success"]){ //提交成功后
                         //$.get('/centre/test_check', function(page){
-                        //  $('.page-content').html(page); //返回审核列表页面
+                          //  $('.page-content').html(page); //返回审核列表页面
                           alert("");
                           window.location.href = window.location.pathname + "#page/centre/test_check/";
-                        //});
+                  //});
                       }
                     });
                 }
