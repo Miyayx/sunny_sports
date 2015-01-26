@@ -16,20 +16,20 @@
 <script type="text/javascript">
   jQuery(function(){
     $(".v-btn").click(function(){
-      phone=$(this).closest("form").find("input[type=phone]");
+      $btn = $(this);
+      phone=$(this).closest("form").find("input[name=phone]");
       if(phone.val().length==0){
         phone.closest(".form-group").addClass("has-error");
       }else{
-      $.post( "/vcode", {"phone":phone.val()}, function(data) {
-        if(data['msg']=='ok'){
-          phone.closest('#vcode-text').html("发送成功,请注意查收");
-        }else{
-          phone.closest('#vcode-text').html("发送失败,请重试");
-      }
+        $.post( "/vcode", {"phone":phone.val()}, function(data) {
+          if(data['msg']=='ok'){
+            $btn.closest('#vcode-text').html("已发送,请注意查收");
+          }else{
+            $btn.closest('#vcode-text').html("发送失败,请重试");
+          }
         });
-    }
+      }
     });
-
   });
 
 </script>

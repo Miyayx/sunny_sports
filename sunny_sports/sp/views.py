@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
 from django import forms
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
@@ -115,4 +116,24 @@ def logout(req):
         return render_to_response('login.html',c)
     else:
         return HttpResponse('please login!')
+
+def password(req):
+    if req.method == 'POST': #Change password 
+        if not req.POST["password"] == req.POST["password2"]:
+            return JsonResponse({"success":False,"msg":u"密码不一致"}) 
+        u = MyUser.objects.get(id=req.session.get("uuid",0))
+        if u:
+            c = Code.objects.get(phone = u.phone).latest('time')
+            if c.code == req.POST.get("vcode",0):
+                u.set_password('new password')
+                u.save()
+                return JsonResponse({"success":True,"msg":""}) 
+            else:
+                return JsonResponse({"success":False,"msg":u"验证码错误"}) 
+        else:
+            return JsonResponse({"success":False,"msg":u"用户身份错误"}) 
+
+    else: #Get page
+        u = MyUser.objects.get(id=req.session.get("uuid",0))
+        return render_to_response('password.html', {"phone":u.phone}, RequestContext(req))
 
