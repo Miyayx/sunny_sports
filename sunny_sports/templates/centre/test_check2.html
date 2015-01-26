@@ -96,16 +96,16 @@
                 callback: function() {
                   var csrftoken = $.cookie('csrftoken');
                   $.post('/centre/check_pass', 
-                    {"pass":true,"t_id":"{{ train.id }}", 'csrfmiddlewaretoken': csrftoken, 'cert':cert},
+                    {"pass":1,"t_id":"{{ train.id }}", 'csrfmiddlewaretoken': csrftoken, 'cert':cert},
                     function(data){
-                      console.log(data["success"])
-                    if (data["success"]){ //提交成功后
-                      $.get('/centre/test_check', function(page){
-                        $('.page-content').html(page); //返回审核列表页面
-                        alert("已发布");
-                      });
-                    }
-                  });
+                      if (data["success"]){ //提交成功后
+                        //$.get('/centre/test_check', function(page){
+                        //  $('.page-content').html(page); //返回审核列表页面
+                          alert("已发布");
+                          window.location.href = window.location.pathname + "#page/centre/test_check/";
+                        //});
+                      }
+                    });
                 }
               }
             }
@@ -113,7 +113,34 @@
 
         });
         $('#not-pass-btn').click(function(){
-          $.post(/centre/check_pass, {"pass":false, "t_id":"{{ train.id }}"},function(){
+          bootbox.dialog({
+            message: '<h3>是否确认？</h3>',
+            buttons: {
+              main: {
+                label: "确认",
+                className: "btn-primary",
+                callback: function() {
+                  var csrftoken = $.cookie('csrftoken');
+                  $.post('/centre/check_pass', 
+                    {"pass":0, "t_id":"{{ train.id }}", 'csrfmiddlewaretoken': csrftoken},
+                    function(data){
+                      if (data["success"]){ //提交成功后
+                        //$.get('/centre/test_check', function(page){
+                        //  $('.page-content').html(page); //返回审核列表页面
+                          alert("");
+                          window.location.href = window.location.pathname + "#page/centre/test_check/";
+                        //});
+                      }
+                    });
+                }
+              },
+              cancel: {
+                label: "取消",
+                className: "btn-default",
+                callback: function() {
+                }
+              },
+            }
           });
 
         });

@@ -45,7 +45,8 @@ def check_pass(req):
     """
     if req.method == "POST":
         t_id = req.POST.get("t_id")
-        if req.POST.get("pass", False): #审核通过
+        print req.POST.get("pass")
+        if int(req.POST.get("pass", 0)): #审核通过
             Train.objects.filter(id=t_id).update(pub_status=1)
             Train.objects.filter(id=t_id).update(sub_status=1)
             # generate certificate
