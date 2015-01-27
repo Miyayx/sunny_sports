@@ -15,6 +15,7 @@ from django.template import RequestContext
 from django.views.decorators.http import require_http_methods
 
 from sunny_sports.sp.models import *
+from sunny_sports.sp.models.models import *
 from sunny_sports.sp.backend import MyBackend 
 
 from forms import *
@@ -32,10 +33,11 @@ def vcode(req):
     if not phone or len(phone) == 0:
         return None
     result, code = send_vcode(phone)
+    print phone
     print code
     c = Code(phone=phone,code=code)
     c.save()
-    return result
+    return JsonResponse(result)
 
 def get_msg(req):
     """

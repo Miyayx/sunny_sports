@@ -8,14 +8,14 @@
 
 <label class="block clearfix">
   <span class="block input-icon input-icon-right">
-    <button type="button" class="btn btn-sm btn-inverse v-btn ">获取短信验证码</button>
+    <button type="button" class="btn btn-sm btn-inverse" id="v-btn">获取短信验证码</button>
   </span>
   <span id="vcode-text"></span>
 </label>
 <script src='../../static/js/jquery.min.js'></script>
 <script type="text/javascript">
   jQuery(function(){
-    $(".v-btn").click(function(){
+    $("#v-btn").click(function(){
       $btn = $(this);
       phone=$(this).closest("form").find("input[name=phone]");
       if(phone.val().length==0){
@@ -23,9 +23,9 @@
       }else{
         $.post( "/vcode", {"phone":phone.val()}, function(data) {
           if(data['msg']=='ok'){
-            $btn.closest('#vcode-text').html("已发送,请注意查收");
+            $btn.parent().parent().find('#vcode-text').html("已发送,请注意查收");
           }else{
-            $btn.closest('#vcode-text').html("发送失败,请重试");
+            $btn.parent().parent().find('#vcode-text').html("发送失败,请重试");
           }
         });
       }
