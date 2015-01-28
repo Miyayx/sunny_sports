@@ -4,6 +4,7 @@
 <script src="http://sunny-sports.qiniudn.com/static/js/jquery.easypiechart.min.js"></script>
 <script src="http://sunny-sports.qiniudn.com/static/js/jquery.easy-pie-chart-older.js"></script>
 <script type="text/javascript">
+/*
 jQuery(function($) {
     $('.easy-pie-chart.percentage').each(function(){
                     var $box = $(this).closest('.infobox');
@@ -21,6 +22,7 @@ jQuery(function($) {
                     });
                 })
 });
+*/
 </script>
 
 <div class="page-header"><h1>首页</h1></div>
@@ -38,7 +40,7 @@ jQuery(function($) {
 
             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                 <div class="inline position-relative">
-                    <span class="white">王教练</span>
+                    <span class="white">{{coachorg.org_name}}</span>
                 </div>
             </div>
         </div>
@@ -50,7 +52,7 @@ jQuery(function($) {
             <div class="profile-contact-links align-left">
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-phone bigger-120 green"></i>
-                    13333333333
+                    {{coachorg.user.phone}}
                 </a>
 
                 <a class="btn btn-link">
@@ -71,156 +73,43 @@ jQuery(function($) {
         <div class="col-sm-6">
         <div class="profile-user-info">
             <div class="profile-info-row">
-                <div class="profile-info-name"> 姓名 </div>
-
+                <div class="profile-info-name"> 编号 </div>
                 <div class="profile-info-value">
-                    <span>王教练</span>
+                    <span>{{coachorg.org_num}}</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 名称 </div>
+                <div class="profile-info-value">
+                    <span>{{coachorg.org_name}}</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 电话 </div>
+                <div class="profile-info-value">
+                    <span>{{coachorg.user.phone}}</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 邮箱 </div>
+                <div class="profile-info-value">
+                    <span>{{coachorg.user.email}}</span>
                 </div>
             </div>
 
             <div class="profile-info-row">
-                <div class="profile-info-name"> 居住地 </div>
+                <div class="profile-info-name"> 地址 </div>
 
                 <div class="profile-info-value">
                     <i class="fa fa-map-marker light-orange bigger-110"></i>
-                    <span>北京</span>
-                    <span>海淀</span>
-                </div>
-            </div>
-
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 年龄 </div>
-
-                <div class="profile-info-value">
-                    <span>38</span>
-                </div>
-            </div>
-
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 工作单位 </div>
-
-                <div class="profile-info-value">
-                    <span>国家体育馆</span>
-                </div>
-            </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 所属俱乐部 </div>
-
-                <div class="profile-info-value">
-                    <span>funny</span>
-                </div>
-            </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 等级 </div>
-
-                <div class="profile-info-value">
-                    <span>1</span>
-                </div>
-            </div>
-            
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 职称 </div>
-
-                <div class="profile-info-value">
-                    <span>讲师</span>
-                </div>
-            </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 等级获得时间 </div>
-
-                <div class="profile-info-value">
-                    <span>3 hours ago</span>
+                    <span>{{coachorg.province}}</span>
+                    <span>{{coachorg.city}}</span>
+                    <span>{{coachorg.county}}</span>
+                    <span>{{coachorg.address}}</span>
                 </div>
             </div>
         </div>
         </div>
-    
-        <div class="col-sm-6">
-        <div class="profile-user-info">
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 姓名 </div>
-
-            <div class="profile-info-value">
-                <span>王教练</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 居住地 </div>
-
-            <div class="profile-info-value">
-                <i class="fa fa-map-marker light-orange bigger-110"></i>
-                <span>北京</span>
-                <span>海淀</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 年龄 </div>
-
-            <div class="profile-info-value">
-                <span>38</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 工作单位 </div>
-
-            <div class="profile-info-value">
-                <span>国家体育馆</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 所属俱乐部 </div>
-
-            <div class="profile-info-value">
-                <span>funny</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 等级 </div>
-
-            <div class="profile-info-value">
-                <span>1</span>
-            </div>
-        </div>
-        
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 职称 </div>
-
-            <div class="profile-info-value">
-                <span>讲师</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 最后一次登录 </div>
-
-            <div class="profile-info-value">
-                <span>3 hours ago</span>
-            </div>
-        </div>
-        </div>
-        </div>
-    <div class="col-sm-12">
-        <span class="btn btn-app btn-sm btn-success no-hover">
-            <span class="line-height-1 bigger-170"><i class="fa fa-trophy"></i></span>
-
-            <br />
-            <span class="line-height-1 smaller-90"> 初级荣誉 </span>
-        </span>
-        <span class="btn btn-app btn-sm btn-primary no-hover">
-            <span class="line-height-1 bigger-170"><i class="fa fa-bookmark"></i></span>
-
-            <br />
-            <span class="line-height-1 smaller-90"> 初级徽章 </span>
-        </span>
-    </div>
 </div>
 </div>
 

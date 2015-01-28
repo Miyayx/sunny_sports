@@ -35,9 +35,8 @@ def init():
     c1 = role.Coach(property=coach_p, t_level=3, p_level=3)
     c1.save()
     
-    org1 = role.CoachOrg(user=u1, org_num="org111", org_name=u"南方机构")
+    org1 = role.CoachOrg(user=u1, org_num="org111", org_name=u"南方机构", province=u"北京", city=u"北京市", county=u"海淀区",address=u"西土城路15号")
     org1.save()
-    
     org2 = role.CoachOrg(user=u11, org_num="org222", org_name=u"北方机构") #注意导入中文的时候要加unicode转码，不然admin页面大不开呢
     org2.save()
     

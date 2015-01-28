@@ -14,9 +14,9 @@ from sunny_sports.sp.models.models import *
 def home(req):
     uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
-	print uuid
-	coachorg = CoachOrg.objects.filter(user_id=uuid)
-    return render_to_response('coach_org/home.html',{"coach_org":coachorg[0]})
+    print uuid
+    coachorg = CoachOrg.objects.filter(user_id=uuid)
+    return render_to_response('coach_org/home.html',{"coachorg":coachorg[0]})
 
 def train(req):
     uuid = req.session['uuid']
