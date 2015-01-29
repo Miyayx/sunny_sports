@@ -11,6 +11,11 @@ ROLE_LIST = (
         (7, 'committee'),
         )
 
+def get_role_id(r_str):
+    for i, r in ROLE_LIST:
+        if r == r_str:
+            return i
+
 SEX = (
         (0,'male'),
         (1,'female'),

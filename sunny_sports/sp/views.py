@@ -16,6 +16,7 @@ from django.views.decorators.http import require_http_methods
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.models import *
+from sunny_sports.sp.models.status import get_role_id
 from sunny_sports.sp.backend import MyBackend 
 
 from forms import *
@@ -56,15 +57,16 @@ def regist(req):
     c = {}
     c.update(csrf(req))
     if req.method == 'POST':
-        phone = req.POST.get('username')
+        phone = req.POST.get('phone')
         password = req.POST.get('password')
         password2 = req.POST.get('password2')
         verify    = req.POST.get('v_code')
         if not password == password2:
             messages.error(req, u"两次密码输入不一致",extra_tags='regist')
             return render_to_response('login.html', context_instance=RequestContext(req))
-        role     = req.POST.get('role2')                
-        user = MyUser.objects.create(phone = phone, password = password, role = role)
+        role     = req.POST.get('role2').strip()                
+        r_id = get_role_id(role)
+        user = MyUser.objects.create_user(phone = phone, nickname=None, email=None, role=r_id, password = password)
         req.session['uuid'] = user.id
         return HttpResponseRedirect('/%s'%role)
     else:

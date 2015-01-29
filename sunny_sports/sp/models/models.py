@@ -44,7 +44,7 @@ class MyUserManager(BaseUserManager):
             nickname=nickname,
         )
 
-        user.id = uuid1()
+        user.id = str(uuid1())
         user.set_password(password)
         user.save()
         r = Role.objects.get(role=int(role))
@@ -66,7 +66,7 @@ class MyUser(AbstractBaseUser):
     id = models.CharField(primary_key=True, max_length=40, db_index=True)
     role = models.ManyToManyField(Role, through='UserRole')
     nickname = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    email    = models.EmailField(max_length=255, blank=True, unique=False)
+    email    = models.EmailField(max_length=255, blank=True, unique=True)
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
     #password = models.CharField(max_length=64) #password 在abstract class里有
 
