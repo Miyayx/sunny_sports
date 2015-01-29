@@ -19,10 +19,10 @@ def home(req):
     return render_to_response('coach_org/home.html',{"coachorg":coachorg[0]})
 
 def train(req):
-    uuid = req.session['uuid']
+    uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
-
-    return render_to_response('coach/train.html',{""})
+    trains = Train.objects.filter(org__user_id=uuid)
+    return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains})
 
 def center(req):
     uuid = req.session['uuid']
