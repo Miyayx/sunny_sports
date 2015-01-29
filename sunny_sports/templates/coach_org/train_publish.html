@@ -12,6 +12,15 @@
 		<form class="form-horizontal" role="form">
 			<!-- #section:elements.form -->
 			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训名称</label>
+				<div class="col-sm-9">
+					<span>
+						<input type="text" id="form-field-icon-1">
+					</span>
+				</div>
+			</div>
+			<!--
+			<div class="form-group">
 				<label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训角色</label>
 				<div class="col-sm-9">
 				<span class="input-icon input-icon-right">
@@ -23,15 +32,16 @@
 				</span>	
 				</div>
 			</div>
+			-->
 			<div class="form-group">
-				<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 培训级别 </label>
+				<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 培训等级 </label>
 				<div class="col-sm-9">
 					<span class="input-icon input-icon-right">
 					<select class="form-control" id="form-field-select-1">
 					<option value=""></option>
-					<option value="low">低</option>
-					<option value="middle">中</option>
-					<option value="high">高</option>
+					<option value="low">1</option>
+					<option value="middle">2</option>
+					<option value="high">3</option>
 					</select>
 					</span>
 				</div>
@@ -74,7 +84,7 @@
 				</div>
 			</div>
 
-			<!-- /section:elements.form -->
+			<!--
 			<div class="space-4"></div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训教师</label>
@@ -88,37 +98,7 @@
 				</span>
 				</div>
 			</div>
-
-			<div class="space-4"></div>
-			<div class="form-group">
-				<span id="time_list">
-				<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 培训时间</label>
-				<div class="col-sm-9">
-					<span class="col-sm-3" style="padding-left:1px">
-						<div class="input-group" style="on-padding-left">
-							<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">
-								<span class="input-group-addon">
-									<i class="fa fa-calendar bigger-110"></i>
-								</span>
-						</div>
-					</span>
-					<span class="col-sm-3">
-						<div class="input-group bootstrap-timepicker">
-									<input id="timepicker1" type="text" class="form-control">
-									<span class="input-group-addon">
-										<i class="fa fa-exchange"></i>
-									</span>
-									<input id="timepicker1" type="text" class="form-control">
-						</div>
-					</span>
-					<span>
-                	<i class="ace-icon glyphicon glyphicon-plus" id="add_train"></i>
-            		</span>
-				</div>
-				</span>
-			</div>
-
-			<div class="space-4"></div>
+			-->
 			<div class="form-group">
 				<label class="col-sm-3 control-label no-padding-right">人数限制</label>
 				<div class="col-sm-9">
@@ -129,8 +109,62 @@
 					<!-- /section:elements.form.input-icon -->
 				</div>
 			</div>
-
-			<div class="space-4"></div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label no-padding-right">费用</label>
+				<div class="col-sm-9">
+					<!-- #section:elements.form.input-icon -->
+					<span>
+						<input class="col-xs-1" type="text" id="form-field-5">
+					</span>
+					<!-- /section:elements.form.input-icon -->
+				</div>
+			</div>
+			<div class="form-group">
+				<span id="time_list">
+				<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 报名开始时间</label>
+				<div class="col-sm-9">
+					<span class="col-sm-3" style="padding-left:1px">
+						<div class="input-group" style="on-padding-left">
+							<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">
+								<span class="input-group-addon">
+									<i class="fa fa-calendar bigger-110"></i>
+								</span>
+						</div>
+					</span>
+				</div>
+				</span>
+			</div>
+			<div class="form-group">
+				<span id="time_list">
+				<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 报名结束时间</label>
+				<div class="col-sm-9">
+					<span class="col-sm-3" style="padding-left:1px">
+						<div class="input-group" style="on-padding-left">
+							<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">
+								<span class="input-group-addon">
+									<i class="fa fa-calendar bigger-110"></i>
+								</span>
+						</div>
+					</span>
+				</div>
+				</span>
+			</div>
+			<div class="form-group">
+				<span id="time_list">
+				<label class="col-sm-3 control-label no-padding-right" for="form-input-readonly"> 培训开始时间</label>
+				<div class="col-sm-9">
+					<span class="col-sm-3" style="padding-left:1px">
+						<div class="input-group" style="on-padding-left">
+							<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="dd-mm-yyyy">
+								<span class="input-group-addon">
+									<i class="fa fa-calendar bigger-110"></i>
+								</span>
+						</div>
+					</span>
+				</div>
+				</span>
+			</div>
+			<!--
 			<div class="form-group">
 				<label class="col-sm-3 control-label no-padding-right" for="form-field-11">培训内容</label>
 				<div class="col-sm-9">
@@ -138,6 +172,7 @@
 				</textarea>
 				</div>
 			</div>
+			-->
 			<div class="clearfix form-actions">
 				<div class="col-md-offset-3 col-md-9">
 					<button class="btn btn-info" type="button">
