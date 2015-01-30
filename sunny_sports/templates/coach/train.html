@@ -1,47 +1,44 @@
-<link rel="stylesheet"
-	href="http://sunny-sports.qiniudn.com/static/css/fullcalendar.css" />
-<script
-	src="http://sunny-sports.qiniudn.com/static/js/date-time/moment.min.js"></script>
-<script
-	src="http://sunny-sports.qiniudn.com/static/js/fullcalendar.min.js"></script>
+<link rel="stylesheet" href="http://sunny-sports.qiniudn.com/static/css/fullcalendar.css" />
+<script src="http://sunny-sports.qiniudn.com/static/js/date-time/moment.min.js"></script>
+<script src="http://sunny-sports.qiniudn.com/static/js/fullcalendar.min.js"></script>
 
 <script type="text/javascript">
-  /*jQuery(function($) {
-    /* initialize the calendar
-    -----------------------------------------------------------------*/
+	/*jQuery(function($) {
+	  /* initialize the calendar
+	  -----------------------------------------------------------------*/
 
-    /*var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+	/*var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
 
 
-    var calendar = $('#calendar2').fullCalendar({
-      //isRTL: true,
-      buttonHtml: {
-        prev: '<i class="ace-icon fa fa-chevron-left"></i>',
-        next: '<i class="ace-icon fa fa-chevron-right"></i>'
-      },
+	var calendar = $('#calendar2').fullCalendar({
+	  //isRTL: true,
+	  buttonHtml: {
+	    prev: '<i class="ace-icon fa fa-chevron-left"></i>',
+	    next: '<i class="ace-icon fa fa-chevron-right"></i>'
+	  },
 
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month'
-      },
-      events: [
-        {
-          title: '8点到',
-          start: new Date(y, m, d-5, 8, 0),
-          className: 'label-success'
-        },
-        {
-          title: '迟到',
-          start: new Date(y, m, d-3, 10, 30),
-          className: 'label-danger'
-        }
-      ]
-    });
-  })*/
+	  header: {
+	    left: 'prev,next today',
+	    center: 'title',
+	    right: 'month'
+	  },
+	  events: [
+	    {
+	      title: '8点到',
+	      start: new Date(y, m, d-5, 8, 0),
+	      className: 'label-success'
+	    },
+	    {
+	      title: '迟到',
+	      start: new Date(y, m, d-3, 10, 30),
+	      className: 'label-danger'
+	    }
+	  ]
+	});
+	})*/
 </script>
 
 <div class="page-header">
@@ -53,80 +50,214 @@
 		<!-- #section:elements.tab.position -->
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-color-blue" id="stu_test_tab">
-				<li {% ifequal coach.p_level 0 %}class="active"{% endifequal %}><a data-toggle="tab" href="#level-low"> <i
-						class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 低级
+				<li {% ifequal coach.p_level 0 %}class="active"{% endifequal %}>
+					<a data-toggle="tab" href="#level-low">
+						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 低级
 				</a></li>
-				<li {% ifequal coach.p_level 1 %}class="active"{% endifequal %}><a data-toggle="tab" href="#level-middle">
-						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i>
-						中级
+				<li {% ifequal coach.p_level 1 %}class="active"{% endifequal %}>
+					<a data-toggle="tab" href="#level-middle">
+						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 中级
 				</a></li>
 				<li {% ifequal coach.p_level 2 %}class="active"{% endifequal %} {% ifequal coach.p_level 3 %}class="active"{% endifequal %}>
-					<a data-toggle="tab" href="#level-high"> <i
-						class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 高级
-				</a></li>
+					<a data-toggle="tab" href="#level-high">
+						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 高级
+					</a>
+				</li>
 			</ul>
 
 			<div class="tab-content">
 				<div id="level-low" class="tab-pane">
 					<h2>低级</h2>
+					{% ifnotequal coach.p_level 0 %}
 					<div class="center">
 						<span class="label label-xlg label-danger arrowed-in-right arrowed-in">已通过</span>
-						<button class="btn btn-info btn-sm">报名</button>
-						<button class="btn disabled btn-sm">未开始</button>
 					</div>
 					<hr>
 					<div class="row">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-10">
 							<ul class="list-unstyled spaced2">
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>培训内容：</b></font> &nbsp;初级体操培训
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>培训地点：</b></font> &nbsp; 国家体育馆
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>时间安排：</b></font> &nbsp;2014-11-10 至 2014-11-30
-									每周二周五 14:00-18:00
-									</p></li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训名称：</b></font>
+									&nbsp;{{ltrain.train.name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>组织机构：</b></font>
+									&nbsp;{{ltrain.train.org.org_name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训时间：</b></font>
+									&nbsp;{{ltrain.train.train_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训地点：</b></font>
+									&nbsp;{{ltrain.train.address}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训级别：</b></font>
+									&nbsp;{{ltrain.train.get_level_display}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训简介：</b></font>
+									&nbsp;{{ltrain.train.demo}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>报名时间：</b></font>
+									&nbsp;{{ltrain.reg_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>通过时间：</b></font>
+									&nbsp;{{ltrain.get_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训学号：</b></font>
+									&nbsp;{{ltrain.number}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>证书编号：</b></font>
+									&nbsp;{{ltrain.certificate}}<p/>
+								</li>
+							</ul>
+						</div>
+					</div>
+					{% endifnotequal %}
+					{% ifequal coach.p_level 0 %}
+					<div class="center">
+						<button class="btn btn-info btn-sm">报名</button>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-sm-1"></div>
+						<div class="col-sm-10">
+							<ul class="list-unstyled spaced2">
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训内容：</b></font>
+									&nbsp;{{ltrain.train.name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训内容：</b></font>
+									&nbsp;{{ltrain.train.name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训内容：</b></font>
+									&nbsp;{{ltrain.train.name}}<p/>
+								</li>
 								<li><i class="ace-icon fa fa-circle green"></i> <font
 									size="4px"><b>考勤情况：</b></font>
-								<p />
+									<p />
 									<div id="calendar1"></div></li>
 							</ul>
 						</div>
 					</div>
+					{% endifequal %}
 				</div>
 				<div id="level-middle" class="tab-pane in active">
 					<h2>中级</h2>
+					{% if coach.p_level > 1 %}
 					<div class="center">
-						<button class="btn btn-info btn-sm">报名</button>
+						<span class="label label-xlg label-danger arrowed-in-right arrowed-in">已通过</span>
 					</div>
 					<hr>
 					<div class="row">
 						<div class="col-sm-1"></div>
 						<div class="col-sm-10">
 							<ul class="list-unstyled spaced2">
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>培训内容：</b></font> &nbsp;中级体操培训
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>培训地点：</b></font> &nbsp; 国家体育馆
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>时间安排：</b></font> &nbsp;2014-11-10 至 2014-11-30
-									每周二周五
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>考勤情况：</b></font>
-								<p />
-									<div>
-										<div class="col-sm-1"></div>
-										<div id="calendar2" class="col-sm-10"></div>
-									</div></li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训名称：</b></font>
+									&nbsp;{{mtrain.train.name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>组织机构：</b></font>
+									&nbsp;{{mtrain.train.org.org_name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训时间：</b></font>
+									&nbsp;{{mtrain.train.train_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训地点：</b></font>
+									&nbsp;{{mtrain.train.address}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训级别：</b></font>
+									&nbsp;{{mtrain.train.get_level_display}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训简介：</b></font>
+									&nbsp;{{mtrain.train.demo}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>报名时间：</b></font>
+									&nbsp;{{mtrain.reg_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>通过时间：</b></font>
+									&nbsp;{{mtrain.get_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训学号：</b></font>
+									&nbsp;{{mtrain.number}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>证书编号：</b></font>
+									&nbsp;{{mtrain.certificate}}<p/>
+								</li>
 							</ul>
 						</div>
 					</div>
+					{% endif %}
+					{% if coach.p_level == 1 %}
+					<div class="center">
+						<button class="btn btn-info btn-sm">报名</button>
+					</div>
+					
+					<div class="row">
+						{% for t in mtrain %}
+						<hr>
+						<div class="col-sm-1"></div>
+						<div class="col-sm-10">
+							<ul class="list-unstyled spaced2">
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训名称：</b></font>
+									&nbsp;{{t.name}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训时间：</b></font>
+									&nbsp;{{t.train_time}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训地点：</b></font>
+									&nbsp;{{t.address}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训级别：</b></font>
+									&nbsp;{{t.get_level_display}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训简介：</b></font>
+									&nbsp;{{t.demo}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>报名时间：</b></font>
+									&nbsp;{{t.reg_stime}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>截止时间：</b></font>
+									&nbsp;{{t.reg_etime}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>名额上线：</b></font>
+									&nbsp;{{t.max}}<p/>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>报名费用：</b></font>
+									&nbsp;{{t.money}}<p/>
+								</li>
+							</ul>
+						</div>
+						{% endfor %}
+					</div>
+					{% endif %}
 				</div>
 				<div id="level-high" class="tab-pane">
 					<h2>高级</h2>
@@ -138,19 +269,21 @@
 						<div class="col-sm-1"></div>
 						<div class="col-sm-10">
 							<ul class="list-unstyled spaced2">
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>培训内容：</b></font> &nbsp;高级体操培训
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>培训地点：</b></font> &nbsp; 国家体育馆
-									</p></li>
-								<li><i class="ace-icon fa fa-circle green"></i> <font
-									size="4px"><b>时间安排：</b></font> &nbsp;2014-11-10 至 2014-11-30
-									每周二周五
-									</p></li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训内容：</b></font>
+									&nbsp;{{ltrain.train.name}}</p>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训内容：</b></font>
+									&nbsp;{{ltrain.train.name}}</p>
+								</li>
+								<li><i class="ace-icon fa fa-circle green"></i>
+									<font size="4px"><b>培训内容：</b></font>
+									&nbsp;{{ltrain.train.name}}</p>
+								</li>
 								<li><i class="ace-icon fa fa-circle green"></i> <font
 									size="4px"><b>考勤情况：</b></font>
-								<p />
+									<p />
 									<div id="calendar3"></div></li>
 							</ul>
 						</div>
