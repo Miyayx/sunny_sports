@@ -25,10 +25,11 @@ def train(req):
     return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains})
 
 def center(req):
-    uuid = req.session('uuid',0)
+    uuid = req.session.get('uuid',0)
     # 用这个id查信息哦
-    
-    return render_to_response('coach/center.html',{})
+   # coach_org = CoachOrg.objects.filter(user_id=uuid)
+   # return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]})
+     return render_to_response('coach_org/center.html',{})
 
 
 

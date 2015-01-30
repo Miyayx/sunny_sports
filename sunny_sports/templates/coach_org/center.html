@@ -8,7 +8,7 @@
 					<div class="page-header">
 						<h1>
 							个人中心 <small> <i class="ace-icon fa "></i>
-								注册时间：{{coach.property.user.regist_time}}
+								注册时间：<!--{{coach.property.user.regist_time}}-->
 							</small>
 						</h1>
 					</div>
@@ -40,33 +40,25 @@
 													<div id="edit-basic" class="tab-pane in active">
 														<h4 class="header blue bolder smaller">基本信息</h4>
 														<div class="row">
-															<div class="col-xs-12 col-sm-4">
-																<label class="ace-file-input ace-file-multiple"><input
-																	type="file"><span class="ace-file-container"
-																	data-title="Change avatar"><span
-																		class="ace-file-name" data-title="No File ..."><i
-																			class=" ace-icon ace-icon fa fa-picture-o"></i></span></span><a
-																	class="remove" href="#"><i
-																		class=" ace-icon fa fa-times"></i></a></label>
-															</div>
 															<div class="vspace-12-sm"></div>
 															<div class="col-xs-12 col-sm-8">
 																<div class="form-group">
 																	<label class="col-sm-4 control-label no-padding-right"
-																		for="form-field-username">姓名</label>
+																		for="form-field-username">编号</label>
 																	<div class="col-sm-8">
 																		<div class="profile-info-value">
-																			<span class="editable editable-click" id="username">{{coach.property.name}}</span>
+																			<span class="editable editable-click" id="username">
+																			{{coachorg.org_num}}</span>
 																		</div>
 																	</div>
 																</div>
 																<div class="space-4"></div>
 																<div class="form-group">
 																	<label class="col-sm-4 control-label no-padding-right"
-																		for="form-field-nickname"> 昵称 </label>
+																		for="form-field-nickname"> 名称 </label>
 																	<div class="col-sm-8">
 																		<div class="profile-info-value">
-																			<span class="editable editable-click" id="nickname">{{coach.property.user.nickname}}</span>
+																			<span class="editable editable-click" id="nickname">{{coachorg.org_name}}</span>
 																		</div>
 																	</div>
 																</div>
@@ -77,7 +69,9 @@
 																		for="form-field-phone">电话</label>
 																	<div class="col-sm-8">
 																		<div class="profile-info-value">
-																			<span class="editable editable-click" id="phone">{{coach.property.user.phone}}</span>
+																			<span class="editable editable-click" id="phone">
+																			{{coachorg.user.phone}}
+																			</span>
 																		</div>
 																	</div>
 																</div>
@@ -87,7 +81,7 @@
 																		for="form-field-email">邮箱</label>
 																	<div class="col-sm-8">
 																		<div class="profile-info-value">
-																			<span class="editable editable-click" id="email">{{coach.property.user.email}}</span>
+																			<span class="editable editable-click" id="email"><!--{{coach.property.user.email}}--></span>
 																		</div>
 																	</div>
 																</div>
@@ -97,7 +91,7 @@
 																		for="form-field-last_log">上次登录时间</label>
 																	<div class="col-sm-8">
 																		<div class="profile-info-value">
-																			<span class="editable editable-click" id="last_log">{{coach.property.user.last_login}}</span>
+																			<span class="editable editable-click" id="last_log"><!--{{coach.property.user.last_login}}--></span>
 																		</div>
 																	</div>
 																</div>
@@ -109,7 +103,8 @@
 																for="form-field-date">出生日期</label>
 															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="birth">{{coach.property.birthday}}</span>
+																	<span class="editable editable-click" id="birth">
+																		<!--{{coach.property.birthday}}--></span>
 																</div>
 															</div>
 														</div>
@@ -119,7 +114,8 @@
 																for="form-field-identity"> 身份证号 </label>
 															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="identity">{{coach.property.identity}}</span>
+																	<span class="editable editable-click" id="identity">
+																		<!--{{coach.property.identity}}--></span>
 																</div>
 															</div>
 														</div>
@@ -127,6 +123,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label no-padding-right">
 																性别 </label>
+																<!--
 															<div class="col-sm-8">
 																<label class="inline"> <input
 																	name="form-field-radio" type="radio" class="ace"
@@ -138,6 +135,7 @@
 																	<span class="lbl middle">女</span>
 																</label>
 															</div>
+														-->
 														</div>
 														<div class="space-4"></div>
 														<div class="form-group">
@@ -145,7 +143,7 @@
 																for="form-field-company">单位</label>
 															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="company">{{coach.property.company}}</span>
+																	<span class="editable editable-click" id="company"><!--{{coach.property.company}}--></span>
 																</div>
 															</div>
 														</div>
@@ -153,6 +151,7 @@
 														<div class="form-group">
 															<label class="col-sm-3 control-label no-padding-right"
 																for="form-field-club">俱乐部</label>
+																<!--
 															<div class="col-sm-9">
 																<span class="input-icon input-icon-right"> <select
 																	class="form-control" id="form-field-club">
@@ -163,6 +162,7 @@
 																</select>
 																</span>
 															</div>
+														-->
 														</div>
 														<div class="space-4"></div>
 														<div class="form-group">
@@ -170,7 +170,7 @@
 																for="form-field-place">常驻地</label>
 															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="address">{{coach.property.address}}</span>
+																	<span class="editable editable-click" id="address"><!--{{coach.property.address}}--></span>
 																</div>
 															</div>
 														</div>
@@ -181,7 +181,7 @@
 																for="form-field-rank"> 教学等级 </label>
 															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="rank">{{coach.get_t_level_display}}</span>
+																	<span class="editable editable-click" id="rank"><!--{{coach.get_t_level_display}}--></span>
 																</div>
 															</div>
 														</div>
@@ -191,7 +191,7 @@
 																for="form-field-post"> 专业等级 </label>
 															<div class="col-sm-8">
 																<div class="profile-info-value">
-																	<span class="editable editable-click" id="post">{{coach.get_p_level_display}}</span>
+																	<span class="editable editable-click" id="post"><!--{{coach.get_p_level_display}}--></span>
 																</div>
 															</div>
 														</div>
