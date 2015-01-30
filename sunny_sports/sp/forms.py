@@ -17,6 +17,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
 
 from sunny_sports.sp.models.models import *
+from sunny_sports.sp.models import *
 from utils import *
 
 class LoginForm(forms.Form):
@@ -160,4 +161,9 @@ class MessagePublishForm(forms.Form):
 
         #utils.py里
         custom_msg_publish(user_list, data['title'], data.get('content',''))
+
+class TrainPublishForm(ModelForm):
+    class Meta:
+        model = Train
+        fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime']
 

@@ -52,6 +52,7 @@ urlpatterns += patterns('sunny_sports.sp.coach_org_views',
         url(r'^coach_org/home$', 'home'),
         url(r'^coach_org/train_query$', 'train'),
         url(r'^coach_org/center$', 'center'),
+        url(r'^coach_org/train_publish$', 'train_publish'),
         url(r'^coach_org/', views.all), #你们自己的定义都加在这句话上面哦,但是它的优先级比能传参数的url高，如果需要url传参，把它注释了
         )
 

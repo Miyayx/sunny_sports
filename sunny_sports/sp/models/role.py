@@ -120,15 +120,15 @@ class Coach(models.Model):
 class CoachOrg(models.Model):
     user = models.ForeignKey(MyUser)
     org_num  = models.CharField(max_length=20)
-    org_name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256)
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
-    county = models.CharField(max_length=50, blank=True)
+    dist = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
     
     class Meta:
         app_label='sp'
 
     def __str__(self):
-        return "num:%s, name:%s"%(self.org_num,self.org_name)
+        return "num:%s, name:%s"%(self.org_num,self.name)
 

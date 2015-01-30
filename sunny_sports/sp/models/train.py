@@ -31,11 +31,11 @@ class Train(models.Model):
     demo = models.CharField(max_length=100, blank=True) #??
     address = models.CharField(max_length=100) #培训地点
     level = models.IntegerField(choices=TRAIN_LEVEL)#培训等级
-    max = models.IntegerField() #人数上限
+    limit = models.IntegerField() #人数上限
     money = models.IntegerField() #费用
-    reg_stime = models.DateTimeField() #报名开始时间
-    reg_etime = models.DateTimeField() #报名截止时间
-    train_stime = models.DateTimeField() #培训开始时间
+    reg_stime = models.DateField() #报名开始时间
+    reg_etime = models.DateField() #报名截止时间
+    train_stime = models.DateField() #培训开始时间
     reg_status = models.IntegerField(choices=REG_STATUS, default=0) #报名是否截止
     sub_status = models.IntegerField(choices=SUB_STATUS, default=0) #成绩是否提交
     pub_status = models.IntegerField(choices=PUB_STATUS, default=0) #成绩是否发布
