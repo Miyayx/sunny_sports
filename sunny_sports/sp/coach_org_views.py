@@ -25,9 +25,9 @@ def train(req):
     return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains})
 
 def center(req):
-    uuid = req.session['uuid']
+    uuid = req.session('uuid',0)
     # 用这个id查信息哦
-
+    
     return render_to_response('coach/center.html',{})
 
 
