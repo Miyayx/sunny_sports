@@ -12,10 +12,10 @@ class PersonProperty(models.Model):
     user = models.ForeignKey(MyUser, unique=True)
     name = models.CharField(max_length=20)
     sex = models.IntegerField(choices=SEX)
-    birthday = models.DateField()
+    birth = models.DateField()
     age = models.IntegerField(null=True)
     identity = models.CharField(max_length=20, unique=True)
-    photo = models.URLField(null=True)
+    avatar = models.URLField(null=True)
     class Meta:
         abstract = True
 
@@ -45,7 +45,7 @@ class CoachProperty(PersonProperty):
     company = models.CharField(max_length=50, blank=True)
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
-    county = models.CharField(max_length=50, blank=True)
+    dist = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
     
     class Meta:

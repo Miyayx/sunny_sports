@@ -92,7 +92,7 @@
                           </div>
                           <hr />
                           <div class="row">
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-5">
                               <label class="col-sm-3 control-label no-padding-right"
                                 for="form-field-date">出生日期</label>
                               <div class="col-sm-8">
@@ -101,7 +101,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-7">
                               <label class="col-sm-3 control-label no-padding-right"
                                 for="form-field-identity"> 身份证号 </label>
                               <div class="col-sm-8">
@@ -110,22 +110,15 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="form-group col-sm-6">
-                              <label class="col-sm-3 control-label no-padding-right">
-                                性别 </label>
+                            <div class="form-group col-sm-5">
+                              <label class="col-sm-3 control-label no-padding-right"> 性别 </label>
                               <div class="col-sm-8">
                                 <div class="profile-info-value">
-                                  <span class="myeditable editable editable-click" id="sex" data-type="select">
-                                    {% if coach.property.sex == 0 %}
-                                    nan
-                                    {% else %}
-                                    nv
-                                    {%endif%}
-                                  </span>
+                                  <span class="myeditable editable editable-click" id="sex" data-type="select"> </span>
                                 </div>
                               </div>
                             </div>
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-7">
                               <label class="col-sm-3 control-label no-padding-right"
                                 for="form-field-company">单位</label>
                               <div class="col-sm-8">
@@ -134,7 +127,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-5">
                               <label class="col-sm-3 control-label no-padding-right"
                                 for="form-field-club">俱乐部</label>
                               <div class="col-sm-8">
@@ -145,10 +138,28 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-7">
                               <label class="col-sm-3 control-label no-padding-right"
                                 for="form-field-place">常驻地</label>
-                              <div class="col-sm-8">
+                              <div class="col-sm-2">
+                                <div class="profile-info-value">
+                                  <span class="myeditable editable editable-click" id="province" data-type="select">{{coach.property.province}}</span>
+                                  省
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                <div class="profile-info-value">
+                                  <span class="myeditable editable editable-click" id="city" data-type="select">{{coach.property.city}}</span>
+                                  市
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                <div class="profile-info-value">
+                                  <span class="myeditable editable editable-click" id="dist" data-type="select">{{coach.property.dist}}</span>
+                                  区/县
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
                                 <div class="profile-info-value">
                                   <span class="myeditable editable editable-click" id="address">{{coach.property.address}}</span>
                                 </div>
@@ -181,7 +192,7 @@
                           <div class="space"></div>
                           <div class="row">
                             <div class="col-md-offset-4 col-md-8">
-                              <button class="btn btn-info" type="button">
+                              <button class="btn btn-info" type="button" id="save-btn">
                                 <i class="ace-icon fa fa-check bigger-110"></i> 保存
                               </button>
                             </div>
@@ -224,7 +235,7 @@
                               </div>
                               <div class="space"></div>
                               <div class="col-md-offset-4 col-md-8">
-                                <button class="btn btn-info" type="button">
+                                <button class="btn btn-info" type="button" id="submit-btn">
                                   <i class="ace-icon fa fa-check bigger-110"></i> 确认
                                 </button>
                               </div>
@@ -334,20 +345,11 @@
 
         $('#sex').editable({
           //prepend: ("{{coach.property.sex}}" == 0 ? "男":"女"),
+          value: parseInt("{{ coach.property.sex }}"),
           source: [
             {value: 0, text: '男'},
             {value: 1, text: '女'}
-          ],
-          display: function(value, sourceData) {
-            // var colors = {0: "green", 1: "blue"},
-            // elem = $.grep(sourceData, function(o){return o.value == value;});
-
-            // if(elem.length) {    
-              //   $(this).text(elem[0].text).css("color", colors[value]); 
-              // } else {
-                //   $(this).empty(); 
-                // }
-          } 
+          ]
         });
 
         $('#club').editable({
@@ -365,6 +367,21 @@
         .editable({
           type:'text',
           name:'company'
+        });
+        $('#province')
+        .editable({
+          type:'select',
+          name:'province'
+        });
+        $('#city')
+        .editable({
+          type:'select',
+          name:'city'
+        });
+        $('#dist')
+        .editable({
+          type:'select',
+          name:'dist'
         });
         $('#address')
         .editable({
