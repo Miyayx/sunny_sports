@@ -19,26 +19,24 @@
             <div>
               <div id="user-profile-3" class="user-profile row">
                 <div class="col-sm-offset-1 col-sm-10">
-
                   <div class="space"></div>
+                  <div class="tabbable">
+                    <ul class="nav nav-tabs padding-16">
+                      <li class="active"><a data-toggle="tab"
+                        href="#edit-basic"> <i
+                          class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
+                        个人信息
+                      </a></li>
 
-                  <form class="form-horizontal">
-                    <div class="tabbable">
-                      <ul class="nav nav-tabs padding-16">
-                        <li class="active"><a data-toggle="tab"
-                          href="#edit-basic"> <i
-                            class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
-                          个人信息
-                        </a></li>
+                      <li><a data-toggle="tab" href="#edit-password"> <i
+                          class="blue ace-icon fa fa-key bigger-125"></i> 密码修改
+                      </a></li>
+                    </ul>
 
-                        <li><a data-toggle="tab" href="#edit-password"> <i
-                            class="blue ace-icon fa fa-key bigger-125"></i> 密码修改
-                        </a></li>
-                      </ul>
-
-                      <div class="tab-content profile-edit-tab-content">
-                        <div id="edit-basic" class="tab-pane in active">
-                          <h4 class="header blue bolder smaller">基本信息</h4>
+                    <div class="tab-content profile-edit-tab-content">
+                      <div id="edit-basic" class="tab-pane in active">
+                        <h4 class="header blue bolder smaller">基本信息</h4>
+                        <form class="form-horizontal">
                           <div class="row">
                             <div class="col-xs-12 col-sm-offset-1 col-sm-4 ">
                               <span class="profile-picture">
@@ -180,344 +178,365 @@
                             </div>
                           </div>
 
-                        </div>
-                        <div id="edit-password" class="tab-pane">
-                          <div class="space-10"></div>
-
-                          <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"
-                              for="form-field-pass1">新密码</label>
-
-                            <div class="col-sm-9">
-                              <input type="password" id="form-field-pass1" />
+                          <div class="space"></div>
+                          <div class="row">
+                            <div class="col-md-offset-4 col-md-8">
+                              <button class="btn btn-info" type="button">
+                                <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                              </button>
                             </div>
                           </div>
+                          <form>
+                          </div>
 
-                          <div class="space-4"></div>
+                          <div id="edit-password" class="tab-pane row">
+                            <div class="space-10"></div>
+                            <form class="form-horizontal">
 
-                          <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right"
-                              for="form-field-pass2">确认密码</label>
+                              <div class="form-group row">
+                                <label class="col-sm-offset-2 col-sm-2 control-label no-padding-right"
+                                  for="form-field-pass1">原密码</label>
 
-                            <div class="col-sm-9">
-                              <input type="password" id="form-field-pass2" />
-                            </div>
+                                <div class="col-sm-8">
+                                  <input type="password" id="old-password" name="old_password" />
+                                </div>
+                              </div>
+
+                              <div class="space-4"></div>
+                              <div class="form-group row">
+                                <label class="col-sm-offset-2 col-sm-2 control-label no-padding-right"
+                                  for="form-field-pass1">新密码</label>
+
+                                <div class="col-sm-8">
+                                  <input type="password" id="form-field-pass1" />
+                                </div>
+                              </div>
+
+                              <div class="space-4"></div>
+
+                              <div class="form-group row">
+                                <label class="col-sm-offset-2 col-sm-2 control-label no-padding-right"
+                                  for="form-field-pass2">确认密码</label>
+
+                                <div class="col-sm-8">
+                                  <input type="password" id="form-field-pass2" />
+                                </div>
+                              </div>
+                              <div class="space"></div>
+                              <div class="col-md-offset-4 col-md-8">
+                                <button class="btn btn-info" type="button">
+                                  <i class="ace-icon fa fa-check bigger-110"></i> 确认
+                                </button>
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="space"></div>
-                    <div class="col-md-offset-4 col-md-8">
-                      <button class="btn btn-info" type="button">
-                        <i class="ace-icon fa fa-check bigger-110"></i> 保存
-                      </button>
                     </div>
-                  </form>
+                    <!-- /.span -->
+                  </div>
+                  <!-- /.user-profile -->
                 </div>
-                <!-- /.span -->
+
+                <!-- PAGE CONTENT ENDS -->
               </div>
-              <!-- /.user-profile -->
+              <!-- /.col -->
             </div>
-
-            <!-- PAGE CONTENT ENDS -->
+            <!-- /.row -->
           </div>
-          <!-- /.col -->
+          <!-- /.page-content-area -->
         </div>
-        <!-- /.row -->
+        <!-- /.page-content -->
       </div>
-      <!-- /.page-content-area -->
+      <!-- /.main-content -->
+      <a href="#" id="btn-scroll-up"
+        class="btn-scroll-up btn btn-sm btn-inverse"> <i
+          class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+      </a>
     </div>
-    <!-- /.page-content -->
-  </div>
-  <!-- /.main-content -->
-  <a href="#" id="btn-scroll-up"
-    class="btn-scroll-up btn btn-sm btn-inverse"> <i
-      class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-  </a>
-</div>
-<!-- /.main-container -->
+    <!-- /.main-container -->
 
-<script src='../../static/js/jquery.min.js'></script>
-<script src="../../static/js/bootstrap.min.js"></script>
-<!-- page specific plugin scripts -->
+    <script src='../../static/js/jquery.min.js'></script>
+    <script src="../../static/js/bootstrap.min.js"></script>
+    <!-- page specific plugin scripts -->
 
-<!--[if lte IE 8]>
-<script src="../../static/js/excanvas.min.js"></script>
-<![endif]-->
-<script src="../../static/js/jquery-ui.custom.min.js"></script>
-<script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
-<script src="../../static/js/jquery.gritter.min.js"></script>
-<script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
-<script src="../../static/js/jquery.hotkeys.min.js"></script>
-<script src="../../static/js/select2.min.js"></script>
-<script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
-<script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
-<script src="../../static/js/x-editable/ace-editable.min.js"></script>
-<script src="../../static/js/jquery.maskedinput.min.js"></script>
+    <!--[if lte IE 8]>
+    <script src="../../static/js/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="../../static/js/jquery-ui.custom.min.js"></script>
+    <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="../../static/js/jquery.gritter.min.js"></script>
+    <script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="../../static/js/jquery.hotkeys.min.js"></script>
+    <script src="../../static/js/select2.min.js"></script>
+    <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
+    <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+    <script src="../../static/js/x-editable/ace-editable.min.js"></script>
+    <script src="../../static/js/jquery.maskedinput.min.js"></script>
 
-<!-- ace scripts -->
-<script src="../../static/js/ace-elements.min.js"></script>
-<script src="../../static/js/ace.min.js"></script>
+    <!-- ace scripts -->
+    <script src="../../static/js/ace-elements.min.js"></script>
+    <script src="../../static/js/ace.min.js"></script>
 
 
-<script type="text/javascript">
-  jQuery(function($) {
+    <script type="text/javascript">
+      jQuery(function($) {
 
-    //editables on first profile page
-    $.fn.editable.defaults.mode = 'inline';
-    $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
-    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
-      '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
+        //editables on first profile page
+        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+          '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
 
-    //editables 
+        //editables 
 
-    //text editable
-    $('#name')
-    .editable({
-      url:'/post',
-      type: 'text',
-      name: 'name'
-    });
-    $('#name').editable('option', 'validate', function(v) {
-      if(!v) return 'Required field!';
-    });
-    $('#nickname')
-    .editable({
-      type: 'text',
-      name: 'nickname'
-    });	
-    $('#nickname').editable('option', 'validate', function(v) {
-      if(!v) return 'Required field!';
-    });
-    $('#birth').editable({
-      type: 'adate',
-      date: {
-        //datepicker plugin options
-        format: 'yyyy-mm-dd',
-        viewformat: 'yyyy-mm-dd',
-        weekStart: 1
-      }
-    })
-    $('#email')
-    .editable({
-      type: 'text',
-      name: 'email'
-    });	
-    $('#phone')
-    .editable({
-      type: 'text',
-      name: 'phone'
-    });	
-    $('#phone').editable('option', 'validate', function(v) {
-      if(!v) return 'Required field!';
-    });
-
-    $('#sex').editable({
-      //prepend: ("{{coach.property.sex}}" == 0 ? "男":"女"),
-      source: [
-        {value: 0, text: '男'},
-        {value: 1, text: '女'}
-      ],
-      display: function(value, sourceData) {
-        // var colors = {0: "green", 1: "blue"},
-        // elem = $.grep(sourceData, function(o){return o.value == value;});
-
-        // if(elem.length) {    
-          //   $(this).text(elem[0].text).css("color", colors[value]); 
-          // } else {
-            //   $(this).empty(); 
-            // }
-      } 
-    });
-
-    $('#club').editable({
-      source: function(){
-        result =[];
-        {% for c in clubs %}
-        result.push({value:"{{c.id}}", text:"{{c.name}}"});
-        {% endfor %}
-        return result;
-      }()
-
-    });
-
-    $('#company')
-    .editable({
-      type:'text',
-      name:'company'
-    });
-    $('#address')
-    .editable({
-      type:'text',
-      name:'address'
-    });
-    $('#identity')
-    .editable({
-      type: 'text',
-      name: 'id'
-    });	
-    $('#identity').editable('option', 'validate', function(v) {
-      if(!v) return 'Required field!';
-    });
-
-    // *** editable avatar *** //
-    try {//ie8 throws some harmless exceptions, so let's catch'em
-
-      //first let's add a fake appendChild method for Image element for browsers that have a problem with this
-      //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
-      try {
-        document.createElement('IMG').appendChild(document.createElement('B'));
-      } catch(e) {
-        Image.prototype.appendChild = function(el){}
-      }
-
-      var last_gritter
-      $('#avatar').editable({
-        type: 'image',
-        name: 'avatar',
-        value: null,
-        image: {
-          //specify ace file input plugin's options here
-          btn_choose: 'Change Avatar',
-          droppable: true,
-          maxSize: 110000,//~100Kb
-
-          //and a few extra ones here
-          name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-          on_error : function(error_type) {//on_error function will be called when the selected file has a problem
-            if(last_gritter) $.gritter.remove(last_gritter);
-            if(error_type == 1) {//file format error
-              last_gritter = $.gritter.add({
-                title: 'File is not an image!',
-                text: 'Please choose a jpg|gif|png image!',
-                class_name: 'gritter-error gritter-center'
-              });
-            } else if(error_type == 2) {//file size rror
-              last_gritter = $.gritter.add({
-                title: 'File too big!',
-                text: 'Image size should not exceed 100Kb!',
-                class_name: 'gritter-error gritter-center'
-              });
-            }
-            else {//other error
-            }
-          },
-          on_success : function() {
-            $.gritter.removeAll();
+        //text editable
+        $('#name')
+        .editable({
+          url:'/post',
+          type: 'text',
+          name: 'name'
+        });
+        $('#name').editable('option', 'validate', function(v) {
+          if(!v) return 'Required field!';
+        });
+        $('#nickname')
+        .editable({
+          type: 'text',
+          name: 'nickname'
+        });	
+        $('#nickname').editable('option', 'validate', function(v) {
+          if(!v) return 'Required field!';
+        });
+        $('#birth').editable({
+          type: 'adate',
+          date: {
+            //datepicker plugin options
+            format: 'yyyy-mm-dd',
+            viewformat: 'yyyy-mm-dd',
+            weekStart: 1
           }
-        },
-        url: function(params) {
-          // ***UPDATE AVATAR HERE*** //
-          //for a working upload example you can replace the contents of this function with 
-          //examples/profile-avatar-update.js
+        })
+        $('#email')
+        .editable({
+          type: 'text',
+          name: 'email'
+        });	
+        $('#phone')
+        .editable({
+          type: 'text',
+          name: 'phone'
+        });	
+        $('#phone').editable('option', 'validate', function(v) {
+          if(!v) return 'Required field!';
+        });
 
-          var deferred = new $.Deferred
+        $('#sex').editable({
+          //prepend: ("{{coach.property.sex}}" == 0 ? "男":"女"),
+          source: [
+            {value: 0, text: '男'},
+            {value: 1, text: '女'}
+          ],
+          display: function(value, sourceData) {
+            // var colors = {0: "green", 1: "blue"},
+            // elem = $.grep(sourceData, function(o){return o.value == value;});
 
-          var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
-          if(!value || value.length == 0) {
-            deferred.resolve();
-            return deferred.promise();
-          }
-
-
-          //dummy upload
-          setTimeout(function(){
-            if("FileReader" in window) {
-              //for browsers that have a thumbnail of selected image
-              var thumb = $('#avatar').next().find('img').data('thumb');
-              if(thumb) $('#avatar').get(0).src = thumb;
-            }
-
-            deferred.resolve({'status':'OK'});
-
-            if(last_gritter) $.gritter.remove(last_gritter);
-            last_gritter = $.gritter.add({
-              title: 'Avatar Updated!',
-              text: 'Uploading to server can be easily implemented. A working example is included with the template.',
-              class_name: 'gritter-info gritter-center'
-            });
-
-          } , parseInt(Math.random() * 800 + 800))
-
-          return deferred.promise();
-
-          // ***END OF UPDATE AVATAR HERE*** //
-        },
-
-        success: function(response, newValue) {
-        }
-      })
-    }catch(e) {}
-
-
-    $('a[ data-original-title]').tooltip();
-
-    ///////////////////////////////////////////
-    $('#user-profile-3')
-    .find('input[type=file]').ace_file_input({
-      style:'well',
-      btn_choose:'Change avatar',
-      btn_change:null,
-      no_icon:'ace-icon fa fa-picture-o',
-      thumbnail:'large',
-      droppable:true,
-
-      allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-      allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-    })
-    .end().find('button[type=reset]').on(ace.click_event, function(){
-      $('#user-profile-3 input[type=file]').ace_file_input('reset_input');
-    })
-    .end().find('.date-picker').datepicker().next().on(ace.click_event, function(){
-      $(this).prev().focus();
-    })
-    $('.input-mask-phone').mask('(999) 999-9999');
-
-
-    // click save btn
-    $('#save-btn').click(function() {
-      $('.myeditable').editable('submit', { 
-        url: '/up_user', 
-        ajaxOptions: {
-          dataType: 'json' //assuming json response
-        },           
-        success: function(data, config) {
-          if(data && data.id) {  //record created, response like {"id": 2}
-            //set pk
-            $(this).editable('option', 'pk', data.id);
-            //remove unsaved class
-            $(this).removeClass('editable-unsaved');
-            //show messages
-            var msg = 'New user created! Now editables submit individually.';
-            $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
-            $('#save-btn').hide(); 
-            $(this).off('save.newuser');                     
-          } else if(data && data.errors){ 
-            //server-side validation error, response like {"errors": {"username": "username already exist"} }
-            config.error.call(this, data.errors);
-          }               
-        },
-        error: function(errors) {
-          var msg = '';
-          if(errors && errors.responseText) { //ajax error, errors = xhr object
-            msg = errors.responseText;
-          } else { //validation error (client-side or server-side)
-            $.each(errors, function(k, v) { msg += k+": "+v+"<br>"; });
+            // if(elem.length) {    
+              //   $(this).text(elem[0].text).css("color", colors[value]); 
+              // } else {
+                //   $(this).empty(); 
+                // }
           } 
-          $('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
-        }
+        });
+
+        $('#club').editable({
+          source: function(){
+            result =[];
+            {% for c in clubs %}
+            result.push({value:"{{c.id}}", text:"{{c.name}}"});
+            {% endfor %}
+            return result;
+          }()
+
+        });
+
+        $('#company')
+        .editable({
+          type:'text',
+          name:'company'
+        });
+        $('#address')
+        .editable({
+          type:'text',
+          name:'address'
+        });
+        $('#identity')
+        .editable({
+          type: 'text',
+          name: 'id'
+        });	
+        $('#identity').editable('option', 'validate', function(v) {
+          if(!v) return 'Required field!';
+        });
+
+        // *** editable avatar *** //
+        try {//ie8 throws some harmless exceptions, so let's catch'em
+
+          //first let's add a fake appendChild method for Image element for browsers that have a problem with this
+          //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+          try {
+            document.createElement('IMG').appendChild(document.createElement('B'));
+          } catch(e) {
+            Image.prototype.appendChild = function(el){}
+          }
+
+          var last_gritter
+          $('#avatar').editable({
+            type: 'image',
+            name: 'avatar',
+            value: null,
+            image: {
+              //specify ace file input plugin's options here
+              btn_choose: 'Change Avatar',
+              droppable: true,
+              maxSize: 110000,//~100Kb
+
+              //and a few extra ones here
+              name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+              on_error : function(error_type) {//on_error function will be called when the selected file has a problem
+                if(last_gritter) $.gritter.remove(last_gritter);
+                if(error_type == 1) {//file format error
+                  last_gritter = $.gritter.add({
+                    title: 'File is not an image!',
+                    text: 'Please choose a jpg|gif|png image!',
+                    class_name: 'gritter-error gritter-center'
+                  });
+                } else if(error_type == 2) {//file size rror
+                  last_gritter = $.gritter.add({
+                    title: 'File too big!',
+                    text: 'Image size should not exceed 100Kb!',
+                    class_name: 'gritter-error gritter-center'
+                  });
+                }
+                else {//other error
+                }
+              },
+              on_success : function() {
+                $.gritter.removeAll();
+              }
+            },
+            url: function(params) {
+              // ***UPDATE AVATAR HERE*** //
+              //for a working upload example you can replace the contents of this function with 
+              //examples/profile-avatar-update.js
+
+              var deferred = new $.Deferred
+
+              var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+              if(!value || value.length == 0) {
+                deferred.resolve();
+                return deferred.promise();
+              }
+
+
+              //dummy upload
+              setTimeout(function(){
+                if("FileReader" in window) {
+                  //for browsers that have a thumbnail of selected image
+                  var thumb = $('#avatar').next().find('img').data('thumb');
+                  if(thumb) $('#avatar').get(0).src = thumb;
+                }
+
+                deferred.resolve({'status':'OK'});
+
+                if(last_gritter) $.gritter.remove(last_gritter);
+                last_gritter = $.gritter.add({
+                  title: 'Avatar Updated!',
+                  text: 'Uploading to server can be easily implemented. A working example is included with the template.',
+                  class_name: 'gritter-info gritter-center'
+                });
+
+              } , parseInt(Math.random() * 800 + 800))
+
+              return deferred.promise();
+
+              // ***END OF UPDATE AVATAR HERE*** //
+            },
+
+            success: function(response, newValue) {
+            }
+          })
+        }catch(e) {}
+
+
+        $('a[ data-original-title]').tooltip();
+
+        ///////////////////////////////////////////
+        $('#user-profile-3')
+        .find('input[type=file]').ace_file_input({
+          style:'well',
+          btn_choose:'Change avatar',
+          btn_change:null,
+          no_icon:'ace-icon fa fa-picture-o',
+          thumbnail:'large',
+          droppable:true,
+
+          allowExt: ['jpg', 'jpeg', 'png', 'gif'],
+          allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+        })
+        .end().find('button[type=reset]').on(ace.click_event, function(){
+          $('#user-profile-3 input[type=file]').ace_file_input('reset_input');
+        })
+        .end().find('.date-picker').datepicker().next().on(ace.click_event, function(){
+          $(this).prev().focus();
+        })
+        $('.input-mask-phone').mask('(999) 999-9999');
+
+
+        // click save btn
+        $('#save-btn').click(function() {
+          $('.myeditable').editable('submit', { 
+            url: '/up_user', 
+            ajaxOptions: {
+              dataType: 'json' //assuming json response
+            },           
+            success: function(data, config) {
+              if(data && data.id) {  //record created, response like {"id": 2}
+                //set pk
+                $(this).editable('option', 'pk', data.id);
+                //remove unsaved class
+                $(this).removeClass('editable-unsaved');
+                //show messages
+                var msg = 'New user created! Now editables submit individually.';
+                $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
+                $('#save-btn').hide(); 
+                $(this).off('save.newuser');                     
+              } else if(data && data.errors){ 
+                //server-side validation error, response like {"errors": {"username": "username already exist"} }
+                config.error.call(this, data.errors);
+              }               
+            },
+            error: function(errors) {
+              var msg = '';
+              if(errors && errors.responseText) { //ajax error, errors = xhr object
+                msg = errors.responseText;
+              } else { //validation error (client-side or server-side)
+                $.each(errors, function(k, v) { msg += k+": "+v+"<br>"; });
+              } 
+              $('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
+            }
+          });
+        });
       });
-    });
-  });
 
-</script>
-<!-- basic scripts -->
+    </script>
+    <!-- basic scripts -->
 
-<!--[if !IE]> -->
-<!-- by gll
-<script type="text/javascript">
-  window.jQuery || document.write("<script src='../../static/js/jquery.min.js'>"+"<"+"/script>");
-  </script>
-  -->
-  <!-- <![endif]-->
+    <!--[if !IE]> -->
+    <!-- by gll
+    <script type="text/javascript">
+      window.jQuery || document.write("<script src='../../static/js/jquery.min.js'>"+"<"+"/script>");
+      </script>
+      -->
+      <!-- <![endif]-->
