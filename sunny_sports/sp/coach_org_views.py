@@ -33,7 +33,7 @@ def center(req):
     # 用这个id查信息哦
    # coach_org = CoachOrg.objects.filter(user_id=uuid)
    # return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]})
-     return render_to_response('coach_org/center.html',{})
+    return render_to_response('coach_org/center.html',{})
 
 def train_publish(req):
     if req.method == "POST":
@@ -56,9 +56,7 @@ def train_publish(req):
         
     else:
         uuid = req.session.get('uuid',0)
-        print uuid
         org = CoachOrg.objects.get(user_id=uuid)
-        print org.name
         return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org}, RequestContext(req))
         
 
