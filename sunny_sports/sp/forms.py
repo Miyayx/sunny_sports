@@ -167,3 +167,8 @@ class TrainPublishForm(ModelForm):
         model = Train
         fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime']
 
+class CoachPropertyForm(ModelForm):
+    class Meta:
+        model = CoachProperty
+        fields = ['name','sex','identity','avatar','company','province','city','dist','address']
+

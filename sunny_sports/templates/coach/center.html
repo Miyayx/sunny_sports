@@ -37,11 +37,12 @@
                       <div id="edit-basic" class="tab-pane in active">
                         <h4 class="header blue bolder smaller">基本信息</h4>
                         <form class="form-horizontal">
+                          <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
                           <div class="row">
                             <div class="col-xs-12 col-sm-offset-1 col-sm-4 ">
                               <span class="profile-picture">
                                 {% if coach.property.photo and coach.property.photo|length > 0 %}
-                                <img src="{{coach.property.photo}}" alt="点击更换头像" class="myeditable img-responsive" id="avatar" />
+                                <img src="{{coach.property.avatar}}" alt="点击更换头像" class="myeditable img-responsive" id="avatar" />
                                 {% else %}
                                 <img src="" alt="点击更换头像" class="myeditable img-responsive" id="avatar" />
                                 {% endif %}
@@ -97,7 +98,7 @@
                                 for="form-field-date">出生日期</label>
                               <div class="col-sm-8">
                                 <div class="profile-info-value">
-                                  <span class="myeditable editable editable-click" id="birth">{{coach.property.birthday}}</span>
+                                  <span class="myeditable editable editable-click" id="birth">{{coach.property.birth}}</span>
                                 </div>
                               </div>
                             </div>
@@ -143,19 +144,19 @@
                                 for="form-field-place">常驻地</label>
                               <div class="col-sm-2">
                                 <div class="profile-info-value">
-                                  <span class="myeditable editable editable-click" id="province" data-type="select">{{coach.property.province}}</span>
+                                  <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{coach.property.province}}</span>
                                   省
                                 </div>
                               </div>
                               <div class="col-sm-2">
                                 <div class="profile-info-value">
-                                  <span class="myeditable editable editable-click" id="city" data-type="select">{{coach.property.city}}</span>
+                                  <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{coach.property.city}}</span>
                                   市
                                 </div>
                               </div>
                               <div class="col-sm-2">
                                 <div class="profile-info-value">
-                                  <span class="myeditable editable editable-click" id="dist" data-type="select">{{coach.property.dist}}</span>
+                                  <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{coach.property.dist}}</span>
                                   区/县
                                 </div>
                               </div>
@@ -203,6 +204,7 @@
                           <div id="edit-password" class="tab-pane row">
                             <div class="space-10"></div>
                             <form class="form-horizontal">
+                              {% csrf_token %}
 
                               <div class="form-group row">
                                 <label class="col-sm-offset-2 col-sm-2 control-label no-padding-right"
@@ -303,6 +305,12 @@
         //editables 
 
         //text editable
+        $('#token')
+        .editable({
+          value:'{{csrf_token}}',
+          type: 'text',
+          name: 'csrfmiddlewaretoken'
+        });
         $('#name')
         .editable({
           url:'/post',
@@ -370,17 +378,14 @@
         });
         $('#province')
         .editable({
-          type:'select',
           name:'province'
         });
         $('#city')
         .editable({
-          type:'select',
           name:'city'
         });
         $('#dist')
         .editable({
-          type:'select',
           name:'dist'
         });
         $('#address')
@@ -391,7 +396,7 @@
         $('#identity')
         .editable({
           type: 'text',
-          name: 'id'
+          name: 'identity'
         });	
         $('#identity').editable('option', 'validate', function(v) {
           if(!v) return 'Required field!';
@@ -514,7 +519,7 @@
         // click save btn
         $('#save-btn').click(function() {
           $('.myeditable').editable('submit', { 
-            url: '/up_user', 
+            url: '/coach/up_user', 
             ajaxOptions: {
               dataType: 'json' //assuming json response
             },           

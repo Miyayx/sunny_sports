@@ -2,14 +2,17 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
+from django.template import RequestContext
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
 from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
+from sunny_sports.sp.forms import *
 
 def home(req):
     uuid = req.session.get('uuid',0)
@@ -50,24 +53,46 @@ def center(req):
     print uuid
     coach = Coach.objects.filter(property__user_id=uuid)
     club = Club.objects.filter()
-    return render_to_response('coach/center.html',{"coach":coach[0], "club":club})
+    return render_to_response('coach/center.html',{"coach":coach[0], "club":club}, RequestContext(req))
 
+def update_user(req):
+    """
+    个人中心，用户更新基本信息
+    """
+    if req.method == "POST":
+        data = req.POST.copy()
+        #if not data.get("province"):
+        #    data["province"] = ""
+        #if not data.get("city"):
+        #    data["city"] = ""
+        #if not data.get("dist"):
+        #    data["dist"] = ""
+        #data["sex"] = int(data["sex"])
+        #data.pop("csrfmiddlewaretoken")
+        #data.pop("birth")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        uuid = req.session.get('uuid',0)
+        MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
+        cp = CoachProperty.objects.get(user_id=uuid)
+        cp.name = data.get("name","")
+        cp.sex = int(data.get("sex"))
+        cp.identity = data.get("identity","")
+        cp.avatar = data.get("avatar","")
+        #cp.birth = data.get("birth","")
+        cp.company = data.get("company","")
+        cp.province = data.get("province","")
+        cp.city = data.get("city","")
+        cp.dist = data.get("dist","")
+        cp.address = data.get("address","")
+        try:
+            cp.save()
+        except:
+            return JsonResponse({'success':False})
+        #c = CoachPropertyForm(instance=cp, data=data)
+        #print data
+        #if c.is_valid():
+        #    c.save()
+        return JsonResponse({'success':True})
+        #else:
+        #    return JsonResponse({'success':False})
 

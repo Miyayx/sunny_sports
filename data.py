@@ -29,7 +29,7 @@ def init():
     u11 = MyUser.objects.get(phone="111111")
     u3 = MyUser.objects.get(phone="33333")
     
-    coach_p = role.CoachProperty(user=u3, name="kkk", sex=0, birthday="1990-9-8", identity="1234567890")
+    coach_p = role.CoachProperty(user=u3, name="kkk", sex=0, birth="1990-9-8", identity="1234567890")
     coach_p.save()
     
     c1 = role.Coach(property=coach_p, t_level=3, p_level=3)
