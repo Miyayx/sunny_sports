@@ -203,7 +203,9 @@
 
                           <div id="edit-password" class="tab-pane row">
                             <div class="space-10"></div>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" id="pwd-form">
+                            {% include "password.html" %}
+                            <!--
                               {% csrf_token %}
 
                               <div class="form-group row">
@@ -241,6 +243,7 @@
                                   <i class="ace-icon fa fa-check bigger-110"></i> 确认
                                 </button>
                               </div>
+                            -->
                             </form>
                           </div>
                         </div>
@@ -550,6 +553,23 @@
             }
           });
         });
+      
+       // $('#submit-btn').click(function(){
+       //   if($("password").val() == $("password2").val()){
+       //     data = $("pwd-from").serialize();
+       //     $.post("password", data, function(res){
+       //       if(res["success"]){
+       //         alert("已更新密码");
+       //     }else{
+       //         alert("更新密码失败");
+       //     }
+       //     
+       //     });
+       // }else{
+       //   alert("")
+       // }
+       // });
+
       });
 
     </script>

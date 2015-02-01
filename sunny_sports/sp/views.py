@@ -123,19 +123,26 @@ def logout(req):
 
 def password(req):
     if req.method == 'POST': #Change password 
-        if not req.POST["password"] == req.POST["password2"]:
-            return JsonResponse({"success":False,"msg":u"密码不一致"}) 
         u = MyUser.objects.get(id=req.session.get("uuid",0))
-        if u:
-            c = Code.objects.get(phone = u.phone).latest('time')
-            if c.code == req.POST.get("vcode",0):
-                u.set_password('new password')
-                u.save()
-                return JsonResponse({"success":True,"msg":""}) 
-            else:
-                return JsonResponse({"success":False,"msg":u"验证码错误"}) 
+        pw = req.POST['old_password']
+        user = MyBackend().authenticate(username=u.phone, password=pw)#用django自带函数检验
+        if user is not None:
+            if not req.POST["password"] == req.POST["password2"]:
+                return JsonResponse({"success":False,"msg":u"密码不一致"}) 
+
+            # 用手机短信验证码确认身份
+            #c = Code.objects.get(phone = u.phone).latest('time')
+            #if c.code == req.POST.get("vcode",0):
+            #    u.set_password(new_password)
+            #    u.save()
+            #    return JsonResponse({"success":True,"msg":""}) 
+            #else:
+            #    return JsonResponse({"success":False,"msg":u"验证码错误"}) 
+            u.set_password(new_password)
+            u.save()
+            return JsonResponse({"success":True,"msg":"密码已修改"}) 
         else:
-            return JsonResponse({"success":False,"msg":u"用户身份错误"}) 
+            return JsonResponse({"success":False,"msg":u"密码错误"}) 
 
     else: #Get page
         u = MyUser.objects.get(id=req.session.get("uuid",0))
