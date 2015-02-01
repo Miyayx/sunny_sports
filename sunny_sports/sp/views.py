@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.template import RequestContext
 
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.models import *
@@ -107,17 +108,15 @@ def login(req):
             return render_to_response("login.html", context_instance=RequestContext(req))
           
 def index(req):
-    username = req.session.get('username', 'anybody')
-    return render_to_response('index.html', {'username': username}, context_instance=RequestContext(req))
+    username = req.session.get('uuid', 'anybody')
+    return render_to_response('index.html', {'uuid': uuid}, context_instance=RequestContext(req))
           
 def logout(req):
-    c = {}
-    c.update(csrf(req))
     print "logout"
-    session = req.session.get('username', False)
+    session = req.session.get('uuid', False)
     if session:
-        del req.session['username']
-        return render_to_response('login.html',c)
+        del req.session['uuid']
+        return render_to_response('login.html')
     else:
         return HttpResponse('please login!')
 
