@@ -8,17 +8,17 @@ from django.template.loader import render_to_string
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 #from django.contrib.auth import authenticate
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template import RequestContext
 
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models.status import get_role_id
-from sunny_sports.sp.backend import MyBackend 
+#from sunny_sports.sp.backend import MyBackend 
 
 from forms import *
 from utils import *
@@ -45,7 +45,7 @@ def get_msg(req):
     """
     header部分获取未读消息
     """
-    uuid = req.session.get('uuid',0)
+    uuid = req.user.id
     if uuid:
         msgs = UserMessage.objects.filter(user_id=uuid, checked=False)
         print len(msgs)
@@ -68,26 +68,26 @@ def regist(req):
         role     = req.POST.get('role2').strip()                
         r_id = get_role_id(role)
         user = MyUser.objects.create_user(phone = phone, nickname=None, email=None, role=r_id, password = password)
-        req.session['uuid'] = user.id
         return HttpResponseRedirect('/%s'%role)
     else:
         return render_to_response('login.html')
 
 @require_http_methods(["POST"])
-def login(req):
-    uuid = req.session.get('uuid',0)
+def mylogin(req): #登录view，跟自带的auth.login 区分开
+    uuid = req.user.id
     if req.method == 'POST':
         un = req.POST['username']
         pw = req.POST['password']
         role = req.POST['role']
         user = None
         if un and len(un) >0: #如果用用户名
-            user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
+            #user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
+            user = authenticate(username=un, password=pw)#用django自带函数检验
         if user is not None:
             # the password verified for the user
             if user.is_active:
                 print("User is valid, active and authenticated")
-                req.session['uuid'] = user.id
+                login(req,user) #django自带的login将userid写入session
                 roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
                 print "roles:",roles
                 if role == "admin" and "centre" in roles:
@@ -108,21 +108,19 @@ def login(req):
             return render_to_response("login.html", context_instance=RequestContext(req))
           
 def index(req):
-    username = req.session.get('uuid', 'anybody')
-    return render_to_response('index.html', {'uuid': uuid}, context_instance=RequestContext(req))
+    uuid = req.user.id
+    name = req.user.name
+    return render_to_response('index.html', {'username': name}, context_instance=RequestContext(req))
           
-def logout(req):
+@login_required(login_url="login/")
+def mylogout(req):
     print "logout"
-    session = req.session.get('uuid', False)
-    if session:
-        del req.session['uuid']
-        return render_to_response('login.html')
-    else:
-        return HttpResponse('please login!')
+    logout(req)
 
+@login_required(login_url="login/")
 def password(req):
     if req.method == 'POST': #Change password 
-        u = MyUser.objects.get(id=req.session.get("uuid",0))
+        u = MyUser.objects.get(id=req.user.id)
         pw = req.POST['old_password']
         user = MyBackend().authenticate(username=u.phone, password=pw)#用django自带函数检验
         if user is not None:
@@ -144,6 +142,6 @@ def password(req):
             return JsonResponse({"success":False,"msg":u"密码错误"}) 
 
     else: #Get page
-        u = MyUser.objects.get(id=req.session.get("uuid",0))
+        u = MyUser.objects.get(id=req.user.id)
         return render_to_response('password.html', {"phone":u.phone}, RequestContext(req))
 

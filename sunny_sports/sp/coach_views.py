@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
@@ -14,8 +15,9 @@ from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.forms import *
 
+
 def home(req):
-    uuid = req.session.get('uuid',0)
+    uuid = req.user.id
     # 用这个id查信息哦
     print uuid
     coach = Coach.objects.filter(property__user_id=uuid)
@@ -23,7 +25,7 @@ def home(req):
     return render_to_response('coach/home.html',{"coach":coach[0]})
 
 def train(req):
-    uuid = req.session.get('uuid',0)
+    uuid = req.user.id
     # 用这个id查信息哦
     print uuid
     coach = Coach.objects.filter(property__user_id=uuid)
@@ -48,7 +50,7 @@ def train(req):
         return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]})
 
 def center(req):
-    uuid = req.session.get('uuid',0)
+    uuid = req.user.id
     # 用这个id查信息哦
     print uuid
     coach = Coach.objects.filter(property__user_id=uuid)
@@ -71,7 +73,7 @@ def update_user(req):
         #data.pop("csrfmiddlewaretoken")
         #data.pop("birth")
 
-        uuid = req.session.get('uuid',0)
+        uuid = req.user.id
         MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
