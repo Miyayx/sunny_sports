@@ -73,9 +73,7 @@ def regist(req):
     else:
         return render_to_response('login.html')
 
-@require_http_methods(["POST"])
 def mylogin(req): #登录view，跟自带的auth.login 区分开
-    uuid = req.user.id
     if req.method == 'POST':
         un = req.POST['username']
         pw = req.POST['password']
@@ -107,6 +105,8 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
         # the authentication system was unable to verify the username and password
             messages.error(req, u"用户名或密码错误")
             return render_to_response("login.html", context_instance=RequestContext(req))
+    else:
+        return HttpResponse("login.html")
           
 def index(req):
     uuid = req.user.id

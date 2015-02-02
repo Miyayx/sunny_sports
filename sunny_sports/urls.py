@@ -10,7 +10,7 @@ import os
 urlpatterns = patterns('',
         url(r'^$', 'sunny_sports.views.mylogin'),
         url(r'^favicon.ico$', 'sunny_sports.views.home'),
-        url(r'^login$', 'sunny_sports.sp.views.mylogin'),
+        url(r'^login$', 'sunny_sports.sp.views.login'),
         url(r'^register$', 'sunny_sports.sp.views.regist'),
         url(r'^logout$', 'sunny_sports.sp.views.mylogout'),
         url(r'^vcode$', 'sunny_sports.sp.views.vcode'),
