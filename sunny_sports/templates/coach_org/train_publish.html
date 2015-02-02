@@ -1,3 +1,7 @@
+
+{% extends "./coach_org/base.html" %}
+{% block content %}
+{{ block.super }}
 <!-- ajax layout which only needs content area -->
 <div class="page-header">
   <h1>
@@ -179,7 +183,10 @@
     <!-- PAGE CONTENT ENDS -->
   </div><!-- /.col-sm-10 -->
 </div><!-- /.row -->
+{% endblock %}
 
+{% block script %}
+{{ block.super }}
 <!--[if lte IE 8]>
 <script src="../../assets/js/excanvas.min.js"></script>
 <![endif]-->
@@ -248,3 +255,4 @@
     });
   });
 </script>
+{% endblock %}

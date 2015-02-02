@@ -5,7 +5,7 @@
 {% block menu %}
 <ul class="nav nav-list">
     <li class="">
-    <a data-url="coach/home" href="#page/coach_org/home">
+    <a data-url="coach_org/home" href="/coach_org/home">
         <i class="menu-icon fa fa-dashboard"></i> <span class="menu-text"> 首页 </span>
     </a>
     <b class="arrow"></b>
@@ -19,7 +19,7 @@
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
-        <a data-url="coach_org/train_publish" href="#page/coach_org/train_publish">
+        <a data-url="coach_org/train_publish" href="/coach_org/train_publish">
             <i class="menu-icon fa fa-caret-right"></i>
             发布培训信息
         </a>
@@ -27,7 +27,7 @@
         </li>
 
         <li class="">
-        <a data-url="coach_org/enroll" href="#page/coach_org/enroll">
+        <a data-url="coach_org/enroll" href="/coach_org/enroll">
             <i class="menu-icon fa fa-caret-right"></i>
             当前报名情况
         </a>
@@ -35,7 +35,7 @@
         </li>
 
         <li class="">
-        <a data-url="coach_org/score_input" href="#page/coach_org/score_input">
+        <a data-url="coach_org/score_input" href="/coach_org/score_input">
             <i class="menu-icon fa fa-caret-right"></i>
             考试信息录入
         </a>
@@ -43,7 +43,7 @@
         </li>
 
         <li class="">
-        <a data-url="coach_org/train_query" href="#page/coach_org/train_query">
+        <a data-url="coach_org/train_query" href="/coach_org/train_query">
             <i class="menu-icon fa fa-caret-right"></i>
             培训信息查看
         </a>
@@ -53,7 +53,7 @@
     </li>
 
     <li class="">
-    <a data-url="coach_org/center" href="#page/coach_org/center">
+    <a data-url="coach_org/center" href="/coach_org/center">
         <i class="menu-icon fa fa-users"></i> <span class="menu-text"> 个人中心 </span>
     </a>
     <b class="arrow"></b>
@@ -62,13 +62,8 @@
 </ul><!-- /.nav-list -->
 {% endblock %}
 
-{% block script %}
-<script>
-    $(function(){
-        if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-            window.location.href=window.location.origin+window.location.pathname+"#page/coach_org/home";
-        }
-    });
+{% block content %}
+{% endblock %}
 
-</script>
+{% block script %}
 {% endblock %}

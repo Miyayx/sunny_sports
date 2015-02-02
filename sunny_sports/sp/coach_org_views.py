@@ -18,7 +18,7 @@ from sunny_sports.sp.forms import *
 
 @login_required()
 def coach_org(req):
-    return render_to_response('coach_org/base.html')
+    return HttpResponseRedirect("coach_org/home")
 
 @login_required()
 def home(req):
