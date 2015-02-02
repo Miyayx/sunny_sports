@@ -1,4 +1,7 @@
 
+{% extends "./centre/base.html" %}
+{% block content%}
+{{ block.super }}
 <div class="page-header"><h1>培训结果审核</h1></div>
 <div class="row">
   <div class="col-xs-1"></div>
@@ -58,7 +61,10 @@
       </div>
       <div class="col-xs-1"></div>
     </div>
+{% endblock %}
 
+{% block script %}
+{{ block.super }}
     <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
@@ -151,3 +157,4 @@
 
       });
     </script>
+{% endblock %}

@@ -12,7 +12,7 @@
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
-        <a data-url="centre/test_check" href="#page/centre/test_check">
+        <a data-url="centre/test_check" href="/centre/test_check">
             <i class="menu-icon fa fa-caret-right"></i>
             培训结果审核
         </a>
@@ -20,7 +20,7 @@
         </li>
         
         <li class="">
-        <a data-url="centre/histroy_view" href="#page/centre/history_view">
+        <a data-url="centre/histroy_view" href="/centre/history_view">
             <i class="menu-icon fa fa-caret-right"></i>
             历史培训查看
         </a>
@@ -30,7 +30,7 @@
     </li>
 
     <li class="">
-    <a data-url="centre/msg_publish" href="#page/centre/msg_publish">
+    <a data-url="centre/msg_publish" href="/centre/msg_publish">
         <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 消息发布 </span>
     </a>
     <b class="arrow"></b>
@@ -47,13 +47,8 @@
 </ul><!-- /.nav-list -->
 {% endblock %}
 
-{% block script %}
-<script>
-    $(function(){
-        if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-            //window.location.href=window.location.origin+window.location.pathname+"#page/admin/password";
-        }
-    });
+{% block content %}
+{% endblock %}
 
-</script>
+{% block script %}
 {% endblock %}

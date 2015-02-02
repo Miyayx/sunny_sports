@@ -1,112 +1,117 @@
-<body>
-  <!-- ajax layout which only needs content area -->
-  <div class="page-header">
-    <h1>
-      消息发布
-    </h1>
-  </div><!-- /.page-header -->
-  <div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-10">
-      <form action="" method="POST" id="msg-form">
-        {% csrf_token %}
-        <fieldset> 
-          <div class="col-xs-5 col-sm-2">
-            <div class="control-group">
-              <label class="control-label bolder blue">发送角色</label>
-              <!-- #section:custom/checkbox -->
-              <div class="checkbox">
-                <label>
-                  {{ form.stu }}
-                  <span class="lbl"> 所有学员 </span>
-                </label>
-              </div>
 
-              <div class="checkbox">
-                <label>
-                  {{ form.coach }}
-                  <span class="lbl"> 所有教练 </span>
-                </label>
-              </div>
+{% extends "./centre/base.html" %}
+{% block content%}
+{{ block.super }}
+<div class="page-header">
+  <h1>
+    消息发布
+  </h1>
+</div><!-- /.page-header -->
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <form action="" method="POST" id="msg-form">
+      {% csrf_token %}
+      <fieldset> 
+        <div class="col-xs-5 col-sm-2">
+          <div class="control-group">
+            <label class="control-label bolder blue">发送角色</label>
+            <!-- #section:custom/checkbox -->
+            <div class="checkbox">
+              <label>
+                {{ form.stu }}
+                <span class="lbl"> 所有学员 </span>
+              </label>
+            </div>
 
-              <div class="checkbox">
-                <label>
-                  {{ form.judge }}
-                  <span class="lbl"> 所有裁判 </span>
-                </label>
-              </div>
+            <div class="checkbox">
+              <label>
+                {{ form.coach }}
+                <span class="lbl"> 所有教练 </span>
+              </label>
+            </div>
 
-              <!-- /section:custom/checkbox -->
+            <div class="checkbox">
+              <label>
+                {{ form.judge }}
+                <span class="lbl"> 所有裁判 </span>
+              </label>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-xs-1 control-label bolder blue">标题</label>
-            <div class="col-xs-7">
-              {{ form.title }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-xs-3 control-label bolder blue">内容</label>
-            <div class="col-sm-9">
-              {{ form.content.as_hidden }}
-              {% include "components/editor.html" %}
-            </div>
-          </div>
-        </fieldset>
-        <div class="clearfix form-actions">
-          <div class="col-md-offset-3 col-md-9">
-            <button class="btn btn-info" type="submit">
-              <i class="ace-icon fa fa-check bigger-110"></i>
-              发布
-            </button>
-            &nbsp; &nbsp; &nbsp;
-            <button class="btn" type="reset">
-              <i class="ace-icon fa fa-undo bigger-110"></i>
-              重置
-            </button>
+
+            <!-- /section:custom/checkbox -->
           </div>
         </div>
-      </form>
+        <div class="form-group">
+          <label class="col-xs-1 control-label bolder blue">标题</label>
+          <div class="col-xs-7">
+            {{ form.title }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label bolder blue">内容</label>
+          <div class="col-sm-9">
+            {{ form.content.as_hidden }}
+            {% include "components/editor.html" %}
+          </div>
+        </div>
+      </fieldset>
+      <div class="clearfix form-actions">
+        <div class="col-md-offset-3 col-md-9">
+          <button class="btn btn-info" type="submit">
+            <i class="ace-icon fa fa-check bigger-110"></i>
+            发布
+          </button>
+          &nbsp; &nbsp; &nbsp;
+          <button class="btn" type="reset">
+            <i class="ace-icon fa fa-undo bigger-110"></i>
+            重置
+          </button>
+        </div>
+      </div>
+    </form>
 
-    </div>
-    <div class="col-sm-1"></div>
   </div>
+  <div class="col-sm-1"></div>
+</div>
+{% endblock %}
 
-  <script type="text/javascript" src="../../static/js/jquery.min.js"> </script>
-  <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+{% block script %}
+{{ block.super }}
+<script type="text/javascript" src="../../static/js/jquery.min.js"> </script>
+<script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
 
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('#msg-form').submit(function(event) { // catch the form's submit event
-        /* stop form from submitting normally */
-        event.preventDefault();
-        var cont = $('#editor1').html(); //从编辑器里获得内容
-        $('#id_content').val(cont);
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#msg-form').submit(function(event) { // catch the form's submit event
+      /* stop form from submitting normally */
+      event.preventDefault();
+      var cont = $('#editor1').html(); //从编辑器里获得内容
+      $('#id_content').val(cont);
 
-        var $form = $(this);
-        var onCount = $("#msg-form input:checkbox:checked").length;
-        if (onCount == 0)
-          alert("请选择发送角色");
-        else if ($form.find('#id_title').val().length < 6)
-          alert("请填写标题");
-        else{
-          var data = $form.serialize();
-          $.ajax({ // create an AJAX call...
-            data: data, // get the form data
-            type: $form.attr('method'), // GET or POST
-            url: "/centre/msg_publish", // the file to call
-            success: function(response) { // on success..
-              alert("发布成功！")
-              $form.trigger("reset");
-              $('#editor1').clear(); //从编辑器里获得内容
-            },
-            error: function(e, x, r) { // on error..
-              alert("发布失败，请重试！")
-            }
-          });
-        }
-        return false;
-      });
+      var $form = $(this);
+      var onCount = $("#msg-form input:checkbox:checked").length;
+      if (onCount == 0)
+        alert("请选择发送角色");
+      else if ($form.find('#id_title').val().length < 6)
+        alert("请填写标题");
+      else{
+        var data = $form.serialize();
+        $.ajax({ // create an AJAX call...
+          data: data, // get the form data
+          type: $form.attr('method'), // GET or POST
+          url: "/centre/msg_publish", // the file to call
+          success: function(response) { // on success..
+            alert("发布成功！")
+            $form.trigger("reset");
+            $('#editor1').clear(); //从编辑器里获得内容
+          },
+          error: function(e, x, r) { // on error..
+            alert("发布失败，请重试！")
+          }
+        });
+      }
+      return false;
     });
-  </script>
-</body>
+  });
+</script>
+{% endblock %}
