@@ -48,7 +48,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'sunny_sports.sp.middleware.AutoLogout',
 )
+
+#Handle session is not Json Serializable
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+# Auto logout delay in minutes
+AUTO_LOGOUT_DELAY = 50 #equivalent to 1 minutes
 
 ROOT_URLCONF = 'sunny_sports.urls'
 
