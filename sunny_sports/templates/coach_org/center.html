@@ -1,10 +1,3 @@
-<body class="no-skin">
-
-	<div class="main-container" id="main-container">
-		<div class="main-content">
-			<div class="page-content">
-				<!-- /section:settings.box -->
-				<div class="page-content-area">
 					<div class="page-header">
 						<h1>
 							个人中心 <small> <i class="ace-icon fa "></i>
@@ -247,11 +240,6 @@
 						<!-- /.col -->
 					</div>
 					<!-- /.row -->
-				</div>
-				<!-- /.page-content-area -->
-			</div>
-			<!-- /.page-content -->
-		</div>
 		<!-- /.main-content -->
 		<a href="#" id="btn-scroll-up"
 			class="btn-scroll-up btn btn-sm btn-inverse"> <i
@@ -260,7 +248,7 @@
 	</div>
 	<!-- /.main-container -->
 	<script type="text/javascript">
-	var scripts = [null,"http://sunny-sports.qiniudn.com/static/js/jquery-ui.custom.min.js","../../static/js/jquery.ui.touch-punch.min.js","../../static/js/jquery.gritter.min.js","../../static/js/bootbox.min.js","../../static/js/jquery.easypiechart.min.js","../../static/js/date-time/bootstrap-datepicker.min.js","../../static/js/jquery.hotkeys.min.js","../../static/js/bootstrap-wysiwyg.min.js","../../static/js/select2.min.js","../../static/js/fuelux/fuelux.spinner.min.js","../../static/js/x-editable/bootstrap-editable.min.js","../../static/js/x-editable/ace-editable.min.js","../../static/js/jquery.maskedinput.min.js", null]
+	var scripts = [null,"http://sunny-sports.qiniudn.com/static/js/jquery-ui.custom.min.js","../../static/js/jquery.ui.touch-punch.min.js","../../static/js/jquery.gritter.min.js","../../static/js/bootbox.min.js","../../static/js/date-time/bootstrap-datepicker.min.js","../../static/js/jquery.hotkeys.min.js","../../static/js/select2.min.js","../../static/js/fuelux/fuelux.spinner.min.js","../../static/js/x-editable/bootstrap-editable.min.js","../../static/js/x-editable/ace-editable.min.js","../../static/js/jquery.maskedinput.min.js", null]
 	ace.load_ajax_scripts(scripts, function() {
 	  //inline scripts related to this page
 		 jQuery(function($) {
@@ -320,144 +308,6 @@
 	    });	
 		
 		//select2 editable
-		var countries = [];
-	    $.each({ "CA": "Canada", "IN": "India", "NL": "Netherlands", "TR": "Turkey", "US": "United States"}, function(k, v) {
-	        countries.push({id: k, text: v});
-	    });
-	
-		var cities = [];
-		cities["CA"] = [];
-		$.each(["Toronto", "Ottawa", "Calgary", "Vancouver"] , function(k, v){
-			cities["CA"].push({id: v, text: v});
-		});
-		cities["IN"] = [];
-		$.each(["Delhi", "Mumbai", "Bangalore"] , function(k, v){
-			cities["IN"].push({id: v, text: v});
-		});
-		cities["NL"] = [];
-		$.each(["Amsterdam", "Rotterdam", "The Hague"] , function(k, v){
-			cities["NL"].push({id: v, text: v});
-		});
-		cities["TR"] = [];
-		$.each(["Ankara", "Istanbul", "Izmir"] , function(k, v){
-			cities["TR"].push({id: v, text: v});
-		});
-		cities["US"] = [];
-		$.each(["New York", "Miami", "Los Angeles", "Chicago", "Wysconsin"] , function(k, v){
-			cities["US"].push({id: v, text: v});
-		});
-		
-		var currentValue = "NL";
-	    $('#country').editable({
-			type: 'select2',
-			value : 'NL',
-			//onblur:'ignore',
-	        source: countries,
-			select2: {
-				'width': 140
-			},		
-			success: function(response, newValue) {
-				if(currentValue == newValue) return;
-				currentValue = newValue;
-				
-				var new_source = (!newValue || newValue == "") ? [] : cities[newValue];
-				
-				//the destroy method is causing errors in x-editable v1.4.6+
-				//it worked fine in v1.4.5
-				/**			
-				$('#city').editable('destroy').editable({
-					type: 'select2',
-					source: new_source
-				}).editable('setValue', null);
-				*/
-				
-				//so we remove it altogether and create a new element
-				var city = $('#city').removeAttr('id').get(0);
-				$(city).clone().attr('id', 'city').text('Select City').editable({
-					type: 'select2',
-					value : null,
-					//onblur:'ignore',
-					source: new_source,
-					select2: {
-						'width': 140
-					}
-				}).insertAfter(city);//insert it after previous instance
-				$(city).remove();//remove previous instance
-				
-			}
-	    });
-	
-		$('#city').editable({
-			type: 'select2',
-			value : 'Amsterdam',
-			//onblur:'ignore',
-	        source: cities[currentValue],
-			select2: {
-				'width': 140
-			}
-	    });
-	
-	
-		
-		//custom date editable
-		$('#signup').editable({
-			type: 'adate',
-			date: {
-				//datepicker plugin options
-				    format: 'yyyy/mm/dd',
-				viewformat: 'yyyy/mm/dd',
-				 weekStart: 1
-				 
-				//,nativeUI: true//if true and browser support input[type=date], native browser control will be used
-				//,format: 'yyyy-mm-dd',
-				//viewformat: 'yyyy-mm-dd'
-			}
-		})
-	
-	    $('#age').editable({
-	        type: 'spinner',
-			name : 'age',
-			spinner : {
-				min : 16,
-				max : 99,
-				step: 1,
-				on_sides: true
-				//,nativeUI: true//if true and browser support input[type=number], native browser control will be used
-			}
-		});
-		
-	
-	    $('#login').editable({
-	        type: 'slider',
-			name : 'login',
-			
-			slider : {
-				 min : 1,
-				  max: 50,
-				width: 100
-				//,nativeUI: true//if true and browser support input[type=range], native browser control will be used
-			},
-			success: function(response, newValue) {
-				if(parseInt(newValue) == 1)
-					$(this).html(newValue + " hour ago");
-				else $(this).html(newValue + " hours ago");
-			}
-		});
-	
-		$('#about').editable({
-			mode: 'inline',
-	        type: 'wysiwyg',
-			name : 'about',
-	
-			wysiwyg : {
-				//css : {'max-width':'300px'}
-			},
-			success: function(response, newValue) {
-			}
-		});
-		
-		
-		
 		// *** editable avatar *** //
 		try {//ie8 throws some harmless exceptions, so let's catch'em
 	
@@ -725,4 +575,3 @@
 		</script>
 		-->
 	<!-- <![endif]-->
-</body>
