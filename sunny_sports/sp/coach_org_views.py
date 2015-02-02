@@ -16,6 +16,11 @@ from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models.status import *
 from sunny_sports.sp.forms import *
 
+@login_required()
+def coach_org(req):
+    return render_to_response('coach_org/base.html')
+
+@login_required()
 def home(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -23,12 +28,14 @@ def home(req):
     coachorg = CoachOrg.objects.filter(user_id=uuid)
     return render_to_response('coach_org/home.html',{"coachorg":coachorg[0]})
 
+@login_required()
 def train(req):
     uuid = req.user.id
     # 用这个id查信息哦
     trains = Train.objects.filter(org__user_id=uuid)
     return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains})
 
+@login_required()
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -36,6 +43,7 @@ def center(req):
    # return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]})
     return render_to_response('coach_org/center.html',{})
 
+@login_required()
 def train_publish(req):
     if req.method == "POST":
         data = req.POST.copy()
@@ -60,6 +68,4 @@ def train_publish(req):
         org = CoachOrg.objects.get(user_id=uuid)
         return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org}, RequestContext(req))
         
-
-
 

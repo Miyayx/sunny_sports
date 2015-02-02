@@ -41,6 +41,7 @@ def vcode(req):
     c.save()
     return JsonResponse(result)
 
+@login_required()
 def get_msg(req):
     """
     header部分获取未读消息
@@ -112,12 +113,13 @@ def index(req):
     name = req.user.name
     return render_to_response('index.html', {'username': name}, context_instance=RequestContext(req))
           
-@login_required(login_url="login/")
+@login_required()
 def mylogout(req):
     print "logout"
     logout(req)
+    return render_to_response("login.html")
 
-@login_required(login_url="login/")
+@login_required()
 def password(req):
     if req.method == 'POST': #Change password 
         u = MyUser.objects.get(id=req.user.id)

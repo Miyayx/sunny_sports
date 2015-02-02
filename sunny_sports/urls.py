@@ -20,9 +20,9 @@ urlpatterns = patterns('',
         url(r'^club/', TemplateView.as_view(template_name='club/empty.html')),
         url(r'^team/', TemplateView.as_view(template_name='team/empty.html')),
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
-        url(r'^coach$', TemplateView.as_view(template_name='coach/base.html')),
-        url(r'^centre$', TemplateView.as_view(template_name='centre/base.html')),
-        url(r'^coach_org$', TemplateView.as_view(template_name='coach_org/base.html')),
+        #url(r'^coach$', TemplateView.as_view(template_name='coach/base.html')),
+        #url(r'^centre$', TemplateView.as_view(template_name='centre/base.html')),
+        #url(r'^coach_org$', TemplateView.as_view(template_name='coach_org/base.html')),
 
         url(r'^msg$','sunny_sports.sp.views.get_msg'),
 
@@ -36,6 +36,7 @@ urlpatterns = patterns('',
 
 # centre
 urlpatterns += patterns('sunny_sports.sp.centre_views',
+        url(r'^centre$', 'centre'),
         url(r'^centre/test_check/$','test_check'),
         #url(r'^centre/test_check/(?P<train_id>\d{9-10})/$','test_check'),
         url(r'^centre/test_check/(?P<train_id>\d+)/$','test_check'),
@@ -49,6 +50,7 @@ urlpatterns += patterns('sunny_sports.sp.centre_views',
 
 # coach_org
 urlpatterns += patterns('sunny_sports.sp.coach_org_views',
+        url(r'^coach_org$', 'coach_org'),
         url(r'^coach_org/home$', 'home'),
         url(r'^coach_org/train_query$', 'train'),
         url(r'^coach_org/center$', 'center'),
@@ -58,6 +60,7 @@ urlpatterns += patterns('sunny_sports.sp.coach_org_views',
 
 # coach
 urlpatterns += patterns('sunny_sports.sp.coach_views',
+        url(r'^coach$', 'coach'),
         url(r'^coach/home$', 'home'),
         url(r'^coach/center$', 'center'),
         url(r'^coach/train$', 'train'),

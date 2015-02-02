@@ -62,9 +62,8 @@
 
   jQuery(function(){
     $.ajax({
-      type: "POST",
+      type: "GET",
       url: "/msg", 
-      data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
       success : function(data) {
         $('#msg-box').html(data);
       }

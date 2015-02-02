@@ -11,6 +11,7 @@ from django.template import Context, Template
 from django.db.models import F
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
@@ -19,6 +20,11 @@ from sunny_sports.sp.models.models import *
 
 from forms import *
 
+@login_required()
+def centre(req):
+    return render_to_response('centre/base.html')
+
+@login_required()
 def test_check(req, train_id=None):
     
     print "test_check, id %s"%train_id
@@ -39,6 +45,7 @@ def test_check(req, train_id=None):
         jtlist = []
         return render_to_response('centre/test_check.html',{"ctlist":ctlist, "jtlist":jtlist})
 
+@login_required()
 def check_pass(req):
     """
     审核批准后
@@ -65,6 +72,7 @@ def check_pass(req):
         return JsonResponse({"success":False})
 
 
+@login_required()
 def history_view(req, train_id=None):
     if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
         c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
@@ -79,6 +87,7 @@ def history_view(req, train_id=None):
         jtlist = []
         return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
 
+@login_required()
 def history_print(req, train_id=None):
     """
     生成csv表格并下载
@@ -88,6 +97,7 @@ def history_print(req, train_id=None):
     else:
         return "Wrong Train id"
 
+@login_required()
 def msg_publish(req):
     """
     """

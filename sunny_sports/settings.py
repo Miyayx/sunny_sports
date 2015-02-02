@@ -76,6 +76,9 @@ DATABASES = {
 AUTH_USER_MODEL = 'sp.MyUser'     
 AUTHENTICATION_BACKENDS = ( 'sunny_sports.sp.backend.MyBackend', )
 
+LOGIN_URL='.'
+LOGOUT_URL='.'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 

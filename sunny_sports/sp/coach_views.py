@@ -15,7 +15,12 @@ from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.forms import *
 
+@login_required()
+def coach(req):
+    return render_to_response('coach/base.html')
 
+
+@login_required()
 def home(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -24,6 +29,7 @@ def home(req):
 
     return render_to_response('coach/home.html',{"coach":coach[0]})
 
+@login_required()
 def train(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -49,6 +55,7 @@ def train(req):
         htrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=3)
         return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]})
 
+@login_required()
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -57,6 +64,7 @@ def center(req):
     club = Club.objects.filter()
     return render_to_response('coach/center.html',{"coach":coach[0], "club":club}, RequestContext(req))
 
+@login_required()
 def update_user(req):
     """
     个人中心，用户更新基本信息
