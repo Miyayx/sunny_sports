@@ -75,7 +75,7 @@ STUDENT_LEVEL=(
         )
 
 #角色状态
-ROLE_STATUS = (
+INFO_STATUS = (
         (0, 'not_complete'), #还未补全个人信息
         (1, 'completed'),
         )

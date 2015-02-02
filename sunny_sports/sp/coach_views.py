@@ -17,8 +17,12 @@ from sunny_sports.sp.forms import *
 
 @login_required()
 def coach(req):
-    return render_to_response('coach/base.html')
-
+    uuid = req.user.id
+    u=UserRole.objects.get(user_id=uuid, role_id=3)
+    if u.is_first:
+        return HttpResponseRedirect("coach/center")
+    else:
+        return HttpResponseRedirect("coach/home")
 
 @login_required()
 def home(req):
@@ -82,6 +86,8 @@ def update_user(req):
         #data.pop("birth")
 
         uuid = req.user.id
+        ur = UserRole.objects.get(user_id=uuid, role_id=3)
+        ur.is_first = True
         MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
@@ -96,6 +102,7 @@ def update_user(req):
         cp.address = data.get("address","")
         try:
             cp.save()
+            ur.save()
         except:
             return JsonResponse({'success':False})
         #c = CoachPropertyForm(instance=cp, data=data)

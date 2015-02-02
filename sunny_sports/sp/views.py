@@ -105,8 +105,6 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
         # the authentication system was unable to verify the username and password
             messages.error(req, u"用户名或密码错误")
             return render_to_response("login.html", context_instance=RequestContext(req))
-    else:
-        return HttpResponse("login.html")
           
 def index(req):
     uuid = req.user.id

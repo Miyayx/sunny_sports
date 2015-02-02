@@ -54,7 +54,7 @@ MIDDLEWARE_CLASSES = (
 #Handle session is not Json Serializable
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 # Auto logout delay in minutes
-AUTO_LOGOUT_DELAY = 0.5 #equivalent to 1 minutes
+AUTO_LOGOUT_DELAY = 1 #equivalent to 1 minutes
 
 ROOT_URLCONF = 'sunny_sports.urls'
 
@@ -82,8 +82,8 @@ DATABASES = {
 AUTH_USER_MODEL = 'sp.MyUser'     
 AUTHENTICATION_BACKENDS = ( 'sunny_sports.sp.backend.MyBackend', )
 
-LOGIN_URL='.'
-LOGOUT_URL='.'
+LOGIN_URL='/'
+LOGOUT_URL='/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
