@@ -26,7 +26,8 @@ def home(req):
     # 用这个id查信息哦
     print uuid
     coachorg = CoachOrg.objects.filter(user_id=uuid)
-    return render_to_response('coach_org/home.html',{"coachorg":coachorg[0]})
+    trains = Train.objects.filter(org__user_id=uuid)
+    return render_to_response('coach_org/home.html',{"coachorg":coachorg[0],"coachorgtrains":trains})
 
 @login_required()
 def train(req):
