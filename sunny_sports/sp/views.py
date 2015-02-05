@@ -62,14 +62,34 @@ def regist(req):
         phone = req.POST.get('phone')
         password = req.POST.get('password')
         password2 = req.POST.get('password2')
-        verify    = req.POST.get('v_code')
+        v_code    = req.POST.get('v_code')
+        #检验手机验证码
+        p, msg = check_vcode(phone, v_code)
+        if not p:
+            messages.error(req, msg,extra_tags='regist')
+            return render_to_response('login.html', context_instance=RequestContext(req))
+        #检验该手机号是否已注册
+        u = MyUser.objects.filter(phone=phone)
+        if len(u) > 0:
+            messages.error(req, "该手机号已注册",extra_tags='regist')
+            return render_to_response('login.html', context_instance=RequestContext(req))
+        #检验密码是否一致
         if not password == password2:
             messages.error(req, u"两次密码输入不一致",extra_tags='regist')
             return render_to_response('login.html', context_instance=RequestContext(req))
-        role     = req.POST.get('role2').strip()                
+
+        role = req.POST.get('role2').strip()
         r_id = get_role_id(role)
         user = MyUser.objects.create_user(phone = phone, nickname=None, email=None, role=r_id, password = password)
-        return HttpResponseRedirect('/%s'%role)
+        u = authenticate(username=phone, password=password)#用django自带函数检验
+        if u is not None:
+            # the password verified for the user
+            if u.is_active:
+                create_role(u, r_id)
+                login(req,u) #django自带的login将userid写入session,这步之前一定有authenticate
+                return HttpResponseRedirect('/%s'%role)
+        messages.error(req, u"用户身份验证错误",extra_tags='regist')
+        return render_to_response('login.html', context_instance=RequestContext(req))
     else:
         return render_to_response('login.html')
 
