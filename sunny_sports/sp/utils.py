@@ -4,6 +4,9 @@
 import requests
 import json
 import random
+import datetime
+
+from django.utils import timezone
 
 from sunny_sports.sp.models.models import *
 
@@ -26,6 +29,22 @@ def send_vcode(mobile):
     result = {u'msg': u'ok', u'error': 0}
 
     return result,vcode
+
+def check_vcode(phone, vcode):
+    c = Code.objects.filter(phone = phone).latest('time')
+    print "c.code:",c.code
+    print "vcode",vcode
+    if c.code == vcode:
+        now = timezone.now()
+        print now
+        print c.time
+
+        if c.time < timezone.now() and c.time + datetime.timedelta(0,900) > timezone.now(): #当前时间要在c.time与c.time+15min之间
+            return True,"OK"
+        else:
+            return False, "超时"
+    else:
+        return False,"验证码错误"
 
 
 def custom_msg_publish(user_list, title, content):
