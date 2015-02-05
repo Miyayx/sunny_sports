@@ -4,8 +4,8 @@
 {{ block.super }}
 <div class="page-header">
   <h1>
-    个人中心 <small> <i class="ace-icon fa "></i>
-      注册时间：<!--{{coach.property.user.regist_time}}-->
+      个人中心 <small> <i class="ace-icon fa "></i>
+      注册时间：{{coachorg.user.regist_time}}
     </small>
   </h1>
 </div>
@@ -41,10 +41,10 @@
                     <div class="col-xs-12 col-sm-8">
                       <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right"
-                          for="form-field-username">编号</label>
+                          for="form-field-orgnum">编号</label>
                         <div class="col-sm-8">
                           <div class="profile-info-value">
-                            <span class="editable editable-click" id="username">
+                            <span class="editable editable-click" id="orgnum">
                               {{coachorg.org_num}}</span>
                           </div>
                         </div>
@@ -52,15 +52,14 @@
                       <div class="space-4"></div>
                       <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right"
-                          for="form-field-nickname"> 名称 </label>
+                          for="form-field-orgname">名称</label>
                         <div class="col-sm-8">
                           <div class="profile-info-value">
-                            <span class="editable editable-click" id="nickname">{{coachorg.org_name}}</span>
+                            <span class="editable editable-click" id="orgname">{{coachorg.name}}</span>
                           </div>
                         </div>
                       </div>
                       <div class="space-4"></div>
-
                       <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right"
                           for="form-field-phone">电话</label>
@@ -72,13 +71,34 @@
                           </div>
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label class="col-sm-4 control-label no-padding-right"
+                          for="form-field-place">地址</label>
+                        <div class="col-sm-8">
+                          <div class="profile-info-value">
+                            <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{coachorg.province}}</span>
+                              省
+                          </div>
+                          <div class="profile-info-value">
+                            <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{coachorg.city}}</span>
+                                市
+                          </div>
+                          <div class="profile-info-value">
+                            <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{coachorg.dist}}</span>
+                                区/县
+                          </div>
+                          <div class="profile-info-value">
+                              <span class="myeditable editable editable-click" id="address">{{coachorg.address}}</span>
+                          </div>
+                        </div>
+                      </div>
                       <div class="space-4"></div>
                       <div class="form-group">
                         <label class="col-sm-4 control-label no-padding-right"
                           for="form-field-email">邮箱</label>
                         <div class="col-sm-8">
                           <div class="profile-info-value">
-                            <span class="editable editable-click" id="email"><!--{{coach.property.user.email}}--></span>
+                            <span class="editable editable-click" id="email">{{coachorg.user.email}}</span>
                           </div>
                         </div>
                       </div>
@@ -88,111 +108,13 @@
                           for="form-field-last_log">上次登录时间</label>
                         <div class="col-sm-8">
                           <div class="profile-info-value">
-                            <span class="editable editable-click" id="last_log"><!--{{coach.property.user.last_login}}--></span>
+                            <span class="editable editable-click" id="last_log">{{coachorg.user.last_login}}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <hr />
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-date">出生日期</label>
-                    <div class="col-sm-8">
-                      <div class="profile-info-value">
-                        <span class="editable editable-click" id="birth">
-                          <!--{{coach.property.birthday}}--></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="space-4"></div>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-identity"> 身份证号 </label>
-                    <div class="col-sm-8">
-                      <div class="profile-info-value">
-                        <span class="editable editable-click" id="identity">
-                          <!--{{coach.property.identity}}--></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="space-4"></div>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right">
-                      性别 </label>
-                    <!--
-                    <div class="col-sm-8">
-                      <label class="inline"> <input
-                        name="form-field-radio" type="radio" class="ace"
-                        {% ifequal coach.property.sex 0 %}checked{% endifequal %} />
-                        <span class="lbl middle">男</span>
-                        </label> &nbsp; &nbsp; &nbsp; <label class="inline"> <input
-                        name="form-field-radio" type="radio" class="ace"
-                        {% ifequal coach.property.sex 1 %}checked{% endifequal %} />
-                        <span class="lbl middle">女</span>
-                      </label>
-                    </div>
-                    -->
-                  </div>
-                  <div class="space-4"></div>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-company">单位</label>
-                    <div class="col-sm-8">
-                      <div class="profile-info-value">
-                        <span class="editable editable-click" id="company"><!--{{coach.property.company}}--></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="space-4"></div>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-club">俱乐部</label>
-                    <!--
-                    <div class="col-sm-9">
-                      <span class="input-icon input-icon-right"> <select
-                          class="form-control" id="form-field-club">
-                          <option value=""></option>
-                          {% for c in club %}
-                          <option value="{{c.id}}" {% ifequal coach.club_id c.id %}selected{% endifequal %}>{{c.id}}</option>
-                          {% endfor %}
-                        </select>
-                      </span>
-                    </div>
-                    -->
-                  </div>
-                  <div class="space-4"></div>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-place">常驻地</label>
-                    <div class="col-sm-8">
-                      <div class="profile-info-value">
-                        <span class="editable editable-click" id="address"><!--{{coach.property.address}}--></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="space"></div>
-                  <h4 class="header blue bolder smaller">级别</h4>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-rank"> 教学等级 </label>
-                    <div class="col-sm-8">
-                      <div class="profile-info-value">
-                        <span class="editable editable-click" id="rank"><!--{{coach.get_t_level_display}}--></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="space-4"></div>
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label no-padding-right"
-                      for="form-field-post"> 专业等级 </label>
-                    <div class="col-sm-8">
-                      <div class="profile-info-value">
-                        <span class="editable editable-click" id="post"><!--{{coach.get_p_level_display}}--></span>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
                 <div id="edit-password" class="tab-pane">
                   <div class="space-10"></div>
@@ -269,30 +191,16 @@
           //editables 
 
           //text editable
-          $('#username')
+          $('#orgnum')
           .editable({
             type: 'text',
-            name: 'username'
+            name: 'orgnum'
           });
-          $('#rank')
+          $('#orgname')
           .editable({
             type: 'text',
-            name: 'rank'
-          });	
-          $('#post')
-          .editable({
-            type: 'text',
-            name: 'post'
-          });	
-          $('#birth').editable({
-            type: 'adate',
-            date: {
-              //datepicker plugin options
-              format: 'yyyy-mm-dd',
-              viewformat: 'yyyy-mm-dd',
-              weekStart: 1
-            }
-          })
+            name: 'orgname'
+          });        
           $('#email')
           .editable({
             type: 'text',
@@ -303,16 +211,23 @@
             type: 'text',
             name: 'phone'
           });	
-          $('#company')
+           $('#province')
+          .editable({
+            name:'province'
+          });
+          $('#city')
+          .editable({
+            name:'city'
+          });
+          $('#dist')
+          .editable({
+           name:'dist'
+          });
+          $('#address')
           .editable({
             type:'text',
-            name:'company'
+            name:'address'
           });
-          $('#qq')
-          .editable({
-            type: 'text',
-            name: 'email'
-          });	
 
           //select2 editable
           // *** editable avatar *** //
@@ -325,85 +240,7 @@
             } catch(e) {
               Image.prototype.appendChild = function(el){}
             }
-
-            var last_gritter
-            $('#avatar').editable({
-              type: 'image',
-              name: 'avatar',
-              value: null,
-              image: {
-                //specify ace file input plugin's options here
-                btn_choose: 'Change Avatar',
-                droppable: true,
-                maxSize: 110000,//~100Kb
-
-                //and a few extra ones here
-                name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-                on_error : function(error_type) {//on_error function will be called when the selected file has a problem
-                  if(last_gritter) $.gritter.remove(last_gritter);
-                  if(error_type == 1) {//file format error
-                    last_gritter = $.gritter.add({
-                      title: 'File is not an image!',
-                      text: 'Please choose a jpg|gif|png image!',
-                      class_name: 'gritter-error gritter-center'
-                    });
-                  } else if(error_type == 2) {//file size rror
-                    last_gritter = $.gritter.add({
-                      title: 'File too big!',
-                      text: 'Image size should not exceed 100Kb!',
-                      class_name: 'gritter-error gritter-center'
-                    });
-                  }
-                  else {//other error
-                  }
-                },
-                on_success : function() {
-                  $.gritter.removeAll();
-                }
-              },
-              url: function(params) {
-                // ***UPDATE AVATAR HERE*** //
-                //for a working upload example you can replace the contents of this function with 
-                //examples/profile-avatar-update.js
-
-                var deferred = new $.Deferred
-
-                var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
-                if(!value || value.length == 0) {
-                  deferred.resolve();
-                  return deferred.promise();
-                }
-
-
-                //dummy upload
-                setTimeout(function(){
-                  if("FileReader" in window) {
-                    //for browsers that have a thumbnail of selected image
-                    var thumb = $('#avatar').next().find('img').data('thumb');
-                    if(thumb) $('#avatar').get(0).src = thumb;
-                  }
-
-                  deferred.resolve({'status':'OK'});
-
-                  if(last_gritter) $.gritter.remove(last_gritter);
-                  last_gritter = $.gritter.add({
-                    title: 'Avatar Updated!',
-                    text: 'Uploading to server can be easily implemented. A working example is included with the template.',
-                    class_name: 'gritter-info gritter-center'
-                  });
-
-                } , parseInt(Math.random() * 800 + 800))
-
-                return deferred.promise();
-
-                // ***END OF UPDATE AVATAR HERE*** //
-              },
-
-              success: function(response, newValue) {
-              }
-            })
           }catch(e) {}
-
 
 
           //another option is using modals
@@ -515,7 +352,7 @@
           });
 
           ///////////////////////////////////////////
-
+/* ref by gll 20150205
           //right & left position
           //show the user info on right or left depending on its position
           $('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
@@ -535,7 +372,7 @@
           }).on('click', function(e) {
             e.preventDefault();
           });
-
+*/
 
           ///////////////////////////////////////////
           $('#user-profile-3')
