@@ -39,9 +39,9 @@ def train(req):
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
-   # coach_org = CoachOrg.objects.filter(user_id=uuid)
-   # return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]})
-    return render_to_response('coach_org/center.html',{})
+    coach_org = CoachOrg.objects.filter(user_id=uuid)
+    return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]})
+    #return render_to_response('coach_org/center.html',{}) gll 20150205
 
 @login_required()
 def train_publish(req):
