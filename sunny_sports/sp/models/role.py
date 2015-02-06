@@ -11,8 +11,8 @@ class PersonProperty(models.Model):
     """
     user = models.ForeignKey(MyUser, unique=True)
     name = models.CharField(max_length=20)
-    sex = models.IntegerField(choices=SEX)
-    birth = models.DateField()
+    sex = models.IntegerField(choices=SEX, default=0)
+    birth = models.DateField(default="1100-01-01")
     age = models.IntegerField(null=True)
     identity = models.CharField(max_length=20, unique=True)
     avatar = models.URLField(null=True)

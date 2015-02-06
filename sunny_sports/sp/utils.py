@@ -9,6 +9,7 @@ import datetime
 from django.utils import timezone
 
 from sunny_sports.sp.models.models import *
+from sunny_sports.sp.models import *
 
 def gen_vcode():
     return random.randint(1000,9999)
@@ -55,3 +56,4 @@ def custom_msg_publish(user_list, title, content):
     for u in user_list:
         insert_list.append(UserMessage(user=u, msg=msg))
     UserMessage.objects.bulk_create(insert_list)
+

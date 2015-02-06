@@ -7,13 +7,11 @@ from django.db import models
 from django.contrib.auth.models import (
         UserManager, BaseUserManager, AbstractBaseUser
         )
+from django.db import transaction
 
-from role import *
-from club import *
-from game import *
-from committee import *
-from association import *
-from status import *
+from sunny_sports.sp.models.status import * 
+#from sunny_sports.sp.models.role import CoachProperty
+import role as role_model
 
 # Create your models here.
 
@@ -28,6 +26,7 @@ class Role(models.Model):
 
 class MyUserManager(BaseUserManager):
 
+    @transaction.atomic
     def create_user(self, phone, nickname, email, role, password=None):
         """
         Creates and saves a User with the given email, date of
@@ -49,6 +48,25 @@ class MyUserManager(BaseUserManager):
         user.save()
         r = Role.objects.get(role=int(role))
         ur = UserRole.objects.create(user=user, role=r) #用objects.create可以不用save()
+        if r.get_role_display() == "coach":
+            print "Create Coach"
+            cp = role_model.CoachProperty(user=user)
+            cp.save()
+            role_model.Coach(property=cp).save()
+        elif r.get_role_display() == "student":
+            print "Create Student"
+            sp = role_model.StudentProperty(user=user)
+            sp.save()
+            role_model.Student(property=sp).save()
+        elif r.get_role_display() == "judge":
+            print "Create Judge"
+            jp = role_model.JudgeProperty(user=user)
+            jp.save()
+            role_model.Judge(property=jp).save()
+        elif r.get_role_display() == "club":
+            print "Create Club"
+            pass
+
         return user
 
     def create_superuser(self, phone, nickname, email, role, password):

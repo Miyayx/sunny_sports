@@ -22,6 +22,16 @@
         </div>
         <!-- /.page-header -->
 
+        {% if messages %}
+        <div class="alert alert-danger">
+          {% for m in messages %}
+          {% if forloop.first %}
+          {{ m }}
+          {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="row">
           <div class="col-xs-12">
             <div>

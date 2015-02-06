@@ -85,7 +85,6 @@ def regist(req):
         if u is not None:
             # the password verified for the user
             if u.is_active:
-                create_role(u, r_id)
                 login(req,u) #django自带的login将userid写入session,这步之前一定有authenticate
                 return HttpResponseRedirect('/%s'%role)
         messages.error(req, u"用户身份验证错误",extra_tags='regist')

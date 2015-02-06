@@ -8,6 +8,8 @@ from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.db import transaction
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
@@ -20,6 +22,7 @@ def coach(req):
     uuid = req.user.id
     u=UserRole.objects.get(user_id=uuid, role_id=3)
     if u.is_first:
+        messages.error(req, u"请补全个人信息")
         return HttpResponseRedirect("coach/center")
     else:
         return HttpResponseRedirect("coach/home")
@@ -63,12 +66,15 @@ def train(req):
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
-    print uuid
+    u=UserRole.objects.get(user_id=uuid, role_id=3)
+    if u.is_first:
+        messages.error(req, u"请补全个人信息")
     coach = Coach.objects.filter(property__user_id=uuid)
     club = Club.objects.filter()
     return render_to_response('coach/center.html',{"coach":coach[0], "club":club}, RequestContext(req))
 
 @login_required()
+@transaction.atomic
 def update_user(req):
     """
     个人中心，用户更新基本信息
