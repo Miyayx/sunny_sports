@@ -1,10 +1,15 @@
-
 {% extends "./coach/base.html" %}
+<!--
+重载head部分，主要是添加meta，css，js一类
+-->
 {% block head %}
 {{ block.super }}
 <link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
 {% endblock %}
 
+<!--
+重载页面部分
+-->
 {% block content%}
 {{ block.super }}
 <div class="main-container" id="main-container">
@@ -223,8 +228,8 @@
                             <div class="space-10"></div>
                             <form class="form-horizontal" id="pwd-form">
                             {% include "password.html" %}
-                            <!--
                               {% csrf_token %}
+                            <!--
 
                               <div class="form-group row">
                                 <label class="col-sm-offset-2 col-sm-2 control-label no-padding-right"
