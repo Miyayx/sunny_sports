@@ -55,6 +55,7 @@ def train(req):
         ltrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=1)
         mtrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=2)
         htrain = Train.objects.filter(level=3)
+        hsize = len(htrain)
         return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain})
     else:
         ltrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=1)
