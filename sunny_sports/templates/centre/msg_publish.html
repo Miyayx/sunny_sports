@@ -77,11 +77,10 @@
 
 {% block script %}
 {{ block.super }}
-<script type="text/javascript" src="../../static/js/jquery.min.js"> </script>
-<script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function() {
+
     $('#msg-form').submit(function(event) { // catch the form's submit event
       /* stop form from submitting normally */
       event.preventDefault();
