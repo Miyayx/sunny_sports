@@ -131,7 +131,7 @@
                                     <form>
                                     </div>
                                     <div id="edit-password" class="tab-pane">
-                                <h4 class="header blue bolder smaller">密码修改</h4>
+                                        <h4 class="header blue bolder smaller">密码修改</h4>
                                         <div class="space-10"></div>
 
                                         <form class="form-horizontal">
@@ -179,7 +179,6 @@
                     </div>
                     <!-- /.user-profile -->
                 </div>
-
                 <!-- PAGE CONTENT ENDS -->
             </div>
             <!-- /.col -->
@@ -196,8 +195,6 @@
 
     {% block script %}
     {{ block.super }}
-    <script src='../../static/js/jquery.min.js'></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
     <!-- page specific plugin scripts -->
 
     <!--[if lte IE 8]>
@@ -215,8 +212,6 @@
     <script src="../../static/js/jquery.maskedinput.min.js"></script>
 
     <!-- ace scripts -->
-    <script src="../../static/js/ace-elements.min.js"></script>
-    <script src="../../static/js/ace.min.js"></script>
     <script type="text/javascript">
         jQuery(function($) {
 
@@ -346,11 +341,4 @@
     </script>
     <!-- basic scripts -->
 
-    <!--[if !IE]> -->
-    <!-- by gll
-    <script type="text/javascript">
-        window.jQuery || document.write("<script src='../static/js/jquery.min.js'>"+"<"+"/script>");
-        </script>
-        -->
-        <!-- <![endif]-->
-        {% endblock %}
+    {% endblock %}

@@ -9,7 +9,7 @@ import os
 
 urlpatterns = patterns('',
         url(r'^$', 'sunny_sports.views.login'),
-        url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
+        url(r'^favicon.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/clear.png'}),
         url(r'^login$', 'sunny_sports.sp.views.mylogin'),
         url(r'^register$', 'sunny_sports.sp.views.regist'),
         url(r'^logout$', 'sunny_sports.sp.views.mylogout'),

@@ -136,54 +136,50 @@
         <!-- basic scripts -->
 
         <!--[if !IE]> -->
+        <script type="text/javascript" src='../../static/js/jquery.min.js'>
+        </script>
+        <script src="../../static/js/bootstrap.min.js"></script>
+
+        <!-- ace scripts -->
+        <script src="../../static/js/ace-elements.min.js"></script>
+        <script src="../../static/js/ace.min.js"></script>
+
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript" src='../../static/js/jquery1x.min.js'>
+        </script>
+        <![endif]-->
         <script type="text/javascript">
-            window.jQuery || document.write("<script src='../../static/js/jquery.min.js'>"+"<"+"/script>");
-            </script>
-
-            <!-- <![endif]-->
-
-            <!--[if IE]>
-            <script type="text/javascript">
-                window.jQuery || document.write("<script src='../../static/js/jquery1x.min.js'>"+"<"+"/script>");
+            if('ontouchstart' in document.documentElement) 
+                document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
                 </script>
-                <![endif]-->
+
+
+                <script src="../../static/custom/base.js"></script>
+                <script src="../../static/js/bootbox.min.js"></script>
+
                 <script type="text/javascript">
-                    if('ontouchstart' in document.documentElement) 
-                        document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-                        </script>
-                        <script src="../../static/js/bootstrap.min.js"></script>
+                    //Load content via ajax
+                    //jQuery(function($) {
+                        //  if('enable_ajax_content' in ace) {
+                            //    var options = {
+                                //      content_url: function(url) {
+                                    //        //this is for Ace demo only, you should change it
+                                    //        //please refer to documentation for more info
 
-                        <!-- ace scripts -->
-                        <script src="../../static/js/ace-elements.min.js"></script>
+                                    //        if(!url.match(/^page\//)) return false;
 
-                        <!-- 有它就大不开左边栏
-                        <script src="../../static/js/ace.min.js"></script>
-                        -->
+                                        //          var path = document.location.pathname;
 
-                        <script src="../../static/custom/base.js"></script>
-                        <script src="../../static/js/bootbox.min.js"></script>
+                                    //        //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+                                    //        return url.replace(/^page\//,"");
 
-                        <script type="text/javascript">
-                            //Load content via ajax
-                            //jQuery(function($) {
-                                //  if('enable_ajax_content' in ace) {
-                                    //    var options = {
-                                        //      content_url: function(url) {
-                                            //        //this is for Ace demo only, you should change it
-                                            //        //please refer to documentation for more info
-
-                                            //        if(!url.match(/^page\//)) return false;
-
-                                                //          var path = document.location.pathname;
-
-                                            //        //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-                                            //        return url.replace(/^page\//,"");
-
-                                                //      },
-                                            //    default_url: 'index',//default url
-                                            //    }
-                                            //    ace.enable_ajax_content($, options);
-                                            //  }
+                                        //      },
+                                    //    default_url: 'index',//default url
+                                    //    }
+                                    //    ace.enable_ajax_content($, options);
+                                    //  }
               //});
 
               //jQuery(document)
