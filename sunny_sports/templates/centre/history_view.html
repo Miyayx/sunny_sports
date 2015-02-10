@@ -41,7 +41,7 @@
           {% for t in ctlist %}
           <tr>
             <td class="center">{{t.org.org_name}}</td>
-            <td class="center"><a href="#page/centre/history_view/{{t.id}}">{{t.name}}</a></td>
+            <td class="center"><a href="/centre/history_view/{{t.id}}">{{t.name}}</a></td>
             <td class="center">{{t.get_level_display}}</td>
           </tr>
           {% endfor %}
@@ -67,7 +67,7 @@
             {% for t in jtlist %}
             <tr>
               <td class="center">{{t.org.org_name}}</td>
-              <td class="center"><a href="#page/centre/history_view/{{t.id}}">{{t.name}}</a></td>
+              <td class="center"><a href="/centre/history_view/{{t.id}}">{{t.name}}</a></td>
               <td class="center">{{t.get_level_display}}</td>
             </tr>
             {% endfor %}
