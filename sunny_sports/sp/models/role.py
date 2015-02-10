@@ -9,7 +9,7 @@ class PersonProperty(models.Model):
     """
     这是一个父类,所有个人角色继承于它
     """
-    user = models.ForeignKey(MyUser, unique=True)
+    user = models.ForeignKey(MyUser, unique=True, db_index=True)
     name = models.CharField(max_length=20)
     sex = models.IntegerField(choices=SEX, default=0)
     birth = models.DateField(default="1100-01-01")
@@ -65,7 +65,7 @@ class JudgeProperty(PersonProperty):
         app_label='sp'
 
 class Club(models.Model):
-    user = models.ForeignKey(MyUser, unique=True)
+    user = models.ForeignKey(MyUser, unique=True, db_index=True)
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
     county = models.CharField(max_length=50, blank=True)
