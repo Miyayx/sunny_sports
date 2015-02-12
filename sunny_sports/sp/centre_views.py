@@ -73,19 +73,21 @@ def check_pass(req):
 
 
 @login_required()
-def history_view(req, train_id=None):
-    if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
-        c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
-        if len(c_t) > 0:
-            train = c_t[0].train
-            return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train})
-        else:
-            return HttpResponse("<h2>没有该课程的历史信息</h2>")
-    else:#否则返回课程列表
-        c_t = CoachTrain.objects.filter(train__pub_status=1) #这里查的是Train的status，是联合两个表的查询，用两个_
-        ctlist = [i.train for i in c_t]
-        jtlist = []
-        return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
+def history_view(req):
+    if req.method == "GET":
+        train_id = req.GET.get("t_id",None)
+        if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
+            c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
+            if len(c_t) > 0:
+                train = c_t[0].train
+                return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train})
+            else:
+                return HttpResponse("<h2>没有该课程的历史信息</h2>")
+        else:#否则返回课程列表
+            c_t = CoachTrain.objects.filter(train__pub_status=1) #这里查的是Train的status，是联合两个表的查询，用两个_
+            ctlist = [i.train for i in c_t]
+            jtlist = []
+            return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
 
 @login_required()
 def history_print(req, train_id=None):

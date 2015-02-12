@@ -1,7 +1,7 @@
-
 {% extends "./centre/base.html" %}
-{% block content%}
+{% block content %}
 {{ block.super }}
+
 <div class="page-header"><h1>培训历史信息</h1></div>
 <div class="row">
   <div class="col-xs-1"></div>
@@ -38,9 +38,8 @@
               姓名 
             </th>
             <th class="center">学号</th>
-            <th class="center">是否通过
-              <th class="center">证书编号
-              </th>
+            <th class="center">是否通过</th>
+            <th class="center">证书编号</th>
             </tr>
           </thead>
 
@@ -49,19 +48,16 @@
             <tr>
               <td class="center" style="cursor:pointer"><span class="label label-inverse">{{i.coach.property.name}}</span></td>
               <td class="center">{{i.number}}</td>
-              <td class="center">
-                {{i.status}}
-              </td>
-              <td class="center">
-                {{i.certificate}}
-              </td>
+              <td class="center">{{i.status}}</td>
+              <td class="center">{{i.certificate}}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
+        </div>
         <div class="row center">
           <button class="btn btn-success">下载Excel</button>
         </div>
-        <div class="col-xs-1"></div>
       </div>
+    </div>
       {% endblock %}
