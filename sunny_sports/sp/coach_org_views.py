@@ -67,6 +67,13 @@ def train_publish(req):
         uuid = req.user.id
         org = CoachOrg.objects.get(user_id=uuid)
         return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org}, RequestContext(req))
+
+@login_required()
+def score_input(req):
+    if req.method == "POST":
+        pass
+    else:
+        return render_to_response('coach_org/score_input.html',{}, RequestContext(req))
         
 @login_required()
 @transaction.atomic
