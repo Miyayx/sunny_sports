@@ -121,3 +121,9 @@ def msg_publish(req):
         return render_to_response('centre/msg_publish.html', {'form':form}, RequestContext(req))
 
 
+@login_required()
+def password_page(req):
+    """
+    """
+    return render_to_response('centre/password.html', RequestContext(req))
+

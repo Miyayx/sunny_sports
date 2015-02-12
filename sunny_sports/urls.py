@@ -39,6 +39,7 @@ urlpatterns += patterns('sunny_sports.sp.centre_views',
         #url(r'^centre/history_view/(?P<train_id>\d{10})/$','history_view'),
         url(r'^centre/history_view/(?P<train_id>\d+)/$','history_view'),
         url(r'^centre/msg_publish$','msg_publish'),
+        url(r'^centre/password$','password_page'),
         #url(r'^centre/', views.all),
         )
 
