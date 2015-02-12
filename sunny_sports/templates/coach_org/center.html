@@ -89,15 +89,15 @@
                                                     for="form-field-place">地址</label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value" id="position">
-                                                        <span class="myeditable editable editable-click prov" id="province" name="province" data-type="select">{{coachorg.province}}</span>
+                                                        <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{coachorg.province}}</span>
                                                         省
                                                     </div>
                                                     <div class="profile-info-value">
-                                                        <span class="myeditable editable editable-click city" id="city" name="city" data-type="select">{{coachorg.city}}</span>
+                                                        <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{coachorg.city}}</span>
                                                         市
                                                     </div>
                                                     <div class="profile-info-value">
-                                                        <span class="myeditable editable editable-click dist" id="dist" name="dist" data-type="select">{{coachorg.dist}}</span>
+                                                        <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{coachorg.dist}}</span>
                                                         区/县
                                                     </div>
                                                     <div class="profile-info-value">
@@ -204,6 +204,7 @@
     <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
     <script src="../../static/js/x-editable/ace-editable.min.js"></script>
     <script src="../../static/js/jquery.maskedinput.min.js"></script>
+    <script src="../../static/custom/myaddress.js"></script>
 
     <!-- ace scripts -->
     <script type="text/javascript">
@@ -241,60 +242,6 @@
             });	
             $('#phone').editable('option', 'validate', function(v) {
                 if(!v) return 'Required field!';
-            });
-            // load city data
-            var citylist;
-            $.getJSON('../../static/custom/city.json', function(data){
-                citylist = data;
-            });
-            $('#province')
-            .editable({
-                name:'province',
-                source:function(){
-                    a = Array();
-                    Object.keys(citylist).forEach(function(v){
-                        a.push({text:v, value:v});
-                    });
-                    return a;
-                }
-            });
-            $('#city')
-            .editable({
-                name:'city',
-                source:function(){
-                    var k = $('#province').html().trim();
-                    if(k != "Empty"){
-                        var a = Array();
-                        Object.keys(citylist[k]).forEach(function(v,i){
-                            a.push({value:v, text:v});
-                        });
-                        return a;
-                }else{
-                    return {}
-                }
-                }
-            });
-            $('#dist')
-            .editable({
-                name:'dist',
-                source:function(){
-                    var k = $('#province').html().trim();
-                    var j = $('#city').html().trim();
-                    if( k != "Empty" && j != "Empty" ){
-                        var a = Array();
-                        citylist[k][j].forEach(function(v,i){
-                            a.push({value:v, text:v});
-                        });
-                        return a;
-                }else{
-                    return {}
-                }
-                }
-            });
-            $('#address')
-            .editable({
-                type:'text',
-                name:'address'
             });
 
             //select2 editable
