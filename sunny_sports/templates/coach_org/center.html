@@ -57,7 +57,7 @@
                                                     for="form-field-orgnum">编号</label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
-                                                        <span class="myeditable editable editable-click" id="orgnum">
+                                                        <span class="" id="orgnum">
                                                             {{coachorg.org_num}}</span>
                                                     </div>
                                                 </div>
@@ -78,7 +78,7 @@
                                                     for="form-field-phone">电话</label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
-                                                        <span class="editable editable-click" id="phone">
+                                                        <span class="myeditable editable editable-click" id="phone">
                                                             {{coachorg.user.phone}}
                                                         </span>
                                                     </div>
@@ -123,6 +123,7 @@
                                                         <i class="ace-icon fa fa-check bigger-110"></i> 保存
                                                     </button>
                                                 </div>
+                                                <p id="save-msg" class="col-md-offset-5"></p>
                                             </div>
                                         </div>
 
@@ -230,11 +231,6 @@
                 type: 'text',
                 name: 'csrfmiddlewaretoken'
             });
-            $('#orgnum')
-            .editable({
-                type: 'text',
-                name: 'orgnum'
-            });
             $('#orgname')
             .editable({
                 type: 'text',
@@ -250,6 +246,9 @@
                 type: 'text',
                 name: 'phone'
             });	
+            $('#phone').editable('option', 'validate', function(v) {
+                if(!v) return 'Required field!';
+            });
             $('#province')
             .editable({
                 name:'province'
@@ -326,17 +325,40 @@
             })
             $('.input-mask-phone').mask('(999) 999-9999');
 
+        });
 
-
-            ////////////////////
-            //change profile
-            $('[data-toggle="buttons"] .btn').on('click', function(e){
-                var target = $(this).find('input[type=radio]');
-                var which = parseInt(target.val());
-                $('.user-profile').parent().addClass('hide');
-                $('#user-profile-'+which).parent().removeClass('hide');
+        // click save btn
+        $('#save-btn').click(function() {
+            $('.myeditable').editable('submit', { 
+                url: '/coach_org/up_info', 
+                ajaxOptions: {
+                    dataType: 'json' //assuming json response
+                },           
+                success: function(data) {
+                    if(data && data.success)
+                        $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
+                },
+                error: function(errors) {
+                    $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+                } 
             });
         });
+
+        // $('#submit-btn').click(function(){
+            //   if($("password").val() == $("password2").val()){
+                //     data = $("pwd-from").serialize();
+                //     $.post("password", data, function(res){
+                    //       if(res["success"]){
+                        //         alert("已更新密码");
+                        //     }else{
+                            //         alert("更新密码失败");
+                            //     }
+                            //     
+       //     });
+       // }else{
+           //   alert("")
+           // }
+       // });
 
     </script>
     <!-- basic scripts -->

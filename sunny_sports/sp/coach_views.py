@@ -76,7 +76,7 @@ def center(req):
 
 @login_required()
 @transaction.atomic
-def update_user(req):
+def update_info(req):
     """
     个人中心，用户更新基本信息
     """

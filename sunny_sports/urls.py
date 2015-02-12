@@ -9,7 +9,7 @@ import os
 
 urlpatterns = patterns('',
         url(r'^$', 'sunny_sports.views.login'),
-        url(r'^favicon.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/clear.png'}),
+        #url(r'^favicon.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/clear.png'}),
         url(r'^login$', 'sunny_sports.sp.views.mylogin'),
         url(r'^register$', 'sunny_sports.sp.views.regist'),
         url(r'^logout$', 'sunny_sports.sp.views.mylogout'),
@@ -49,7 +49,7 @@ urlpatterns += patterns('sunny_sports.sp.coach_org_views',
         url(r'^coach_org/train_query$', 'train'),
         url(r'^coach_org/center$', 'center'),
         url(r'^coach_org/train_publish$', 'train_publish'),
-        url(r'^coach_org/', views.all), #你们自己的定义都加在这句话上面哦,但是它的优先级比能传参数的url高，如果需要url传参，把它注释了
+        url(r'^coach_org/up_info$', 'update_info'),
         )
 
 # coach
@@ -58,6 +58,6 @@ urlpatterns += patterns('sunny_sports.sp.coach_views',
         url(r'^coach/home$', 'home'),
         url(r'^coach/center$', 'center'),
         url(r'^coach/train$', 'train'),
-        url(r'^coach/up_user$', 'update_user'),
+        url(r'^coach/up_user$', 'update_info'),
 
         )

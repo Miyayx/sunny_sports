@@ -27,22 +27,21 @@ def home(req):
     print uuid
     coachorg = CoachOrg.objects.filter(user_id=uuid)
     trains = Train.objects.filter(org__user_id=uuid)
-    return render_to_response('coach_org/home.html',{"coachorg":coachorg[0],"coachorgtrains":trains})
+    return render_to_response('coach_org/home.html',{"coachorg":coachorg[0],"coachorgtrains":trains} ,RequestContext(req))
 
 @login_required()
 def train(req):
     uuid = req.user.id
     # 用这个id查信息哦
     trains = Train.objects.filter(org__user_id=uuid)
-    return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains})
+    return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains},RequestContext(req))
 
 @login_required()
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
     coach_org = CoachOrg.objects.filter(user_id=uuid)
-    return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]})
-    #return render_to_response('coach_org/center.html',{}) gll 20150205
+    return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]},RequestContext(req))
 
 @login_required()
 def train_publish(req):
@@ -69,4 +68,35 @@ def train_publish(req):
         org = CoachOrg.objects.get(user_id=uuid)
         return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org}, RequestContext(req))
         
+@login_required()
+@transaction.atomic
+def update_info(req):
+    """
+    个人中心，用户更新基本信息
+    """
+    if req.method == "POST":
+        data = req.POST.copy()
+        #if not data.get("province"):
+        #    data["province"] = ""
+        #if not data.get("city"):
+        #    data["city"] = ""
+        #if not data.get("dist"):
+        #    data["dist"] = ""
+        #data["sex"] = int(data["sex"])
+        #data.pop("csrfmiddlewaretoken")
+        #data.pop("birth")
 
+        uuid = req.user.id
+        MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
+        co = CoachOrg.objects.get(user_id=uuid)
+        co.name = data.get("orgname","")
+        co.province = data.get("province","")
+        co.city = data.get("city","")
+        co.dist = data.get("dist","")
+        co.address = data.get("address","")
+
+        try:
+            co.save()
+        except:
+            return JsonResponse({'success':False})
+        return JsonResponse({'success':True})

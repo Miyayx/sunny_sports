@@ -541,11 +541,10 @@
         })
         $('.input-mask-phone').mask('(999) 999-9999');
 
-
         // click save btn
         $('#save-btn').click(function() {
           $('.myeditable').editable('submit', { 
-            url: '/coach/up_user', 
+            url: '/coach/up_info', 
             ajaxOptions: {
               dataType: 'json' //assuming json response
             },           
