@@ -57,3 +57,7 @@ def custom_msg_publish(user_list, title, content):
         insert_list.append(UserMessage(user=u, msg=msg))
     UserMessage.objects.bulk_create(insert_list)
 
+
+def calculate_age(born):
+    today = datetime.date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))

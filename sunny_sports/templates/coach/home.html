@@ -2,7 +2,7 @@
 {% block content %}
 {{ block.super }}
 <!--[if lte IE 8]>
- <script src="http://sunny-sports.qiniudn.com/static/js/excanvas.min.js"></script>
+<script src="http://sunny-sports.qiniudn.com/static/js/excanvas.min.js"></script>
 <![endif]-->
 
 <div class="page-header"><h1>首页</h1></div>
@@ -20,7 +20,7 @@
 
             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                 <div class="inline position-relative">
-                    <span class="white">{{coach.property.name}}</span>
+                    <span class="white">{{coach.property.user.nickname}}</span>
                 </div>
             </div>
         </div>
@@ -46,159 +46,88 @@
     <div class="col-xs-12 col-sm-9">
         <div class="space-10"></div>
         <div class="col-sm-6">
-        <div class="profile-user-info">
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 姓名 </div>
+            <div class="profile-user-info">
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 姓名 </div>
 
-                <div class="profile-info-value">
-                    <span>{{coach.property.name}}</span>
+                    <div class="profile-info-value">
+                        <span>{{coach.property.name}}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 居住地 </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 居住地 </div>
 
-                <div class="profile-info-value">
-                    <i class="fa fa-map-marker light-orange bigger-110"></i>
-                    <span>{{coach.property.province}}</span>
-                    <span>{{coach.property.city}}</span>
+                    <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{coach.property.province}}</span>
+                        <span>{{coach.property.city}}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 年龄 </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 年龄 </div>
 
-                <div class="profile-info-value">
-                    <span>{{coach.property.birthday}}</span>
+                    <div class="profile-info-value">
+                        <span>{{coach.property.age}}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 工作单位 </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 工作单位 </div>
 
-                <div class="profile-info-value">
-                    <span>{{coach.property.company}}</span>
+                    <div class="profile-info-value">
+                        <span>{{coach.property.company}}</span>
+                    </div>
                 </div>
-            </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 所属俱乐部 </div>
 
-                <div class="profile-info-value">
-                    <span>{{coach.club_id}}</span>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 所属俱乐部 </div>
+
+                    <div class="profile-info-value">
+                        <span>{{coach.club_id}}</span>
+                    </div>
                 </div>
-            </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 等级 </div>
 
-                <div class="profile-info-value">
-                    <span>{{coach.p_level}}</span>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 等级 </div>
+
+                    <div class="profile-info-value">
+                        <span>{{coach.get_t_level_display}}</span>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 职称 </div>
 
-                <div class="profile-info-value">
-                    <span>讲师</span>
-                </div>
-            </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 等级获得时间 </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 资格注册 </div>
 
-                <div class="profile-info-value">
-                    <span>3 hours ago</span>
+                    <div class="profile-info-value">
+                        {% if coach.isreg %}
+                        <span>已注册</span>
+                        {% else %}
+                        <span><a>未注册</a></span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!--
+        <div class="col-sm-12">
+            <span class="btn btn-app btn-sm btn-success no-hover">
+                <span class="line-height-1 bigger-170"><i class="fa fa-trophy"></i></span>
+
+                <br />
+                <span class="line-height-1 smaller-90"> 初级荣誉 </span>
+            </span>
+            <span class="btn btn-app btn-sm btn-primary no-hover">
+                <span class="line-height-1 bigger-170"><i class="fa fa-bookmark"></i></span>
+
+                <br />
+                <span class="line-height-1 smaller-90"> 初级徽章 </span>
+            </span>
         </div>
-    
-        <div class="col-sm-6">
-        <div class="profile-user-info">
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 姓名 </div>
-
-            <div class="profile-info-value">
-                <span>王教练</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 居住地 </div>
-
-            <div class="profile-info-value">
-                <i class="fa fa-map-marker light-orange bigger-110"></i>
-                <span>北京</span>
-                <span>海淀</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 年龄 </div>
-
-            <div class="profile-info-value">
-                <span>38</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 工作单位 </div>
-
-            <div class="profile-info-value">
-                <span>国家体育馆</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 所属俱乐部 </div>
-
-            <div class="profile-info-value">
-                <span>funny</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 等级 </div>
-
-            <div class="profile-info-value">
-                <span>1</span>
-            </div>
-        </div>
-        
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 职称 </div>
-
-            <div class="profile-info-value">
-                <span>讲师</span>
-            </div>
-        </div>
-
-        <div class="profile-info-row">
-            <div class="profile-info-name"> 最后一次登录 </div>
-
-            <div class="profile-info-value">
-                <span>3 hours ago</span>
-            </div>
-        </div>
-        </div>
-        </div>
-    <div class="col-sm-12">
-        <span class="btn btn-app btn-sm btn-success no-hover">
-            <span class="line-height-1 bigger-170"><i class="fa fa-trophy"></i></span>
-
-            <br />
-            <span class="line-height-1 smaller-90"> 初级荣誉 </span>
-        </span>
-        <span class="btn btn-app btn-sm btn-primary no-hover">
-            <span class="line-height-1 bigger-170"><i class="fa fa-bookmark"></i></span>
-
-            <br />
-            <span class="line-height-1 smaller-90"> 初级徽章 </span>
-        </span>
+        -->
     </div>
-</div>
 </div>
 
 <div class="space-20"></div>
@@ -216,67 +145,48 @@
             <div class="widget-body">
                 <div class="widget-main">
                     <div class="profile-activity clearfix">
+                        <!-- 这里对等级进行判断，已确定当前显示-->
+                        {% if coach.t_level >= 1 %}
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
                         初级：已通过
-                    </div>
-                    <div class="profile-activity clearfix">
+                        {% elif coach.t_level == 0 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        <a data-url="judge/train" href="#page/judge/train">中级：可报名</a>
-                    </div>
-                    <div class="profile-activity clearfix">
-                        <i class="pull-left thumbicon fa fa-pencil-square-o btn-yellow no-hover"></i>
-                        中级：进行中
-                        <div class="infobox infobox-green infobox-small infobox-dark pull-right">
-                            <div class="infobox-progress">
-                                <div class="easy-pie-chart percentage" data-percent="61" data-size="39">
-                                    <span class="percent">61</span>%
-                                </div>
-                            </div>
-
-                            <div class="infobox-data">
-                                <div class="infobox-content">Task</div>
-                                <div class="infobox-content">Completion</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="profile-activity clearfix">
+                        初级：<a href="/coach/train"> 去报名 </a>
+                        {% else %}
                         <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
-                        高级：未通过
+                        初级：未进行
+                        {% endif %}
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-small header-color-blue2">
-                <h4 class="widget-title smaller">
-                    <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
-                    考级
-                </h4>
-            </div>
-
-            <div class="widget-body">
-                <div class="widget-main">
                     <div class="profile-activity clearfix">
+                        {% if coach.t_level >= 2 %}
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
-                        初级：已通过
-                    </div>
-                    <div class="profile-activity clearfix">
+                        中级：已通过
+                        {% elif coach.t_level == 1 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        <a data-url="judge/train" href="#page/judge/train">中级：可报名</a>
+                        中级：<a href="/coach/train"> 去报名 </a>
+                        {% else %}
+                        <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
+                        中级：未进行
+                        {% endif %}
                     </div>
+                    <!--
                     <div class="profile-activity clearfix">
                         <i class="pull-left thumbicon fa fa-pencil-square-o btn-yellow no-hover"></i>
                         中级：进行中
                     </div>
+                    -->
                     <div class="profile-activity clearfix">
+                        {% if coach.t_level >= 3 %}
+                        <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
+                        高级：已通过
+                        {% elif coach.t_level == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        高级：<a href="/coach/train"> 去报名 </a>
+                        {% else %}
                         <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
-                        高级：未通过
+                        高级：未进行
+                        {% endif %}
                     </div>
-
-                    <!-- /section:pages/profile.skill-progress -->
                 </div>
             </div>
         </div>

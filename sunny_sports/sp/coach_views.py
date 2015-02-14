@@ -16,6 +16,7 @@ from sunny_sports.sp.models.association import *
 from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.forms import *
+from utils import *
 
 @login_required()
 def coach(req):
@@ -32,9 +33,10 @@ def home(req):
     uuid = req.user.id
     # 用这个id查信息哦
     print uuid
-    coach = Coach.objects.filter(property__user_id=uuid)
+    coach = Coach.objects.get(property__user_id=uuid)
+    coach.property.age = calculate_age(coach.property.birth) 
 
-    return render_to_response('coach/home.html',{"coach":coach[0]})
+    return render_to_response('coach/home.html',{"coach":coach})
 
 @login_required()
 def train(req):

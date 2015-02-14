@@ -109,7 +109,7 @@ class Coach(models.Model):
     t_level = models.IntegerField(choices=COACH_LEVEL, default=0) #教学等级
     p_level = models.IntegerField(choices=COACH_LEVEL,default=0) #专业等级
     status = models.IntegerField(default=0)
-    ifreg = models.BooleanField(default=False) #今年是否注册
+    isreg = models.BooleanField(default=False) #今年是否注册
     class Meta:
         app_label='sp'
 
