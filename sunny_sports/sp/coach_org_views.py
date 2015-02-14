@@ -25,9 +25,10 @@ def home(req):
     uuid = req.user.id
     # 用这个id查信息哦
     print uuid
-    coachorg = CoachOrg.objects.filter(user_id=uuid)
-    trains = Train.objects.filter(org__user_id=uuid)
-    return render_to_response('coach_org/home.html',{"coachorg":coachorg[0],"coachorgtrains":trains} ,RequestContext(req))
+    coachorg = CoachOrg.objects.get(user_id=uuid)
+    opentrains = Train.objects.filter(org=coachorg, pub_status=0).order_by('train_stime')
+    endtrains = Train.objects.filter(org=coachorg, pub_status=1).order_by('train_stime')
+    return render_to_response('coach_org/home.html',{"coachorg":coachorg,"opentrains":opentrains, "endtrains":endtrains[:5]} ,RequestContext(req))
 
 @login_required()
 def train(req):
@@ -83,16 +84,6 @@ def update_info(req):
     """
     if req.method == "POST":
         data = req.POST.copy()
-        #if not data.get("province"):
-        #    data["province"] = ""
-        #if not data.get("city"):
-        #    data["city"] = ""
-        #if not data.get("dist"):
-        #    data["dist"] = ""
-        #data["sex"] = int(data["sex"])
-        #data.pop("csrfmiddlewaretoken")
-        #data.pop("birth")
-
         uuid = req.user.id
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
         co = CoachOrg.objects.get(user_id=uuid)
