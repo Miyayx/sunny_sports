@@ -81,7 +81,7 @@
                       {% for train in opentrains %}
                       <tr>
                         <td class="hidden-480">{{train.id}}</td>
-                        <td><a href="/admin/test_info">{{train.name}}</a></td>
+                        <td><a href="/coach_org/train_manage#{{train.id}}">{{train.name}}</a></td>
                         <td>{{train.get_level_display}}</td>
                         {% if train.reg_status == 0 %}
                         <td>报名中</td>
@@ -105,7 +105,7 @@
             <div class="widget-header widget-header-small header-color-blue2">
                 <h4 class="widget-title smaller">
                     <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
-                    <a href="/coach_org/train_query">最近历史培训</a>
+                    <a href="/coach_org/train_query?t_id={{train.id}}">最近历史培训</a>
                 </h4>
             </div>
              <div>

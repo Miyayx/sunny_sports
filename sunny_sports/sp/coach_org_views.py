@@ -33,9 +33,18 @@ def home(req):
 @login_required()
 def train(req):
     uuid = req.user.id
-    # 用这个id查信息哦
-    endtrains = Train.objects.filter(org__user_id=uuid, pub_status=1).order_by('train_stime')
-    return render_to_response('coach_org/train_query.html',{"endtrains":endtrains},RequestContext(req))
+    if req.method == "GET":
+        train_id = req.GET.get("t_id",None)
+        if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
+            c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
+            if len(c_t) > 0:
+                train = c_t[0].train
+                return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train, "role":"coach_org"}, RequestContext(req))
+            else:
+                return HttpResponse("<h2>没有该课程的历史信息</h2>")
+        else:#否则返回课程列表
+            endtrains = Train.objects.filter(org__user_id=uuid, pub_status=1).order_by('train_stime')
+            return render_to_response('coach_org/train_query.html',{"endtrains":endtrains}, RequestContext(req))
 
 @login_required()
 def center(req):
