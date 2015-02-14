@@ -34,8 +34,8 @@ def home(req):
 def train(req):
     uuid = req.user.id
     # 用这个id查信息哦
-    trains = Train.objects.filter(org__user_id=uuid)
-    return render_to_response('coach_org/train_query.html',{"coachorgtrains":trains},RequestContext(req))
+    endtrains = Train.objects.filter(org__user_id=uuid, pub_status=1).order_by('train_stime')
+    return render_to_response('coach_org/train_query.html',{"endtrains":endtrains},RequestContext(req))
 
 @login_required()
 def center(req):
@@ -70,11 +70,18 @@ def train_publish(req):
         return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org}, RequestContext(req))
 
 @login_required()
-def score_input(req):
+def train_manage(req):
     if req.method == "POST":
         pass
     else:
-        return render_to_response('coach_org/score_input.html',{}, RequestContext(req))
+        uuid = req.user.id
+        # 用这个id查信息哦
+        print uuid
+        opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')
+        coachtrains = [CoachTrain.objects.filter(train=t) for t in opentrains]
+        print len(opentrains)
+        print len(coachtrains)
+        return render_to_response('coach_org/train_manage.html',{"zipped":zip(opentrains, coachtrains)}, RequestContext(req))
         
 @login_required()
 @transaction.atomic
