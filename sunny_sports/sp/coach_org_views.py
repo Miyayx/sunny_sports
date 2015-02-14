@@ -96,11 +96,16 @@ def update_info(req):
         uuid = req.user.id
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
         co = CoachOrg.objects.get(user_id=uuid)
-        co.name = data.get("orgname","")
-        co.province = data.get("province","")
-        co.city = data.get("city","")
-        co.dist = data.get("dist","")
-        co.address = data.get("address","")
+        if data.has_key("orgname"):
+            co.company = data["orgname"]
+        if data.has_key("province"):
+            co.province = data.get("province","")
+        if data.has_key("city"):
+            co.city = data.get("city","")
+        if data.has_key("dist"):
+            co.dist = data.get("dist","")
+        if data.has_key("address"):
+            co.address = data.get("address","")
 
         try:
             co.save()

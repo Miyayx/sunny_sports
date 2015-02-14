@@ -101,14 +101,20 @@ def update_info(req):
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
         cp.sex = int(data.get("sex"))
-        cp.identity = data.get("identity","")
         cp.avatar = data.get("avatar","")
+        if data.has_key("identity"):
+            cp.identity = data.get("identity","")
         #cp.birth = data.get("birth","")
-        cp.company = data.get("company","")
-        cp.province = data.get("province","")
-        cp.city = data.get("city","")
-        cp.dist = data.get("dist","")
-        cp.address = data.get("address","")
+        if data.has_key("company"):
+            cp.company = data["company"]
+        if data.has_key("province"):
+            cp.province = data.get("province","")
+        if data.has_key("city"):
+            cp.city = data.get("city","")
+        if data.has_key("dist"):
+            cp.dist = data.get("dist","")
+        if data.has_key("address"):
+            cp.address = data.get("address","")
         try:
             cp.save()
             ur.save()
