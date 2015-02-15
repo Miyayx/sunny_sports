@@ -5,130 +5,127 @@
 <div class="page-header"><h1>首页</h1></div>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-9">
+    <div class="col-xs-12 col-sm-offset-1 col-sm-9">
         <!--
         <div class="space-10"></div>
 
         <div class="col-sm-6">
-        -->
-        <style type="text/css">
-        .profile-info-name {text-align: left;}
-        </style>
-        <div class="profile-user-info">
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 编号 </div>
-                <div class="profile-info-value">
-                    <span>{{coachorg.org_num}}</span>
+            -->
+            <style type="text/css">
+                .profile-info-name {text-align: left;}
+            </style>
+            <div class="profile-user-info">
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 编号 </div>
+                    <div class="profile-info-value">
+                        <span>{{coachorg.org_num}}</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 名称 </div>
+                    <div class="profile-info-value">
+                        <span>{{coachorg.name}}</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 电话 </div>
+                    <div class="profile-info-value">
+                        <span>{{coachorg.user.phone}}</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 邮箱 </div>
+                    <div class="profile-info-value">
+                        <span>{{coachorg.user.email}}</span>
+                    </div>
+                </div>
+
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 地址 </div>
+                    <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{coachorg.province}}</span>
+                        <span>{{coachorg.city}}</span>
+                        <span>{{coachorg.dist}}</span>
+                        <span>{{coachorg.address}}</span>
+                    </div>
                 </div>
             </div>
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 名称 </div>
-                <div class="profile-info-value">
-                    <span>{{coachorg.name}}</span>
-                </div>
-            </div>
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 电话 </div>
-                <div class="profile-info-value">
-                    <span>{{coachorg.user.phone}}</span>
-                </div>
-            </div>
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 邮箱 </div>
-                <div class="profile-info-value">
-                    <span>{{coachorg.user.email}}</span>
-                </div>
-            </div>
-
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 地址 </div>
-
-                <div class="profile-info-value">
-                    <i class="fa fa-map-marker light-orange bigger-110"></i>
-                    <span>{{coachorg.province}}</span>
-                    <span>{{coachorg.city}}</span>
-                    <span>{{coachorg.dist}}</span>
-                    <span>{{coachorg.address}}</span>
-                </div>
-            </div>
-        </div>
-        </div>
-</div>
-</div>
-
-<div class="space-20"></div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-6">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-small">
-                <h4 class="widget-title smaller">
-                    <i class="ace-icon fa fa-check-square-o bigger-110"></i>
-                    <a href="/coach_org/enroll">当前进行培训</a>
-                </h4>
-            </div>
-             <div>
-                  <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th>培训 ID</th>
-                        <th>培训名</th>
-                        <th>等级</th>
-                        <th>状态</th>
-                      </tr>
-                    </thead>
-                    <tbody>                      
-                      {% for train in opentrains %}
-                      <tr>
-                        <td class="hidden-480">{{train.id}}</td>
-                        <td><a href="/coach_org/train_manage#{{train.id}}">{{train.name}}</a></td>
-                        <td>{{train.get_level_display}}</td>
-                        {% if train.reg_status == 0 %}
-                        <td>报名中</td>
-                        {% elif train.sub_status == 0 %}
-                        <td>培训中</td>
-                        {% elif train.pub_status == 0 %}
-                        <td>等待结果审核</td>
-                        {% endif %}
-
-                      </tr> 
-                      {% endfor %}
-                    </tbody>
-                  </table>
-            </div>
-
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-6">
-        <div class="widget-box transparent">
-            <div class="widget-header widget-header-small header-color-blue2">
-                <h4 class="widget-title smaller">
-                    <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
-                    <a href="/coach_org/train_query?t_id={{train.id}}">最近历史培训</a>
-                </h4>
+    <div class="space-20"></div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-1 col-sm-5">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-small">
+                    <h4 class="widget-title smaller">
+                        <i class="ace-icon fa fa-check-square-o bigger-110"></i>
+                        <a href="/coach_org/enroll">当前进行培训</a>
+                    </h4>
+                </div>
+                <div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>培训 ID</th>
+                                <th>培训名</th>
+                                <th>等级</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>                      
+                            {% for train in opentrains %}
+                            <tr>
+                                <td class="hidden-480">{{train.id}}</td>
+                                <td><a href="/coach_org/train_manage#{{train.id}}">{{train.name}}</a></td>
+                                <td>{{train.get_level_display}}</td>
+                                {% if train.reg_status == 0 %}
+                                <td>报名中</td>
+                                {% elif train.sub_status == 0 %}
+                                <td>培训中</td>
+                                {% elif train.pub_status == 0 %}
+                                <td>等待结果审核</td>
+                                {% endif %}
+
+                            </tr> 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-             <div>
-                  <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <th>培训 ID</th>
-                        <th>培训名</th>
-                        <th>等级</th>
-                      </tr>
-                    </thead>
-                    <tbody>                      
-                      {% for train in endtrains %}
-                      <tr>
-                        <td class="hidden-480">{{train.id}}</td>
-                        <td><a href="/admin/test_info">{{train.name}}</a></td>
-                        <td>{{train.get_level_display}}</td>
-                      </tr> 
-                      {% endfor %}
-                    </tbody>
-                  </table>
+        </div>
+
+        <div class="col-xs-12 col-sm-5">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-small header-color-blue2">
+                    <h4 class="widget-title smaller">
+                        <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
+                        <a href="/coach_org/train_query?t_id={{train.id}}">最近历史培训</a>
+                    </h4>
+                </div>
+                <div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>培训 ID</th>
+                                <th>培训名</th>
+                                <th>等级</th>
+                            </tr>
+                        </thead>
+                        <tbody>                      
+                            {% for train in endtrains %}
+                            <tr>
+                                <td class="hidden-480">{{train.id}}</td>
+                                <td><a href="/admin/test_info">{{train.name}}</a></td>
+                                <td>{{train.get_level_display}}</td>
+                            </tr> 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
