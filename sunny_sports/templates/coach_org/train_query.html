@@ -47,8 +47,8 @@
           {% for train in coachorgtrains %}
           <tr>
             <td class="hidden-480">{{train.id}}</td>
-            <td><a href="#page/admin/test_info">{{train.name}}</a></td>
-            <td>{{train.level}}</td>
+            <td><a href="/coach_org/train_query?t_id={{train.id}}">{{train.name}}</a></td>
+            <td>{{train.get_level_display}}</td>
             <td>{{train.address}}</td>
           </tr> 
           {% endfor %}

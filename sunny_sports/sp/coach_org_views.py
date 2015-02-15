@@ -44,7 +44,7 @@ def train(req):
                 return HttpResponse("<h2>没有该课程的历史信息</h2>")
         else:#否则返回课程列表
             endtrains = Train.objects.filter(org__user_id=uuid, pub_status=1).order_by('train_stime')
-            return render_to_response('coach_org/train_query.html',{"endtrains":endtrains}, RequestContext(req))
+            return render_to_response('coach_org/train_query.html',{"coachorgtrains":endtrains}, RequestContext(req))
 
 @login_required()
 def center(req):

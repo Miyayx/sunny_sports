@@ -232,7 +232,6 @@
         $('#submit').click(function(e){
             e.preventDefault();
             var data = $('#t-pub-form').serialize();
-            alert(data);
             $.post('/coach_org/train_publish',data,function(data){
                 if(data['success']){
                     alert("已发布");

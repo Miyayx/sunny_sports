@@ -5,7 +5,7 @@
 <div class="page-header"><h1>首页</h1></div>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-offset-1 col-sm-9">
+    <div class="col-xs-12 col-sm-offset-1 col-sm-6">
         <!--
         <div class="space-10"></div>
 
@@ -62,7 +62,7 @@
                 <div class="widget-header widget-header-small">
                     <h4 class="widget-title smaller">
                         <i class="ace-icon fa fa-check-square-o bigger-110"></i>
-                        <a href="/coach_org/enroll">当前进行培训</a>
+                        <a href="/coach_org/train_manage">当前进行培训</a>
                     </h4>
                 </div>
                 <div>
@@ -102,7 +102,7 @@
                 <div class="widget-header widget-header-small header-color-blue2">
                     <h4 class="widget-title smaller">
                         <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
-                        <a href="/coach_org/train_query?t_id={{train.id}}">最近历史培训</a>
+                        <a href="/coach_org/train_query">最近历史培训</a>
                     </h4>
                 </div>
                 <div>
@@ -118,7 +118,7 @@
                             {% for train in endtrains %}
                             <tr>
                                 <td class="hidden-480">{{train.id}}</td>
-                                <td><a href="/admin/test_info">{{train.name}}</a></td>
+                                <td><a href="/coach_org/train_query?t_id={{train.id}}">{{train.name}}</a></td>
                                 <td>{{train.get_level_display}}</td>
                             </tr> 
                             {% endfor %}
