@@ -164,3 +164,18 @@ def password(req):
         u = MyUser.objects.get(id=req.user.id)
         return render_to_response('password.html', {"phone":u.phone}, RequestContext(req))
 
+@login_required()
+def download_excel(req):
+    t_id = req.GET.get("t_id",0)
+    if t_id:
+        coachtrains = CoachTrain.objects.filter(train_id=t_id)
+        train = coachtrains[0].train
+        if train.pub_status: #如果已经发布，包括是否通过，证书号
+            fields = [u"学员", u"学号", u"证书编号"]
+            rows = [(ct.coach.property.name, ct.number, ct.certificate) for ct in coachtrains]
+        else:
+            fields = [u"学员", u"学号"]
+            rows = [(ct.coach.property.name, ct.number) for ct in coachtrains]
+        return export_xls(req, train.name, fields, rows)
+        
+

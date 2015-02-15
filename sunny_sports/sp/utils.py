@@ -61,3 +61,35 @@ def custom_msg_publish(user_list, title, content):
 def calculate_age(born):
     today = datetime.date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+def export_xls(req, name, fields, rows):
+    import xlwt
+    from django.http import HttpResponse
+    import urllib
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=%s.xls'%urllib.quote(name.encode("utf-8"))
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet(name)
+    
+    row_num = 0
+    
+    columns = [(f,6000) for f in fields]
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        # set column width
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+    
+    for row in rows:
+        row_num += 1
+        for col_num in xrange(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+            
+    wb.save(response)
+    return response

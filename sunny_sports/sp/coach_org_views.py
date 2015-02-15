@@ -88,8 +88,6 @@ def train_manage(req):
         print uuid
         opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')
         coachtrains = [CoachTrain.objects.filter(train=t) for t in opentrains]
-        print len(opentrains)
-        print len(coachtrains)
         return render_to_response('coach_org/train_manage.html',{"zipped":zip(opentrains, coachtrains)}, RequestContext(req))
         
 @login_required()
