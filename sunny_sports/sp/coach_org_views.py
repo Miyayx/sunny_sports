@@ -39,7 +39,7 @@ def train(req):
             c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
             if len(c_t) > 0:
                 train = c_t[0].train
-                return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train, "role":"coach_org"}, RequestContext(req))
+                return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train, "base":"./coach_org/base.html"}, RequestContext(req))
             else:
                 return HttpResponse("<h2>没有该课程的历史信息</h2>")
         else:#否则返回课程列表

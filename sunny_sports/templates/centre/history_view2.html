@@ -1,9 +1,5 @@
 
-{% if role == "coach_org" %}
-{% extends "./coach_org/base.html" %}
-{% elif role == "centre" %}
-{% extends "./centre/base.html" %}
-{% endif %}
+{% extends base %}
 
 {% block content %}
 {{ block.super }}
