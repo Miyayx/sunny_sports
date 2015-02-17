@@ -8,6 +8,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.db.models import F
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
@@ -15,6 +16,8 @@ from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models.status import *
 from sunny_sports.sp.forms import *
+
+from convert import *
 
 @login_required()
 def coach_org(req):
@@ -89,6 +92,28 @@ def train_manage(req):
         opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')
         coachtrains = [CoachTrain.objects.filter(train=t) for t in opentrains]
         return render_to_response('coach_org/train_manage.html',{"zipped":zip(opentrains, coachtrains)}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+def score_input(req):
+    if req.method == "POST":
+        data = req.POST.copy()
+        print data
+        submit = int(data.pop("submit")[0])
+        t_id = data.pop("t_id")[0]
+        cts = CoachTrain.objects.filter(train_id=t_id)
+        for ct in cts:
+            print data[str(int(ct.number))]
+            print "status",str2bool(data[str(int(ct.number))])
+            ct.status = str2bool(data[str(int(ct.number))])
+            ct.save()
+        #cts.update(status=str2bool(data[str(int(F('number')))]))
+        
+        if submit:
+            cts[0].train.sub_status=1
+            cts[0].train.save()
+        return JsonResponse({"success":True})
+
         
 @login_required()
 @transaction.atomic
