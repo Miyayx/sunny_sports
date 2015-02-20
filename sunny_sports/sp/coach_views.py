@@ -40,41 +40,79 @@ def home(req):
 
 @login_required()
 def train(req):
-    uuid = req.user.id
-    # 用这个id查信息哦
-    print uuid
-    coach = Coach.objects.filter(property__user_id=uuid)
+    uuid = req.user.id # 用这个id查信息哦
+    coach = Coach.objects.get(property__user_id=uuid)
     
-    if coach[0].p_level == 0:
-        ltrain = Train.objects.filter(level=1)
-        return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain})
-    elif coach[0].p_level == 1:
-        ltrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=1)
-        #ltrain = Train.objects.filter(id=ctrain[0].train_id)
-        mtrain = Train.objects.filter(level=2)
-        return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain[0], "mtrain":mtrain})
-    elif coach[0].p_level == 2:
-        ltrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=1)
-        mtrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=2)
-        htrain = Train.objects.filter(level=3)
+    if coach.t_level == 0:
+        ltrain = Train.objects.filter(level=1, reg_status=0)
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain})
+    elif coach.t_level == 1:
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=1)
+        mtrain = Train.objects.filter(level=2, reg_status=0)
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain})
+    elif coach.t_level == 2:
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=1)
+        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=1)
+        htrain = Train.objects.filter(level=3, reg_status=0)
         hsize = len(htrain)
-        return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain})
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain})
     else:
-        ltrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=1)
-        mtrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=2)
-        htrain = CoachTrain.objects.filter(coach_id=coach[0].id, train__level=3)
-        return render_to_response('coach/train.html',{"coach":coach[0], "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]})
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=1)
+        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=1)
+        htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status=1)
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]})
 
 @login_required()
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
-    u=UserRole.objects.get(user_id=uuid, role_id=3)
+    u = UserRole.objects.get(user_id=uuid, role_id=3)
     if u.is_first:
         messages.error(req, u"请补全个人信息")
     coach = Coach.objects.filter(property__user_id=uuid)
     club = Club.objects.filter()
     return render_to_response('coach/center.html',{"coach":coach[0], "club":club}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+def info_confirm(req):
+    """
+    报名后的信息确认
+    """
+    uuid = req.user.id
+    if req.method == "POST":
+        data = req.POST.copy()
+
+        ur = UserRole.objects.get(user_id=uuid, role_id=3)
+        MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
+        cp = CoachProperty.objects.get(user_id=uuid)
+        cp.name = data.get("name","")
+        cp.sex = int(data.get("sex"))
+        if data.has_key("identity"):
+            cp.identity = data.get("identity","")
+        #cp.birth = data.get("birth","")
+        if data.has_key("company"):
+            cp.company = data["company"]
+        if data.has_key("province"):
+            cp.province = data.get("province","")
+        if data.has_key("city"):
+            cp.city = data.get("city","")
+        if data.has_key("dist"):
+            cp.dist = data.get("dist","")
+        if data.has_key("address"):
+            cp.address = data.get("address","")
+        try:
+            cp.save()
+            ur.save()
+        except:
+            return JsonResponse({'success':False})
+        return JsonResponse({'success':True})
+    else:
+        t_id = req.GET.get("t_id",0)
+        train = Train.objects.get(id=t_id)
+        coach = Coach.objects.get(property__user_id=uuid)
+        club = Club.objects.filter()
+        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
@@ -97,7 +135,11 @@ def update_info(req):
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=3)
         ur.is_first = True
-        MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
+        if data.has_key("nickname"):
+            MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
+        else:
+            MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
+
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
         cp.sex = int(data.get("sex"))

@@ -11,15 +11,15 @@
 	<div class="col-sm-10">
 		<div class="tabbable">
 			<ul class="nav nav-tabs tab-color-blue" id="stu_test_tab">
-				<li {% ifequal coach.p_level 0 %}class="active"{% endifequal %}>
+				<li {% ifequal coach.t_level 0 %}class="active"{% endifequal %}>
 					<a data-toggle="tab" href="#level-low">
 						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 低级
 				</a></li>
-				<li {% ifequal coach.p_level 1 %}class="active"{% endifequal %}>
+				<li {% ifequal coach.t_level 1 %}class="active"{% endifequal %}>
 					<a data-toggle="tab" href="#level-middle">
 						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 中级
 				</a></li>
-				<li {% if coach.p_level > 1 %}class="active"{% endif %}>
+				<li {% if coach.t_level > 1 %}class="active"{% endif %}>
 					<a data-toggle="tab" href="#level-high">
 						<i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 高级
 					</a>
@@ -27,9 +27,9 @@
 			</ul>
 
 			<div class="tab-content">
-				<div id="level-low" class="tab-pane {% ifequal coach.p_level 0 %}in active{% endifequal %}">
+				<div id="level-low" class="tab-pane {% ifequal coach.t_level 0 %}in active{% endifequal %}">
 					<h2>低级</h2>
-					{% ifnotequal coach.p_level 0 %}
+					{% ifnotequal coach.t_level 0 %}
 					<div class="center">
 						<span class="label label-xlg label-success arrowed">已通过</span>
 					</div>
@@ -82,7 +82,7 @@
 						</div>
 					</div>
 					{% endifnotequal %}
-					{% ifequal coach.p_level 0 %}
+					{% ifequal coach.t_level 0 %}
 					<div class="center">
 						<span class="label label-xlg label-primary arrowed arrowed-right">进行中</span>
 					</div>
@@ -94,10 +94,10 @@
 									<tr>
 										<th>培训名称</th>
 										<th>培训机构</th>
-										<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
-										<th class="hidden-480">培训地点</th>
 										<th>报名时间</th>
 										<th>截止时间</th>
+										<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
+										<th class="hidden-480">培训地点</th>
 										<th>费用</th>
 										<th class="hidden-480">名额</th>
 										<th>报名</th>
@@ -109,13 +109,13 @@
 									<tr>
 										<td><a href="#">{{t.name}}</a></td>
 										<td>{{t.org.name}}</td>
-										<td>{{t.train_stime}}</td>
-										<td class="hidden-480">{{t.address}}</td>
 										<td>{{t.reg_stime}}</td>
 										<td>{{t.reg_etime}}</td>
+										<td>{{t.train_stime}}</td>
+										<td class="hidden-480">{{t.address}}</td>
 										<td>{{t.money}}</td>
 										<td class="hidden-480">{{t.limit}}</td>
-										<td><button type="button" class="btn btn-minier btn-info" data-toggle="button">报名</button></td>
+          <td><a class="btn btn-minier btn-info" href="/coach/info_confirm?t_id={{t.id}}">报名</a></td>
 									</tr>
 									{% endfor %}
 								</tbody>
@@ -124,9 +124,9 @@
 					</div>
 					{% endifequal %}
 				</div>
-				<div id="level-middle" class="tab-pane {% ifequal coach.p_level 1 %}in active{% endifequal %}">
+				<div id="level-middle" class="tab-pane {% ifequal coach.t_level 1 %}in active{% endifequal %}">
 					<h2>中级</h2>
-					{% if coach.p_level > 1 %}
+					{% if coach.t_level > 1 %}
 					<div class="center">
 						<span class="label label-xlg label-success arrowed">已通过</span>
 					</div>
@@ -179,7 +179,7 @@
 						</div>
 					</div>
 					{% endif %}
-					{% if coach.p_level == 1 %}
+					{% if coach.t_level == 1 %}
 					<div class="center">
 						<span class="label label-xlg label-primary arrowed arrowed-right">进行中</span>
 					</div>
@@ -191,10 +191,10 @@
 									<tr>
 										<th>培训名称</th>
 										<th>培训机构</th>
-										<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
-										<th class="hidden-480">培训地点</th>
 										<th>报名时间</th>
 										<th>截止时间</th>
+										<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
+										<th class="hidden-480">培训地点</th>
 										<th>费用</th>
 										<th class="hidden-480">名额</th>
 										<th>报名</th>
@@ -206,13 +206,13 @@
 									<tr>
 										<td><a href="#">{{t.name}}</a></td>
 										<td>{{t.org.name}}</td>
-										<td>{{t.train_stime}}</td>
-										<td class="hidden-480">{{t.address}}</td>
 										<td>{{t.reg_stime}}</td>
 										<td>{{t.reg_etime}}</td>
+										<td>{{t.train_stime}}</td>
+										<td class="hidden-480">{{t.address}}</td>
 										<td>{{t.money}}</td>
 										<td class="hidden-480">{{t.limit}}</td>
-										<td><button type="button" class="btn btn-minier btn-info" data-toggle="button">报名</button></td>
+          <td><a class="btn btn-minier btn-info" href="/coach/info_confirm?t_id={{t.id}}">报名</a></td>
 									</tr>
 									{% endfor %}
 								</tbody>
@@ -220,15 +220,15 @@
 						</div>
 					</div>
 					{% endif %}
-					{% if coach.p_level == 0 %}
+					{% if coach.t_level == 0 %}
 					<div class="center">
 						<span class="label label-xlg label-light arrowed-in-right">未开始</span>
 					</div>
 					{% endif %}
 				</div>
-				<div id="level-high" class="tab-pane {% if coach.p_level > 1 %}in active{% endif %}">
+				<div id="level-high" class="tab-pane {% if coach.t_level > 1 %}in active{% endif %}">
 					<h2>高级</h2>
-					{% if coach.p_level == 3 %}
+					{% if coach.t_level == 3 %}
 					<div class="center">
 						<span class="label label-xlg label-success arrowed">已通过</span>
 					</div>
@@ -281,7 +281,7 @@
 						</div>
 					</div>
 					{% endif %}
-					{% if coach.p_level == 2 %}
+					{% if coach.t_level == 2 %}
 					<div class="center">
 						<span class="label label-xlg label-primary arrowed arrowed-right">进行中</span>
 					</div>
@@ -296,10 +296,10 @@
 									<tr>
 										<th>培训名称</th>
 										<th>培训机构</th>
-										<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
-										<th class="hidden-480">培训地点</th>
 										<th>报名时间</th>
 										<th>截止时间</th>
+										<th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
+										<th class="hidden-480">培训地点</th>
 										<th>费用</th>
 										<th class="hidden-480">名额</th>
 										<th>报名</th>
@@ -311,13 +311,13 @@
 									<tr>
 										<td><a href="#">{{t.name}}</a></td>
 										<td>{{t.org.name}}</td>
-										<td>{{t.train_stime}}</td>
-										<td class="hidden-480">{{t.address}}</td>
 										<td>{{t.reg_stime}}</td>
 										<td>{{t.reg_etime}}</td>
+										<td>{{t.train_stime}}</td>
+										<td class="hidden-480">{{t.address}}</td>
 										<td>{{t.money}}</td>
 										<td class="hidden-480">{{t.limit}}</td>
-										<td><button type="button" class="btn btn-minier btn-info" data-toggle="button">报名</button></td>
+          <td><a class="btn btn-minier btn-info" href="/coach/info_confirm?t_id={{t.id}}">报名</a></td>
 									</tr>
 									{% endfor %}
 								</tbody>
@@ -325,7 +325,7 @@
 						</div>
 					</div>
 					{% endif %}
-					{% if coach.p_level < 2 %}
+					{% if coach.t_level < 2 %}
 					<div class="center">
 						<span class="label label-xlg arrowed-in-right">未开始</span>
 					</div>

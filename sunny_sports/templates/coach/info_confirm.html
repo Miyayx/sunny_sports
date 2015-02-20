@@ -1,0 +1,375 @@
+{% extends "./coach/base.html" %}
+<!--
+重载head部分，主要是添加meta，css，js一类
+-->
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+{% endblock %}
+
+<!--
+重载页面部分
+-->
+{% block content%}
+{{ block.super }}
+
+<div class="page-header"><h1> 确认报名信息 </h1></div>
+<!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <div>
+            <div id="user-profile-3" class="user-profile row">
+                <div class="col-sm-offset-1 col-sm-10">
+                    <div class="space"></div>
+                    <form class="form-horizontal">
+                        <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-7">
+
+                                <div class="profile-user-info profile-user-info-striped">
+                                    <div>
+                                        <div class="profile-info-name">姓名</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="name">{{coach.property.name}}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+
+                                        <div class="profile-info-name">性别</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="sex" data-type="select"> </span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="profile-info-name">电话</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="phone">{{coach.property.user.phone}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="profile-info-name">邮箱</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="email">{{coach.property.user.email}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="profile-info-name">身份证号</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="identity">{{coach.property.identity}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="profile-info-name">出生日期</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="birth">{{coach.property.birth}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <div class="profile-info-name">单位</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="company">{{coach.property.company}}</span>
+                                        </div>
+                                    </div>
+
+                                    <!--
+                                    <div class="form-group col-sm-5">
+                                        <label class="col-sm-3 control-label no-padding-right"
+                                            for="form-field-club">俱乐部</label>
+                                        <div class="col-sm-8">
+                                            <div class="profile-info-value">
+                                                <span class="myeditable editable editable-click" id="club" data-type="select">
+                                                    {{ coach.club.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    -->
+
+                                    <div>
+                                        <div class="profile-info-name">常驻地</div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{coach.property.province}}</span>
+                                            省
+                                        </div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{coach.property.city}}</span>
+                                            市
+                                        </div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{coach.property.dist}}</span>
+                                            区/县
+                                        </div>
+                                        <div class="profile-info-value">
+                                            <span class="myeditable editable editable-click" id="address">{{coach.property.address}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="space"></div>
+                                </div>
+                                <div class="col-sm-10">
+                                    <ul class="list-unstyled spaced2">
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>培训名称：</b></font>
+                                        &nbsp;{{train.name}}<p/>
+                                        </li>
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>组织机构：</b></font>
+                                        &nbsp;{{train.org.name}}<p/>
+                                        </li>
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>培训时间：</b></font>
+                                        &nbsp;{{train.train_stime}}<p/>
+                                        </li>
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>培训地点：</b></font>
+                                        &nbsp;{{train.address}}<p/>
+                                        </li>
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>培训级别：</b></font>
+                                        &nbsp;{{train.get_level_display}}<p/>
+                                        </li>
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>培训费用：</b></font>
+                                        &nbsp;{{train.money}}<p/>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="space"></div>
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button class="btn btn-info" type="button" id="save-btn">
+                                            <i class="ace-icon fa fa-check bigger-110"></i> 确认信息并付款
+                                        </button>
+                                    </div>
+                                </div>
+                                <form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.span -->
+                </div>
+                <!-- /.user-profile -->
+            </div>
+            <!-- PAGE CONTENT ENDS -->
+        </div>
+        <!-- /.col -->
+
+        <script src="../../static/js/bootstrap.min.js"></script>
+        <!-- page specific plugin scripts -->
+
+        <!--[if lte IE 8]>
+        <script src="../../static/js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="../../static/js/ace/elements.fileinput.js"></script>
+        <script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
+        <script src="../../static/js/select2.min.js"></script>
+        <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
+        <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+        <script src="../../static/js/x-editable/ace-editable.min.js"></script>
+        <script src="../../static/js/jquery.maskedinput.min.js"></script>
+
+        <script src="../../static/custom/myaddress.js"></script>
+
+        <script type="text/javascript">
+            jQuery(function($) {
+
+                //editables on first profile page
+                $.fn.editable.defaults.mode = 'inline';
+                $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+                $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+                    '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
+
+                //editables 
+
+                //text editable
+                $('#token')
+                .editable({
+                    value:'{{csrf_token}}',
+                    type: 'text',
+                    name: 'csrfmiddlewaretoken'
+                });
+                $('#name')
+                .editable({
+                    url:'/post',
+                    type: 'text',
+                    name: 'name'
+                });
+                $('#name').editable('option', 'validate', function(v) {
+                    if(!v) return 'Required field!';
+                });
+                $('#birth').editable({
+                    type: 'adate',
+                    date: {
+                        //datepicker plugin options
+                        format: 'yyyy-mm-dd',
+                        viewformat: 'yyyy-mm-dd',
+                        weekStart: 1
+                    }
+                })
+                $('#email')
+                .editable({
+                    type: 'text',
+                    name: 'email'
+                });	
+                $('#phone')
+                .editable({
+                    type: 'text',
+                    name: 'phone'
+                });	
+                $('#phone').editable('option', 'validate', function(v) {
+                    if(!v) return 'Required field!';
+                });
+
+                $('#sex').editable({
+                    //prepend: ("{{coach.property.sex}}" == 0 ? "男":"女"),
+                    value: parseInt("{{ coach.property.sex }}"),
+                    source: [
+                        {value: 0, text: '男'},
+                        {value: 1, text: '女'}
+                    ]
+                });
+
+                //$('#club').editable({
+                    // source: function(){
+                        //  result =[];
+                        //  {% for c in clubs %}
+                        //  result.push({value:"{{c.id}}", text:"{{c.name}}"});
+                        //  {% endfor %}
+                        //  return result;
+                        // }()
+            //});
+
+            $('#company')
+            .editable({
+                type:'text',
+                name:'company'
+            });
+            $('#identity')
+            .editable({
+                type: 'text',
+                name: 'identity'
+            });	
+            $('#identity').editable('option', 'validate', function(v) {
+                if(!v) return 'Required field!';
+            });
+
+            // *** editable avatar *** //
+            try {//ie8 throws some harmless exceptions, so let's catch'em
+
+                //first let's add a fake appendChild method for Image element for browsers that have a problem with this
+                //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+                try {
+                    document.createElement('IMG').appendChild(document.createElement('B'));
+                } catch(e) {
+                    Image.prototype.appendChild = function(el){}
+                }
+
+                var last_gritter
+                $('#avatar').editable({
+                    type: 'image',
+                    name: 'avatar',
+                    value: null,
+                    image: {
+                        //specify ace file input plugin's options here
+                        btn_choose: 'Change Avatar',
+                        droppable: true,
+                        maxSize: 110000,//~100Kb
+
+                        //and a few extra ones here
+                        name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                        on_error : function(error_type) {//on_error function will be called when the selected file has a problem
+                            if(last_gritter) $.gritter.remove(last_gritter);
+                            if(error_type == 1) {//file format error
+                                last_gritter = $.gritter.add({
+                                    title: 'File is not an image!',
+                                    text: 'Please choose a jpg|gif|png image!',
+                                    class_name: 'gritter-error gritter-center'
+                                });
+                            } else if(error_type == 2) {//file size rror
+                                last_gritter = $.gritter.add({
+                                    title: 'File too big!',
+                                    text: 'Image size should not exceed 100Kb!',
+                                    class_name: 'gritter-error gritter-center'
+                                });
+                            }
+                            else {//other error
+                            }
+                        },
+                        on_success : function() {
+                            $.gritter.removeAll();
+                        }
+                    },
+                    url: function(params) {
+                        // ***UPDATE AVATAR HERE*** //
+                        //for a working upload example you can replace the contents of this function with 
+                        //examples/profile-avatar-update.js
+
+                        var deferred = new $.Deferred
+
+                        var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+                        if(!value || value.length == 0) {
+                            deferred.resolve();
+                            return deferred.promise();
+                        }
+
+
+                        //dummy upload
+                        setTimeout(function(){
+                            if("FileReader" in window) {
+                                //for browsers that have a thumbnail of selected image
+                                var thumb = $('#avatar').next().find('img').data('thumb');
+                                if(thumb) $('#avatar').get(0).src = thumb;
+                            }
+
+                            deferred.resolve({'status':'OK'});
+
+                            if(last_gritter) $.gritter.remove(last_gritter);
+                            last_gritter = $.gritter.add({
+                                title: 'Avatar Updated!',
+                                text: 'Uploading to server can be easily implemented. A working example is included with the template.',
+                                class_name: 'gritter-info gritter-center'
+                            });
+
+                        } , parseInt(Math.random() * 800 + 800))
+
+                        return deferred.promise();
+
+                        // ***END OF UPDATE AVATAR HERE*** //
+                    },
+
+                    success: function(response, newValue) {
+                    }
+                })
+            }catch(e) {}
+
+            // click save btn
+            $('#save-btn').click(function() {
+                $('.myeditable').editable('submit', { 
+                    url: '/coach/up_info', 
+                    ajaxOptions: {
+                        dataType: 'json' //assuming json response
+                    },           
+                    success: function(data) {
+                        if(data && data.success)
+                            alert("信息保存成功");
+                            window.location.href = "/coach/payment";
+                    },
+                    error: function(errors) {
+                        $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+                    } 
+                });
+            });
+
+            });
+
+        </script>
+        {% endblock %}
