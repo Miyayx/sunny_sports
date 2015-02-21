@@ -1,9 +1,9 @@
 
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
-from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_http_methods
 from django.template import RequestContext
@@ -18,6 +18,7 @@ from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.forms import *
 from utils import *
+from alipay import alipay_payment
 
 @login_required()
 def coach(req):
@@ -43,7 +44,7 @@ def home(req):
 def train(req):
     uuid = req.user.id # 用这个id查信息哦
     coach = Coach.objects.get(property__user_id=uuid)
-    
+
     if coach.t_level == 0:
         ltrain = Train.objects.filter(level=1, reg_status=0)
         lct = CoachTrain.objects.filter(coach=coach, train__level=1)
@@ -136,8 +137,18 @@ def reg_cancel(req):
 def payment(req):
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
-        CoachTrain.objects.filter(id=ct_id).update(status=2)
-        pass
+        ct = CoachTrain.objects.get(id=ct_id)
+        params = {  
+                'subject'     :"快乐体操教练培训费用",  
+                'body'        :"快乐体操教练培训费用",  
+                'total_fee'   :ct.train.money  
+                }  
+        rlt = alipay_payment(ct_id, params)
+        if rlt == 'success':  
+            ct.status = 2
+            ct.save()
+        else:
+            pass
     else:
         pass
 
