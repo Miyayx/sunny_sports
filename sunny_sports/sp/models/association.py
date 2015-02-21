@@ -8,6 +8,7 @@ from club import *
 from game import *
 from train import *
 from committee import *
+from status import *
 
 def make_ct_num():
     import random
@@ -19,7 +20,7 @@ class CoachTrain(models.Model):
     coach = models.ForeignKey(Coach)
     train = models.ForeignKey(Train)
     score = models.IntegerField(default=0) 
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=0,choices=ROLE_TRAIN_STATUS)
     certificate = models.CharField(max_length=100, null=True) #证书编号
     reg_time = models.DateTimeField(null=True) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间

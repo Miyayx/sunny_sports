@@ -10,6 +10,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
+from django.db.models import F
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.association import *
@@ -36,7 +37,7 @@ def home(req):
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
 
-    return render_to_response('coach/home.html',{"coach":coach})
+    return render_to_response('coach/home.html',{"coach":coach}, RequestContext(req))
 
 @login_required()
 def train(req):
@@ -45,22 +46,24 @@ def train(req):
     
     if coach.t_level == 0:
         ltrain = Train.objects.filter(level=1, reg_status=0)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain})
+        lct = CoachTrain.objects.filter(coach=coach, train__level=1)
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain, "ct": lct.latest("id") if len(lct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 1:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=1)
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
+        mct = CoachTrain.objects.filter(coach=coach, train__level=2)
         mtrain = Train.objects.filter(level=2, reg_status=0)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain})
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain,"ct":mct.latest("id") if len(mct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 2:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=1)
-        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=1)
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
+        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
         htrain = Train.objects.filter(level=3, reg_status=0)
-        hsize = len(htrain)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain})
+        hct = CoachTrain.objects.filter(coach=coach, train__level=3)
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain, "ct":hct.latest("id") if len(hct) > 0 else None }, RequestContext(req))
     else:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=1)
-        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=1)
-        htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status=1)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]})
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
+        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
+        htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status=3)
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]}, RequestContext(req))
 
 @login_required()
 def center(req):
@@ -81,11 +84,12 @@ def info_confirm(req):
     """
     uuid = req.user.id
     if req.method == "POST":
+        t_id = req.POST.get("t_id") 
         data = req.POST.copy()
+        coach = Coach.objects.get(property__user_id=uuid)
 
-        ur = UserRole.objects.get(user_id=uuid, role_id=3)
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
-        cp = CoachProperty.objects.get(user_id=uuid)
+        cp = coach.property
         cp.name = data.get("name","")
         cp.sex = int(data.get("sex"))
         if data.has_key("identity"):
@@ -101,18 +105,42 @@ def info_confirm(req):
             cp.dist = data.get("dist","")
         if data.has_key("address"):
             cp.address = data.get("address","")
+
+        ct = CoachTrain(coach=coach, train=Train.objects.get(id=t_id), status=1) #未缴费状态
+        Train.objects.filter(id=t_id).update(cur_num=F('cur_num') + 1)
         try:
+            ct.save()
             cp.save()
-            ur.save()
         except:
             return JsonResponse({'success':False})
-        return JsonResponse({'success':True})
+        return HttpResponseRedirect('/coach/train/payment')
     else:
         t_id = req.GET.get("t_id",0)
         train = Train.objects.get(id=t_id)
         coach = Coach.objects.get(property__user_id=uuid)
         club = Club.objects.filter()
         return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+def reg_cancel(req):
+    if req.method == "POST":
+        ct_id = req.POST.get("ct_id")
+        CoachTrain.objects.filter(id=ct_id).update(status=0)
+        Train.objects.filter(id=t_id).update(cur_num=F('cur_num') - 1)
+        return JsonResponse({'success':True})
+    return JsonResponse({'success':False})
+
+@login_required()
+@transaction.atomic
+def payment(req):
+    if req.method == "POST":
+        ct_id = req.POST.get("ct_id")
+        CoachTrain.objects.filter(id=ct_id).update(status=2)
+        pass
+    else:
+        pass
+
 
 @login_required()
 @transaction.atomic

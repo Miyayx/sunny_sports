@@ -59,7 +59,9 @@ urlpatterns += patterns('sunny_sports.sp.coach_views',
         url(r'^coach/home$', 'home'),
         url(r'^coach/center$', 'center'),
         url(r'^coach/train$', 'train'),
-        url(r'^coach/info_confirm$', 'info_confirm'),
+        url(r'^coach/train/info_confirm$', 'info_confirm'),
+        url(r'^coach/train/reg_cancel$', 'reg_cancel'),
+        url(r'^coach/train/payment$', 'payment'),
         url(r'^coach/up_info$', 'update_info'),
 
         )

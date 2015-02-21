@@ -32,6 +32,7 @@ class Train(models.Model):
     address = models.CharField(max_length=100) #培训地点
     level = models.IntegerField(choices=TRAIN_LEVEL)#培训等级
     limit = models.IntegerField() #人数上限
+    cur_num = models.IntegerField(default=0) #当前报名人数
     money = models.IntegerField() #费用
     reg_stime = models.DateField() #报名开始时间
     reg_etime = models.DateField() #报名截止时间

@@ -24,6 +24,7 @@
                     <div class="space"></div>
                     <form class="form-horizontal">
                         <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
+                        <input class="myeditable" name="t_id" id="train_id" type="hidden" value="{{train.id}}"/>
                         <div class="row">
                             <div class="col-xs-12 col-sm-7">
 
@@ -197,6 +198,12 @@
                     type: 'text',
                     name: 'csrfmiddlewaretoken'
                 });
+                $('#train_id')
+                .editable({
+                    value:'{{train.id}}',
+                    type: 'text',
+                    name: 't_id'
+                });
                 $('#name')
                 .editable({
                     url:'/post',
@@ -354,14 +361,13 @@
             // click save btn
             $('#save-btn').click(function() {
                 $('.myeditable').editable('submit', { 
-                    url: '/coach/up_info', 
+                    url: '/coach/train/info_confirm', 
                     ajaxOptions: {
                         dataType: 'json' //assuming json response
                     },           
                     success: function(data) {
                         if(data && data.success)
                             alert("信息保存成功");
-                            window.location.href = "/coach/payment";
                     },
                     error: function(errors) {
                         $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
