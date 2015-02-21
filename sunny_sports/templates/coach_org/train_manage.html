@@ -66,19 +66,21 @@
                                         <div class="profile-info-name">当前状态</div>
                                         <div class="profile-info-value">
                                             {% if train.reg_status == 0 %}
+                                            <span class="red">报名未开始</span>
+                                            {% elif train.reg_status == 1 %}
                                             <span class="red">报名中</span>
-                                            {% elif train.sub_status == 0 %}
+                                            {% elif train.reg_status == 2 and train.sub_status == 0 %}
                                             <span class="red">培训中</span>
-                                            {% elif train.sub_status == 2 %}
+                                            {% elif train.reg_status == 2 and train.sub_status == 2 %}
                                             <span class="red">审核未通过</span>
-                                            {% elif train.pub_status == 0 %}
+                                            {% elif train.reg_status == 2 and train.pub_status == 0 %}
                                             <span class="red">等待结果审核</span>
                                             {% endif %}
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    {% if train.reg_status and not train.sub_status == 1 %}
+                                    {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                     <h3>结果录入</h3>
                                     {% else %}
                                     <h3>班级信息</h3>
@@ -94,14 +96,14 @@
                                                     </th>
                                                     <th class="center">学号</th>
                                                     <!-- 报名期间不出现“是否通过”的列-->
-                                                    {% if train.reg_status and not train.sub_status == 1 %}
+                                                    {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                                     <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                                     <th class="center">是否通过
                                                         <br/>
                                                         <input type="checkbox" class="ace check-all">
                                                         <span class="lbl"></span>
                                                     </th>
-                                                    {% elif train.reg_status and train.sub_status == 1 %}
+                                                    {% elif train.reg_status == 2 and train.sub_status == 1 %}
                                                     <!-- 报名截止, 且成绩结果已提交，等待中心审核-->
                                                     <th class="center">是否通过
                                                         <br/>
@@ -117,7 +119,7 @@
                                                 <tr>
                                                     <td class="center"><a>{{ ct.coach.property.name }}</a></td>
                                                     <td class="center">{{ct.number}}</td>
-                                                    {% if train.reg_status and not train.sub_status == 1 %}
+                                                    {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                                     <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                                     <td class="center">
                                                         {% if ct.status %}
@@ -127,10 +129,10 @@
                                                         {% endif %}
                                                         <span class="lbl"></span>
                                                     </td>
-                                                    {% elif train.reg_status and train.sub_status == 1 %}
+                                                    {% elif train.reg_status == 2 and train.sub_status == 1 %}
                                                     <!-- 报名截止, 且成绩结果已提交，等待中心审核-->
                                                     <td class="center">
-                                                        {% if ct.status %}
+                                                        {% if ct.pass_status %}
                                                         <input type="checkbox" checked="true" class="ace" name="{{ct.number}}" disabled="true">
                                                         {% else %}
                                                         <input type="checkbox" class="ace" name="{{ct.number}}" disabled="true">
@@ -146,7 +148,7 @@
                                             {% if cts|length  %}
                                             <a class="btn btn-success download-btn" href="/download?t_id={{train.id}}" target="_blank">下载Excel</a>
                                             {% endif %}
-                                            {% if train.reg_status and not train.sub_status == 1 %}
+                                            {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                             <button class="btn btn-success save-btn">保存</button>
                                             <button class="btn btn-info submit-btn">提交</button>
                                             {% endif %}

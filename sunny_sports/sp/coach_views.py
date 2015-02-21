@@ -45,18 +45,18 @@ def train(req):
     coach = Coach.objects.get(property__user_id=uuid)
 
     if coach.t_level == 0:
-        ltrain = Train.objects.filter(level=1, reg_status=0)
+        ltrain = Train.objects.filter(level=1, reg_status=1)
         lct = CoachTrain.objects.filter(coach=coach, train__level=1)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain, "ct": lct.latest("id") if len(lct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 1:
         ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
         mct = CoachTrain.objects.filter(coach=coach, train__level=2)
-        mtrain = Train.objects.filter(level=2, reg_status=0)
+        mtrain = Train.objects.filter(level=2, reg_status=1)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain,"ct":mct.latest("id") if len(mct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 2:
         ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
         mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
-        htrain = Train.objects.filter(level=3, reg_status=0)
+        htrain = Train.objects.filter(level=3, reg_status=1)
         hct = CoachTrain.objects.filter(coach=coach, train__level=3)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain, "ct":hct.latest("id") if len(hct) > 0 else None }, RequestContext(req))
     else:

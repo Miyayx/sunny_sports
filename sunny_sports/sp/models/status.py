@@ -23,8 +23,9 @@ SEX = (
 
 #报名是否截止
 REG_STATUS = (
-        (0,"registing"),
-        (1,"regist_end"),
+        (0,"regist not start"),
+        (1,"registing"),
+        (2,"regist end"),
         )
 
 #成绩是否发布
@@ -45,7 +46,11 @@ ROLE_TRAIN_STATUS = (
         (0, '未报名'),
         (1, '未缴费'),
         (2, '已缴费'), #未通过
-        (3, '已通过'), 
+        )
+
+ROLE_TRAIN_PASS_STATUS = (
+        (0, '未通过'),
+        (1, '已通过'), 
         )
 
 #教练等级
