@@ -1,7 +1,6 @@
 
 # -*- coding:utf-8 -*-
-from django.shortcuts import render
-from django.shortcuts import render_to_response
+from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.core.context_processors import csrf
@@ -18,7 +17,7 @@ from sunny_sports.sp.models.role import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.forms import *
 from utils import *
-from alipay import alipay_payment
+from alipay_utils import alipay_payment
 
 @login_required()
 def coach(req):
@@ -114,7 +113,7 @@ def info_confirm(req):
             cp.save()
         except:
             return JsonResponse({'success':False})
-        return HttpResponseRedirect('/coach/train/payment')
+        return HttpResponseRedirect('/coach/train/payment?ct_id=%s'%ct.id)
     else:
         t_id = req.GET.get("t_id",0)
         train = Train.objects.get(id=t_id)
@@ -127,28 +126,37 @@ def info_confirm(req):
 def reg_cancel(req):
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
-        CoachTrain.objects.filter(id=ct_id).update(status=0)
-        Train.objects.filter(id=t_id).update(cur_num=F('cur_num') - 1)
+        #ct = CoachTrain.objects.filter(id=ct_id).update(status=0, train_cur_num=F('train_cur_num') - 1)
+        ct = CoachTrain.objects.get(id=ct_id)
+        ct.status = 0
+        ct.train.cur_num = ct.train.cur_num - 1
+        ct.save()
+        #Train.objects.filter(id=ct.train.id).update(cur_num=F('cur_num') - 1)
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
 @login_required()
 @transaction.atomic
 def payment(req):
-    if req.method == "POST":
-        ct_id = req.POST.get("ct_id")
+    print req.method
+    if req.method == "GET":
+        ct_id = req.GET.get("ct_id")
         ct = CoachTrain.objects.get(id=ct_id)
         params = {  
                 'subject'     :"快乐体操教练培训费用",  
                 'body'        :"快乐体操教练培训费用",  
                 'total_fee'   :ct.train.money  
                 }  
-        rlt = alipay_payment(ct_id, params)
-        if rlt == 'success':  
-            ct.status = 2
-            ct.save()
-        else:
-            pass
+        ct.status = 2
+        ct.save()
+        print "支付成功"
+        return redirect("/coach/train")
+        #rlt = alipay_payment(ct_id, params)
+        #if rlt == 'success':  
+        #    ct.status = 2
+        #    ct.save()
+        #else:
+        #    pass
     else:
         pass
 
