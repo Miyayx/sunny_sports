@@ -27,6 +27,10 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'django://'
+
 
 # Application definition
 
@@ -37,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
+    'kombu.transport.django',
     'sunny_sports.sp',
 )
 
@@ -102,7 +108,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Template files(HTML)
 TEMPLATE_DIRS=( 

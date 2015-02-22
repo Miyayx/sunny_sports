@@ -19,6 +19,10 @@ from sunny_sports.sp.forms import *
 from utils import *
 from alipay_utils import alipay_payment
 
+from sunny_sports.sp.tasks import payment_check
+
+from datetime import datetime, timedelta
+
 @login_required()
 def coach(req):
     uuid = req.user.id
@@ -108,6 +112,10 @@ def info_confirm(req):
 
         ct = CoachTrain(coach=coach, train=Train.objects.get(id=t_id), status=1) #未缴费状态
         Train.objects.filter(id=t_id).update(cur_num=F('cur_num') + 1)
+        #tomorrow = datetime.utcnow() + timedelta(days=1)
+        tomorrow = datetime.utcnow() + timedelta(minute=5)
+        payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
+
         try:
             ct.save()
             cp.save()
