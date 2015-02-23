@@ -131,3 +131,10 @@ def password_page(req):
     """
     return render_to_response('centre/password.html', RequestContext(req))
 
+@login_required()
+def org_manage(req):
+    if req.method == "GET":
+        orgs = CoachOrg.objects.all()
+        return render_to_response('centre/org_manage.html', {"orgs":orgs}, RequestContext(req))
+
+
