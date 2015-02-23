@@ -25,7 +25,7 @@
       </div>
       <div class="profile-info-row">
         <div class="profile-info-name">培训机构</div>
-        <div class="profile-info-value">{{train.org.org_name}}</div>
+        <div class="profile-info-value">{{train.org.name}}</div>
       </div>
     </div>
     <hr />
@@ -46,10 +46,10 @@
         <tbody>
           {% for i in c_t %}
           <tr>
-            <td class="center" style="cursor:pointer"><span class="label label-inverse">{{i.coach.property.name}}</span></td>
+            <td class="center"><a class="label label-inverse">{{i.coach.property.name}}</a></td>
             <td class="center">{{i.number}}</td>
             <td class="center">
-              {{i.status}}
+              {{i.get_pass_status_display}}
             </td>
           </tr>
           {% endfor %}
@@ -65,8 +65,6 @@
 
 {% block script %}
 {{ block.super }}
-    <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
     <script type="text/javascript" src="../../static/js/jquery.cookie.js"></script>
     <script type="text/javascript">
@@ -112,7 +110,8 @@
                         //$.get('/centre/test_check', function(page){
                           //  $('.page-content').html(page); //返回审核列表页面
                           alert("已发布");
-                          window.location.href = window.location.pathname + "#page/centre/test_check/";
+                          location.reload();
+                          
                   //});
                       }
                     });
@@ -138,7 +137,7 @@
                         //$.get('/centre/test_check', function(page){
                           //  $('.page-content').html(page); //返回审核列表页面
                           alert("");
-                          window.location.href = window.location.pathname + "#page/centre/test_check/";
+                          window.location.href = window.location.pathname;
                   //});
                       }
                     });

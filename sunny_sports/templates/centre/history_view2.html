@@ -35,11 +35,11 @@
             </div>
             <div>
                 <div class="profile-info-name">报名/上限人数</div>
-                <div class="profile-info-value">{{cts|length}}/{{train.limit}}</div>
+                <div class="profile-info-value">{{train.cur_num}}/{{train.limit}}</div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name">培训机构</div>
-                <div class="profile-info-value">{{train.org.org_name}}</div>
+                <div class="profile-info-value">{{train.org.name}}</div>
             </div>
         </div>
         <hr />
@@ -60,9 +60,9 @@
                 <tbody>
                     {% for i in c_t %}
                     <tr>
-                        <td class="center" style="cursor:pointer"><span class="label label-inverse">{{i.coach.property.name}}</span></td>
+                        <td class="center"><a class="label label-inverse">{{i.coach.property.name}}</a></td>
                         <td class="center">{{i.number}}</td>
-                        <td class="center">{{i.status}}</td>
+                        <td class="center">{{i.get_pass_status_display}}</td>
                         <td class="center">{{i.certificate}}</td>
                     </tr>
                     {% endfor %}
