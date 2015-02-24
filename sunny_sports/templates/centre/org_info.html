@@ -1,0 +1,216 @@
+
+<div class="page-header">
+  {% if coachorg and coachorg.org_num%}
+  <h1>编辑组织机构</h1>
+  {% else %}
+  <h1>添加组织机构</h1>
+  {% endif %}
+</div>
+<!-- /.page-header -->
+
+<div id="user-profile-3" class="user-profile row">
+  <div class="col-sm-offset-1 col-sm-10">
+
+    <div class="space"></div>
+
+    <form class="form-horizontal">
+      <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
+      <div class="row">
+        <div class="vspace-12-sm"></div>
+        <div class="col-xs-12 col-sm-8">
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right"
+              for="form-field-orgnum">编号</label>
+            <div class="col-sm-8">
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="orgnum">
+                  {{coachorg.org_num}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right"
+              for="form-field-orgname">名称</label>
+            <div class="col-sm-8">
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="orgname">{{coachorg.name}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right"
+              for="form-field-phone">负责人</label>
+            <div class="col-sm-8">
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="director">
+                  {{coachorg.director}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right"
+              for="form-field-phone">电话</label>
+            <div class="col-sm-8">
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="phone">
+                  {{coachorg.user.phone}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-1 control-label no-padding-right"
+              for="form-field-place">地址</label>
+            <div class="col-sm-11">
+              <div class="profile-info-value" id="position">
+                <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{coachorg.province}}</span>
+                省
+              </div>
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{coachorg.city}}</span>
+                市
+              </div>
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{coachorg.dist}}</span>
+                区/县
+              </div>
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="address">{{coachorg.address}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right"
+              for="form-field-email">邮箱</label>
+            <div class="col-sm-8">
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="email">{{coachorg.user.email}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-offset-5 col-md-5">
+              <button class="btn btn-info" type="button" id="save-btn">
+                <i class="ace-icon fa fa-check bigger-110"></i> 
+                OK
+              </button>
+            </div>
+            <p id="save-msg" class="col-md-offset-5"></p>
+          </div>
+        </div>
+
+      </div>
+      <form>
+      </div>
+    </div>
+
+    <link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+    <!--[if lte IE 8]>
+    <script src="../../static/js/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+    <script src="../../static/js/x-editable/ace-editable.min.js"></script>
+    <script src="../../static/js/jquery.maskedinput.min.js"></script>
+    <script src="../../static/custom/myaddress.js"></script>
+
+    <!-- ace scripts -->
+    <script type="text/javascript">
+      jQuery(function($) {
+
+        //editables on first profile page
+        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+          '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
+
+        //editables 
+
+        //text editable
+        $('#token')
+        .editable({
+          value:'{{csrf_token}}',
+          type: 'text',
+          name: 'csrfmiddlewaretoken'
+        });
+        $('#orgnum')
+        .editable({
+          type: 'text',
+          name: 'orgnum'
+        });        
+        $('#orgname')
+        .editable({
+          type: 'text',
+          name: 'orgname'
+        });        
+        $('#email')
+        .editable({
+          type: 'text',
+          name: 'email'
+        });	
+        $('#director')
+        .editable({
+          type: 'text',
+          name: 'director'
+        });	
+        $('#phone')
+        .editable({
+          type: 'text',
+          name: 'phone'
+        });	
+        $('.myeditable').editable({
+          validate: {
+            orgnum: function(v) {
+              if(v == '') return 'Required field!'
+            },
+            orgname: function(v) {if(v == '') return 'Required field!'},
+            email: function(v) {if(v == '') return 'Required field!'},
+            director: function(v) {if(v == '') return 'Required field!'},
+            phone: function(v) {if(v == '') return 'Required field!'}
+          } 
+        });
+
+        // click save btn
+        $('#save-btn').click(function() {
+          var data,
+          $elems = $('.myeditable'),
+          errors = $elems.editable('validate'); //run validation for all values
+          console.log($elems);
+          if($.isEmptyObject(errors)) {
+            data = $elems.editable('getValue'); //get all values
+            $.ajax({
+              type: 'POST',
+              url: '/centre/org_info', 
+              data: data, 
+              dataType: 'json'
+            }).success(function(res) {
+              if(res && res.success){
+                bootbox.hideAll();
+                alert("添加成功。默认密码为组织编号");
+                location.reload();
+            }
+            }).error(function(errors){
+              $("#save-msg").removeClass("text-success").addClass("text-error").html("请确保信息填写完整并重试")
+            });
+
+          }
+//            $('.myeditable').editable('submit', { 
+//              url: '/centre/org_info', 
+//              ajaxOptions: {
+//                dataType: 'json' //assuming json response
+//              },           
+//              success: function(data) {
+//                if(data && data.success)
+//                  $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
+//              },
+//              error: function(errors) {
+//                $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+//              } 
+//            });
+
+
+            }); //save-btn
+        }); // jquery
+      </script>
+

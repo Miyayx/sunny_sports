@@ -137,4 +137,52 @@ def org_manage(req):
         orgs = CoachOrg.objects.all()
         return render_to_response('centre/org_manage.html', {"orgs":orgs}, RequestContext(req))
 
+@login_required()
+@transaction.atomic
+def org_info(req):
+    if req.method == "GET":
+        num = req.GET.get("org_num")
+        co = None
+        if num:
+            co = CoachOrg.objects.filter(org_num=num)
+        if num and len(co) > 0:
+            return render_to_response('centre/org_info.html', {"coachorg":co[0]}, RequestContext(req))
+        else:
+            return render_to_response('centre/org_info.html', {}, RequestContext(req))
+    else:
+        data = req.POST.copy()
+        num = data.get("orgnum")
+        for k in ["orgnum",'phone','orgname']:
+            if not data.has_key(k) or len(data[k].strip()) == 0:
+                return JsonResponse({},status=400)
+        co = CoachOrg.objects.filter(org_num=num) | CoachOrg.objects.filter(user__phone=data.get('phone'))
+        #如果数据库里没有记录，证明是添加新组织
+        if len(co) == 0:
+            print "add coachorg"
+            phone = data.get('phone')
+            r_id = 1
+            user = MyUser.objects.create_user(phone = phone, nickname=None, email=None, role=r_id, password = num)
+            co = CoachOrg(user=user)
+        else:
+            co = co[0]
+
+        co.org_num = num
+        co.name = data["orgname"]
+        co.user.phone = data["phone"]
+        if data.has_key("director"):
+            co.director = data["director"]
+        if data.has_key("province"):
+            co.province = data.get("province","")
+        if data.has_key("city"):
+            co.city = data.get("city","")
+        if data.has_key("dist"):
+            co.dist = data.get("dist","")
+        if data.has_key("address"):
+            co.address = data.get("address","")
+        try:
+            co.save()
+        except:
+            return JsonResponse({'success':False})
+        return JsonResponse({'success':True})
+        
 

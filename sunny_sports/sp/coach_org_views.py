@@ -127,7 +127,7 @@ def update_info(req):
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
         co = CoachOrg.objects.get(user_id=uuid)
         if data.has_key("orgname"):
-            co.company = data["orgname"]
+            co.name = data["orgname"]
         if data.has_key("province"):
             co.province = data.get("province","")
         if data.has_key("city"):
