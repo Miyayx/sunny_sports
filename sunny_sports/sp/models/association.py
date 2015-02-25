@@ -23,7 +23,7 @@ class CoachTrain(models.Model):
     status = models.IntegerField(default=0,choices=ROLE_TRAIN_STATUS)
     pass_status = models.IntegerField(default=0,choices=ROLE_TRAIN_PASS_STATUS)
     certificate = models.CharField(max_length=100, null=True) #证书编号
-    reg_time = models.DateTimeField(null=True) #报名时间
+    reg_time = models.DateTimeField(auto_now=True) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
     class Meta:
         app_label='sp'

@@ -25,7 +25,7 @@
                     <div class="profile-user-info profile-user-info-striped">
                         <div >
                             <div class="profile-info-name">培训ID</div>
-                            <div class="profile-info-value">{{train.id}}</div>
+                            <div class="profile-info-value t_id" >{{train.id}}</div>
                         </div>
                         <div>
                             <div class="profile-info-name">培训名称</div>
@@ -69,11 +69,18 @@
                         </div>
                     </div>
                     <div>
-                        {% if train.reg_status == 2 and not train.sub_status == 1 %}
-                        <h3>结果录入</h3>
-                        {% else %}
-                        <h3>班级信息</h3>
-                        {% endif %}
+                        <div class="row">
+                            {% if train.reg_status == 2 and not train.sub_status == 1 %}
+                            <h3 class="col-sm-10">结果录入</h3>
+                            {% else %}
+                            <h3 class="col-sm-10">班级信息</h3>
+                            {% endif %}
+
+                            {% if train.sub_status == 0 %}
+                            <a class="btn btn-success btn-sm add-member" style="bottom:-15px">添加学员</a>
+                            {% endif %}
+
+                        </div>
                         <form>
                             {% csrf_token %}
                             <table id="checked-table" class="table table-striped table-bordered table-hover">
@@ -152,15 +159,16 @@
     {% endblock %}
 
     {% block script %}
+    <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
     <script type="text/javascript">
         window.onload = function() {
-            if(location.hash){//if the page's URL has an octothore part
+            if(location.hash){//if the page's URL has an octothore part 
+                //有train编号的时候直接调转到该tab
                 t_id = location.hash.substr(1);
                 $('li a[href="#'+t_id+'"]').parent().addClass("active");
                 $('#'+t_id).addClass("active");
-                //gets the checkbox's ID with the hash minus the octothorpe, and then checks it
             } else {
-                //if there WASN't an octorthorpe
+                //make first tab active
                 $('#train-tab li:first').addClass("active");
                 $('.tab-pane').first().addClass("active");
             }
@@ -203,6 +211,42 @@
                         alert("提交失败，请重试");
                     }
                 });
+        });
+
+        $('.add-member').click(function(e){
+            var $addbtn = $(this);
+            e.preventDefault();
+            var $searchbox = '<div class="row">'
+            + '<div class="col-sm-6"><input type="text" placeholder="手机号码" id="member-phone"> </input>'
+            + '<button class="btn btn-success btn-sm" id="search-btn">搜索</button></div>'
+            + '<h4 class="col-sm-2">姓名:</h4>'
+            + '<h4 class="col-sm-2" id="member-name"></h4></div>'
+            + '<p class="red" id="error-msg"></p>';
+            bootbox.setDefaults({locale:'zh_CN'});
+            bootbox.confirm($searchbox, function(result){
+                $.post("/centre/add_member",
+                    {"phone":$('#member-phone').val().trim(), 
+                        "name":$('#member-name').html().trim(),
+                        "t_id":$addbtn.parents('.tab-pane').find('.t_id').html().trim(),
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                    }, function(res){
+                        if(res && res["success"])
+                            location.reload();
+                    });
+            });
+            $('#search-btn').click(function(e){
+                var p = $('#member-phone').val();
+                if(p.length > 0){
+                    $.get("/centre/add_member?phone="+p, function(res){
+                        if(res["name"]){
+                            $('#error-msg').html("");
+                            $('#member-name').html(res["name"]);
+                        }else
+                            $('#error-msg').html("未找到");
+
+                    });
+                }
+            });
         });
 
     </script>
