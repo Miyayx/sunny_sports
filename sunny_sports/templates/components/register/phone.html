@@ -1,13 +1,13 @@
 
 <div class="form-group">
-<label class="block clearfix">
-  <span class="block input-icon input-icon-right">
-    <input style="display:none"><!-- for disable autocomplete on chrome -->
-    <input required="required" type="phone" name="phone" class="form-control" placeholder="手机号码" autocomplete="off"/>
-    <i class="ace-icon fa fa-phone"></i>
-  </span>
-</label>
-<label class="phoneErr" style="display: none; color: red"></label>
+  <label class="block clearfix">
+    <span class="block input-icon input-icon-right">
+      <input style="display:none"><!-- for disable autocomplete on chrome -->
+      <input required="required" type="phone" name="phone" class="form-control" placeholder="手机号码" autocomplete="off"/>
+      <i class="ace-icon fa fa-phone"></i>
+    </span>
+  </label>
+  <label class="phoneErr" style="display: none; color: red"></label>
 </div>
 
 <script src='../../static/js/jquery.min.js'></script>
@@ -16,6 +16,7 @@
 
     //phone验证
     $("input[type=phone]").blur(function () {
+      var $c = $(this);
       var phone = $(this).val();
       var flag = true;
 
@@ -26,15 +27,26 @@
         }
       }
       if (!flag) {
-        $(this).closest("form").find(".phoneErr").show();
-        $(this).closest("form").find(".phoneErr").text("电话号码应为数字");
-        $(this).closest("form").find("button[type=submit]").attr("disabled", true);
-        $(this).closest(".form-group").addClass("has-error");
+        $c.closest("form").find(".phoneErr").show();
+        $c.closest("form").find(".phoneErr").text("电话号码应为数字");
+        $c.closest("form").find("button[type=submit]").attr("disabled", true);
+        $c.closest(".form-group").addClass("has-error");
       } else {
-        $(this).closest("form").find(".phoneErr").hide();
-        $(this).closest("form").find("button[type=submit]").attr("disabled", false);
-        $(this).closest(".form-group").removeClass("has-error");
+        $.get('/validate/phone?phone='+phone, function(res){
+          if( !res['pass']){
+            $c.closest("form").find(".phoneErr").show();
+            $c.closest("form").find(".phoneErr").text("此号码已注册");
+            $c.closest("form").find("button[type=submit]").attr("disabled", true);
+            $c.closest(".form-group").addClass("has-error");
+          }else{
+            $c.closest("form").find(".phoneErr").hide();
+            $c.closest("form").find("button[type=submit]").attr("disabled", false);
+            $c.closest(".form-group").removeClass("has-error");
+          }
+
+        });
       }
+
     });
   });
 

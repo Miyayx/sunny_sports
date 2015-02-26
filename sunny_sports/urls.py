@@ -33,6 +33,10 @@ urlpatterns += patterns('',
             url(r'^captcha/', include('captcha.urls')),
             )
 
+urlpatterns += patterns('sunny_sports.sp.validate',
+            url(r'^validate/phone', 'is_phone_exists'),
+            )
+
 # centre
 urlpatterns += patterns('sunny_sports.sp.centre_views',
         url(r'^centre$', 'centre'),

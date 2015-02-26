@@ -53,7 +53,7 @@ def get_msg(req):
         html = render_to_string('base/msg.html', {'num':len(msgs), 'msgs': msgs[:5]})
         return HttpResponse(html)
     return None
-          
+
 @require_http_methods(["POST"])
 @transaction.atomic
 def regist(req):
@@ -68,11 +68,6 @@ def regist(req):
         p, msg = check_vcode(phone, v_code)
         if not p:
             messages.error(req, msg,extra_tags='regist')
-            return render_to_response('login.html', context_instance=RequestContext(req))
-        #检验该手机号是否已注册
-        u = MyUser.objects.filter(phone=phone)
-        if len(u) > 0:
-            messages.error(req, "该手机号已注册",extra_tags='regist')
             return render_to_response('login.html', context_instance=RequestContext(req))
         #检验密码是否一致
         if not password == password2:
