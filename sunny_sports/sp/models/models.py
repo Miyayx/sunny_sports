@@ -69,6 +69,7 @@ class MyUserManager(BaseUserManager):
 
         return user
 
+    @transaction.atomic
     def create_superuser(self, phone, nickname, email, role, password):
         """
         Creates and saves a superuser with the given email, date of
@@ -116,7 +117,7 @@ class MyUser(AbstractBaseUser):
 class UserRole(models.Model):
     user = models.ForeignKey(MyUser)
     role = models.ForeignKey(Role)
-    is_first = models.BooleanField(default=False,choices=INFO_STATUS) #是否第一次登录
+    is_first = models.BooleanField(default=True,choices=INFO_STATUS) #是否第一次登录
     class Meta:
         app_label='sp'
 

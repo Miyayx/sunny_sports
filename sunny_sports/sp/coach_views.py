@@ -98,7 +98,8 @@ def info_confirm(req):
         cp.sex = int(data.get("sex"))
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
-        #cp.birth = data.get("birth","")
+        if data.has_key("birth"):
+            cp.birth = data["birth"]
         if data.has_key("company"):
             cp.company = data["company"]
         if data.has_key("province"):
@@ -189,7 +190,7 @@ def update_info(req):
 
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=3)
-        ur.is_first = True
+        ur.is_first = False
         if data.has_key("nickname"):
             MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         else:
