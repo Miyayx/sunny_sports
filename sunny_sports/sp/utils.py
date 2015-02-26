@@ -12,22 +12,22 @@ from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models import *
 
 def gen_vcode():
-    return random.randint(1000,9999)
+    return random.randint(100000,999999)
 
 def send_vcode(mobile):
     vcode = gen_vcode()
-    #resp = requests.post(
-    #        ("https://sms-api.luosimao.com/v1/send.json"),
-    #        auth=("api", "b0e0056374704a22f46f9166df13868e"),
-    #        data={
-    #            "mobile": mobile,
-    #            "message": "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人【快乐体操】"%vcode
-    #            },
-    #        timeout=3, 
-    #        verify=False)
+    resp = requests.post(
+            ("https://sms-api.luosimao.com/v1/send.json"),
+            auth=("api", "b0e0056374704a22f46f9166df13868e"),
+            data={
+                "mobile": mobile,
+                "message": "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人。【快乐体操网络平台】"%vcode
+                },
+            timeout=3, 
+            verify=False)
 
-    #result = json.loads(resp.content)
-    result = {u'msg': u'ok', u'error': 0}
+    result = json.loads(resp.content)
+    #result = {u'msg': u'ok', u'error': 0}
 
     return result,vcode
 

@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djcelery',
+    'captcha',
     'kombu.transport.django',
     'sunny_sports.sp',
 )
@@ -60,7 +61,7 @@ MIDDLEWARE_CLASSES = (
 #Handle session is not Json Serializable
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 # Auto logout delay in minutes
-AUTO_LOGOUT_DELAY = 30 #equivalent to 1 minutes
+AUTO_LOGOUT_DELAY = 60 #equivalent to 60 minutes
 
 ROOT_URLCONF = 'sunny_sports.urls'
 
