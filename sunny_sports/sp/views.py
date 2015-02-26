@@ -18,7 +18,7 @@ from django.views.decorators.http import require_http_methods
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models.status import get_role_id
-#from sunny_sports.sp.backend import MyBackend 
+from sunny_sports.sp.backend import MyBackend 
 
 from forms import *
 from utils import *
