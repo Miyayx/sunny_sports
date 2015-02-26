@@ -21,10 +21,12 @@ from sunny_sports.sp.models.models import *
 from forms import *
 
 @login_required()
+@transaction.atomic
 def centre(req):
     return render_to_response('centre/base.html')
 
 @login_required()
+@transaction.atomic
 def test_check(req, train_id=None):
     
     if req.method == "GET":
@@ -48,6 +50,7 @@ def test_check(req, train_id=None):
             return render_to_response('centre/test_check.html',{"ctlist":ctlist, "jtlist":jtlist})
 
 @login_required()
+@transaction.atomic
 def check_pass(req):
     """
     审核批准后
@@ -75,6 +78,7 @@ def check_pass(req):
 
 
 @login_required()
+@transaction.atomic
 def history_view(req):
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
@@ -102,6 +106,7 @@ def history_print(req, train_id=None):
         return "Wrong Train id"
 
 @login_required()
+@transaction.atomic
 def msg_publish(req):
     """
     """
@@ -132,6 +137,7 @@ def password_page(req):
     return render_to_response('centre/password.html', RequestContext(req))
 
 @login_required()
+@transaction.atomic
 def org_manage(req):
     if req.method == "GET":
         orgs = CoachOrg.objects.all()
@@ -186,6 +192,7 @@ def org_info(req):
         return JsonResponse({'success':True})
 
 @login_required()
+@transaction.atomic
 def add_member(req):
     if req.method == "GET":
         phone = req.GET.get("phone")

@@ -55,6 +55,7 @@ def get_msg(req):
     return None
           
 @require_http_methods(["POST"])
+@transaction.atomic
 def regist(req):
     c = {}
     c.update(csrf(req))
@@ -92,6 +93,7 @@ def regist(req):
     else:
         return render_to_response('login.html')
 
+@transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
     if req.method == 'POST':
         un = req.POST['username']
@@ -178,4 +180,3 @@ def download_excel(req):
             rows = [(ct.coach.property.name, ct.number) for ct in coachtrains]
         return export_xls(req, train.name, fields, rows)
         
-
