@@ -309,6 +309,7 @@
         <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
         <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
         <script src="../../static/js/x-editable/ace-editable.min.js"></script>
+        <script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
         <script src="../../static/js/jquery.maskedinput.min.js"></script>
 
         <script src="../../static/custom/myaddress.js"></script>
@@ -350,11 +351,13 @@
                 });
                 $('#birth').editable({
                     type: 'adate',
+                    name: 'birth',
                     date: {
                         //datepicker plugin options
                         format: 'yyyy-mm-dd',
                         viewformat: 'yyyy-mm-dd',
-                        weekStart: 1
+                        weekStart: 1,
+                        language:"zh-CN" //要引用 bootstrap-datepicker.zh-CN.js
                     }
                 })
                 $('#email')
@@ -503,10 +506,13 @@
                         },           
                         success: function(data) {
                             if(data && data.success)
-                                $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
+                                //$("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
+                            alert("已保存");
+                            //location.reload();
                         },
                         error: function(errors) {
-                            $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+                            //$("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+                            alert("网络错误，请稍后重试");
                         } 
                     });
                 });
