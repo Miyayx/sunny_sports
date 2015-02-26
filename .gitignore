@@ -1,5 +1,6 @@
 *.pyc
 /sunny_sports/settings.py.back
+/sunny_sports/sunny_sports.uwsgi.log
 css+js/
 /sunny_sports/templates/base/include.back
 *.rar
