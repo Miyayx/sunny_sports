@@ -13,7 +13,7 @@
             <ul class="nav nav-tabs tab-color-blue" id="stu_test_tab">
                 <li {% ifequal coach.t_level 0 %}class="active"{% endifequal %}>
                 <a data-toggle="tab" href="#level-low">
-                    <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 低级
+                    <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 初级
                 </a></li>
                 <li {% ifequal coach.t_level 1 %}class="active"{% endifequal %}>
                 <a data-toggle="tab" href="#level-middle">
@@ -28,7 +28,7 @@
 
             <div class="tab-content">
                 <div id="level-low" class="tab-pane {% ifequal coach.t_level 0 %}in active{% endifequal %}">
-                    <h2>低级</h2>
+                    <h2>初级</h2>
                     {% ifnotequal coach.t_level 0 %}
                     <div class="center">
                         <span class="label label-xlg label-success arrowed">已通过</span>
