@@ -57,9 +57,8 @@ def get_msg(req):
 @require_http_methods(["POST"])
 @transaction.atomic
 def regist(req):
-    c = {}
-    c.update(csrf(req))
     if req.method == 'POST':
+        req.session.clear()
         phone = req.POST.get('phone')
         password = req.POST.get('password')
         password2 = req.POST.get('password2')
@@ -91,6 +90,7 @@ def regist(req):
 @transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
     if req.method == 'POST':
+        req.session.clear()
         un = req.POST['username']
         pw = req.POST['password']
         role = req.POST['role']
@@ -131,6 +131,7 @@ def index(req):
 def mylogout(req):
     print "logout"
     logout(req)
+    req.session.clear()
     return render_to_response("login.html")
 
 @login_required()

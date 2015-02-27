@@ -23,7 +23,7 @@ def send_vcode(mobile):
                 "mobile": mobile,
                 "message": "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人。【快乐体操网络平台】"%vcode
                 },
-            timeout=3, 
+            timeout=10, 
             verify=False)
 
     result = json.loads(resp.content)
