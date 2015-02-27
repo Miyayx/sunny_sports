@@ -15,6 +15,7 @@ urlpatterns = patterns('',
         url(r'^logout$', 'sunny_sports.sp.views.mylogout'),
         url(r'^vcode$', 'sunny_sports.sp.views.vcode'),
         url(r'^password$', 'sunny_sports.sp.views.password'),
+        url(r'^service_term$', TemplateView.as_view(template_name='service_term.html')),
         url(r'^download$', 'sunny_sports.sp.views.download_excel'),
         url(r'^student/', TemplateView.as_view(template_name='student/empty.html')),
         url(r'^judge/', TemplateView.as_view(template_name='judge/empty.html')),
@@ -28,6 +29,7 @@ urlpatterns = patterns('',
 
         url(r'^admin/', include(admin.site.urls)),
         )
+
 
 urlpatterns += patterns('',
             url(r'^captcha/', include('captcha.urls')),
