@@ -131,8 +131,8 @@ def index(req):
 def mylogout(req):
     print "logout"
     logout(req)
-    req.session.clear()
-    return render_to_response("login.html")
+    #req.session.clear()
+    return render_to_response("login.html" ,context_instance=RequestContext(req))
 
 @login_required()
 def password(req):
