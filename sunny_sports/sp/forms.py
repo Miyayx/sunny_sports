@@ -124,6 +124,10 @@ class MessagePublishForm(forms.Form):
     stu   = forms.BooleanField(initial=False, required=False)
     coach = forms.BooleanField(initial=False, required=False)
     judge = forms.BooleanField(initial=False, required=False)
+    stuorg   = forms.BooleanField(initial=False, required=False)
+    coachorg = forms.BooleanField(initial=False, required=False)
+    judgeorg = forms.BooleanField(initial=False, required=False)
+    gameorg = forms.BooleanField(initial=False, required=False)
     title = forms.CharField(max_length=100)
     content = forms.CharField(max_length=1000)
 
