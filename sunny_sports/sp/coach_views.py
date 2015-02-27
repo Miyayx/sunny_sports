@@ -40,8 +40,12 @@ def home(req):
     print uuid
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
+    ct = CoachTrain.objects.filter(coach=coach).latest("id")
+    print coach.t_level
+    print ct.pass_status
+    print ct.status
 
-    return render_to_response('coach/home.html',{"coach":coach}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct}, RequestContext(req))
 
 @login_required()
 def train(req):
@@ -114,15 +118,16 @@ def info_confirm(req):
         ct = CoachTrain(coach=coach, train=Train.objects.get(id=t_id), status=1) #未缴费状态
         Train.objects.filter(id=t_id).update(cur_num=F('cur_num') + 1)
         #tomorrow = datetime.utcnow() + timedelta(days=1)
-        tomorrow = datetime.utcnow() + timedelta(minute=5)
-        payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
+        #tomorrow = datetime.utcnow() + timedelta(minute=5)
+        #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
 
         try:
             ct.save()
             cp.save()
         except:
-            return JsonResponse({'success':False})
-        return HttpResponseRedirect('/coach/train/payment?ct_id=%s'%ct.id)
+            return JsonResponse({ 'success':False })
+        return JsonResponse({ 'success':True })
+        #return HttpResponseRedirect('/coach/train/payment?ct_id=%s'%ct.id)
     else:
         t_id = req.GET.get("t_id",0)
         train = Train.objects.get(id=t_id)

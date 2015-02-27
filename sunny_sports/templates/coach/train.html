@@ -118,7 +118,11 @@
                                         <td class="hidden-480">{{ct.train.address}}</td>
                                         <td>{{ct.train.money}}</td>
                                         <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
-                                        <td>{% if ct.status == 1 %}<a class="btn btn-minier btn-primary">去付款</a>{% endif %}<a class="btn btn-minier btn-danger">取消报名</a></td>
+                                        <td>
+                                            <!--
+                                            {% if ct.status == 1 %}<a class="btn btn-minier btn-primary">去付款</a>{% endif %}
+                                            -->
+                                            <a class="btn btn-minier btn-danger">取消报名</a></td>
                                     </tr>
                                 </tbody>
                                 {% else %}

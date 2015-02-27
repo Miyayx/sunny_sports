@@ -153,9 +153,24 @@
                         {% if coach.t_level >= 1 %}
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
                         初级：已通过
-                        {% elif coach.t_level == 0 %}
+                        {% elif coach.t_level == 0 and ct.pass_status == 1 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
                         初级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 0 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        初级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 1 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        初级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        初级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        初级：<a href="/coach/train"> 进行中 </a>
+                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        初级：<a href="/coach/train"> 进行中 </a>
                         {% else %}
                         <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
                         初级：未进行
@@ -165,9 +180,24 @@
                         {% if coach.t_level >= 2 %}
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
                         中级：已通过
-                        {% elif coach.t_level == 1 %}
+                        {% elif coach.t_level == 1 and ct.pass_status == 1 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
                         中级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 0 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        中级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 1 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        中级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        中级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        中级：<a href="/coach/train"> 进行中 </a>
+                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        中级：<a href="/coach/train"> 进行中 </a>
                         {% else %}
                         <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
                         中级：未进行
@@ -183,9 +213,24 @@
                         {% if coach.t_level >= 3 %}
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
                         高级：已通过
-                        {% elif coach.t_level == 2 %}
+                        {% elif coach.t_level == 2 and ct.pass_status == 1 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
                         高级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 0 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        高级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 1 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        高级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        高级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        高级：<a href="/coach/train"> 进行中 </a>
+                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 2 %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        高级：<a href="/coach/train"> 进行中 </a>
                         {% else %}
                         <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
                         高级：未进行
