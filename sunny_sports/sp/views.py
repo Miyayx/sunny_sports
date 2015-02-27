@@ -141,6 +141,8 @@ def password(req):
         pw = req.POST['old_password']
         user = MyBackend().authenticate(username=u.phone, password=pw)#用django自带函数检验
         if user is not None:
+            if pw == req.POST['password']:
+                return JsonResponse({"success":False,"msg":u"原密码与新密码相同"}) 
             if not req.POST["password"] == req.POST["password2"]:
                 return JsonResponse({"success":False,"msg":u"密码不一致"}) 
 
@@ -152,9 +154,10 @@ def password(req):
             #    return JsonResponse({"success":True,"msg":""}) 
             #else:
             #    return JsonResponse({"success":False,"msg":u"验证码错误"}) 
-            u.set_password(new_password)
+            new_pw = req.POST["password"]
+            u.set_password(new_pw)
             u.save()
-            return JsonResponse({"success":True,"msg":"密码已修改"}) 
+            return JsonResponse({"success":True,"msg":u"密码已修改"}) 
         else:
             return JsonResponse({"success":False,"msg":u"密码错误"}) 
 
