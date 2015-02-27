@@ -157,22 +157,22 @@ def org_info(req):
             return render_to_response('centre/org_info.html', {}, RequestContext(req))
     else:
         data = req.POST.copy()
-        num = data.get("orgnum")
+        orgnum = data.get("orgnum")
         for k in ["orgnum",'phone','orgname']:
             if not data.has_key(k) or len(data[k].strip()) == 0:
                 return JsonResponse({},status=400)
-        co = CoachOrg.objects.filter(org_num=num) | CoachOrg.objects.filter(user__phone=data.get('phone'))
+        co = CoachOrg.objects.filter(org_num=orgnum) | CoachOrg.objects.filter(user__phone=data.get('phone'))
         #如果数据库里没有记录，证明是添加新组织
         if len(co) == 0:
             print "add coachorg"
             phone = data.get('phone')
             r_id = 1
-            user = MyUser.objects.create_user(phone = phone, nickname=None, email=None, role=r_id, password = num)
+            user = MyUser.objects.create_user(phone = phone, nickname=orgnum, email=None, role=r_id, password = orgnum)
             co = CoachOrg(user=user)
         else:
             co = co[0]
 
-        co.org_num = num
+        co.org_num = orgnum
         co.name = data["orgname"]
         co.user.phone = data["phone"]
         if data.has_key("director"):
