@@ -305,7 +305,7 @@
             name: 'email',
             validate: function(v){
                 if($.trim(v) == '') { return '必填项'; }
-                if(! isEmail($.trim(v))) return '请输入正确的邮件地址'
+                if(!isEmail($.trim(v))) return '请输入正确的邮件地址';
             }
         });	
 
@@ -350,7 +350,7 @@
             name: 'identity',
             validate: function(v){
                 if($.trim(v) == '')  return '必填项'; 
-                if(!isIdCardNo($.trim(v))) return '请正确输入您的身份证号码'
+                if(!isIdCardNo($.trim(v))) return '请正确输入您的身份证号码';
             }
         });	
 
@@ -451,9 +451,10 @@
                     dataType: 'json' //assuming json response
                 },           
                 success: function(data) {
-                    if(data && data.success)
+                    if(data && data.success){
                     alert("已保存");
                     location.reload();
+                }
                 },
                 error: function(errors) {
                     alert("网络错误，请刷新页面后重试");
