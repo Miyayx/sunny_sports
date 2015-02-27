@@ -245,14 +245,14 @@
 <![endif]-->
 <script src="../../static/js/ace/elements.fileinput.js"></script>
 <script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
 <script src="../../static/js/select2.min.js"></script>
 <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
 <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
 <script src="../../static/js/x-editable/ace-editable.min.js"></script>
-<script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
-<script src="../../static/js/jquery.maskedinput.min.js"></script>
 
 <script src="../../static/custom/myaddress.js"></script>
+<script src="../../static/custom/validate.js"></script>
 
 <script type="text/javascript">
     jQuery(function($) {
@@ -276,19 +276,17 @@
         .editable({
             url:'/post',
             type: 'text',
-            name: 'name'
-        });
-        $('#name').editable('option', 'validate', function(v) {
-            if(!v) return 'Required field!';
+            name: 'name',
+            validate: function(v){
+                if($.trim(v) == '') { return '必填项'; }
+            }
         });
         $('#nickname')
         .editable({
             type: 'text',
             name: 'nickname'
         });	
-        $('#nickname').editable('option', 'validate', function(v) {
-            if(!v) return 'Required field!';
-        });
+
         $('#birth').editable({
             type: 'adate',
             name: 'birth',
@@ -299,23 +297,29 @@
                 weekStart: 1,
                 language:"zh-CN" //要引用 bootstrap-datepicker.zh-CN.js
             }
-        })
+        });
+
         $('#email')
         .editable({
             type: 'text',
-            name: 'email'
+            name: 'email',
+            validate: function(v){
+                if($.trim(v) == '') { return '必填项'; }
+                if(! isEmail($.trim(v))) return '请输入正确的邮件地址'
+            }
         });	
+
         $('#phone')
         .editable({
             type: 'text',
-            name: 'phone'
+            name: 'phone',
+            validate: function(v){
+                if($.trim(v) == '') { return '必填项'; }
+                if(!isPhoneNum($.trim(v))) { return '请输入正确的手机号码'; }
+            }
         });	
-        $('#phone').editable('option', 'validate', function(v) {
-            if(!v) return 'Required field!';
-        });
 
         $('#sex').editable({
-            //prepend: ("{{coach.property.sex}}" == 0 ? "男":"女"),
             value: parseInt("{{ coach.property.sex }}"),
             source: [
                 {value: 0, text: '男'},
@@ -339,14 +343,16 @@
             type:'text',
             name:'company'
         });
+
         $('#identity')
         .editable({
             type: 'text',
-            name: 'identity'
+            name: 'identity',
+            validate: function(v){
+                if($.trim(v) == '')  return '必填项'; 
+                if(!isIdCardNo($.trim(v))) return '请正确输入您的身份证号码'
+            }
         });	
-        $('#identity').editable('option', 'validate', function(v) {
-            if(!v) return 'Required field!';
-        });
 
         // *** editable avatar *** //
         try {//ie8 throws some harmless exceptions, so let's catch'em
@@ -446,13 +452,11 @@
                 },           
                 success: function(data) {
                     if(data && data.success)
-                        //$("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
                     alert("已保存");
-                    //location.reload();
+                    location.reload();
                 },
                 error: function(errors) {
-                    //$("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
-                    alert("网络错误，请稍后重试");
+                    alert("网络错误，请刷新页面后重试");
                 } 
             });
         });
