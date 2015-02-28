@@ -185,21 +185,18 @@
 
                       <div class="space-6"></div>
                       <p>
-                      请输入您的注册邮箱来找回密码
+                      请通过手机进行身份验证来找回密码
                       </p>
 
-                      <form>
+                      <form action='/find_password' method='POST'>
                         {% csrf_token %}
                         <fieldset>
-                          <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
-                              <input type="email" class="form-control" placeholder="注册邮箱" />
-                              <i class="ace-icon fa fa-envelope"></i>
-                            </span>
-                          </label>
+
+                          {% include "components/register/phone.html"%}
+                          {% include "components/register/v_code.html"%}
 
                           <div class="clearfix">
-                            <button type="button" class="width-35 pull-right btn btn-sm btn-danger">
+                            <button type="button" id="find-pwd" class="width-35 pull-right btn btn-sm btn-danger">
                               <i class="ace-icon fa fa-lightbulb-o"></i>
                               <span class="bigger-110">找回密码</span>
                             </button>
@@ -340,13 +337,13 @@
               $(this).css('active');
             });
 
-          //	$('#students').click(function () {
-            //		$("#studnetsLabel").css("font-weight","bold");
-            //		$("#studnetsLabel").css("color","#0066FF ");
-            //		$("#teamsLabel").css("font-weight","normal");
-            //		$("#teamsLabel").css("color","black");
-            //		$("#adminLabel").css("font-weight","normal");
-            //		$("#adminLabel").css("color","black");
+            //	$('#students').click(function () {
+              //		$("#studnetsLabel").css("font-weight","bold");
+              //		$("#studnetsLabel").css("color","#0066FF ");
+              //		$("#teamsLabel").css("font-weight","normal");
+              //		$("#teamsLabel").css("color","black");
+              //		$("#adminLabel").css("font-weight","normal");
+              //		$("#adminLabel").css("color","black");
           //	});
           //	$('#teams').click(function () {
             //		$("#teamsLabel").css("font-weight","bold");
@@ -388,6 +385,17 @@
             $("#clubForm").hide();
             $("#teamForm").show();
           });
+
+          });
+
+          $('#find-pwd').click(function(){
+            $btn = $(this);
+            $form = $btn.parents('form');
+            if($.trim($form.find('input[type=phone]').val()) == '' ||$.trim($form.find('input[type=verify]').val()) == ''  )
+              return;
+            else{
+              $form.submit();
+            }
 
           });
         </script>

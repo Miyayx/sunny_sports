@@ -121,6 +121,7 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
         # the authentication system was unable to verify the username and password
             messages.error(req, u"用户名或密码错误")
             return render_to_response("login.html", context_instance=RequestContext(req))
+    return render_to_response("login.html", context_instance=RequestContext(req))
           
 def index(req):
     uuid = req.user.id
@@ -129,10 +130,38 @@ def index(req):
           
 @login_required()
 def mylogout(req):
-    print "logout"
     logout(req)
     #req.session.clear()
     return render_to_response("login.html" ,context_instance=RequestContext(req))
+
+def find_password(req) :
+    if req.method == 'POST':
+        phone = req.POST['phone']
+        code = req.POST['v_code']
+        # 用手机短信验证码确认身份
+        c = Code.objects.filter(phone = phone).latest('time')
+        if c.code == code:
+            return HttpResponseRedirect('reset_password?phone='+phone)
+        else:
+            messages.error(req, "验证码错误")
+            return render_to_response("login.html", context_instance=RequestContext(req))
+    else:
+        return render_to_response("login.html", context_instance=RequestContext(req))
+
+def reset_password(req):
+    if req.method == 'POST':
+        u = MyUser.objects.get(id=req.POST['uuid'])
+        if not req.POST["password"] == req.POST["password2"]:
+            return JsonResponse({"success":False,"msg":u"密码不一致"}) 
+
+        new_pw = req.POST["password"]
+        u.set_password(new_pw)
+        u.save()
+        return JsonResponse({"success":True,"msg":u"密码已修改"}) 
+    else:
+        phone = req.GET['phone']
+        uuid = MyUser.objects.get(phone=phone).id
+        return render_to_response("reset_password.html",{"uuid":uuid}, context_instance=RequestContext(req))
 
 @login_required()
 def password(req):
@@ -178,4 +207,5 @@ def download_excel(req):
             fields = [u"学员", u"学号"]
             rows = [(ct.coach.property.name, ct.number) for ct in coachtrains]
         return export_xls(req, train.name, fields, rows)
+
         
