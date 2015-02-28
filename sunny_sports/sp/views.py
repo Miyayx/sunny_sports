@@ -93,7 +93,10 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
         req.session.clear()
         un = req.POST['username']
         pw = req.POST['password']
-        role = req.POST['role']
+        role = req.POST.get('role',None)
+        if not role:
+            messages.error(req, u"请选择角色")
+            return render_to_response("login.html", context_instance=RequestContext(req))
         user = None
         if un and len(un) >0: #如果用用户名
             #user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
