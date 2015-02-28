@@ -48,8 +48,12 @@
                             <div class="profile-info-value">{{train.address}}</div>
                         </div>
                         <div>
-                            <div class="profile-info-name">报名/上限人数</div>
-                            <div class="profile-info-value">{{train.cur_num}}/{{train.limit}}</div>
+                            <div class="profile-info-name">报名人数</div>
+                            <div class="profile-info-value curnum">{{train.cur_num}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">上限人数</div>
+                            <div class="profile-info-value">{{train.limit}}</div>
                         </div>
                         <div>
                             <div class="profile-info-name">当前状态</div>
@@ -221,17 +225,23 @@
             var $info = '确定删除学员<b>'+ $delbtn.parent().find("a").html().trim()+'</b>?';
             bootbox.setDefaults({locale:'zh_CN'});
             bootbox.confirm($info, function(result){
-                $.post("/coach_org/del_member",
-                    {
-                        'csrfmiddlewaretoken': '{{csrf_token}}',
-                        't_id':$delbtn.parents('.tab-pane').find('.t_id').html().trim(),
-                        'num':$delbtn.parents('tr').find('.mem-num').html().trim()
-                    }, function(res){
-                        if(res && res['success'])
-                            $delbtn.parents('tr').remove();
-                        else alert('删除失败');
-                    });
-            });
+                if(result){ //选择确认
+                    $.post("/coach_org/del_member",
+                        {
+                            'csrfmiddlewaretoken': '{{csrf_token}}',
+                            't_id':$delbtn.parents('.tab-pane').find('.t_id').html().trim(),
+                            'num':$delbtn.parents('tr').find('.mem-num').html().trim()
+                        }, function(res){
+                            if(res && res['success']){
+                                $curnum = $delbtn.parents('.tab-pane').find('.curnum')
+                                curnum = parseInt($curnum.html().trim());
+                                $curnum.html(curnum-1);
+                                $delbtn.parents('tr').remove();
+                            }
+                            else alert('删除失败');
+                        });
+            }
+        });
         });
 
         $('.add-member').click(function(e){
@@ -245,20 +255,22 @@
             + '<p class="red" id="error-msg"></p>';
             bootbox.setDefaults({locale:'zh_CN'});
             bootbox.confirm($searchbox, function(result){
-                $.post("/coach_org/add_member",
-                    {"phone":$('#member-phone').val().trim(), 
-                        "name":$('#member-name').html().trim(),
-                        "t_id":$addbtn.parents('.tab-pane').find('.t_id').html().trim(),
-                        'csrfmiddlewaretoken': '{{csrf_token}}'
-                    }, function(res){
-                        if(res && res["success"])
-                            location.reload();
-                    });
+                if(result){
+                    $.post("/coach_org/add_member",
+                        {"phone":$('#member-phone').val().trim(), 
+                            "name":$('#member-name').html().trim(),
+                            "t_id":$addbtn.parents('.tab-pane').find('.t_id').html().trim(),
+                            'csrfmiddlewaretoken': '{{csrf_token}}'
+                        }, function(res){
+                            if(res && res["success"])
+                                location.reload();
+                        });
+                }
             });
             $('#search-btn').click(function(e){
                 var p = $('#member-phone').val();
                 if(p.length > 0){
-                    $.get("/centre/add_member?phone="+p, function(res){
+                    $.get("/coach_org/add_member?phone="+p, function(res){
                         if(res["name"]){
                             $('#error-msg').html("");
                             $('#member-name').html(res["name"]);

@@ -165,6 +165,7 @@ def add_member(req):
             c = c[0]
             ct = CoachTrain.objects.create(coach=c, train=Train.objects.get(id=t_id), status=2)
             ct.train.cur_num = ct.train.cur_num + 1
+            ct.train.save()
             ct.save()
             return JsonResponse({'success':True})
         else:
@@ -177,9 +178,9 @@ def del_member(req):
     if req.method == "POST":
         t_id = req.POST.get("t_id")
         num = req.POST.get("num")
-        ct = CoachTrain.objects.filter(train_id=t_id, number=num)        
-        ct[0].train.cur_num = ct[0].train.cur_num - 1
-        ct[0].save()
+        ct = CoachTrain.objects.get(train_id=t_id, number=num)        
+        ct.train.cur_num = ct.train.cur_num - 1
+        ct.train.save()
         ct.delete()
         return JsonResponse({'success':True})
     else:
