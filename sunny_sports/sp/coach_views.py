@@ -60,18 +60,18 @@ def train(req):
         ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
         mct = CoachTrain.objects.filter(coach=coach, train__level=2)
         mtrain = Train.objects.filter(level=2, reg_status=1)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain,"ct":mct.latest("id") if len(mct) > 0 else None}, RequestContext(req))
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain,"ct":mct.latest("id") if len(mct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 2:
         ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
         mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
         htrain = Train.objects.filter(level=3, reg_status=1)
         hct = CoachTrain.objects.filter(coach=coach, train__level=3)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain, "ct":hct.latest("id") if len(hct) > 0 else None }, RequestContext(req))
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain[0] if len(mtrain)>0 else None , "htrain":htrain, "ct":hct.latest("id") if len(hct) > 0 else None }, RequestContext(req))
     else:
         ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
         mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
         htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status=3)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0], "mtrain":mtrain[0], "htrain":htrain[0]}, RequestContext(req))
+        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain[0] if len(mtrain) > 0 else None, "htrain":htrain[0] if len(htrain) > 0 else None}, RequestContext(req))
 
 @login_required()
 def center(req):
