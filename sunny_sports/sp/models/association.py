@@ -16,7 +16,7 @@ def make_ct_num():
 
 
 class CoachTrain(models.Model):
-    number = models.IntegerField(default=make_ct_num())
+    number = models.IntegerField()
     coach = models.ForeignKey(Coach)
     train = models.ForeignKey(Train)
     score = models.IntegerField(default=0) 
@@ -31,7 +31,12 @@ class CoachTrain(models.Model):
     def __str__(self):
         return "coach:%s,  train:%s"%(self.coach, self.train)
 
-    
+    def save(self, *args, **kwargs):
+        self.number = CoachTrain.objects.filter(train=self.train).count()
+
+        super(CoachTrain, self).save(*args, **kwargs)
+
+
 #class StudentTeam(models.Model):
 #    team = models.ForeignKey(Team)
 #    student = models.ForeignKey(Student)
