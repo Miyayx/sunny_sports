@@ -142,3 +142,45 @@ def update_info(req):
         except:
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
+
+@login_required()
+@transaction.atomic
+def add_member(req):
+    if req.method == "GET":
+        phone = req.GET.get("phone")
+        print phone
+        c = Coach.objects.filter(property__user__phone=phone)
+        if len(c) > 0:
+            return JsonResponse({"name":c[0].property.name })
+        else:
+            return JsonResponse({"name":None})
+
+    else:
+        phone = req.POST.get("phone")
+        name = req.POST.get("name")
+        t_id = req.POST.get("t_id")
+        print t_id
+        c = Coach.objects.filter(property__user__phone=phone, property__name=name)
+        if len(c) > 0:
+            c = c[0]
+            ct = CoachTrain.objects.create(coach=c, train=Train.objects.get(id=t_id), status=2)
+            ct.train.cur_num = ct.train.cur_num + 1
+            ct.save()
+            return JsonResponse({'success':True})
+        else:
+            return JsonResponse({'success':False})
+
+@login_required()
+@transaction.atomic
+def del_member(req):
+
+    if req.method == "POST":
+        t_id = req.POST.get("t_id")
+        num = req.POST.get("num")
+        ct = CoachTrain.objects.filter(train_id=t_id, number=num)        
+        ct[0].train.cur_num = ct[0].train.cur_num - 1
+        ct[0].save()
+        ct.delete()
+        return JsonResponse({'success':True})
+    else:
+        return JsonResponse({'success':False})

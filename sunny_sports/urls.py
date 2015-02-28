@@ -50,7 +50,6 @@ urlpatterns += patterns('sunny_sports.sp.centre_views',
         url(r'^centre/msg_publish$','msg_publish'),
         url(r'^centre/org_manage$', 'org_manage'),
         url(r'^centre/org_info$', 'org_info'),
-        url(r'^centre/add_member$', 'add_member'),
         url(r'^centre/password$','password_page'),
         )
 
@@ -64,6 +63,8 @@ urlpatterns += patterns('sunny_sports.sp.coach_org_views',
         url(r'^coach_org/train_manage$', 'train_manage'),
         url(r'^coach_org/score_input$', 'score_input'),
         url(r'^coach_org/up_info$', 'update_info'),
+        url(r'^coach_org/add_member$', 'add_member'),
+        url(r'^coach_org/del_member$', 'del_member'),
         )
 
 # coach

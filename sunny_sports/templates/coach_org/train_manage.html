@@ -90,7 +90,7 @@
                                             <i class="ace-icon fa fa-user"></i>
                                             学员 
                                         </th>
-                                        <th class="center">学号</th>
+                                        <th class="center ">学号</th>
                                         <!-- 报名期间不出现“是否通过”的列-->
                                         {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
@@ -113,8 +113,10 @@
                                 <tbody>
                                     {% for ct in cts %}
                                     <tr>
-                                        <td class="center"><a>{{ ct.coach.property.name }}</a></td>
-                                        <td class="center">{{ct.number}}</td>
+                                        <td class="center"><a>{{ ct.coach.property.name }}</a>
+                                            <button class="btn btn-minier btn-danger del-member pull-right"> 删除 </button>
+                                        </td>
+                                        <td class="center mem-num">{{ct.number}}</td>
                                         {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                         <td class="center">
@@ -213,6 +215,25 @@
                 });
         });
 
+        $('.del-member').click(function(e){
+            var $delbtn = $(this);
+            e.preventDefault();
+            var $info = '确定删除学员<b>'+ $delbtn.parent().find("a").html().trim()+'</b>?';
+            bootbox.setDefaults({locale:'zh_CN'});
+            bootbox.confirm($info, function(result){
+                $.post("/coach_org/del_member",
+                    {
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                        't_id':$delbtn.parents('.tab-pane').find('.t_id').html().trim(),
+                        'num':$delbtn.parents('tr').find('.mem-num').html().trim()
+                    }, function(res){
+                        if(res && res['success'])
+                            $delbtn.parents('tr').remove();
+                        else alert('删除失败');
+                    });
+            });
+        });
+
         $('.add-member').click(function(e){
             var $addbtn = $(this);
             e.preventDefault();
@@ -224,7 +245,7 @@
             + '<p class="red" id="error-msg"></p>';
             bootbox.setDefaults({locale:'zh_CN'});
             bootbox.confirm($searchbox, function(result){
-                $.post("/centre/add_member",
+                $.post("/coach_org/add_member",
                     {"phone":$('#member-phone').val().trim(), 
                         "name":$('#member-name').html().trim(),
                         "t_id":$addbtn.parents('.tab-pane').find('.t_id').html().trim(),
