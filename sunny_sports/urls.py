@@ -49,6 +49,7 @@ urlpatterns += patterns('sunny_sports.sp.centre_views',
         url(r'^centre/history_view$','history_view'),
         url(r'^centre/msg_publish$','msg_publish'),
         url(r'^centre/org_manage$', 'org_manage'),
+        url(r'^centre/org_del$', 'org_del'),
         url(r'^centre/org_info$', 'org_info'),
         url(r'^centre/password$','password_page'),
         )

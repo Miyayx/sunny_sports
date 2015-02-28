@@ -40,11 +40,11 @@
                     {% for o in orgs %}
                     <tr>
                         <td class="center">{{o.name}}</td>
-                        <td class="center">{{o.org_num}}</td>
+                        <td class="center orgnum">{{o.org_num}}</td>
                         <td class="center">{{o.province}},{{o.city}},{{o.dist}},{{o.address}}</td>
                         <td class="center">{{o.director}}</td>
                         <td class="center">{{o.user.phone}}</td>
-                        <td class="center"><a class="btn btn-minier btn-primary">编辑</a><a class="btn btn-minier btn-danger" href="/centre/org_info_del?org_num={{o.org_num}}">删除</a></td>
+                        <td class="center"><a class="btn btn-minier btn-primary">编辑</a><a class="btn btn-minier btn-danger org-del"> 删除</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -67,6 +67,24 @@
         $.get('/centre/org_info',function(data){
             bootbox.dialog({message:data}); 
         });
+    });
+
+    $('.org-del').click(function(){
+        var $delbtn = $(this);
+        var $info = '确定删除组织<b>'+ $delbtn.parents('tr').find("td:first").html().trim()+'</b>?';
+        bootbox.setDefaults({locale:'zh_CN'});
+        bootbox.confirm($info, function(result){
+            $.post("/centre/org_del",
+            {
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+                'orgnum' : $delbtn.parents('tr').find('.orgnum').html().trim()
+                }, function(res){
+                if(res && res['success'])
+                $delbtn.parents('tr').remove();
+                else alert('删除失败');
+            });
+        });
+
     });
 
     $('td a.btn-primary').click(function(){

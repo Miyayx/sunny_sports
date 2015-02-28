@@ -191,4 +191,18 @@ def org_info(req):
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
+@login_required()
+@transaction.atomic
+def org_del(req):
+
+    if req.method == "POST":
+        orgnum = req.POST.get("orgnum")
+        co = CoachOrg.objects.get(org_num=orgnum)        
+        u = co.user
+        print u
+        co.delete()
+        u.delete()
+        return JsonResponse({'success':True})
+    else:
+        return JsonResponse({'success':False})
 
