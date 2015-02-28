@@ -201,11 +201,11 @@ def download_excel(req):
         coachtrains = CoachTrain.objects.filter(train_id=t_id)
         train = coachtrains[0].train
         if train.pub_status: #如果已经发布，包括是否通过，证书号
-            fields = [u"学员", u"学号", u"证书编号"]
-            rows = [(ct.coach.property.name, ct.number, ct.certificate) for ct in coachtrains]
+            fields = [u"学员姓名", u"学号", u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"证书编号"]
+            rows = [(ct.coach.property.name, ct.number, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.certificate) for ct in coachtrains]
         else:
-            fields = [u"学员", u"学号"]
-            rows = [(ct.coach.property.name, ct.number) for ct in coachtrains]
+            fields = [u"学员姓名", u"学号", u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位"]
+            rows = [(ct.coach.property.name, ct.number, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company) for ct in coachtrains]
         return export_xls(req, train.name, fields, rows)
 
         

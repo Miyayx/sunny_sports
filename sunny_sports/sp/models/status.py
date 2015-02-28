@@ -17,8 +17,8 @@ def get_role_id(r_str):
             return i
 
 SEX = (
-        (0,'male'),
-        (1,'female'),
+        (0,'男'),
+        (1,'女'),
         )
 
 #报名是否截止

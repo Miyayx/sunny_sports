@@ -63,6 +63,9 @@ def calculate_age(born):
     today = datetime.date.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
+def join_position(a):
+    return u"%s省%s市%s区/县%s"%(a.property.province, a.property.city, a.property.dist, a.property.address)
+
 def export_xls(req, name, fields, rows):
     import xlwt
     from django.http import HttpResponse
