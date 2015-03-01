@@ -84,12 +84,15 @@
                     {% endifnotequal %}
                     {% ifequal coach.t_level 0 %}
                     <div class="center">
-                        {% if ct and ct.status < 3 and ct.status > 0 %}
+                        {% if not ct %}
+                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
+                        {% elif ct and ct.status < 3 and ct.status > 0 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
                         {% else %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">报名进行中</span>
                         {% endif %}
                     </div>
+                    {% if ct %}
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
@@ -149,6 +152,7 @@
                             </table>
                         </div>
                     </div>
+                    {% endif %}
                     {% endifequal %}
                 </div>
                 <div id="level-middle" class="tab-pane {% ifequal coach.t_level 1 %}in active{% endifequal %}">
@@ -206,14 +210,17 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if coach.t_level == 1 %}
+                    {% ifequal coach.t_level 1 %}
                     <div class="center">
-                        {% if ct and ct.status < 3 and ct.status > 0 %}
+                        {% if not ct %}
+                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
+                        {% elif ct and ct.status < 3 and ct.status > 0 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
                         {% else %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">报名进行中</span>
                         {% endif %}
                     </div>
+                    {% if ct %}
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
@@ -271,6 +278,7 @@
                         </div>
                     </div>
                     {% endif %}
+                    {% endifequal %}
                     {% if coach.t_level == 0 %}
                     <div class="center">
                         <span class="label label-xlg label-light arrowed-in-right">未开始</span>
@@ -332,14 +340,17 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if coach.t_level == 2 %}
+                    {% ifequal coach.t_level 2 %}
                     <div class="center">
-                        {% if ct and ct.status < 3 and ct.status > 0 %}
+                        {% if not ct %}
+                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
+                        {% elif ct and ct.status < 3 and ct.status > 0 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
                         {% else %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">报名进行中</span>
                         {% endif %}
                     </div>
+                    {% if ct %}
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
@@ -400,9 +411,10 @@
                         </div>
                     </div>
                     {% endif %}
+                    {% endifequal %}
                     {% if coach.t_level < 2 %}
                     <div class="center">
-                        <span class="label label-xlg arrowed-in-right">未开始</span>
+                        <span class="label label-xlg arrowed-in-right label-light">未开始</span>
                     </div>
                     {% endif %}
                 </div>

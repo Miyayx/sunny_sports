@@ -40,10 +40,11 @@ def home(req):
     print uuid
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
-    ct = CoachTrain.objects.filter(coach=coach).latest("id")
-    print coach.t_level
-    print ct.pass_status
-    print ct.status
+    cts = CoachTrain.objects.filter(coach=coach)
+    if len(cts):
+        ct = cts.latest('id')
+    else:
+        ct = None
 
     return render_to_response('coach/home.html',{"coach":coach, "ct":ct}, RequestContext(req))
 
