@@ -203,19 +203,6 @@
                     if(!v) return 'Required field!';
                 });
 
-                //select2 editable
-                // *** editable avatar *** //
-                try {//ie8 throws some harmless exceptions, so let's catch'em
-
-                    //first let's add a fake appendChild method for Image element for browsers that have a problem with this
-                    //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
-                    try {
-                        document.createElement('IMG').appendChild(document.createElement('B'));
-                    } catch(e) {
-                        Image.prototype.appendChild = function(el){}
-                    }
-                }catch(e) {}
-
 
                 ///////////////////////////////////////////
                 /* ref by gll 20150205

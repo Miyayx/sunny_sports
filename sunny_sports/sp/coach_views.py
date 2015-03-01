@@ -100,7 +100,8 @@ def info_confirm(req):
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
         cp = coach.property
         cp.name = data.get("name","")
-        cp.sex = int(data.get("sex"))
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
         if data.has_key("birth"):
@@ -208,11 +209,13 @@ def update_info(req):
 
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
-        cp.sex = int(data.get("sex"))
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
         cp.avatar = data.get("avatar","")
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
-        #cp.birth = data.get("birth","")
+        if data.has_key("birth"):
+            cp.birth = data["birth"]
         if data.has_key("company"):
             cp.company = data["company"]
         if data.has_key("province"):
@@ -228,11 +231,5 @@ def update_info(req):
             ur.save()
         except:
             return JsonResponse({'success':False})
-        #c = CoachPropertyForm(instance=cp, data=data)
-        #print data
-        #if c.is_valid():
-        #    c.save()
         return JsonResponse({'success':True})
-        #else:
-        #    return JsonResponse({'success':False})
 

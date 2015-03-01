@@ -40,7 +40,7 @@
 
                                         <div class="profile-info-name">性别</div>
                                         <div class="profile-info-value">
-                                            <span class="myeditable editable editable-click" id="sex" data-type="select"> </span>
+                                            <span class="myeditable editable editable-click" id="sex" data-type="select"> {{coach.property.get_sex_display}} </span>
                                         </div>
                                     </div>
 
@@ -182,16 +182,10 @@
 
         <script src="../../static/custom/myaddress.js"></script>
         <script src="../../static/custom/validate.js"></script>
+        <script src="../../static/custom/person-info-val.js"></script>
 
         <script type="text/javascript">
             jQuery(function($) {
-
-                //editables on first profile page
-                $.fn.editable.defaults.mode = 'inline';
-                $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
-                $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
-                    '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
-
                 //editables 
 
                 //text editable
@@ -207,188 +201,35 @@
                     type: 'text',
                     name: 't_id'
                 });
-                $('#name')
-                .editable({
-                    url:'/post',
-                    type: 'text',
-                    name: 'name',
-                    validate: function(v){
-                        if($.trim(v) == '') { return '必填项'; }
-                    }
-                });
-                $('#birth').editable({
-                    type: 'adate',
-                    name: 'birth',
-                    date: {
-                        //datepicker plugin options
-                        weekStart: 1,
-                        format: 'yyyy-mm-dd',
-                        viewformat: 'yyyy-mm-dd',
-                        language:"zh-CN" //要引用 bootstrap-datepicker.zh-CN.js
-                    }
-                })
-                $('#email')
-                .editable({
-                    type: 'text',
-                    name: 'email',
-                    validate: function(v){
-                        if($.trim(v) == '') { return '必填项'; }
-                        if(!isEmail($.trim(v))) return '请输入正确的邮件地址';
-                    }
-                });	
 
-                $('#phone')
+                $('#company')
                 .editable({
-                    type: 'text',
-                    name: 'phone',
-                    validate: function(v){
-                        if($.trim(v) == '') { return '必填项'; }
-                        if(!isPhoneNum($.trim(v))) { return '请输入正确的手机号码'; }
-                    }
-                });	
-
-                $('#sex').editable({
-                    //prepend: ("{{coach.property.sex}}" == 0 ? "男":"女"),
-                    value: parseInt("{{ coach.property.sex }}"),
-                    source: [
-                        {value: 0, text: '男'},
-                        {value: 1, text: '女'}
-                    ]
+                    type:'text',
+                    name:'company'
                 });
 
-                //$('#club').editable({
-                    // source: function(){
-                        //  result =[];
-                        //  {% for c in clubs %}
-                        //  result.push({value:"{{c.id}}", text:"{{c.name}}"});
-                        //  {% endfor %}
-                        //  return result;
-                        // }()
-            //});
-
-            $('#company')
-            .editable({
-                type:'text',
-                name:'company'
-            });
-
-            $('#identity')
-            .editable({
-                type: 'text',
-                name: 'identity',
-                validate: function(v){
-                    if($.trim(v) == '')  return '必填项'; 
-                    if(!isIdCardNo($.trim(v))) return '请正确输入您的身份证号码';
-                }
-            });	
-
-            // *** editable avatar *** //
-            try {//ie8 throws some harmless exceptions, so let's catch'em
-
-                //first let's add a fake appendChild method for Image element for browsers that have a problem with this
-                //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
-                try {
-                    document.createElement('IMG').appendChild(document.createElement('B'));
-                } catch(e) {
-                    Image.prototype.appendChild = function(el){}
-                }
-
-                var last_gritter
-                $('#avatar').editable({
-                    type: 'image',
-                    name: 'avatar',
-                    value: null,
-                    image: {
-                        //specify ace file input plugin's options here
-                        btn_choose: 'Change Avatar',
-                        droppable: true,
-                        maxSize: 110000,//~100Kb
-
-                        //and a few extra ones here
-                        name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-                        on_error : function(error_type) {//on_error function will be called when the selected file has a problem
-                            if(last_gritter) $.gritter.remove(last_gritter);
-                            if(error_type == 1) {//file format error
-                                last_gritter = $.gritter.add({
-                                    title: 'File is not an image!',
-                                    text: 'Please choose a jpg|gif|png image!',
-                                    class_name: 'gritter-error gritter-center'
-                                });
-                            } else if(error_type == 2) {//file size rror
-                                last_gritter = $.gritter.add({
-                                    title: 'File too big!',
-                                    text: 'Image size should not exceed 100Kb!',
-                                    class_name: 'gritter-error gritter-center'
-                                });
-                            }
-                            else {//other error
+                // click save btn
+                $('#save-btn').click(function() {
+                    $('.myeditable').editable('submit', { 
+                        url: '/coach/train/info_confirm', 
+                        ajaxOptions: {
+                            dataType: 'json' //assuming json response
+                        },           
+                        success: function(data) {
+                            if(data && data.success){
+                                alert("报名成功");
+                                window.location.href="/coach/train";
                             }
                         },
-                        on_success : function() {
-                            $.gritter.removeAll();
-                        }
-                    },
-                    url: function(params) {
-                        // ***UPDATE AVATAR HERE*** //
-                        //for a working upload example you can replace the contents of this function with 
-                        //examples/profile-avatar-update.js
-
-                        var deferred = new $.Deferred
-
-                        var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
-                        if(!value || value.length == 0) {
-                            deferred.resolve();
-                            return deferred.promise();
-                        }
-
-
-                        //dummy upload
-                        setTimeout(function(){
-                            if("FileReader" in window) {
-                                //for browsers that have a thumbnail of selected image
-                                var thumb = $('#avatar').next().find('img').data('thumb');
-                                if(thumb) $('#avatar').get(0).src = thumb;
+                        error: function(errors) {
+                            var info = "";
+                            for(var k in errors){
+                                info += (k+":  "+errors[k]+"\n");
                             }
-
-                            deferred.resolve({'status':'OK'});
-
-                            if(last_gritter) $.gritter.remove(last_gritter);
-                            last_gritter = $.gritter.add({
-                                title: 'Avatar Updated!',
-                                text: 'Uploading to server can be easily implemented. A working example is included with the template.',
-                                class_name: 'gritter-info gritter-center'
-                            });
-
-                        } , parseInt(Math.random() * 800 + 800))
-
-                        return deferred.promise();
-
-                        // ***END OF UPDATE AVATAR HERE*** //
-                    },
-
-                    success: function(response, newValue) {
-                    }
-                })
-            }catch(e) {}
-
-            // click save btn
-            $('#save-btn').click(function() {
-                $('.myeditable').editable('submit', { 
-                    url: '/coach/train/info_confirm', 
-                    ajaxOptions: {
-                        dataType: 'json' //assuming json response
-                    },           
-                    success: function(data) {
-                        if(data && data.success){
-                            alert("报名成功");
-                            window.location.href="/coach/train";
-                        }
-                    },
-                    error: function(errors) {
-                        alert("网络错误，请刷新页面后重试");
-                    } 
+                            alert(info);
+                        } 
+                    });
                 });
-            });
 
             });
 
