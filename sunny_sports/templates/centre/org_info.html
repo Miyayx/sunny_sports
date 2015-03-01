@@ -80,12 +80,23 @@
               </div>
             </div>
           </div>
+
           <div class="form-group">
             <label class="col-sm-4 control-label no-padding-right"
               for="form-field-email">邮箱</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
                 <span class="myeditable editable editable-click" id="email">{{coachorg.user.email}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-right"
+              for="form-field-email">角色权限</label>
+            <div class="col-sm-8">
+              <div class="profile-info-value">
+                <span class="myeditable editable editable-click" id="permission" data-type="checklist"></span>
               </div>
             </div>
           </div>
@@ -159,6 +170,17 @@
           type: 'text',
           name: 'phone'
         });	
+        $('#permission').editable({
+          type:'checklist',
+          //value:[{{coachorg.permission}}],
+          value:[2,3],
+          source: [
+            {value: 1, text: '学员通级'},
+            {value: 2, text: '教练培训'},
+            {value: 3, text: '裁判培训'},
+            {value: 4, text: '比赛发起'}
+          ]
+        });
         $('.myeditable').editable({
           validate: {
             orgnum: function(v) {
@@ -189,28 +211,28 @@
                 bootbox.hideAll();
                 alert("添加成功。默认密码为组织编号");
                 location.reload();
-            }
+              }
             }).error(function(errors){
               $("#save-msg").removeClass("text-success").addClass("text-error").html("请确保信息填写完整并重试")
             });
 
           }
-//            $('.myeditable').editable('submit', { 
-//              url: '/centre/org_info', 
-//              ajaxOptions: {
-//                dataType: 'json' //assuming json response
-//              },           
-//              success: function(data) {
-//                if(data && data.success)
-//                  $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
-//              },
-//              error: function(errors) {
-//                $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
-//              } 
-//            });
+          //            $('.myeditable').editable('submit', { 
+            //              url: '/centre/org_info', 
+            //              ajaxOptions: {
+              //                dataType: 'json' //assuming json response
+              //              },           
+              //              success: function(data) {
+                //                if(data && data.success)
+                  //                  $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
+                //              },
+                //              error: function(errors) {
+                  //                $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+                  //              } 
+                  //            });
 
 
-            }); //save-btn
-        }); // jquery
-      </script>
+        }); //save-btn
+      }); // jquery
+    </script>
 
