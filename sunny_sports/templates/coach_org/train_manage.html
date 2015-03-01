@@ -7,6 +7,7 @@
 <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
+        {% if zipped|length %}
         <div class="tabbable tabs-left">
             <ul class="nav nav-tabs" id="train-tab">
                 {% for train, cts in zipped %}
@@ -159,7 +160,11 @@
                     </div>
                 </div><!-- /.tab-pane -->
                 {% endfor %}
+
             </div><!-- /.tab-content -->
+            {% else %}
+            <p class="alert alert-warning"> 当前没有可管理的培训 </p>
+            {% endif %}
         </div><!-- /.col-ms-10 -->
     </div><!-- /.row -->
     {% endblock %}
@@ -240,8 +245,8 @@
                             }
                             else alert('删除失败');
                         });
-            }
-        });
+                }
+            });
         });
 
         $('.add-member').click(function(e){

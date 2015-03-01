@@ -209,7 +209,7 @@
             }).success(function(res) {
               if(res && res.success){
                 bootbox.hideAll();
-                alert("添加成功。默认密码为组织编号");
+                alert("添加成功。用户名为组织编号，默认密码为组织编号");
                 location.reload();
               }
             }).error(function(errors){
