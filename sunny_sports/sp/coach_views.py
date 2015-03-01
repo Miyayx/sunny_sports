@@ -146,13 +146,11 @@ def reg_cancel(req):
     """
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
-        #ct = CoachTrain.objects.filter(id=ct_id).update(status=0, train_cur_num=F('train_cur_num') - 1)
         ct = CoachTrain.objects.get(id=ct_id)
         ct.status = 0
         ct.train.cur_num = ct.train.cur_num - 1
         ct.train.save()
-        ct.save()
-        #Train.objects.filter(id=ct.train.id).update(cur_num=F('cur_num') - 1)
+        ct.delete()
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 

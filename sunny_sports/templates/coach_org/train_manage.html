@@ -95,7 +95,9 @@
                                             <i class="ace-icon fa fa-user"></i>
                                             学员 
                                         </th>
+                                        {% if train.reg_status == 2 %}
                                         <th class="center ">学号</th>
+                                        {% endif %}
                                         <!-- 报名期间不出现“是否通过”的列-->
                                         {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
@@ -119,9 +121,12 @@
                                     {% for ct in cts %}
                                     <tr>
                                         <td class="center"><a>{{ ct.coach.property.name }}</a>
+                                            <p style="display:none">{{ ct.id }}</p>
                                             <button class="btn btn-minier btn-danger del-member pull-right"> 删除 </button>
                                         </td>
+                                        {% if train.reg_status == 2 %}
                                         <td class="center mem-num">{{ct.number}}</td>
+                                        {% endif %}
                                         {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                         <td class="center">
@@ -234,8 +239,7 @@
                     $.post("/coach_org/del_member",
                         {
                             'csrfmiddlewaretoken': '{{csrf_token}}',
-                            't_id':$delbtn.parents('.tab-pane').find('.t_id').html().trim(),
-                            'num':$delbtn.parents('tr').find('.mem-num').html().trim()
+                            'ct_id':$delbtn.parents('td').find('p').html().trim()
                         }, function(res){
                             if(res && res['success']){
                                 $curnum = $delbtn.parents('.tab-pane').find('.curnum')
