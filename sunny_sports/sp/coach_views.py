@@ -43,10 +43,12 @@ def home(req):
     cts = CoachTrain.objects.filter(coach=coach)
     if len(cts):
         ct = cts.latest('id')
+        t_count = -1
     else:
+        t_count = Train.objects.filter(t_level=coach.t_level, reg_status = 1).count()
         ct = None
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
 
 @login_required()
 def train(req):
