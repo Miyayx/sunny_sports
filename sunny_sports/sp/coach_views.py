@@ -45,7 +45,7 @@ def home(req):
         ct = cts.latest('id')
         t_count = -1
     else:
-        t_count = Train.objects.filter(t_level=coach.t_level, reg_status = 1).count()
+        t_count = Train.objects.filter(level=coach.t_level+1, reg_status = 1).count()
         ct = None
 
     return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))

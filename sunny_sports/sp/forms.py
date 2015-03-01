@@ -171,6 +171,13 @@ class TrainPublishForm(ModelForm):
         model = Train
         fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime']
 
+    def save(self, commit=True):
+        instance = super(TrainPublishForm, self).save(commit=False)
+        instance.reg_status = 1 if instance.reg_stime < timezone.now() else 0
+        if commit:
+            instance.save()
+        return instance
+
 class CoachPropertyForm(ModelForm):
     class Meta:
         model = CoachProperty
