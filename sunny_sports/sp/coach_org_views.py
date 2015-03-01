@@ -102,13 +102,12 @@ def score_input(req):
         print data
         submit = int(data.pop("submit")[0])
         t_id = data.pop("t_id")[0]
-        cts = CoachTrain.objects.filter(train_id=t_id)
+        cts = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
         for ct in cts:
             print data[str(int(ct.number))]
             print "status",str2bool(data[str(int(ct.number))])
-            ct.status = str2bool(data[str(int(ct.number))])
+            ct.pass_status = str2bool(data[str(int(ct.number))])
             ct.save()
-        #cts.update(status=str2bool(data[str(int(F('number')))]))
         
         if submit:
             cts[0].train.sub_status=1

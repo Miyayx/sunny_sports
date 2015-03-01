@@ -130,7 +130,7 @@
                                         {% if train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                         <td class="center">
-                                            {% if ct.status %}
+                                            {% if ct.pass_status %}
                                             <input type="checkbox" checked="true" class="ace" name="{{ct.number}}">
                                             {% else %}
                                             <input type="checkbox" class="ace" name="{{ct.number}}">
@@ -222,7 +222,8 @@
                 });
                 $.post('/coach_org/score_input', d, function(data){
                     if(data['success']){
-                        $btn.closest('form').find('input:checkbox').attr("disabled",true);
+                        alert("已提交");
+                        location.reload();
                     }else{
                         alert("提交失败，请重试");
                     }

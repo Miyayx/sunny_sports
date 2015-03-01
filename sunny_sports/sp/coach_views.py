@@ -58,20 +58,20 @@ def train(req):
         lct = CoachTrain.objects.filter(coach=coach, train__level=1)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain, "ct": lct.latest("id") if len(lct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 1:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)
         mct = CoachTrain.objects.filter(coach=coach, train__level=2)
         mtrain = Train.objects.filter(level=2, reg_status=1)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain,"ct":mct.latest("id") if len(mct) > 0 else None}, RequestContext(req))
     elif coach.t_level == 2:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
-        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)
+        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)
         htrain = Train.objects.filter(level=3, reg_status=1)
         hct = CoachTrain.objects.filter(coach=coach, train__level=3)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain[0] if len(mtrain)>0 else None , "htrain":htrain, "ct":hct.latest("id") if len(hct) > 0 else None }, RequestContext(req))
     else:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status=3)
-        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status=3)
-        htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status=3)
+        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)
+        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)
+        htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status__gt=0)
         return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain[0] if len(mtrain) > 0 else None, "htrain":htrain[0] if len(htrain) > 0 else None}, RequestContext(req))
 
 @login_required()
@@ -190,15 +190,6 @@ def update_info(req):
     """
     if req.method == "POST":
         data = req.POST.copy()
-        #if not data.get("province"):
-        #    data["province"] = ""
-        #if not data.get("city"):
-        #    data["city"] = ""
-        #if not data.get("dist"):
-        #    data["dist"] = ""
-        #data["sex"] = int(data["sex"])
-        #data.pop("csrfmiddlewaretoken")
-        #data.pop("birth")
 
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=3)
@@ -210,11 +201,12 @@ def update_info(req):
 
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
-        cp.sex = int(data.get("sex"))
-        cp.avatar = data.get("avatar","")
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
-        #cp.birth = data.get("birth","")
+        if data.has_key('birth'):
+            cp.birth = data.get("birth")
         if data.has_key("company"):
             cp.company = data["company"]
         if data.has_key("province"):
@@ -230,13 +222,7 @@ def update_info(req):
             ur.save()
         except:
             return JsonResponse({'success':False})
-        #c = CoachPropertyForm(instance=cp, data=data)
-        #print data
-        #if c.is_valid():
-        #    c.save()
         return JsonResponse({'success':True})
-        #else:
-        #    return JsonResponse({'success':False})
 
 
 class UserForm(forms.Form):
