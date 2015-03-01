@@ -457,7 +457,11 @@
                 }
                 },
                 error: function(errors) {
-                    alert("网络错误，请刷新页面后重试");
+                    var info = "";
+                    for(var k in errors){
+                        info += (k+":  "+errors[k]+"\n");
+                    }
+                    alert(info);
                 } 
             });
         });
