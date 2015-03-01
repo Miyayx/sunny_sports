@@ -75,7 +75,7 @@ def regist(req):
 
         role = req.POST.get('role2').strip()
         r_id = get_role_id(role)
-        user = MyUser.objects.create_user(phone = phone, nickname=None, email=None, role=r_id, password = password)
+        user = MyUser.objects.create_user(phone = phone, nickname="", email="", role=r_id, password = password)
         u = authenticate(username=phone, password=password)#用django自带函数检验
         if u is not None:
             # the password verified for the user

@@ -26,8 +26,8 @@ class StudentProperty(PersonProperty):
     """
     继承于PersonProperty
     """
-    height = models.IntegerField(null=True)
-    weight = models.IntegerField(null=True)
+    height = models.IntegerField(null=True, default=0)
+    weight = models.IntegerField(null=True, default=0)
     company = models.CharField(max_length=50, blank=True)
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
