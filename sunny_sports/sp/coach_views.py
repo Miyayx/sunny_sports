@@ -238,3 +238,14 @@ def update_info(req):
         #else:
         #    return JsonResponse({'success':False})
 
+@login_required()
+@transaction.atomic
+def update_img(request):
+    if request.method == "POST":
+        uuid = request.user.id
+        
+        headImg = uf.cleaned_data['headImg']
+        coach = Coach.objects.get(property__user_id=uuid)
+        coach.property.avatar = headImg
+        coach.property.save()
+        return HttpResponse('upload ok!')

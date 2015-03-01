@@ -53,18 +53,25 @@
                         <div class="tab-content profile-edit-tab-content">
                             <div id="edit-basic" class="tab-pane in active">
                                 <h4 class="header blue bolder smaller">基本信息</h4>
-                                <form class="form-horizontal">
-                                    <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
-                                    <div class="row">
+                                <div class="row">
                                         <div class="col-xs-12 col-sm-offset-1 col-sm-4 ">
                                             <span class="profile-picture">
-                                                {% if coach.property.photo and coach.property.photo|length > 0 %}
+                                                <img src="{{coach.property.avatar}}" alt="点击更换头像" class="myeditable img-responsive" id="avatar" />
+                                                <!-- {% if coach.property.photo and coach.property.photo|length > 0 %}
                                                 <img src="{{coach.property.avatar}}" alt="点击更换头像" class="myeditable img-responsive" id="avatar" />
                                                 {% else %}
                                                 <img src="" alt="点击更换头像" class="myeditable img-responsive" id="avatar" />
-                                                {% endif %}
+                                                {% endif %} -->
                                             </span>
+                                            <form action="/coach/up_img" method="post" enctype="multipart/form-data" >
+												{% csrf_token %}
+												<input type="file" name="headImg"/>
+												<input type="submit" value="上传"/>
+											</form>
                                         </div>
+                                <form class="form-horizontal">
+                                    <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
+                                    
                                         <div class="vspace-12-sm"></div>
                                         <div class="col-xs-12 col-sm-7">
                                             <div class="form-group">

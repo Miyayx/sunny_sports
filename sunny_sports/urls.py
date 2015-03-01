@@ -80,5 +80,5 @@ urlpatterns += patterns('sunny_sports.sp.coach_views',
         url(r'^coach/train/reg_cancel$', 'reg_cancel'),
         url(r'^coach/train/payment$', 'payment'),
         url(r'^coach/up_info$', 'update_info'),
-
+        url(r'^coach/up_img$', 'update_img'),
         )
