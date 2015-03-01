@@ -59,10 +59,15 @@ def check_pass(req):
             Train.objects.filter(id=t_id).update(pub_status=1)
             Train.objects.filter(id=t_id).update(sub_status=1)
             # generate certificate
-            ns = req.POST.get("cert",{}).keys() #get number list获得审核通过的学号列表 
+            ns = json.loads(req.POST.get("cert","")).keys() #get number list获得审核通过的学号列表 
+            #not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
             pass_c_t = CoachTrain.objects.filter(number__in=ns, train_id=t_id)            
-            not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
-            pass_c_t.update(certificate=str(t_id)+str(F('number')))
+            if len(pass_c_t):
+                #pass_c_t.update(certificate="%s%d"%(t_id,F('number')))
+                pass_c_t.update(certificate=t_id+F('number'))
+                coach = pass_c_t[0].coach
+                coach.t_level = F('t_level')+1
+                coach.save()
 
             # 发布消息通知
             title = u"考试结果"
@@ -81,15 +86,14 @@ def history_view(req):
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
         if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
-            c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
+            c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1, status__gt=0)
             if len(c_t) > 0:
                 train = c_t[0].train
                 return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train, "base":"./centre/base.html"})
             else:
                 return HttpResponse("<h2>没有该课程的历史信息</h2>")
         else:#否则返回课程列表
-            c_t = CoachTrain.objects.filter(train__pub_status=1) #这里查的是Train的status，是联合两个表的查询，用两个_
-            ctlist = [i.train for i in c_t]
+            ctlist = Train.objects.filter(pub_status=1) 
             jtlist = []
             return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
 
