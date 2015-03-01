@@ -201,7 +201,7 @@ def password(req):
 def download_excel(req):
     t_id = req.GET.get("t_id",0)
     if t_id:
-        coachtrains = CoachTrain.objects.filter(train_id=t_id)
+        coachtrains = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
         train = coachtrains[0].train
         if train.pub_status: #如果已经发布，包括是否通过，证书号
             fields = [u"学员姓名", u"学号", u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"证书编号"]

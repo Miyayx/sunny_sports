@@ -43,10 +43,12 @@ def home(req):
     cts = CoachTrain.objects.filter(coach=coach)
     if len(cts):
         ct = cts.latest('id')
+        t_count = -1
     else:
+        t_count = Train.objects.filter(level=coach.t_level+1, reg_status = 1).count()
         ct = None
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
 
 @login_required()
 def train(req):
@@ -100,7 +102,8 @@ def info_confirm(req):
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
         cp = coach.property
         cp.name = data.get("name","")
-        cp.sex = int(data.get("sex"))
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
         if data.has_key("birth"):
@@ -146,13 +149,11 @@ def reg_cancel(req):
     """
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
-        #ct = CoachTrain.objects.filter(id=ct_id).update(status=0, train_cur_num=F('train_cur_num') - 1)
         ct = CoachTrain.objects.get(id=ct_id)
         ct.status = 0
         ct.train.cur_num = ct.train.cur_num - 1
         ct.train.save()
-        ct.save()
-        #Train.objects.filter(id=ct.train.id).update(cur_num=F('cur_num') - 1)
+        ct.delete()
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
@@ -210,11 +211,13 @@ def update_info(req):
 
         cp = CoachProperty.objects.get(user_id=uuid)
         cp.name = data.get("name","")
-        cp.sex = int(data.get("sex"))
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
         cp.avatar = data.get("avatar","")
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
-        #cp.birth = data.get("birth","")
+        if data.has_key("birth"):
+            cp.birth = data["birth"]
         if data.has_key("company"):
             cp.company = data["company"]
         if data.has_key("province"):
@@ -230,13 +233,7 @@ def update_info(req):
             ur.save()
         except:
             return JsonResponse({'success':False})
-        #c = CoachPropertyForm(instance=cp, data=data)
-        #print data
-        #if c.is_valid():
-        #    c.save()
         return JsonResponse({'success':True})
-        #else:
-        #    return JsonResponse({'success':False})
 
 @login_required()
 @transaction.atomic

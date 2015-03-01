@@ -177,9 +177,8 @@ def add_member(req):
 def del_member(req):
 
     if req.method == "POST":
-        t_id = req.POST.get("t_id")
-        num = req.POST.get("num")
-        ct = CoachTrain.objects.get(train_id=t_id, number=num)        
+        ct_id = req.POST.get("ct_id")
+        ct = CoachTrain.objects.get(id=ct_id)
         ct.train.cur_num = ct.train.cur_num - 1
         ct.train.save()
         ct.delete()
