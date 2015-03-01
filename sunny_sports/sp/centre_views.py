@@ -61,7 +61,7 @@ def check_pass(req):
             # generate certificate
             ns = json.loads(req.POST.get("cert","")).keys() #get number list获得审核通过的学号列表 
             #not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
-            pass_c_t = CoachTrain.objects.filter(number__in=ns, train_id=t_id)            
+            pass_c_t = CoachTrain.objects.filter(number__in=ns, train_id=t_id, status__gt=0)            
             if len(pass_c_t):
                 #pass_c_t.update(certificate="%s%d"%(t_id,F('number')))
                 pass_c_t.update(certificate=t_id+F('number'))
