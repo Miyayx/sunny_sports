@@ -129,52 +129,16 @@
 
                                     </div>
                                     <hr />
-                                    <form>
+                                    </form>
                                     </div>
                                     <div id="edit-password" class="tab-pane">
                                         <h4 class="header blue bolder smaller">密码修改</h4>
                                         <div class="space-10"></div>
 
-                                        <form class="form-horizontal">
-                                            {% include "password.html" %}
-                                            {% csrf_token %}
-                                            <!--
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right"
-                                                    for="form-field-pass1">新密码</label>
-
-                                                <div class="col-sm-9">
-                                                    <input type="password" id="form-field-pass1" />
-                                                </div>
-                                            </div>
-
-                                            <div class="space-4"></div>
-
-                                            <div class="form-group">
-                                                <label class="col-sm-3 control-label no-padding-right"
-                                                    for="form-field-pass2">确认密码</label>
-
-                                                <div class="col-sm-9">
-                                                    <input type="password" id="form-field-pass2" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="clearfix form-actions">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button class="btn btn-info" type="button">
-                                            <i class="ace-icon fa fa-check bigger-110"></i> Save
-                                        </button>
-
-                                        <button class="btn" type="reset">
-                                            <i class="ace-icon fa fa-undo bigger-110"></i> Reset
-                                        </button>
-                                    </div>
-                                </div>
-                                -->
-                            </form>
+                                        {% include "password.html" with csrf_token=csrf_token %}
+                                    </div> <!-- #edit-password -->
+                                </div> <!-- tab-content -->
+                            </div> <!-- tab-babble -->
                         </div>
                         <!-- /.span -->
                     </div>
@@ -185,157 +149,117 @@
             <!-- /.col -->
         </div>
         <!-- /.row -->
-        <!-- /.main-content -->
-        <a href="#" id="btn-scroll-up"
-            class="btn-scroll-up btn btn-sm btn-inverse"> <i
-                class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-        </a>
-    </div>
-    <!-- /.main-container -->
-    {% endblock %}
+        {% endblock %}
 
-    {% block script %}
-    {{ block.super }}
-    <!-- page specific plugin scripts -->
+        {% block script %}
+        {{ block.super }}
+        <!-- page specific plugin scripts -->
 
-    <!--[if lte IE 8]>
-    <script src="../../static/js/excanvas.min.js"></script>
-    <![endif]-->
-    <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
-    <script src="../../static/js/x-editable/ace-editable.min.js"></script>
-    <script src="../../static/js/jquery.maskedinput.min.js"></script>
-    <script src="../../static/custom/myaddress.js"></script>
+        <!--[if lte IE 8]>
+        <script src="../../static/js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+        <script src="../../static/js/x-editable/ace-editable.min.js"></script>
 
-    <!-- ace scripts -->
-    <script type="text/javascript">
-        jQuery(function($) {
+        <script src="../../static/custom/myaddress.js"></script>
+        <script src="../../static/custom/validate.js"></script>
 
-            //editables on first profile page
-            $.fn.editable.defaults.mode = 'inline';
-            $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
-            $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
-                '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
 
-            //editables 
+        <!-- ace scripts -->
+        <script type="text/javascript">
+            jQuery(function($) {
 
-            //text editable
-            $('#token')
-            .editable({
-                value:'{{csrf_token}}',
-                type: 'text',
-                name: 'csrfmiddlewaretoken'
+                //editables on first profile page
+                $.fn.editable.defaults.mode = 'inline';
+                $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+                $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+                    '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
+
+                //editables 
+
+                //text editable
+                $('#token')
+                .editable({
+                    value:'{{csrf_token}}',
+                    type: 'text',
+                    name: 'csrfmiddlewaretoken'
+                });
+                $('#orgname')
+                .editable({
+                    type: 'text',
+                    name: 'orgname'
+                });        
+                $('#email')
+                .editable({
+                    type: 'text',
+                    name: 'email'
+                });	
+                $('#phone')
+                .editable({
+                    type: 'text',
+                    name: 'phone'
+                });	
+                $('#phone').editable('option', 'validate', function(v) {
+                    if(!v) return 'Required field!';
+                });
+
+                //select2 editable
+                // *** editable avatar *** //
+                try {//ie8 throws some harmless exceptions, so let's catch'em
+
+                    //first let's add a fake appendChild method for Image element for browsers that have a problem with this
+                    //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+                    try {
+                        document.createElement('IMG').appendChild(document.createElement('B'));
+                    } catch(e) {
+                        Image.prototype.appendChild = function(el){}
+                    }
+                }catch(e) {}
+
+
+                ///////////////////////////////////////////
+                /* ref by gll 20150205
+                //right & left position
+                //show the user info on right or left depending on its position
+                $('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
+                var $this = $(this);
+                var $parent = $this.closest('.tab-pane');
+
+                var off1 = $parent.offset();
+                var w1 = $parent.width();
+
+                var off2 = $this.offset();
+                var w2 = $this.width();
+
+                var place = 'left';
+                if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) place = 'right';
+
+                $this.find('.popover').removeClass('right left').addClass(place);
+                }).on('click', function(e) {
+                e.preventDefault();
+                });
+                */
+
             });
-            $('#orgname')
-            .editable({
-                type: 'text',
-                name: 'orgname'
-            });        
-            $('#email')
-            .editable({
-                type: 'text',
-                name: 'email'
-            });	
-            $('#phone')
-            .editable({
-                type: 'text',
-                name: 'phone'
-            });	
-            $('#phone').editable('option', 'validate', function(v) {
-                if(!v) return 'Required field!';
+
+            // click save btn
+            $('#save-btn').click(function() {
+                $('.myeditable').editable('submit', { 
+                    url: '/coach_org/up_info', 
+                    ajaxOptions: {
+                        dataType: 'json' //assuming json response
+                    },           
+                    success: function(data) {
+                        if(data && data.success)
+                            $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
+                    },
+                    error: function(errors) {
+                        $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
+                    } 
+                });
             });
 
-            //select2 editable
-            // *** editable avatar *** //
-            try {//ie8 throws some harmless exceptions, so let's catch'em
+        </script>
+        <!-- basic scripts -->
 
-                //first let's add a fake appendChild method for Image element for browsers that have a problem with this
-                //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
-                try {
-                    document.createElement('IMG').appendChild(document.createElement('B'));
-                } catch(e) {
-                    Image.prototype.appendChild = function(el){}
-                }
-            }catch(e) {}
-
-
-            ///////////////////////////////////////////
-            /* ref by gll 20150205
-            //right & left position
-            //show the user info on right or left depending on its position
-            $('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
-            var $this = $(this);
-            var $parent = $this.closest('.tab-pane');
-
-            var off1 = $parent.offset();
-            var w1 = $parent.width();
-
-            var off2 = $this.offset();
-            var w2 = $this.width();
-
-            var place = 'left';
-            if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) place = 'right';
-
-            $this.find('.popover').removeClass('right left').addClass(place);
-            }).on('click', function(e) {
-            e.preventDefault();
-            });
-            */
-
-            ///////////////////////////////////////////
-            $('#user-profile-3')
-            .find('input[type=file]').ace_file_input({
-                style:'well',
-                btn_choose:'Change avatar',
-                btn_change:null,
-                no_icon:'ace-icon fa fa-picture-o',
-                thumbnail:'large',
-                droppable:true,
-
-                allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-                allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-            })
-            .end().find('button[type=reset]').on(ace.click_event, function(){
-                $('#user-profile-3 input[type=file]').ace_file_input('reset_input');
-            })
-            .end();
-            $('.input-mask-phone').mask('(999) 999-9999');
-
-        });
-
-        // click save btn
-        $('#save-btn').click(function() {
-            $('.myeditable').editable('submit', { 
-                url: '/coach_org/up_info', 
-                ajaxOptions: {
-                    dataType: 'json' //assuming json response
-                },           
-                success: function(data) {
-                    if(data && data.success)
-                        $("#save-msg").removeClass("text-error").addClass("text-success").html("已保存")
-                },
-                error: function(errors) {
-                    $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
-                } 
-            });
-        });
-
-        // $('#submit-btn').click(function(){
-            //   if($("password").val() == $("password2").val()){
-                //     data = $("pwd-from").serialize();
-                //     $.post("password", data, function(res){
-                    //       if(res["success"]){
-                        //         alert("已更新密码");
-                        //     }else{
-                            //         alert("更新密码失败");
-                            //     }
-                            //     
-       //     });
-       // }else{
-           //   alert("")
-           // }
-       // });
-
-    </script>
-    <!-- basic scripts -->
-
-    {% endblock %}
+        {% endblock %}

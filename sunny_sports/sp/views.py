@@ -155,7 +155,7 @@ def reset_password(req):
     if req.method == 'POST':
         u = MyUser.objects.get(id=req.POST['uuid'])
         if not req.POST["password"] == req.POST["password2"]:
-            return JsonResponse({"success":False,"msg":u"密码不一致"}) 
+            return JsonResponse({"success":False,"msg":u"新密码不一致"}) 
 
         new_pw = req.POST["password"]
         u.set_password(new_pw)
@@ -176,7 +176,7 @@ def password(req):
             if pw == req.POST['password']:
                 return JsonResponse({"success":False,"msg":u"原密码与新密码相同"}) 
             if not req.POST["password"] == req.POST["password2"]:
-                return JsonResponse({"success":False,"msg":u"密码不一致"}) 
+                return JsonResponse({"success":False,"msg":u"新密码不一致"}) 
 
             # 用手机短信验证码确认身份
             #c = Code.objects.get(phone = u.phone).latest('time')

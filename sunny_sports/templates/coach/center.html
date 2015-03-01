@@ -220,6 +220,7 @@
                             </div>
 
                             <div id="edit-password" class="tab-pane row">
+                                <h4 class="header blue bolder smaller">密码修改</h4>
                                 <div class="space-10"></div>
                                 {% include "password.html" with csrf_token=csrf_token %}
                             </div> <!-- #edit-password -->
@@ -452,9 +453,9 @@
                 },           
                 success: function(data) {
                     if(data && data.success){
-                    alert("已保存");
-                    location.reload();
-                }
+                        alert("已保存");
+                        location.reload();
+                    }
                 },
                 error: function(errors) {
                     var info = "";
