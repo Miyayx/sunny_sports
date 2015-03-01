@@ -28,7 +28,7 @@ urlpatterns = patterns('',
         url(r'^msg$','sunny_sports.sp.views.get_msg'),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
-
+        url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'media')}),
         url(r'^admin/', include(admin.site.urls)),
         )
 
