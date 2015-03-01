@@ -84,8 +84,8 @@ class MyUserManager(BaseUserManager):
 class MyUser(AbstractBaseUser):
     id = models.CharField(primary_key=True, max_length=40, db_index=True)
     role = models.ManyToManyField(Role, through='UserRole')
-    nickname = models.CharField(max_length=255, unique=True, null=True, blank=True)
-    email    = models.EmailField(max_length=255, blank=True, unique=True)
+    nickname = models.CharField(max_length=255, unique=True, null=True)
+    email    = models.EmailField(max_length=255, unique=True, null=True)
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
     #password = models.CharField(max_length=64) #password 在abstract class里有
 
