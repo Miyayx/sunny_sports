@@ -68,7 +68,7 @@
                                     <div>
                                         <div class="profile-info-name">出生日期</div>
                                         <div class="profile-info-value">
-                                            <span class="myeditable editable editable-click" id="birth">{{coach.property.birth}}</span>
+                                            <span class="myeditable editable editable-click" id="birth" data-type="combodate" data-template="YYYY-MM-DD" data-format="YYYY-MM-DD" data-viewformat="YYYY-MM-DD">{{coach.property.birth}}</span>
                                         </div>
                                     </div>
 
@@ -173,6 +173,8 @@
         <![endif]-->
         <script src="../../static/js/ace/elements.fileinput.js"></script>
         <script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
+        <script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
+        <script src="../../static/js/date-time/moment.min.js"></script>
         <script src="../../static/js/select2.min.js"></script>
         <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
         <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
@@ -216,11 +218,13 @@
                 });
                 $('#birth').editable({
                     type: 'adate',
+                    name: 'birth',
                     date: {
                         //datepicker plugin options
+                        weekStart: 1,
                         format: 'yyyy-mm-dd',
                         viewformat: 'yyyy-mm-dd',
-                        weekStart: 1
+                        language:"zh-CN" //要引用 bootstrap-datepicker.zh-CN.js
                     }
                 })
                 $('#email')

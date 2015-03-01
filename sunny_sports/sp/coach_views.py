@@ -117,15 +117,17 @@ def info_confirm(req):
             cp.address = data.get("address","")
 
         ct = CoachTrain(coach=coach, train=Train.objects.get(id=t_id), status=1) #未缴费状态
-        Train.objects.filter(id=t_id).update(cur_num=F('cur_num') + 1)
+        ct.train.cur_num = F('cur_num') + 1
         #tomorrow = datetime.utcnow() + timedelta(days=1)
         #tomorrow = datetime.utcnow() + timedelta(minute=5)
         #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
 
         try:
+            ct.train.save()
             ct.save()
             cp.save()
-        except:
+        except Exception,e:
+            print e
             return JsonResponse({ 'success':False })
         return JsonResponse({ 'success':True })
         #return HttpResponseRedirect('/coach/train/payment?ct_id=%s'%ct.id)
@@ -139,12 +141,16 @@ def info_confirm(req):
 @login_required()
 @transaction.atomic
 def reg_cancel(req):
+    """
+    取消报名
+    """
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
         #ct = CoachTrain.objects.filter(id=ct_id).update(status=0, train_cur_num=F('train_cur_num') - 1)
         ct = CoachTrain.objects.get(id=ct_id)
         ct.status = 0
         ct.train.cur_num = ct.train.cur_num - 1
+        ct.train.save()
         ct.save()
         #Train.objects.filter(id=ct.train.id).update(cur_num=F('cur_num') - 1)
         return JsonResponse({'success':True})
