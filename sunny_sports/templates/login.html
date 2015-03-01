@@ -193,7 +193,7 @@
                         <fieldset>
 
                           {% include "components/register/phone.html"%}
-                          {% include "components/register/v_code.html"%}
+                              {% include "components/register/v_code.html" with btn_id="pwd-code-btn"%}
 
                           <div class="clearfix">
                             <button type="button" id="find-pwd" class="width-35 pull-right btn btn-sm btn-danger">
@@ -252,7 +252,7 @@
 
                               {% include "components/register/phone.html"%}
                               {% include "components/register/password.html"%}
-                              {% include "components/register/v_code.html"%}
+                              {% include "components/register/v_code.html" with btn_id="reg-code-btn"%}
 
                               <label class="block">
                                 <input required="required" type="checkbox" class="ace" />

@@ -11,57 +11,58 @@
 <label class="block clearfix">
   <span class="block input-icon input-icon-right">
     <input required="required" rule="required|number|min:6" type="verify" class="form-control" name="v_code" placeholder="短信验证码" >
-    <button type="button" class="btn btn-sm btn-inverse" id="v-btn" style="float:right; margin-top:-34px">获取验证码</button>
+    <button type="button" class="btn btn-sm btn-inverse" id="{{btn_id}}"  style="float:right; margin-top:-34px">获取验证码</button>
     </input>
   </span>
 </label>
 
 <script src='../../static/js/jquery.min.js'></script>
-<script type="text/javascript">
-  jQuery(function(){
-    //var get_captcha = function(){
-      //  $.get('/get_captcha',function(res){
-        //    $('captcha').attr('src', res['url']);
-  //  });
-  //}
+<script>
+jQuery(function() {
+	//var get_captcha = function(){
+	//  $.get('/get_captcha',function(res){
+	//    $('captcha').attr('src', res['url']);
+	//  });
+	//}
+	//get_captcha();
+	//$('#captcha').click(function(){
+	//  get_captcha();
+	//});
+	var wait = 60; //时间 
+	function time(o, p) { //o为按钮的对象，p为可选，这里是60秒过后，提示文字的改变 
+		if (wait == 0) {
+			o.removeAttr("disabled");
+			o.html("获取验证码"); //改变按钮中value的值 
+			wait = 60;
+		} else {
+			o.attr("disabled", true); //倒计时过程中禁止点击按钮 
+			o.html(wait + "秒后重新获取"); //改变按钮中value的值 
+			wait--;
+			setTimeout(function() {
+				time(o, p); //循环调用 
+			},
+			1000);
+		}
+	}
 
-  //get_captcha();
-
-  //$('#captcha').click(function(){
-    //  get_captcha();
-  //});
-
-  var wait=60;//时间 
-  function time(o,p) {//o为按钮的对象，p为可选，这里是60秒过后，提示文字的改变 
-    if (wait == 0) { 
-      o.removeAttr("disabled"); 
-      o.html("获取验证码");//改变按钮中value的值 
-      wait = 60; 
-    } else { 
-      o.attr("disabled", true);//倒计时过程中禁止点击按钮 
-      o.html(wait + "秒后重新获取");//改变按钮中value的值 
-      wait--; 
-      setTimeout(function() { 
-        time(o,p);//循环调用 
-      }, 1000); 
-    } 
-  } 
-
-  $("#v-btn").click(function(){
-    $btn = $(this);
-    phone=$(this).closest("form").find("input[name=phone]");
-    if(phone.val().length==0){
-      phone.closest(".form-group").addClass("has-error");
-    }else{
-      $.post( "/vcode", {"phone":phone.val()}, function(data) {
-        if(data['msg']=='ok'){
-          time($btn, null);
-        }else{
-          $btn.html("请重试");
-        }
-      });
-    }
-  });
-  });
+  $("#{{btn_id}}").click(function() {
+		$btn = $(this);
+		phone = $(this).closest("form").find("input[name=phone]");
+		if (phone.val().length == 0) {
+			phone.closest(".form-group").addClass("has-error");
+		} else {
+			$.post("/vcode", {
+				"phone": phone.val()
+			},
+			function(data) {
+				if (data['msg'] == 'ok') {
+					time($btn, null);
+				} else {
+					$btn.html("请重试");
+				}
+			});
+		}
+	});
+});
 
 </script>
