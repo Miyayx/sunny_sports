@@ -74,6 +74,7 @@ def train_publish(req):
             t.save()
             return JsonResponse({'success':True})
         else:
+            print t.errors
             return JsonResponse({'success':False})
         
     else:

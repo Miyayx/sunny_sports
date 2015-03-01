@@ -211,19 +211,19 @@
 
         $('#reg-start').datetimepicker({
             lang:'zh',
-            format:'Y.m.d H:i'
+            format:'Y-m-d H:i'
         }).next().on(ace.click_event, function(){
             $(this).prev().focus();
         });
         $('#reg-end').datetimepicker({
             lang:'zh',
-            format:'Y.m.d H:i'
+            format:'Y-m-d H:i'
         }).next().on(ace.click_event, function(){
             $(this).prev().focus();
         });
         $('#train-start').datetimepicker({
             lang:'zh',
-            format:'Y.m.d',
+            format:'Y-m-d',
             timepicker:false
         }).next().on(ace.click_event, function(){
             $(this).prev().focus();

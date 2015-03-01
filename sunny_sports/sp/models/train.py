@@ -34,8 +34,8 @@ class Train(models.Model):
     limit = models.IntegerField() #人数上限
     cur_num = models.IntegerField(default=0) #当前报名人数
     money = models.IntegerField() #费用
-    reg_stime = models.DateField() #报名开始时间
-    reg_etime = models.DateField() #报名截止时间
+    reg_stime = models.DateTimeField() #报名开始时间
+    reg_etime = models.DateTimeField() #报名截止时间
     train_stime = models.DateField() #培训开始时间
     train_etime = models.DateField(null=True) #培训结束时间
     reg_status = models.IntegerField(choices=REG_STATUS, default=0) #报名状态
