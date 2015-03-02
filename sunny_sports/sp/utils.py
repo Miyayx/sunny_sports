@@ -33,7 +33,10 @@ def send_vcode(mobile):
     return result,vcode
 
 def check_vcode(phone, vcode):
-    c = Code.objects.filter(phone = phone).latest('time')
+    cs = Code.objects.filter(phone = phone)
+    if not len(cs):
+        return False,"验证码错误"
+    c = cs.latest('time')
     print "c.code:",c.code
     print "vcode",vcode
     if c.code == vcode:

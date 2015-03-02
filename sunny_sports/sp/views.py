@@ -54,9 +54,8 @@ def get_msg(req):
         return HttpResponse(html)
     return None
 
-@require_http_methods(["POST"])
 @transaction.atomic
-def regist(req):
+def signup(req):
     if req.method == 'POST':
         req.session.clear()
         phone = req.POST.get('phone')
@@ -67,11 +66,11 @@ def regist(req):
         p, msg = check_vcode(phone, v_code)
         if not p:
             messages.error(req, msg,extra_tags='regist')
-            return render_to_response('login.html', context_instance=RequestContext(req))
+            return HttpResponseRedirect('signup#signup-box')
         #检验密码是否一致
         if not password == password2:
             messages.error(req, u"两次密码输入不一致",extra_tags='regist')
-            return render_to_response('login.html', context_instance=RequestContext(req))
+            return HttpResponseRedirect('signup#signup-box')
 
         role = req.POST.get('role2').strip()
         r_id = get_role_id(role)
@@ -83,9 +82,9 @@ def regist(req):
                 login(req,u) #django自带的login将userid写入session,这步之前一定有authenticate
                 return HttpResponseRedirect('/%s'%role)
         messages.error(req, u"用户身份验证错误",extra_tags='regist')
-        return render_to_response('login.html', context_instance=RequestContext(req))
+        return HttpResponseRedirect('signup#signup-box')
     else:
-        return render_to_response('login.html')
+        return render_to_response('login.html', context_instance=RequestContext(req))
 
 @transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
@@ -147,7 +146,8 @@ def find_password(req) :
             return HttpResponseRedirect('reset_password?phone='+phone)
         else:
             messages.error(req, "验证码错误")
-            return render_to_response("login.html", context_instance=RequestContext(req))
+            #return render_to_response("login.html#forgot-box", context_instance=RequestContext(req))
+            return HttpResponseRedirect('/#forgot-box')
     else:
         return render_to_response("login.html", context_instance=RequestContext(req))
 
