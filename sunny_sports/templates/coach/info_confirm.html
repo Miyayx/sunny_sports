@@ -219,7 +219,9 @@
                             if(data && data.success){
                                 alert("报名成功");
                                 window.location.href="/coach/train";
-                            }
+                        }else{
+                            alert(data.msg);
+                        }
                         },
                         error: function(errors) {
                             var info = "";

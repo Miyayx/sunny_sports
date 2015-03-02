@@ -5,11 +5,11 @@ $.getJSON('../../static/custom/city.json', function(data) {
 });
 $('#province').editable({
     name: 'province',
-    validate: function(v) {
-        if ($.trim(v) == '') {
-            return '必填项';
-        }
-    },
+    //validate: function(v) {
+    //    if ($.trim(v) == '') {
+    //        return '必填项';
+    //    }
+    //},
     source: function() {
         a = Array();
         Object.keys(citylist).forEach(function(v) {
@@ -23,11 +23,11 @@ $('#province').editable({
 });
 $('#city').editable({
     name: 'city',
-    validate: function(v) {
-        if ($.trim(v) == '') {
-            return '必填项';
-        }
-    },
+    //validate: function(v) {
+    //    if ($.trim(v) == '') {
+    //        return '必填项';
+    //    }
+    //},
     source: function() {
         var k = $('#province').html().trim();
         if (k != "Empty") {
@@ -46,11 +46,11 @@ $('#city').editable({
 });
 $('#dist').editable({
     name: 'dist',
-    validate: function(v) {
-        if ($.trim(v) == '') {
-            return '必填项';
-        }
-    },
+    //validate: function(v) {
+    //    if ($.trim(v) == '') {
+    //        return '必填项';
+    //    }
+    //},
     source: function() {
         var k = $('#province').html().trim();
         var j = $('#city').html().trim();
