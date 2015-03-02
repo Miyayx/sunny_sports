@@ -153,18 +153,32 @@ def find_password(req) :
 
 def reset_password(req):
     if req.method == 'POST':
-        u = MyUser.objects.get(id=req.POST['uuid'])
-        if not req.POST["password"] == req.POST["password2"]:
-            return JsonResponse({"success":False,"msg":u"新密码不一致"}) 
+        phone = req.POST['phone']
+        pds = PasswordDigitalSignature.objects.filter(phone = phone).latest('time')
+        if pds.signature == req.POST['signature']:
+            now = timezone.now()
+            if pds.time < timezone.now() and pds.time + datetime.timedelta(0,900) > timezone.now(): #当前时间要在c.time与c.time+15min之间
+                u = MyUser.objects.get(phone=req.POST['phone'])
+                if not req.POST["password"] == req.POST["password2"]:
+                    return JsonResponse({"success":False,"msg":u"新密码不一致"}) 
 
-        new_pw = req.POST["password"]
-        u.set_password(new_pw)
-        u.save()
-        return JsonResponse({"success":True,"msg":u"密码已修改"}) 
+                new_pw = req.POST["password"]
+                u.set_password(new_pw)
+                u.save()
+                return JsonResponse({"success":True,"msg":u"密码已修改"}) 
+            else:
+                return JsonResponse({"success":False,"msg":u"网页超时"}) 
+        else:
+            return JsonResponse({"success":False,"msg":u"网页地址有误"}) 
+        
     else:
         phone = req.GET['phone']
         uuid = MyUser.objects.get(phone=phone).id
-        return render_to_response("reset_password.html",{"uuid":uuid}, context_instance=RequestContext(req))
+        key = str(timezone.now())+uuid
+        import sha
+        sig = sha.new(key).hexdigest()
+        PasswordDigitalSignature.objects.create(phone=phone, signature=sig)
+        return render_to_response("reset_password.html",{"signature":sig, "phone":phone}, context_instance=RequestContext(req))
 
 @login_required()
 def password(req):

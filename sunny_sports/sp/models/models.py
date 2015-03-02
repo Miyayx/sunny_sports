@@ -130,6 +130,14 @@ class Code(models.Model):
     class Meta:
         app_label='sp'
 
+class PasswordDigitalSignature(models.Model):
+    phone = models.CharField(max_length=15)
+    signature = models.CharField(max_length=200)
+    time = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        app_label='sp'
+
 class Message(models.Model):
     title = models.CharField(max_length=1000) #消息标题
     cont = models.CharField(max_length=3000)  #消息内容
