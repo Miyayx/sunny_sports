@@ -11,13 +11,13 @@ $('#province').editable({
     //    }
     //},
     source: function() {
-        a = Array();
-        Object.keys(citylist).forEach(function(v) {
+        var a = Array();
+        for(var v in citylist){
             a.push({
                 text: v,
                 value: v
             });
-        });
+        };
         return a;
     }
 });
@@ -29,15 +29,15 @@ $('#city').editable({
     //    }
     //},
     source: function() {
-        var k = $('#province').html().trim();
+        var k = $.trim($('#province').html());
         if (k != "Empty") {
             var a = Array();
-            Object.keys(citylist[k]).forEach(function(v, i) {
+            for(var v in citylist[k]){
                 a.push({
                     value: v,
                     text: v
                 });
-            });
+            };
             return a;
         } else {
             return {}
@@ -52,16 +52,16 @@ $('#dist').editable({
     //    }
     //},
     source: function() {
-        var k = $('#province').html().trim();
-        var j = $('#city').html().trim();
+        var k = $.trim($('#province').html());
+        var j = $.trim($('#city').html());
         if (k != "Empty" && j != "Empty") {
             var a = Array();
-            citylist[k][j].forEach(function(v, i) {
+            for(var v in citylist[k][j]){
                 a.push({
-                    value: v,
-                    text: v
+                    value: citylist[k][j][v],
+                    text: citylist[k][j][v]
                 });
-            });
+            };
             return a;
         } else {
             return {}
