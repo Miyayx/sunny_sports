@@ -32,6 +32,27 @@
         <!-- ace settings handler -->
         <script src="../../static/js/ace-extra.min.js"></script>
 
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+        <script type="text/javascript" src='../../static/js/jquery.min.js'></script>
+        <script src="../../static/js/jquery-ui.min.js"></script>
+        <script src="../../static/js/jquery-ui.custom.min.js"></script>
+        <script src="../../static/js/jquery.hotkeys.min.js"></script>
+        </script>
+        <script src="../../static/js/bootstrap.min.js"></script>
+
+        <!-- ace scripts -->
+        <script src="../../static/js/ace-elements.min.js"></script>
+        <script src="../../static/js/ace.min.js"></script>
+
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript" src='../../static/js/jquery1x.min.js'>
+        </script>
+        <![endif]-->
+
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
         <!--[if lte IE 8]>
@@ -131,26 +152,6 @@
 
         {% endblock %}
 
-        <!-- basic scripts -->
-
-        <!--[if !IE]> -->
-        <script type="text/javascript" src='../../static/js/jquery.min.js'></script>
-        <script src="../../static/js/jquery-ui.min.js"></script>
-        <script src="../../static/js/jquery-ui.custom.min.js"></script>
-        <script src="../../static/js/jquery.hotkeys.min.js"></script>
-        </script>
-        <script src="../../static/js/bootstrap.min.js"></script>
-
-        <!-- ace scripts -->
-        <script src="../../static/js/ace-elements.min.js"></script>
-        <script src="../../static/js/ace.min.js"></script>
-
-        <!-- <![endif]-->
-
-        <!--[if IE]>
-        <script type="text/javascript" src='../../static/js/jquery1x.min.js'>
-        </script>
-        <![endif]-->
         <script type="text/javascript">
             if('ontouchstart' in document.documentElement) 
                 document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
