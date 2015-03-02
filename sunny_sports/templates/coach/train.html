@@ -3,6 +3,11 @@
 {% block content%}
 {{ block.super }}
 
+{% load template_tags%}
+
+{% with "lmh" as level_tabs %}
+{% with "初中高" as level_labels %}
+
 <div class="page-header">
     <h1>培训管理</h1>
 </div>
@@ -10,26 +15,21 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
         <div class="tabbable">
-            <ul class="nav nav-tabs tab-color-blue" id="stu_test_tab">
-                <li {% ifequal coach.t_level 0 %}class="active"{% endifequal %}>
-                <a data-toggle="tab" href="#level-low">
-                    <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 初级
-                </a></li>
-                <li {% ifequal coach.t_level 1 %}class="active"{% endifequal %}>
-                <a data-toggle="tab" href="#level-middle">
-                    <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 中级
-                </a></li>
-                <li {% if coach.t_level > 1 %}class="active"{% endif %}>
-                <a data-toggle="tab" href="#level-high">
-                    <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i> 高级
+            <ul class="nav nav-tabs tab-color-blue" id="">
+                {% for i in items %}
+                <li {% ifequal coach.t_level i %}class="active"{% endifequal %}>
+                <a data-toggle="tab" href="#level-{{level_tabs|get:forloop.counter0}}">
+                    <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i>{{level_labels|get:forloop.counter0}}级 
                 </a>
                 </li>
+                {% endfor %}
             </ul>
 
             <div class="tab-content">
-                <div id="level-low" class="tab-pane {% ifequal coach.t_level 0 %}in active{% endifequal %}">
-                    <h2>初级</h2>
-                    {% ifnotequal coach.t_level 0 %}
+                {% for i in items %}
+                <div id="level-{{level_tabs|get:forloop.counter0}}" class="tab-pane {% ifequal coach.t_level i %}in active{% endifequal %}">
+                    <h2>{{level_labels|get:forloop.counter0}}级</h2>
+                    {% if coach.t_level > i  and old_cts|length %}
                     <div class="center">
                         <span class="label label-xlg label-success arrowed">已通过</span>
                     </div>
@@ -37,62 +37,66 @@
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-10">
+                            {% with old_cts|get:forloop.counter0 as old_ct %}
                             <ul class="list-unstyled spaced2">
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训名称：</b></font>
-                                &nbsp;{{ltrain.train.name}}<p/>
+                                &nbsp;{{old_ct.train.name}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>组织机构：</b></font>
-                                &nbsp;{{ltrain.train.org.name}}<p/>
+                                &nbsp;{{old_ct.train.org.name}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训时间：</b></font>
-                                &nbsp;{{ltrain.train.train_stime}}<p/>
+                                &nbsp;{{old_ct.train.train_stime}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训地点：</b></font>
-                                &nbsp;{{ltrain.train.address}}<p/>
+                                &nbsp;{{old_ct.train.address}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训级别：</b></font>
-                                &nbsp;{{ltrain.train.get_level_display}}<p/>
+                                &nbsp;{{old_ct.train.get_level_display}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训简介：</b></font>
-                                &nbsp;{{ltrain.train.demo}}<p/>
+                                &nbsp;{{old_ct.train.demo}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>报名时间：</b></font>
-                                &nbsp;{{ltrain.reg_time}}<p/>
+                                &nbsp;{{old_ct.reg_time}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>通过时间：</b></font>
-                                &nbsp;{{ltrain.get_time}}<p/>
+                                &nbsp;{{old_ct.get_time}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训学号：</b></font>
-                                &nbsp;{{ltrain.number}}<p/>
+                                &nbsp;{{old_ct.number}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>证书编号：</b></font>
-                                &nbsp;{{ltrain.certificate}}<p/>
+                                &nbsp;{{old_ct.certificate}}<p/>
                                 </li>
                             </ul>
+                            {% endwith %}
                         </div>
                     </div>
-                    {% endifnotequal %}
-                    {% ifequal coach.t_level 0 %}
+                    {% endif %}
+                    {% ifequal coach.t_level i %}
                     <div class="center">
-                        {% if not ltrain|length %}
-                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
+                        {% if ct and ct.status < 3 and ct.status > 0 and ct.train.reg_status == 2 %}
+                        <span class="label label-xlg label-primary arrowed arrowed-right">培训进行中</span>
                         {% elif ct and ct.status < 3 and ct.status > 0 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
+                        {% elif not trains|length %}
+                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
                         {% else %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">报名进行中</span>
                         {% endif %}
                     </div>
-                    {% if ltrain|length %}
+                    {% if ct or trains|length %}
                     <hr>
                     <div class="row">
                         <div class="col-sm-12">
@@ -107,7 +111,9 @@
                                         <th class="hidden-480">培训地点</th>
                                         <th>费用</th>
                                         <th class="hidden-480">名额</th>
+                                        {% if ct.train.reg_status == 1%}
                                         <th>报名</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 {% if ct and ct.status < 3 and ct.status > 0 %}
@@ -121,16 +127,18 @@
                                         <td class="hidden-480">{{ct.train.address}}</td>
                                         <td>{{ct.train.money}}</td>
                                         <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
+                                        {% if ct.train.reg_status == 1%}
                                         <td>
                                             <!--
                                             {% if ct.status == 1 %}<a class="btn btn-minier btn-primary">去付款</a>{% endif %}
                                             -->
                                             <a class="btn btn-minier btn-danger">取消报名</a></td>
+                                        {% endif %}
                                     </tr>
                                 </tbody>
                                 {% else %}
                                 <tbody>
-                                    {% for t in ltrain %}
+                                    {% for t in trains %}
                                     <tr>
                                         <td><a href="#">{{t.name}}</a></td>
                                         <td>{{t.org.name}}</td>
@@ -154,308 +162,53 @@
                     </div>
                     {% endif %}
                     {% endifequal %}
-                </div>
-                <div id="level-middle" class="tab-pane {% ifequal coach.t_level 1 %}in active{% endifequal %}">
-                    <h2>中级</h2>
-                    {% if coach.t_level > 1 %}
-                    <div class="center">
-                        <span class="label label-xlg label-success arrowed">已通过</span>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-10">
-                            <ul class="list-unstyled spaced2">
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训名称：</b></font>
-                                &nbsp;{{mtrain.train.name}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>组织机构：</b></font>
-                                &nbsp;{{mtrain.train.org.name}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训时间：</b></font>
-                                &nbsp;{{mtrain.train.train_stime}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训地点：</b></font>
-                                &nbsp;{{mtrain.train.address}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训级别：</b></font>
-                                &nbsp;{{mtrain.train.get_level_display}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训简介：</b></font>
-                                &nbsp;{{mtrain.train.demo}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>报名时间：</b></font>
-                                &nbsp;{{mtrain.reg_time}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>通过时间：</b></font>
-                                &nbsp;{{mtrain.get_time}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训学号：</b></font>
-                                &nbsp;{{mtrain.number}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>证书编号：</b></font>
-                                &nbsp;{{mtrain.certificate}}<p/>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% ifequal coach.t_level 1 %}
-                    <div class="center">
-                        {% if not mtrain|length %}
-                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
-                        {% elif ct and ct.status < 3 and ct.status > 0 %}
-                        <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
-                        {% else %}
-                        <span class="label label-xlg label-primary arrowed arrowed-right">报名进行中</span>
-                        {% endif %}
-                    </div>
-                    {% if mtrain|length %}
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>培训名称</th>
-                                        <th>培训机构</th>
-                                        <th>报名时间</th>
-                                        <th>截止时间</th>
-                                        <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
-                                        <th class="hidden-480">培训地点</th>
-                                        <th>费用</th>
-                                        <th class="hidden-480">名额</th>
-                                        <th>报名</th>
-                                    </tr>
-                                </thead>
-                                {% if ct and ct.status < 3 and ct.status > 0 %}
-                                <tbody>
-                                    <tr>
-                                        <td><a href="#">{{ct.train.name}}</a></td>
-                                        <td>{{ct.train.org.name}}</td>
-                                        <td>{{ct.train.reg_stime}}</td>
-                                        <td>{{ct.train.reg_etime}}</td>
-                                        <td>{{ct.train.train_stime}}</td>
-                                        <td class="hidden-480">{{ct.train.address}}</td>
-                                        <td>{{ct.train.money}}</td>
-                                        <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
-                                        <td>{% if ct.status == 1 %}<a class="btn btn-minier btn-primary">去付款</a>{% endif %}<a class="btn btn-minier btn-danger">取消报名</a></td>
-                                    </tr>
-                                </tbody>
-                                {% else %}
-
-                                <tbody>
-                                    {% for t in mtrain %}
-                                    <tr>
-                                        <td><a href="#">{{t.name}}</a></td>
-                                        <td>{{t.org.name}}</td>
-                                        <td>{{t.reg_stime}}</td>
-                                        <td>{{t.reg_etime}}</td>
-                                        <td>{{t.train_stime}}</td>
-                                        <td class="hidden-480">{{t.address}}</td>
-                                        <td>{{t.money}}</td>
-                                        <td class="hidden-480">{{t.cur_num}}/{{t.limit}}</td>
-                                        {% if t.cur_num < t.limit %}
-                                        <td><a class="btn btn-minier btn-info" href="/coach/train/info_confirm?t_id={{t.id}}">报名</a></td>
-                                        {% else %}
-                                        <td><a class="btn btn-minier btn-success">名额已满</a></td>
-                                        {% endif %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                                {% endif %}
-                            </table>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% endifequal %}
-                    {% if coach.t_level == 0 %}
+                    {% if coach.t_level < i %}
                     <div class="center">
                         <span class="label label-xlg label-light arrowed-in-right">未开始</span>
                     </div>
                     {% endif %}
                 </div>
-                <div id="level-high" class="tab-pane {% if coach.t_level > 1 %}in active{% endif %}">
-                    <h2>高级</h2>
-                    {% if coach.t_level == 3 %}
-                    <div class="center">
-                        <span class="label label-xlg label-success arrowed">已通过</span>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-10">
-                            <ul class="list-unstyled spaced2">
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训名称：</b></font>
-                                &nbsp;{{htrain.train.name}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>组织机构：</b></font>
-                                &nbsp;{{htrain.train.org.name}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训时间：</b></font>
-                                &nbsp;{{htrain.train.train_stime}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训地点：</b></font>
-                                &nbsp;{{htrain.train.address}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训级别：</b></font>
-                                &nbsp;{{htrain.train.get_level_display}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训简介：</b></font>
-                                &nbsp;{{htrain.train.demo}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>报名时间：</b></font>
-                                &nbsp;{{htrain.reg_time}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>通过时间：</b></font>
-                                &nbsp;{{htrain.get_time}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训学号：</b></font>
-                                &nbsp;{{htrain.number}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>证书编号：</b></font>
-                                &nbsp;{{htrain.certificate}}<p/>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% ifequal coach.t_level 2 %}
-                    <div class="center">
-                        {% if not htrain|length %}
-                        <span class="label label-xlg label-light arrowed-in-right">未开始</span>
-                        {% elif ct and ct.status < 3 and ct.status > 0 %}
-                        <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
-                        {% else %}
-                        <span class="label label-xlg label-primary arrowed arrowed-right">报名进行中</span>
-                        {% endif %}
-                    </div>
-                    {% if htrain|length %}
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            {% if htrain.length == 0 %}
-                            <span class="label label-xlg label-primary arrowed arrowed-right">my</span>
-                            {% endif %}
-                            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>培训名称</th>
-                                        <th>培训机构</th>
-                                        <th>报名时间</th>
-                                        <th>截止时间</th>
-                                        <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
-                                        <th class="hidden-480">培训地点</th>
-                                        <th>费用</th>
-                                        <th class="hidden-480">名额</th>
-                                        <th>报名</th>
-                                    </tr>
-                                </thead>
-
-                                {% if ct and ct.status < 3 and ct.status > 0 %}
-                                <tbody>
-                                    <tr>
-                                        <td><a href="#">{{ct.train.name}}</a></td>
-                                        <td>{{ct.train.org.name}}</td>
-                                        <td>{{ct.train.reg_stime}}</td>
-                                        <td>{{ct.train.reg_etime}}</td>
-                                        <td>{{ct.train.train_stime}}</td>
-                                        <td class="hidden-480">{{ct.train.address}}</td>
-                                        <td>{{ct.train.money}}</td>
-                                        <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
-                                        <td>{% if ct.status == 1 %}<a class="btn btn-minier btn-primary">去付款</a>{% endif %}<a class="btn btn-minier btn-danger">取消报名</a></td>
-                                    </tr>
-                                </tbody>
-                                {% else %}
-                                <tbody>
-                                    {% for t in htrain %}
-                                    <tr>
-                                        <td><a href="#">{{t.name}}</a></td>
-                                        <td>{{t.org.name}}</td>
-                                        <td>{{t.reg_stime}}</td>
-                                        <td>{{t.reg_etime}}</td>
-                                        <td>{{t.train_stime}}</td>
-                                        <td class="hidden-480">{{t.address}}</td>
-                                        <td>{{t.money}}</td>
-                                        <td class="hidden-480">{{t.cur_num}}/{{t.limit}}</td>
-                                        {% if t.cur_num < t.limit %}
-                                        <td><a class="btn btn-minier btn-info" href="/coach/train/info_confirm?t_id={{t.id}}">报名</a></td>
-                                        {% else %}
-                                        <td><a class="btn btn-minier btn-success">名额已满</a></td>
-                                        {% endif %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                                {% endif %}
-                            </table>
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% endifequal %}
-                    {% if coach.t_level < 2 %}
-                    <div class="center">
-                        <span class="label label-xlg arrowed-in-right label-light">未开始</span>
-                    </div>
-                    {% endif %}
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
+{% endwith %}
+{% endwith %}
 {% endblock %}
 
 {% block script %}
 <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
 <script type="text/javascript">
     $("td a.btn-primary").click(function(){
-        $.post("/coach/train/payment", 
-            {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
-            function(data){
-            });
-    });
-    $("td a.btn-danger").click(function(){
-        bootbox.dialog({
-            message: "确定取消报名？",
-            buttons: {
-                cancel: {
-                    label: "取消",
-                    className: "btn-default",
-                    callback: function() {
-                    }
-                },
-                main: {
-                    label: "确定",
-                    className: "btn-primary",
-                    callback: function() {
-                        $.post("/coach/train/reg_cancel", 
-                            {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
-                            function(data){
-                                if(data["success"])
-                                    location.reload();
-                            });
-                    }
-                }
-            }
+$.post("/coach/train/payment", 
+{"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+function(data){
+});
+});
+$("td a.btn-danger").click(function(){
+bootbox.dialog({
+message: "<h3>确定取消报名？</h3>",
+buttons: {
+    cancel: {
+        label: "取消",
+        className: "btn-default",
+        callback: function() {
+        }
+    },
+    main: {
+        label: "确定",
+        className: "btn-primary",
+        callback: function() {
+            $.post("/coach/train/reg_cancel", 
+                {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+                function(data){
+                    if(data["success"])
+                        location.reload();
+                });
+        }
+    }
+}
         });
 
     });

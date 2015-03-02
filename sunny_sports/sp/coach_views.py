@@ -41,38 +41,45 @@ def home(req):
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
     cts = CoachTrain.objects.filter(coach=coach)
+    t_count = Train.objects.filter(level=coach.t_level+1, reg_status = 1).count()
     if len(cts):
         ct = cts.latest('id')
     else:
         ct = None
+    print "t_count",t_count
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
 
 @login_required()
 def train(req):
     uuid = req.user.id # 用这个id查信息哦
     coach = Coach.objects.get(property__user_id=uuid)
 
+    old_cts = []
+    trains = None
     if coach.t_level == 0:
-        ltrain = Train.objects.filter(level=1, reg_status=1)
-        lct = CoachTrain.objects.filter(coach=coach, train__level=1)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain, "ct": lct.latest("id") if len(lct) > 0 else None}, RequestContext(req))
+        trains = Train.objects.filter(level=1, reg_status=1)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=1)
     elif coach.t_level == 1:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)
-        mct = CoachTrain.objects.filter(coach=coach, train__level=2)
-        mtrain = Train.objects.filter(level=2, reg_status=1)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain,"ct":mct.latest("id") if len(mct) > 0 else None}, RequestContext(req))
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
+        old_cts.append(old_ct)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=2)
+        trains = Train.objects.filter(level=2, reg_status=1)
     elif coach.t_level == 2:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)
-        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)
-        htrain = Train.objects.filter(level=3, reg_status=1)
-        hct = CoachTrain.objects.filter(coach=coach, train__level=3)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain[0] if len(mtrain)>0 else None , "htrain":htrain, "ct":hct.latest("id") if len(hct) > 0 else None }, RequestContext(req))
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
+        old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]
+        old_cts.append(old_ct)
+        old_cts.append(old_ct2)
+        trains = Train.objects.filter(level=3, reg_status=1)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=3)
     else:
-        ltrain = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)
-        mtrain = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)
-        htrain = CoachTrain.objects.filter(coach=coach, train__level=3, status__gt=0)
-        return render_to_response('coach/train.html',{"coach":coach, "ltrain":ltrain[0] if len(ltrain) > 0 else None, "mtrain":mtrain[0] if len(mtrain) > 0 else None, "htrain":htrain[0] if len(htrain) > 0 else None}, RequestContext(req))
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
+        old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]
+        old_ct3 = CoachTrain.objects.filter(coach=coach, train__level=3, status__gt=0)[0]
+        old_cts.append(old_ct)
+        old_cts.append(old_ct2)
+        old_cts.append(old_ct3)
+    return render_to_response('coach/train.html',{"coach":coach, "trains":trains, "old_cts":old_cts, "ct":ct.latest("id") if len(ct) > 0 else None, "items":range(0,3) }, RequestContext(req))
 
 @login_required()
 def center(req):
@@ -100,7 +107,8 @@ def info_confirm(req):
         MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
         cp = coach.property
         cp.name = data.get("name","")
-        cp.sex = int(data.get("sex"))
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
         if data.has_key("identity"):
             cp.identity = data.get("identity","")
         if data.has_key("birth"):
@@ -115,20 +123,26 @@ def info_confirm(req):
             cp.dist = data.get("dist","")
         if data.has_key("address"):
             cp.address = data.get("address","")
+        try:
+            cp.save()
+        except Exception,e:
+            return JsonResponse({ 'success':False,'msg':'信息存储错误' })
 
-        ct = CoachTrain(coach=coach, train=Train.objects.get(id=t_id), status=1) #未缴费状态
-        ct.train.cur_num = F('cur_num') + 1
+        train = train=Train.objects.get(id=t_id)
+        if train.cur_num < train.limit:
+            ct = CoachTrain(coach=coach, train=train, status=1) #未缴费状态
+            train.cur_num = F('cur_num') + 1
+            try:
+                train.save()
+                ct.save()
+            except Exception,e:
+                return JsonResponse({ 'success':False,'msg':'信息存储错误' })
+        else:
+            return JsonResponse({ 'success':False,'msg':'报名人数已满' })
         #tomorrow = datetime.utcnow() + timedelta(days=1)
         #tomorrow = datetime.utcnow() + timedelta(minute=5)
         #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
 
-        try:
-            ct.train.save()
-            ct.save()
-            cp.save()
-        except Exception,e:
-            print e
-            return JsonResponse({ 'success':False })
         return JsonResponse({ 'success':True })
         #return HttpResponseRedirect('/coach/train/payment?ct_id=%s'%ct.id)
     else:
