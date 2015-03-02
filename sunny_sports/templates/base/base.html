@@ -25,36 +25,35 @@
         <link rel="stylesheet" href="../../static/css/ace-skins.min.css" />
         <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
 
+      <!-- basic scripts -->
+    <script>
+      if (!document.addEventListener) {
+        // IE6~IE8
+        document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+        document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+        }else{
+        document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+      }
+      </script>
+
         <!--[if lte IE 9]>
         <link rel="stylesheet" href="../../static/css/ace-ie.min.css" />
         <![endif]-->
+
         <script type="text/javascript">
             if('ontouchstart' in document.documentElement) 
                 document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
                 </script>
 
-        <!-- ace settings handler -->
-        <script src="../../static/js/ace-extra.min.js"></script>
-
         <!-- basic scripts -->
 
-        <!--[if !IE]> -->
-        <script type="text/javascript" src='../../static/js/jquery.min.js'></script>
         <script src="../../static/js/jquery-ui.min.js"></script>
-        <script src="../../static/js/jquery-ui.custom.min.js"></script>
         <script src="../../static/js/jquery.hotkeys.min.js"></script>
         <script src="../../static/js/bootstrap.min.js"></script>
 
         <!-- ace scripts -->
-        <script src="../../static/js/ace-elements.min.js"></script>
         <script src="../../static/js/ace.min.js"></script>
-
-        <!-- <![endif]-->
-
-        <!--[if IE]>
-        <script type="text/javascript" src='../../static/js/jquery1x.min.js'>
-        </script>
-        <![endif]-->
+        <script src="../../static/js/ace-elements.min.js"></script>
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
