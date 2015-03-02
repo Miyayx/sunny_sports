@@ -34,11 +34,12 @@
         $.get('/validate/phone?phone='+phone, function(res){
           if( !res['pass']){
             $c.closest("form").find(".phoneErr").show();
-            $c.closest("form").find(".phoneErr").text("此号码已注册");
+            $c.closest("form").find(".phoneErr").text("号码已注册");
             $c.closest("form").find("button[type=submit]").attr("disabled", true);
             $c.closest(".form-group").addClass("has-error");
           }else{
-            $c.closest("form").find(".phoneErr").hide();
+            $c.closest("form").find(".phoneErr").show();
+            $c.closest("form").find(".phoneErr").text("号码未注册");
             $c.closest("form").find("button[type=submit]").attr("disabled", false);
             $c.closest(".form-group").removeClass("has-error");
           }
