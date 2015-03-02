@@ -28,6 +28,10 @@
         <!--[if lte IE 9]>
         <link rel="stylesheet" href="../../static/css/ace-ie.min.css" />
         <![endif]-->
+        <script type="text/javascript">
+            if('ontouchstart' in document.documentElement) 
+                document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+                </script>
 
         <!-- ace settings handler -->
         <script src="../../static/js/ace-extra.min.js"></script>
@@ -39,7 +43,6 @@
         <script src="../../static/js/jquery-ui.min.js"></script>
         <script src="../../static/js/jquery-ui.custom.min.js"></script>
         <script src="../../static/js/jquery.hotkeys.min.js"></script>
-        </script>
         <script src="../../static/js/bootstrap.min.js"></script>
 
         <!-- ace scripts -->
@@ -152,10 +155,6 @@
 
         {% endblock %}
 
-        <script type="text/javascript">
-            if('ontouchstart' in document.documentElement) 
-                document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-                </script>
 
                 <script src="../../static/custom/base.js"></script>
 
