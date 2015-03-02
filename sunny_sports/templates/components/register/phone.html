@@ -7,7 +7,7 @@
       <i class="ace-icon fa fa-phone"></i>
     </span>
   </label>
-  <label class="phoneErr" style="display: none; color: red"></label>
+  <span class="phoneErr" style="display: none"></span>
 </div>
 
 <script type="text/javascript">
@@ -35,11 +35,15 @@
           if( !res['pass']){
             $c.closest("form").find(".phoneErr").show();
             $c.closest("form").find(".phoneErr").text("号码已注册");
+            $c.closest("form").find(".phoneErr").addClass("red");
+            $c.closest("form").find(".phoneErr").removeClass("green");
             $c.closest("form").find("button[type=submit]").attr("disabled", true);
             $c.closest(".form-group").addClass("has-error");
           }else{
             $c.closest("form").find(".phoneErr").show();
             $c.closest("form").find(".phoneErr").text("号码未注册");
+            $c.closest("form").find(".phoneErr").addClass("green");
+            $c.closest("form").find(".phoneErr").removeClass("red");
             $c.closest("form").find("button[type=submit]").attr("disabled", false);
             $c.closest(".form-group").removeClass("has-error");
           }
