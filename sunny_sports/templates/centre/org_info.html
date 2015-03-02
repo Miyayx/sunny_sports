@@ -195,10 +195,10 @@
 
         // click save btn
         $('#save-btn').click(function() {
+          var orgnum = "{{coachorg.org_num}}";
           var data,
           $elems = $('.myeditable'),
           errors = $elems.editable('validate'); //run validation for all values
-          console.log($elems);
           if($.isEmptyObject(errors)) {
             data = $elems.editable('getValue'); //get all values
             $.ajax({
@@ -209,7 +209,10 @@
             }).success(function(res) {
               if(res && res.success){
                 bootbox.hideAll();
-                alert("添加成功。用户名为组织编号，默认密码为组织编号");
+                if (orgnum.length)
+                  alert("编辑成功");
+                else
+                  alert("添加成功。用户名为组织编号，默认密码为组织编号");
                 location.reload();
               }
             }).error(function(errors){
@@ -229,7 +232,7 @@
                 //              error: function(errors) {
                   //                $("#save-msg").removeClass("text-success").addClass("text-error").html("网络错误，请稍后重试")
                   //              } 
-                  //            });
+        //            });
 
 
         }); //save-btn
