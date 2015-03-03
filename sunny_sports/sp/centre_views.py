@@ -176,6 +176,7 @@ def org_info(req):
 
         co.org_num = orgnum
         co.name = data["orgname"]
+        co.shortname = data["orgshortname"]
         co.user.phone = data["phone"]
         if data.has_key("director"):
             co.director = data["director"]

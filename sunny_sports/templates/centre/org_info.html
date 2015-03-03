@@ -42,7 +42,7 @@
               for="form-field-orgname">字母缩写(用于生成培训id与检索等)</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="orgname">{{coachorg.shortname}}</span>
+                <span class="myeditable editable editable-click" id="orgshortname">{{coachorg.shortname}}</span>
               </div>
             </div>
           </div>
@@ -164,6 +164,11 @@
           type: 'text',
           name: 'orgname'
         });        
+        $('#orgshortname')
+        .editable({
+          type: 'text',
+          name: 'orgshortname'
+        });        
         $('#email')
         .editable({
           type: 'text',
@@ -182,7 +187,7 @@
         $('#permission').editable({
           type:'checklist',
           //value:[{{coachorg.permission}}],
-          value:[2,3],
+          value:[2],
           source: [
             {value: 1, text: '学员通级'},
             {value: 2, text: '教练培训'},
@@ -196,6 +201,7 @@
               if(v == '') return 'Required field!'
             },
             orgname: function(v) {if(v == '') return 'Required field!'},
+            orgshortname: function(v) {if(v == '') return 'Required field!'},
             email: function(v) {if(v == '') return 'Required field!'},
             director: function(v) {if(v == '') return 'Required field!'},
             phone: function(v) {if(v == '') return 'Required field!'}

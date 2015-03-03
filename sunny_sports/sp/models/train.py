@@ -13,6 +13,7 @@ def make_id():
     """
     Generate id for train
     Format:year(4)month(2)num(4)
+    未用到
     """
     #_id = Train.objects.latest('_id')._id#get latest train id
     #ym,i = _id[:6],_id[6:] #get yearmonth and id
@@ -25,7 +26,7 @@ def make_id():
     return "{0}{1:0>4d}".format(nym,i)
 
 class Train(models.Model):
-    id = models.CharField(max_length=10, primary_key=True, default=make_id)
+    id = models.CharField(max_length=20, primary_key=True, default="", unique=True)
     org = models.ForeignKey(CoachOrg) #组织机构
     name = models.CharField(max_length=30) #培训名称
     demo = models.CharField(max_length=100, blank=True) #??
@@ -48,3 +49,12 @@ class Train(models.Model):
     def __str__(self):
         return self.id
 
+    def save(self, *args, **kwargs):
+        """
+        编号生成规则：组织机构缩写+当前年份+今年培训数量
+        """
+        if len(self.id) == 0:
+            now = datetime.datetime.now()
+            self.id = "{0}{1}{2:0>2d}".format(self.org.shortname, now.year, Train.objects.filter(org=self.org, train_stime__year=now.year).count())
+
+        super(Train, self).save(*args, **kwargs)
