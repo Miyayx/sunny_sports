@@ -37,7 +37,7 @@ class Train(models.Model):
     reg_stime = models.DateTimeField() #报名开始时间
     reg_etime = models.DateTimeField() #报名截止时间
     train_stime = models.DateField() #培训开始时间
-    train_etime = models.DateField(null=True) #培训结束时间
+    train_etime = models.DateField() #培训结束时间
     reg_status = models.IntegerField(choices=REG_STATUS, default=0) #报名状态
     sub_status = models.IntegerField(choices=SUB_STATUS, default=0) #成绩是否提交
     pub_status = models.IntegerField(choices=PUB_STATUS, default=0) #成绩是否发布

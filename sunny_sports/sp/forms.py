@@ -169,7 +169,7 @@ class MessagePublishForm(forms.Form):
 class TrainPublishForm(ModelForm):
     class Meta:
         model = Train
-        fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime']
+        fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime','train_etime']
 
     def save(self, commit=True):
         instance = super(TrainPublishForm, self).save(commit=False)
