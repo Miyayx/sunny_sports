@@ -50,7 +50,7 @@
         $c.closest(".form-group").addClass("has-error");
       } else {
         $.get('/validate/phone?phone='+phone, function(res){
-          if( !res['pass']){
+          if(res['exists']){
             $form.find(".phoneErr").show();
             $form.find(".phoneErr").text("号码已注册");
             if($form.attr('id') == 'find-pwd-form'){

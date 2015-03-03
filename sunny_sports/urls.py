@@ -39,6 +39,9 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns('sunny_sports.sp.validate',
             url(r'^validate/phone', 'is_phone_exists'),
+            url(r'^validate/nickname', 'is_nickname_exists'),
+            url(r'^validate/shortname', 'is_orgshortname_exists'),
+            url(r'^validate/email', 'is_email_exists'),
             )
 
 # centre

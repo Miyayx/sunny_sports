@@ -201,7 +201,13 @@
               if(v == '') return 'Required field!'
             },
             orgname: function(v) {if(v == '') return 'Required field!'},
-            orgshortname: function(v) {if(v == '') return 'Required field!'},
+            orgshortname: function(v) {if(v == '') return 'Required field!';
+              $.get('/validate/shortname?shortname=' + $.trim(v), function(res) {
+                if (res['exists']) {
+                  return ('该缩写已注册');
+                }
+              });
+            },
             email: function(v) {if(v == '') return 'Required field!'},
             director: function(v) {if(v == '') return 'Required field!'},
             phone: function(v) {if(v == '') return 'Required field!'}
