@@ -212,7 +212,7 @@
                                 请通过手机进行身份验证来找回密码
                                 </p>
 
-                                <form action='/find_password' method='POST'>
+                                <form action='/find_password' method='POST' id="find-pwd-form">
                                   {% csrf_token %}
                                   <fieldset>
 
@@ -220,7 +220,7 @@
                                     {% include "components/register/v_code.html" with btn_id="pwd-code-btn"%}
 
                                     <div class="clearfix">
-                                      <button type="button" id="find-pwd" class="width-35 pull-right btn btn-sm btn-danger">
+                                      <button type="submit" id="find-pwd" class="width-35 pull-right btn btn-sm btn-danger">
                                         <i class="ace-icon fa fa-lightbulb-o"></i>
                                         <span class="bigger-110">找回密码</span>
                                       </button>
@@ -382,17 +382,6 @@
                 $("#clubForm").hide();
                 $("#teamForm").show();
               });
-
-              });
-
-              $('#find-pwd').click(function(){
-                $btn = $(this);
-                $form = $btn.parents('form');
-                if($.trim($form.find('input[type=phone]').val()) == '' ||$.trim($form.find('input[type=verify]').val()) == ''  )
-                  return;
-                else{
-                  $form.submit();
-                }
 
               });
             </script>
