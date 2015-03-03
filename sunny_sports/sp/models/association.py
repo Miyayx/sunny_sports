@@ -32,8 +32,8 @@ class CoachTrain(models.Model):
         return "coach:%s,  train:%s"%(self.coach, self.train)
 
     def save(self, *args, **kwargs):
-        if self.number == 0:
-            self.number = CoachTrain.objects.filter(train=self.train).count()
+        #if self.number == 0:
+        #    self.number = CoachTrain.objects.filter(train=self.train).count()
 
         super(CoachTrain, self).save(*args, **kwargs)
 
