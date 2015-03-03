@@ -25,11 +25,11 @@ SECRET_KEY = 'x*7jb4_74q_pf6s05%@7ecrt*fhxp5s&3p%xer$)mw4x#xj+j)'
 if OS == 'centos':
     DEBUG = False
     TEMPLATE_DEBUG = False
+    ALLOWED_HOSTS = ['localhost','127.0.0.1','121.52.209.117','kuaileticao.com','www.kuaileticao.com']
 else:
     DEBUG = True
     TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = []
 
 import djcelery
 djcelery.setup_loader()

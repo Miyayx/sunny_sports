@@ -1,0 +1,14 @@
+[Unit]
+Description=uWSGI kuaileticao
+After=syslog.target
+
+[Service]
+ExecStart=/root/uwsgi/uwsgi --ini /home/kltc/Project/sunny_sports/sunny_sports/uwsgi.ini
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
