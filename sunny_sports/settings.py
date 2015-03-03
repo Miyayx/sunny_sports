@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+import platform
+OS = platform.dist()[0]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -21,9 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'x*7jb4_74q_pf6s05%@7ecrt*fhxp5s&3p%xer$)mw4x#xj+j)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+if OS == 'centos':
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+else:
+    DEBUG = True
+    TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -75,7 +79,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'mysql.connector.django',
-        'NAME': 'sunny_sports',
+        'NAME': 'sunny_sports' if not OS == 'centos' else 'kuaileticao',
         #'USER': 'root',
         #'PASSWORD': '123',
         #'HOST': '127.0.0.1',
