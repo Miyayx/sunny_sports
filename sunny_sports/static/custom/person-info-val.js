@@ -60,7 +60,7 @@ jQuery(function($) {
 				return '必填项';
 			}
 			if (!isPhoneNum($.trim(v))) { return '请输入正确的手机号码'; }
-			if (phoneExists($.trim(v))) return '手机号码已注册';
+			//if (phoneExists($.trim(v))) return '手机号码已注册';
 		}
 	});
 

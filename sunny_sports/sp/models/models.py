@@ -37,11 +37,26 @@ class MyUserManager(BaseUserManager):
 
         print phone
 
-        user = self.model(
-            phone=phone,
-            email=email,
-            nickname=nickname,
-        )
+        if nickname and email:
+            user = self.model(
+                phone=phone,
+                nickname=nickname,
+                email=email,
+            )
+        elif nickname:
+            user = self.model(
+                phone=phone,
+                nickname=nickname,
+            )
+        elif email:
+            user = self.model(
+                phone=phone,
+                email=email,
+            )
+        else:
+            user = self.model(
+                phone=phone,
+            )
 
         user.id = str(uuid1())
         user.set_password(password)
@@ -84,8 +99,8 @@ class MyUserManager(BaseUserManager):
 class MyUser(AbstractBaseUser):
     id = models.CharField(primary_key=True, max_length=40, db_index=True)
     role = models.ManyToManyField(Role, through='UserRole')
-    nickname = models.CharField(max_length=255, unique=True, null=True)
-    email    = models.EmailField(max_length=255, unique=True, null=True)
+    nickname = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    email    = models.EmailField(max_length=255, unique=True, null=True, blank=True)
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
     #password = models.CharField(max_length=64) #password 在abstract class里有
 
