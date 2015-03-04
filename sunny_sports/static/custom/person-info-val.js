@@ -47,7 +47,7 @@ jQuery(function($) {
 				return '必填项';
 			}
 			if (!isEmail($.trim(v))) return '请输入正确的邮件地址';
-			if (emailExists($.trim(v))) return '邮箱地址已注册';
+			//if (emailExists($.trim(v))) return '邮箱地址已注册';
 
 		}
 	});
