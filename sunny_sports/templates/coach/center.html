@@ -291,7 +291,9 @@
             type: 'text',
             name: 'nickname',
             validate: function(v) {
-                if (nicknameExists($.trim(v))) return '昵称已注册';
+                v = $.trim(v);
+                if(!($(this).text() == v || $(this)[0].value == v  ))
+                    if (nicknameExists($.trim(v))) return '昵称已注册';
             }
         });	
 

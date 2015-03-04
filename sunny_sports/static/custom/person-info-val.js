@@ -43,11 +43,14 @@ jQuery(function($) {
 		type: 'text',
 		name: 'email',
 		validate: function(v) {
+                v = $.trim(v);
 			if ($.trim(v) == '') {
 				return '必填项';
 			}
 			if (!isEmail($.trim(v))) return '请输入正确的邮件地址';
-			//if (emailExists($.trim(v))) return '邮箱地址已注册';
+			if (! ($(this).text() == $.trim(v) || $(this)[0].value == v)) {
+				if (emailExists($.trim(v))) return '邮箱地址已注册';
+			}
 
 		}
 	});
@@ -56,11 +59,16 @@ jQuery(function($) {
 		type: 'text',
 		name: 'phone',
 		validate: function(v) {
-			if ($.trim(v) == '') {
+                v = $.trim(v);
+			if (v == '') {
 				return '必填项';
 			}
-			if (!isPhoneNum($.trim(v))) { return '请输入正确的手机号码'; }
-			//if (phoneExists($.trim(v))) return '手机号码已注册';
+			if (!isPhoneNum(v)) {
+				return '请输入正确的手机号码';
+			}
+			if (! ($(this).text() == v || $(this)[0].value == v)) {
+				if (phoneExists($.trim(v))) return '手机号码已注册';
+			}
 		}
 	});
 
