@@ -234,7 +234,8 @@ def update_info(req):
         try:
             cp.save()
             ur.save()
-        except:
+        except Exception,e:
+            print e
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
