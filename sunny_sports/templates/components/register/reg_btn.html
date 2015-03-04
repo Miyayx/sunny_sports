@@ -7,8 +7,19 @@
     <span class="bigger-110">重填</span>
   </button>
 
-  <button type="submit" class="width-45 pull-right btn btn-sm btn-success">
+  <button type="submit" class="width-45 pull-right btn btn-sm btn-success" id='reg-btn'>
     <i class="ace-icon fa fa-check-square-o icon-on-right"></i>
     <span class="bigger-110">注册</span>
   </button>
 </div>
+
+<script type='text/javascript'>
+    $('#reg-btn').attr('disabled','disabled');
+    //$('#reg-btn').parents('form').find('input').each(function(i,e){
+    //  e.blur(function(){
+    //    if($.trim($(this).val()) == '')
+    //        $('#reg-btn').attr('disabled','disabled');
+    //  });
+    //});
+
+</script>

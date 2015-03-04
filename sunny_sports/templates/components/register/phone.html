@@ -32,8 +32,8 @@
     //phone验证
     $("input[type=phone]").blur(function () {
       var $c = $(this);
-      var phone = $(this).val();
       var $form = $c.closest("form");
+      var phone = $(this).val().trim();
       var flag = true;
 
       var num= /^[0-9]+.?[0-9]*$/;
