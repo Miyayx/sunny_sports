@@ -156,6 +156,7 @@ function phoneExists(v) {
 	return flag ? true: false;
 }
 
+
 function shortnameExists(v) {
 	var flag = false;
 	$.ajax({
