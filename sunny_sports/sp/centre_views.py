@@ -66,12 +66,12 @@ def check_pass(req):
             pass_c_t = CoachTrain.objects.filter(id__in=ids, train_id=t_id, status__gt=0)            
             if len(pass_c_t):
                 #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
-                coach = pass_c_t[0].coach
-                coach.t_level = train[0].level
-                coach.save()
                 cur = CoachTrain.objects.filter(pass_status=1).count()
                 for i in range(len(pass_c_t)):
                     pass_c_t[i].check_pass(cert=cur+i)
+                    coach = pass_c_t[i].coach
+                    coach.t_level = train[0].level
+                    coach.save()
 
             # 发布消息通知
             title = u"考试结果"
