@@ -75,9 +75,17 @@ jQuery(function($) {
 	$('#identity').editable({
 		type: 'text',
 		name: 'identity',
+        display: function(v){
+            $(this).html(v.replace(v.substring(3,15), "**********"));
+        },
 		validate: function(v) {
 			if ($.trim(v) == '') return '必填项';
 			if (!isIdCardNo($.trim(v))) return '请正确输入您的身份证号码';
+			if (! ($(this).text() == v || $(this)[0].value == v)) {
+            var b = v.substring(6,10)+"-"+v.substring(10,12)+"-"+v.substring(12,14);
+            $('#birth').editable('setValue', moment(b));
+            }
+            
 		}
 	});
 
