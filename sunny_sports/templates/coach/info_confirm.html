@@ -205,7 +205,40 @@
                 $('#company')
                 .editable({
                     type:'text',
-                    name:'company'
+                    name:'company',
+                    validate: function(v) {
+                        v = $.trim(v);
+                        if (v == '') {
+                            return '工作单位为必填项';
+                        }
+                    }
+                });
+                $('#province')
+                .editable({
+                    validate: function(v) {
+                        v = $.trim(v);
+                        if (v == '') {
+                            return '地址为必填项';
+                        }
+                    }
+                });
+                $('#city')
+                .editable({
+                    validate: function(v) {
+                        v = $.trim(v);
+                        if (v == '') {
+                            return '地址为必填项';
+                        }
+                    }
+                });
+                $('#dist')
+                .editable({
+                    validate: function(v) {
+                        v = $.trim(v);
+                        if (v == '') {
+                            return '地址为必填项';
+                        }
+                    }
                 });
 
                 // click save btn
@@ -219,9 +252,9 @@
                             if(data && data.success){
                                 alert("报名成功");
                                 window.location.href="/coach/train";
-                        }else{
-                            alert(data.msg);
-                        }
+                            }else{
+                                alert(data.msg);
+                            }
                         },
                         error: function(errors) {
                             var info = "";
