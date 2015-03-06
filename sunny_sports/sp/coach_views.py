@@ -59,6 +59,7 @@ def train(req):
     coach = Coach.objects.get(property__user_id=uuid)
 
     old_cts = []
+    ct = []
     trains = None
     if coach.t_level == 0:
         trains = Train.objects.filter(level=1, reg_status=1)
@@ -168,7 +169,7 @@ def reg_cancel(req):
         ct.status = 0
         ct.train.cur_num = ct.train.cur_num - 1
         ct.train.save()
-        ct.save()
+        ct.delete()
         #Train.objects.filter(id=ct.train.id).update(cur_num=F('cur_num') - 1)
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})

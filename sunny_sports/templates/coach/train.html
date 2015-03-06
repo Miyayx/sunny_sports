@@ -17,7 +17,7 @@
         <div class="tabbable">
             <ul class="nav nav-tabs tab-color-blue" id="">
                 {% for i in items %}
-                <li {% ifequal coach.t_level i %}class="active"{% endifequal %}>
+                <li {% if coach.t_level == i or coach.t_level == items|length and coach.t_level == i|add:"1" %}class="active"{% endif %}>
                 <a data-toggle="tab" href="#level-{{level_tabs|get:forloop.counter0}}">
                     <i class="pink ace-icon glyphicon glyphicon-star bigger-110"></i>{{level_labels|get:forloop.counter0}}级 
                 </a>
@@ -27,7 +27,7 @@
 
             <div class="tab-content">
                 {% for i in items %}
-                <div id="level-{{level_tabs|get:forloop.counter0}}" class="tab-pane {% ifequal coach.t_level i %}in active{% endifequal %}">
+                <div id="level-{{level_tabs|get:forloop.counter0}}" class="tab-pane {% if coach.t_level == i or coach.t_level == items|length and coach.t_level == i|add:"1" %}in active{% endif %}">
                     <h2>{{level_labels|get:forloop.counter0}}级</h2>
                     {% if coach.t_level > i  and old_cts|length %}
                     <div class="center">
