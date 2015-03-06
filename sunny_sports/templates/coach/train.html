@@ -40,45 +40,47 @@
                             {% with old_cts|get:forloop.counter0 as old_ct %}
                             <ul class="list-unstyled spaced2">
                                 <li><i class="ace-icon fa fa-circle green"></i>
+                                <font size="3px"><b>培训编号：</b></font>
+                                &nbsp;{{old_ct.train.id}}<p/>
+                                </li>
+                                <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训名称：</b></font>
                                 &nbsp;{{old_ct.train.name}}<p/>
+                                </li>
+                                </li>
+                                <li><i class="ace-icon fa fa-circle green"></i>
+                                <font size="3px"><b>证书编号：</b></font>
+                                &nbsp;{{old_ct.certificate}} &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success btn-sm" disabled="true">下载证书</button><p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>组织机构：</b></font>
                                 &nbsp;{{old_ct.train.org.name}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训时间：</b></font>
-                                &nbsp;{{old_ct.train.train_stime}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训地点：</b></font>
                                 &nbsp;{{old_ct.train.address}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训级别：</b></font>
-                                &nbsp;{{old_ct.train.get_level_display}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训简介：</b></font>
-                                &nbsp;{{old_ct.train.demo}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>报名时间：</b></font>
                                 &nbsp;{{old_ct.reg_time}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
+                                <font size="3px"><b>培训时间：</b></font>
+                                &nbsp;{{old_ct.train.train_stime}}<p/>
+                                </li>
+                                <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>通过时间：</b></font>
                                 &nbsp;{{old_ct.get_time}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
+                                <font size="3px"><b>培训简介：</b></font>
+                                &nbsp;{{old_ct.train.demo}}<p/>
+                                </li>
+                                <!--
+                                <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训学号：</b></font>
                                 &nbsp;{{old_ct.number}}<p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>证书编号：</b></font>
-                                &nbsp;{{old_ct.certificate}}<p/>
-                                </li>
+                                -->
                             </ul>
                             {% endwith %}
                         </div>
@@ -111,7 +113,7 @@
                                         <th class="hidden-480">培训地点</th>
                                         <th>费用</th>
                                         <th class="hidden-480">名额</th>
-                                        {% if ct.train.reg_status == 1%}
+                                        {% if not ct or ct.train.reg_status == 1 %}
                                         <th>报名</th>
                                         {% endif %}
                                     </tr>
