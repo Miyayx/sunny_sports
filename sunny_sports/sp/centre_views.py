@@ -70,7 +70,7 @@ def check_pass(req):
                 coach.save()
                 cur = CoachTrain.objects.filter(pass_status=1).count()
                 for i in range(len(pass_c_t)):
-                    pass_c_t[i].check_pass(cur+i)
+                    pass_c_t[i].check_pass(cert=cur+i)
 
             # 发布消息通知
             title = u"考试结果"
