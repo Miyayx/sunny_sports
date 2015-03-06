@@ -22,6 +22,8 @@ from alipay_utils import alipay_payment
 from sunny_sports.sp.tasks import payment_check
 from django import forms
 from datetime import datetime, timedelta
+from PIL import Image
+import os
 
 @login_required()
 def coach(req):
@@ -246,12 +248,29 @@ class UserForm(forms.Form):
 @login_required()
 @transaction.atomic
 def update_img(request):
+    uuid = request.user.id
+    coach = Coach.objects.get(property__user_id=uuid)
     if request.method == "POST":
-        uuid = request.user.id
         uf = UserForm(request.POST,request.FILES)
         if uf.is_valid():
             headImg = uf.cleaned_data['headImg']
-            coach = Coach.objects.get(property__user_id=uuid)
+            temp = coach.property.avatar
             coach.property.avatar = headImg
             coach.property.save()
-            return HttpResponse('upload ok!')
+            path = coach.property.avatar.name
+            suffix = path.split('.')[1];
+            if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
+                #路径有错，切图的代码是对的，已用绝对路径测试过
+                MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media').replace('\\','/')
+                im = Image.open(MEDIA_ROOT+"/"+path)
+                new_img=im.resize((200,200),Image.ANTIALIAS)
+                new_img.save(MEDIA_ROOT+"/"+path)
+            else:
+                coach.property.avatar = temp
+                coach.property.save()
+    
+    u = UserRole.objects.get(user_id=uuid, role_id=3)
+    if u.is_first:
+        messages.error(req, u"请补全个人信息")
+    club = Club.objects.filter()
+    return render_to_response('coach/center.html',{"coach":coach, "club":club}, RequestContext(request))
