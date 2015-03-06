@@ -15,7 +15,7 @@ class PersonProperty(models.Model):
     birth = models.DateField(default="1990-01-01")
     age = models.IntegerField(null=True)
     identity = models.CharField(max_length=20, unique=True, null=True)
-    avatar = models.FileField(upload_to = 'upload', default='upload/default.jpg')
+    avatar = models.ImageField(upload_to = 'upload', default='upload/default.jpg')
     class Meta:
         abstract = True
 
