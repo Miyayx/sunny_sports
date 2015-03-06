@@ -56,8 +56,9 @@ def check_pass(req):
     if req.method == "POST":
         t_id = req.POST.get("t_id")
         if int(req.POST.get("pass", 0)): #审核通过
-            Train.objects.filter(id=t_id).update(pub_status=1)
-            Train.objects.filter(id=t_id).update(sub_status=1)
+            train = Train.objects.filter(id=t_id)
+            train.update(pub_status=1)
+            train.update(sub_status=1)
             # generate certificate
             #ns = json.loads(req.POST.get("cert","")).keys() #get number list获得审核通过的学号列表 
             ids = json.loads(req.POST.get("ids","")) #get number list获得审核通过的学号列表 
@@ -66,7 +67,7 @@ def check_pass(req):
             if len(pass_c_t):
                 #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
                 coach = pass_c_t[0].coach
-                coach.t_level = F('t_level')+1
+                coach.t_level = train[0].level
                 coach.save()
                 cur = CoachTrain.objects.filter(pass_status=1).count()
                 for i in range(len(pass_c_t)):
