@@ -21,6 +21,7 @@
 
     <!-- page specific plugin styles -->
     <link rel="stylesheet" href="../../static/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="../../static/css/jquery.gritter.css" />
 
     <!-- basic scripts -->
     <script>
@@ -57,6 +58,7 @@
               <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
               <script src="../../static/js/bootbox.min.js"></script>
               <script src="../../static/js/jquery.hotkeys.min.js"></script>
+              <script src="../../static/js/jquery.gritter.min.js"></script>
               <!-- ace scripts -->
               <script src="../../static/js/ace.min.js"></script>
               <script src="../../static/js/ace-elements.min.js"></script>
@@ -68,13 +70,13 @@
                 <div class="main-content">
                   <div class="row">
                     <div class="col-sm-10 col-sm-offset-1">
-						<div class="center">
-							<h1>
-								<i class="ace-icon fa fa-leaf green"></i>
-								<span class="red">中国体操协会快乐体操推广委员会</span><br/>
-								<span class="white" id="id-text2">唯一指定网络平台</span>
-							</h1>
-						</div>
+                      <div class="center">
+                        <h1>
+                          <i class="ace-icon fa fa-leaf green"></i>
+                          <span class="red">中国体操协会快乐体操推广委员会</span><br/>
+                          <span class="white" id="id-text2">唯一指定网络平台</span>
+                        </h1>
+                      </div>
                       <div class="login-container">
 
                         <div class="space-30"></div>
@@ -314,93 +316,116 @@
                     </div>
                   </div><!-- /.col -->
                 </div><!-- /.row -->
-					<div class="footer">
-						<div class="footer-inner">
-							<div class="footer-content" style="border-top: 0px">
-								<h4 class="light-blue" id="id-company-text">
-								&copy;北京快乐童年阳光体操文化有限责任公司</h4>
-								<span class="bigger-120">
-									<span class="blue bolder">Created by Queendorm</span>
-								</span>
-							</div>
-						</div>
-					</div>
+                <div class="footer">
+                  <div class="footer-inner">
+                    <div class="footer-content" style="border-top: 0px">
+                      <h4 class="light-blue" id="id-company-text">
+                        &copy;北京快乐童年阳光体操文化有限责任公司</h4>
+                      <span class="bigger-120">
+                        <span class="blue bolder">Created by Queendorm</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div><!-- /.main-content -->
 
 
-            <!-- inline scripts related to this page -->
-            <script type="text/javascript">
-              jQuery(function($) {
-                window.onload = function() {
-                  if(location.hash){//if the page's URL has an octothore part 
-                    var target = location.hash.substr(1);
-                    $('.widget-box.visible').removeClass('visible');//hide others
-                    $("#"+target).addClass("visible");
+              <!-- inline scripts related to this page -->
+              <script type="text/javascript">
+                jQuery(function($) {
+                  window.onload = function() {
+                    if(location.hash){//if the page's URL has an octothore part 
+                      var target = location.hash.substr(1);
+                      $('.widget-box.visible').removeClass('visible');//hide others
+                      $("#"+target).addClass("visible");
+                    }
                   }
-                }
 
-                $(document).on('click', '.toolbar a[data-target]', function(e) {
-                  e.preventDefault();
-                  var target = $(this).data('target');
-                  $('.widget-box.visible').removeClass('visible');//hide others
-                  $(target).addClass('visible');//show target
-                });
+                  $(document).on('click', '.toolbar a[data-target]', function(e) {
+                    e.preventDefault();
+                    var target = $(this).data('target');
+                    $('.widget-box.visible').removeClass('visible');//hide others
+                    $(target).addClass('visible');//show target
+                  });
 
 
-                $('.btn').click(function(){
-                  $(this).css('active');
-                });
+                  $('.btn').click(function(){
+                    $(this).css('active');
+                  });
 
-                //	$('#students').click(function () {
-                  //		$("#studnetsLabel").css("font-weight","bold");
-                  //		$("#studnetsLabel").css("color","#0066FF ");
-                  //		$("#teamsLabel").css("font-weight","normal");
-                  //		$("#teamsLabel").css("color","black");
+
+                  // global setting override
+                  $.extend($.gritter.options, {
+                    class_name: 'gritter-light', // for light notifications (can be added directly to $.gritter.add too)
+                    position: 'top-right', // possibilities: bottom-left, bottom-right, top-left, top-right
+                  });
+
+                  $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title: '请使用兼容的浏览器',
+                    sticky:true,
+                    // (string | mandatory) the text inside the notification
+                    text: '请尽量选择Chrome，Firefox以及IE10以上版本进行操作'
+                  });
+
+                  $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title: '请3月3日前注册的用户重新注册',
+                    sticky:true,
+                    // (string | mandatory) the text inside the notification
+                    text: '因系统测试原因，3月3日晚曾清空数据库。在此之前的注册用户信息未保留，请重新注册。为您带来的不便敬请谅解。'
+                  });
+
+                  //	$('#students').click(function () {
+                    //		$("#studnetsLabel").css("font-weight","bold");
+                    //		$("#studnetsLabel").css("color","#0066FF ");
+                    //		$("#teamsLabel").css("font-weight","normal");
+                    //		$("#teamsLabel").css("color","black");
+                    //		$("#adminLabel").css("font-weight","normal");
+                    //		$("#adminLabel").css("color","black");
+                //	});
+                //	$('#teams').click(function () {
+                  //		$("#teamsLabel").css("font-weight","bold");
+                  //		$("#teamsLabel").css("color","#0066FF ");
+                  //		$("#studnetsLabel").css("font-weight","normal");
+                  //		$("#studnetsLabel").css("color","black");
                   //		$("#adminLabel").css("font-weight","normal");
                   //		$("#adminLabel").css("color","black");
-              //	});
-              //	$('#teams').click(function () {
-                //		$("#teamsLabel").css("font-weight","bold");
-                //		$("#teamsLabel").css("color","#0066FF ");
-                //		$("#studnetsLabel").css("font-weight","normal");
-                //		$("#studnetsLabel").css("color","black");
-                //		$("#adminLabel").css("font-weight","normal");
-                //		$("#adminLabel").css("color","black");
-              //	});
-              //	$('#admin').click(function () {
-                //		$("#studnetsLabel").css("font-weight","normal");
-                //		$("#studnetsLabel").css("color","black");
-                //		$("#adminLabel").css("font-weight","bold");
-                //		$("#adminLabel").css("color","#0066FF ");
-                //		$("#teamsLabel").css("font-weight","normal");
-                //		$("#teamsLabel").css("color","black");
-              //	});
+                //	});
+                //	$('#admin').click(function () {
+                  //		$("#studnetsLabel").css("font-weight","normal");
+                  //		$("#studnetsLabel").css("color","black");
+                  //		$("#adminLabel").css("font-weight","bold");
+                  //		$("#adminLabel").css("color","#0066FF ");
+                  //		$("#teamsLabel").css("font-weight","normal");
+                  //		$("#teamsLabel").css("color","black");
+                //	});
 
-              $('#student2').click(function () {
-                $("#studentForm").show();
-                $("#judgeForm").hide();
-                $("#coachForm").hide();
-              });
-              $('#coach2').click(function () {
-                $("#studentForm").hide();
-                $("#judgeForm").hide();
-                $("#coachForm").show();
-              });
-              $('#judge2').click(function () {
-                $("#studentForm").hide();
-                $("#judgeForm").show();
-                $("#coachForm").hide();
-              });
-              $('#club2').click(function () {
-                $("#clubForm").show();
-                $("#teamForm").hide();
-              });
-              $('#team2').click(function () {
-                $("#clubForm").hide();
-                $("#teamForm").show();
-              });
+                $('#student2').click(function () {
+                  $("#studentForm").show();
+                  $("#judgeForm").hide();
+                  $("#coachForm").hide();
+                });
+                $('#coach2').click(function () {
+                  $("#studentForm").hide();
+                  $("#judgeForm").hide();
+                  $("#coachForm").show();
+                });
+                $('#judge2').click(function () {
+                  $("#studentForm").hide();
+                  $("#judgeForm").show();
+                  $("#coachForm").hide();
+                });
+                $('#club2').click(function () {
+                  $("#clubForm").show();
+                  $("#teamForm").hide();
+                });
+                $('#team2').click(function () {
+                  $("#clubForm").hide();
+                  $("#teamForm").show();
+                });
 
-              });
-            </script>
-          </body>
-        </html>
+                });
+              </script>
+            </body>
+          </html>

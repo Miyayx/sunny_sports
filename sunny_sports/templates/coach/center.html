@@ -58,9 +58,7 @@
                                         <span class="profile-picture">
                                             <img src="/media/{{coach.property.avatar}}" id="avatar" />
                                         </span>
-                                        <label>
-											<font size="1">头像格式为200px*200px</font>
-										</label>
+                                        <div class="space-4"></div>
                                         <form action="/coach/up_img" method="post" enctype="multipart/form-data" >
 											{% csrf_token %}
 											<div class="col-sm-9">
