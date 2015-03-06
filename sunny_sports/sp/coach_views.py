@@ -24,6 +24,7 @@ from django import forms
 from datetime import datetime, timedelta
 from PIL import Image
 import os
+from sunny_sports.settings import MEDIA_ROOT
 
 @login_required()
 def coach(req):
@@ -242,9 +243,6 @@ def update_info(req):
         return JsonResponse({'success':True})
 
 
-class UserForm(forms.Form):
-    headImg = forms.FileField()
-    
 @login_required()
 @transaction.atomic
 def update_img(request):
@@ -260,17 +258,12 @@ def update_img(request):
             path = coach.property.avatar.name
             suffix = path.split('.')[1];
             if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
-                #路径有错，切图的代码是对的，已用绝对路径测试过
-                MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media').replace('\\','/')
-                im = Image.open(MEDIA_ROOT+"/"+path)
+                imgpath = os.path.join(MEDIA_ROOT,path)
+                im = Image.open(imgpath)
                 new_img=im.resize((200,200),Image.ANTIALIAS)
-                new_img.save(MEDIA_ROOT+"/"+path)
+                new_img.save(imgpath)
             else:
                 coach.property.avatar = temp
                 coach.property.save()
     
-    u = UserRole.objects.get(user_id=uuid, role_id=3)
-    if u.is_first:
-        messages.error(req, u"请补全个人信息")
-    club = Club.objects.filter()
-    return render_to_response('coach/center.html',{"coach":coach, "club":club}, RequestContext(request))
+    return HttpResponseRedirect('/coach/center')

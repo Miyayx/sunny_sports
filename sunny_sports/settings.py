@@ -92,6 +92,7 @@ DATABASES = {
 }
 
 DATE_FORMAT = "Y-m-d"
+DATETIME_FORMAT = "Y-m-d H:i"
 
 AUTH_USER_MODEL = 'sp.MyUser'     
 AUTHENTICATION_BACKENDS = ( 'sunny_sports.sp.backend.MyBackend', )

@@ -183,3 +183,9 @@ class CoachPropertyForm(ModelForm):
         model = CoachProperty
         fields = ['name','sex','identity','avatar','company','province','city','dist','address']
 
+
+#头像上传
+class UserForm(forms.Form):
+    headImg = forms.FileField()
+    
+
