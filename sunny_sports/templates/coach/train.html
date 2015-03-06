@@ -49,10 +49,6 @@
                                 </li>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>证书编号：</b></font>
-                                &nbsp;{{old_ct.certificate}} &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success btn-sm" disabled="true">下载证书</button><p/>
-                                </li>
-                                <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>组织机构：</b></font>
                                 &nbsp;{{old_ct.train.org.name}}<p/>
                                 </li>
@@ -65,12 +61,20 @@
                                 &nbsp;{{old_ct.reg_time}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
-                                <font size="3px"><b>培训时间：</b></font>
+                                <font size="3px"><b>培训开始时间：</b></font>
                                 &nbsp;{{old_ct.train.train_stime}}<p/>
+                                </li>
+                                <li><i class="ace-icon fa fa-circle green"></i>
+                                <font size="3px"><b>培训结束时间：</b></font>
+                                &nbsp;{{old_ct.train.train_etime}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>通过时间：</b></font>
                                 &nbsp;{{old_ct.get_time}}<p/>
+                                </li>
+                                <li><i class="ace-icon fa fa-circle green"></i>
+                                <font size="3px"><b>证书编号：</b></font>
+                                &nbsp;{{old_ct.certificate}} &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success btn-sm" disabled="true">下载证书</button><p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训简介：</b></font>

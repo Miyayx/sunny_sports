@@ -25,17 +25,24 @@ class CoachTrain(models.Model):
     certificate = models.CharField(max_length=100, null=True) #证书编号
     reg_time = models.DateTimeField(auto_now=True) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
+
     class Meta:
         app_label='sp'
 
     def __str__(self):
         return "coach:%s,  train:%s"%(self.coach, self.train)
 
-    def save(self, *args, **kwargs):
-        #if self.number == 0:
-        #    self.number = CoachTrain.objects.filter(train=self.train).count()
+    #def save(self, *args, **kwargs):
+    #    #if self.number == 0: #生成学号
+    #    #    self.number = CoachTrain.objects.filter(train=self.train).count()
 
-        super(CoachTrain, self).save(*args, **kwargs)
+    #    super(CoachTrain, self).save(*args, **kwargs)
+
+    def check_pass(self, cert):
+        self.certificate = "{0:0>6d}".format(cert)
+        self.get_time=datetime.datetime.now()
+        self.pass_status=1
+        self.save()
 
 
 #class StudentTeam(models.Model):

@@ -59,15 +59,18 @@ def check_pass(req):
             Train.objects.filter(id=t_id).update(pub_status=1)
             Train.objects.filter(id=t_id).update(sub_status=1)
             # generate certificate
-            ns = json.loads(req.POST.get("cert","")).keys() #get number list获得审核通过的学号列表 
+            #ns = json.loads(req.POST.get("cert","")).keys() #get number list获得审核通过的学号列表 
+            ids = json.loads(req.POST.get("ids","")) #get number list获得审核通过的学号列表 
             #not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
-            pass_c_t = CoachTrain.objects.filter(number__in=ns, train_id=t_id, status__gt=0)            
+            pass_c_t = CoachTrain.objects.filter(id__in=ids, train_id=t_id, status__gt=0)            
             if len(pass_c_t):
-                #pass_c_t.update(certificate="%s%d"%(t_id,F('number')))
-                pass_c_t.update(certificate=t_id+F('number'))
+                #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
                 coach = pass_c_t[0].coach
                 coach.t_level = F('t_level')+1
                 coach.save()
+                cur = CoachTrain.objects.filter(pass_status=1).count()
+                for i in range(len(pass_c_t)):
+                    pass_c_t[i].check_pass(cur+i)
 
             # 发布消息通知
             title = u"考试结果"

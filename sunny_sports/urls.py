@@ -47,7 +47,7 @@ urlpatterns += patterns('sunny_sports.sp.validate',
 # centre
 urlpatterns += patterns('sunny_sports.sp.centre_views',
         url(r'^centre$', 'centre'),
-        url(r'^centre/test_check/$','test_check'),
+        url(r'^centre/test_check$','test_check'),
         #url(r'^centre/test_check/(?P<train_id>\d{9-10})/$','test_check'),
         #url(r'^centre/test_check/(?P<train_id>\d+)/$','test_check'),
         url(r'^centre/check_pass$','check_pass'),
