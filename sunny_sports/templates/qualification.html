@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <script>
+      if (!document.addEventListener) {
+        // IE6~IE8
+        //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+          //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+            document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
+              }else{
+              document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+              }
+            </script>
+            <script src="../../static/js/jspdf.min.js"></script>' 
+            <script src="../../static/js/cufon.js"></script>' 
+            <script src="../../static/js/html2canvas.min.js"></script>' 
+          </head>
+          <body>
+            <script type="text/javascript"> Cufon.now(); </script>
+            <script>
+              $(function(){
+                var img = new Image();
+                img.src = "/media/zhengshu-2000.jpeg";
+                img.onload = function(){
+                  var width = img.width;
+                  var height = img.height;
+                  var $name = $('<span style="position:absolute;top:'+height*0.44+';left:'+width*0.2+';font-size:'+width*0.04+'px">{{ct.coach.property.name}}</span>');
+                  var $s_y = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.38+';font-size:'+width*0.03+'px">{{ct.train.train_stime.year}}</span>');
+                  var $s_m = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.5+';font-size:'+width*0.03+'px">{{ct.train.train_stime.month}}</span>');
+                  var $s_d = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.59+';font-size:'+width*0.03+'px">{{ct.train.train_stime.day}}</span>');
+                  var $e_y = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.7+';font-size:'+width*0.03+'px">{{ct.train.train_etime.year}}</span>');
+                  var $e_m = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.82+';font-size:'+width*0.03+'px">{{ct.train.train_etime.month}}</span>');
+                  var $e_d = $('<span style="position:absolute;top:'+height*0.53+';left:'+width*0.14+';font-size:'+width*0.03+'px">{{ct.train.train_etime.day}}</span>');
+                  var $cert = $('<span style="position:absolute;top:'+height*0.75+';left:'+width*0.17+';font-size:'+width*0.02+'px;color:red">{{ct.certificate}}</span>');
+                  // get time
+                  var $g_y = $('<span style="position:absolute;top:'+height*0.803+';left:'+width*0.63+';font-size:'+width*0.02+'px">{{ct.get_time.year}}</span>');
+                  var $g_m = $('<span style="position:absolute;top:'+height*0.803+';left:'+width*0.715+';font-size:'+width*0.02+'px">{{ct.get_time.month}}</span>');
+                  var $g_d = $('<span style="position:absolute;top:'+height*0.803+';left:'+width*0.765+';font-size:'+width*0.02+'px">{{ct.get_time.day}}</span>');
+
+                  var $c = $('<div></div>')
+
+                  $c.width(width);
+                  $c.height(height);
+
+                  $c.append(img);
+                  $c.append($name);
+                  $c.append($s_y);
+                  $c.append($s_m);
+                  $c.append($s_d);
+                  $c.append($e_y);
+                  $c.append($e_m);
+                  $c.append($e_d);
+                  $c.append($cert);
+                  $c.append($g_y);
+                  $c.append($g_m);
+                  $c.append($g_d);
+
+                  $('body').append($c);
+
+                  Cufon.set('fontFamily', 'Amaze').replace('span');
+                  Cufon.set('fontSize', width*0.5+'px');
+                  Cufon.replace('span');
+
+                  var pdf = new jsPDF('l','px','a4');
+                  //var pdf = new jsPDF('l','px',[height, width]);
+
+                  var filename = '全国快乐体操初级教练员培训班证书-' +$cert.text() + '.pdf'
+
+                  pdf.addHTML( $c ,function() {
+                    var pdfdata = pdf.output('datauristring');
+                    pdf.save(filename);
+                    window.close();
+                  });
+                }
+              });
+            </script>
+          </body>
+        </html>

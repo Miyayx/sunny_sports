@@ -225,4 +225,16 @@ def download_excel(req):
             rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company) for ct in coachtrains]
         return export_xls(req, train.name, fields, rows)
 
+@login_required()
+def download_qualification(req):
+    #证书下载
+    cert = req.GET.get("cert",0)
+    if cert:
+        try:
+            ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
+            return render_to_response('qualification.html', {"ct":ct}, RequestContext(req))
+        except:
+            return HttpResponse(u"不存在相关证书")
+    return HttpResponse(u"不存在相关证书")
+
         

@@ -74,7 +74,7 @@
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>证书编号：</b></font>
-                                &nbsp;{{old_ct.certificate}} &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-success btn-sm" disabled="true">下载证书</button><p/>
+                                &nbsp;{{old_ct.certificate}} &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-success btn-sm download-pdf" href="/dl_qual?cert={{old_ct.certificate}}" target="_blank">下载证书</a><p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训简介：</b></font>
@@ -187,36 +187,36 @@
 <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
 <script type="text/javascript">
     $("td a.btn-primary").click(function(){
-$.post("/coach/train/payment", 
-{"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
-function(data){
-});
-});
-$("td a.btn-danger").click(function(){
-bootbox.dialog({
-message: "<h3>确定取消报名？</h3>",
-buttons: {
-    cancel: {
-        label: "取消",
-        className: "btn-default",
-        callback: function() {
-        }
-    },
-    main: {
-        label: "确定",
-        className: "btn-primary",
-        callback: function() {
-            $.post("/coach/train/reg_cancel", 
-                {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
-                function(data){
-                    if(data["success"])
-                        location.reload();
-                });
-        }
-    }
-}
-        });
-
+        $.post("/coach/train/payment", 
+            {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+            function(data){
+            });
     });
+    $("td a.btn-danger").click(function(){
+        bootbox.dialog({
+            message: "<h3>确定取消报名？</h3>",
+            buttons: {
+                cancel: {
+                    label: "取消",
+                    className: "btn-default",
+                    callback: function() {
+                    }
+                },
+                main: {
+                    label: "确定",
+                    className: "btn-primary",
+                    callback: function() {
+                        $.post("/coach/train/reg_cancel", 
+                            {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+                            function(data){
+                                if(data["success"])
+                                    location.reload();
+                            });
+                    }
+                }
+            }
+        });
+    });
+
 </script>
 {% endblock %}
