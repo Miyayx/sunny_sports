@@ -38,8 +38,11 @@ class CoachTrain(models.Model):
 
     #    super(CoachTrain, self).save(*args, **kwargs)
 
-    def check_pass(self, cert):
-        self.certificate = "{0:0>6d}".format(cert)
+    def check_pass(self, num):
+        """
+        num:当前此级别的证书数量
+        """
+        self.certificate = "{0}{1:0>6d}".format(self.train.level, num)
         self.get_time=datetime.datetime.now()
         self.pass_status=1
         self.save()
