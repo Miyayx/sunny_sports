@@ -76,6 +76,7 @@ jQuery(function($) {
 		type: 'text',
 		name: 'identity',
         display: function(v){
+        if(v.length)
             $(this).html(v.replace(v.substring(3,15), "**********"));
         },
 		validate: function(v) {

@@ -212,7 +212,7 @@ def update_info(req):
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=3)
         ur.is_first = False
-        if data.has_key("nickname"):
+        if data.has_key("nickname") and len(data['nickname'].strip()):
             MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         else:
             MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
