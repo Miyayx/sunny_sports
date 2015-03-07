@@ -19,7 +19,13 @@
             <script>
               $(function(){
                 var img = new Image();
+                {% if ct.train.level == 1 %}
                 img.src = "/media/zhengshu-2000.jpeg";
+                {% elif ct.train.level == 2 %}
+                img.src = "/media/zhengshu2.png";
+                {% elif ct.train.level == 3 %}
+                img.src = "/media/zhengshu3.jpg";
+                {% endif %}
                 img.onload = function(){
                   var width = img.width;
                   var height = img.height;
@@ -63,7 +69,13 @@
                   var pdf = new jsPDF('l','px','a4');
                   //var pdf = new jsPDF('l','px',[height, width]);
 
+                  {% if ct.train.level == 1 %}
                   var filename = '全国快乐体操初级教练员培训班证书-' +$cert.text() + '.pdf'
+                  {% elif ct.train.level == 2 %}
+                  var filename = '全国快乐体操中级教练员培训班证书-' +$cert.text() + '.pdf'
+                  {% elif ct.train.level == 3 %}
+                  var filename = '全国快乐体操高级教练员培训班证书-' +$cert.text() + '.pdf'
+                  {% endif %}
 
                   pdf.addHTML( $c ,function() {
                     var pdfdata = pdf.output('datauristring');
