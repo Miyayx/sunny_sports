@@ -231,10 +231,19 @@ def download_qualification(req):
     cert = req.GET.get("cert",0)
     if cert:
         try:
+            uuid = req.user.id
+            roles = UserRole.objects.filter(user__id=uuid).values_list('role', flat=True)
             ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
-            return render_to_response('qualification.html', {"ct":ct}, RequestContext(req))
-        except:
-            return HttpResponse(u"不存在相关证书")
+            if 0 in roles or 1 in roles: #如果是管理员级别的
+                return render_to_response('qualification.html', {"ct":ct}, RequestContext(req))
+            elif 3 in roles: #如果是本人
+                if uuid == ct.coach.property.user.id:
+                    return render_to_response('qualification.html', {"ct":ct}, RequestContext(req))
+                else: return HttpResponse(u"没有下载权限")
+            else: return HttpResponse(u"没有下载权限")
+        except Exception,e:
+            print e
+            return HttpResponse(u"证书获取出错")
     return HttpResponse(u"不存在相关证书")
 
         
