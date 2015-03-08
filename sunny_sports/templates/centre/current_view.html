@@ -1,0 +1,58 @@
+{% extends "./centre/base.html" %}
+{% block content%}
+{{ block.super }}
+<div class="page-header"><h1>当前培训查看</h1></div>
+<div class="row">
+  <div class="col-xs-1"></div>
+
+  <div class="col-xs-10">
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="thin-border-bottom">
+        <th class="center">组织机构</th>
+        <th class="center">培训编号</th>
+        <th class="center">培训名称</th>
+        <th class="center">等级</th>
+        <th class="center">报名开始时间</th>
+        <th class="center">培训开始时间</th>
+        <th class="center">报名人数/上限人数</th>
+        <th class="center">状态</th>
+        <th class="center">下载名单</th>
+      </thead>
+      <tbody>
+        {% for t in trains %}
+        <tr>
+          <td class="center">{{t.org.name}}</td>
+          <td class="center">{{t.id}}</td>
+          <td class="center">{{t.name}}</td>
+          <td class="center">{{t.get_level_display}}</td>
+          <td class="center">{{t.reg_stime}}</td>
+          <td class="center">{{t.train_stime}}</td>
+          <td class="center">{{t.cur_num}}/{{t.limit}}</td>
+          <td class="center">
+            {% if t.reg_status == 0 %}
+            报名未开始
+            {% elif t.reg_status == 1 %}
+            报名中
+            {% elif t.reg_status == 2 and t.sub_status == 0 %}
+            培训中
+            {% elif t.reg_status == 2 and t.sub_status == 2 %}
+            审核未通过
+            {% endif %}
+          </td>
+          <td class="center download">
+            {% if t.cur_num == 0%}
+            <a class="btn btn-default btn-minier" href="/download?t_id={{t.id}}" disabled=true>下载</a>
+            {% else%}
+            <a class="btn btn-primary btn-minier" href="/download?t_id={{t.id}}">下载</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    注：按培训开始时间排序
+  </div>
+
+  <div class="col-xs-1"></div>
+</div>
+{% endblock %}
