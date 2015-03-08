@@ -216,6 +216,8 @@ def download_excel(req):
     t_id = req.GET.get("t_id",0)
     if t_id:
         coachtrains = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
+        if not len(coachtrains):
+            return HttpResponse(u"该培训暂无学员报名，不提供名单")
         train = coachtrains[0].train
         if train.pub_status: #如果已经发布，包括是否通过，证书号
             fields = [u"学员姓名",  u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"证书编号"]
@@ -223,7 +225,7 @@ def download_excel(req):
         else:
             fields = [u"学员姓名",  u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位"]
             rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company) for ct in coachtrains]
-        return export_xls(req, train.name, fields, rows)
+        return export_xls(req, "%s-%s"%(train.id,train.name), fields, rows)
 
 @login_required()
 def download_qualification(req):

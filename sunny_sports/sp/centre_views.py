@@ -104,6 +104,13 @@ def history_view(req):
             return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
 
 @login_required()
+@transaction.atomic
+def current_view(req):
+    if req.method == "GET":
+        trains = Train.objects.filter(pub_status=0).exclude(sub_status=1).order_by('train_stime') #未提交审核的，未成历史的
+        return render_to_response('centre/current_view.html',{"trains":trains})
+
+@login_required()
 def history_print(req, train_id=None):
     """
     生成csv表格并下载
