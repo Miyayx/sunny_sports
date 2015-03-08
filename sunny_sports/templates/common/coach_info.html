@@ -1,0 +1,49 @@
+
+<div class="page-header"><h1>教练个人信息</h1></div>
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <div>
+            <div class="profile-info-row">
+                <div class="profile-info-name">姓名</div>
+                <div class="profile-info-value">{{coach.property.name}}</div>
+            </div>
+            <div >
+                <div class="profile-info-name">性别</div>
+                <div class="profile-info-value">{{coach.property.sex}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">年龄</div>
+                <div class="profile-info-value">{{coach.property.age}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">身份证号</div>
+                <div class="profile-info-value">{{coach.property.identity}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">手机号码</div>
+                <div class="profile-info-value">{{coach.property.user.phone}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">邮箱</div>
+                <div class="profile-info-value">{{coach.property.email}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">工作单位</div>
+                <div class="profile-info-value">{{coach.property.company}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">常驻地</div>
+                <div class="profile-info-value">{{coach.property.province}},{{coach.property.city}},{{coach.property.dist}},{{coach.property.address}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">俱乐部</div>
+                <div class="profile-info-value">{{coach.club.name}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">教学等级</div>
+                <div class="profile-info-value">{{coach.get_t_level_display}}</div>
+            </div>
+        </div>
+    </div>
+</div>

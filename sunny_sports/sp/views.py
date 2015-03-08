@@ -248,4 +248,26 @@ def download_qualification(req):
             return HttpResponse(u"证书获取出错")
     return HttpResponse(u"不存在相关证书")
 
-        
+@login_required()
+def train_info(req):
+    t_id = req.GET.get("t_id",0)
+    if t_id:
+        try:
+            train = Train.objects.get(id=t_id)
+            return render_to_response('common/train_info.html', {"train":train}, RequestContext(req))
+        except Exception,e:
+            print e
+            return HttpResponse(u"该培训不存在")
+    return HttpResponse(u"该培训不存在")
+
+@login_required()
+def coach_info(req):
+    c_id = req.GET.get("c_id",0)
+    if c_id:
+        try:
+            coach = Coach.objects.get(id=c_id)
+            return render_to_response('common/coach_info.html', {"coach":coach}, RequestContext(req))
+        except Exception,e:
+            print e
+            return HttpResponse(u"该教练不存在")
+    return HttpResponse(u"该教练不存在")

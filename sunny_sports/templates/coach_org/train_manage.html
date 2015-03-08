@@ -145,7 +145,7 @@
                                 <tbody>
                                     {% for ct in cts %}
                                     <tr>
-                                        <td class="center"><a>{{ ct.coach.property.name }}</a>
+                                        <td class="center"><a href="/coach_info?c_id={{ct.coach.id}}">{{ ct.coach.property.name }}</a>
                                             <p style="display:none">{{ ct.id }}</p>
                                             <button class="btn btn-minier btn-danger del-member pull-right"> 删除 </button>
                                         </td>
@@ -256,6 +256,14 @@
                     }
                 });
         });
+
+    $("td a[href^='/coach_info']").click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function(page){
+            bootbox.alert(page, function(){})
+        });
+    });
 
         $('.del-member').click(function(e){
             var $delbtn = $(this);

@@ -125,7 +125,7 @@
                                 {% if ct and ct.status < 3 and ct.status > 0 %}
                                 <tbody>
                                     <tr>
-                                        <td><a href="#">{{ct.train.name}}</a></td>
+                                        <td><a href="/train_info?t_id={{ct.train.id}}">{{ct.train.name}}</a></td>
                                         <td>{{ct.train.org.name}}</td>
                                         <td>{{ct.train.reg_stime}}</td>
                                         <td>{{ct.train.reg_etime}}</td>
@@ -192,6 +192,15 @@
             function(data){
             });
     });
+
+    $("td a[href^='/train_info']").click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function(page){
+            bootbox.alert(page, function(){})
+        });
+    });
+
     $("td a.btn-danger").click(function(){
         bootbox.dialog({
             message: "<h3>确定取消报名？</h3>",
