@@ -7,13 +7,32 @@
 <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
+        <ul>
+            <li style="display:inline; margin-right:60px; color:grey"> <i class="light ace-icon fa fa-bell bigger-110"></i> 按培训时间排序 </li>
+            <li style="display:inline; margin-right:30px"> <i class="grey ace-icon fa fa-asterisk bigger-110"></i> 报名未开始 </li>
+            <li style="display:inline; margin-right:30px"> <i class="blue ace-icon fa fa-asterisk bigger-110"></i> 报名中 </li>
+            <li style="display:inline; margin-right:30px"> <i class="green ace-icon fa fa-asterisk bigger-110"></i> 培训中 </li>
+            <li style="display:inline; margin-right:30px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待结果审核 </li>
+            <li style="display:inline; margin-right:30px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
+        </ul>
+        <div class="space-8"></div>
         {% if zipped|length %}
         <div class="tabbable tabs-left">
             <ul class="nav nav-tabs" id="train-tab">
                 {% for train, cts in zipped %}
                 <li>
                 <a data-toggle="tab" href="#{{train.id}}">
-                    <i class="pink ace-icon fa fa-tachometer bigger-110"></i>
+                    {% if train.reg_status == 0 %}
+                    <i class="grey ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.reg_status == 1 %}
+                    <i class="blue ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.reg_status == 2 and train.sub_status == 0 %}
+                    <i class="green ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.reg_status == 2 and train.sub_status == 2 %}
+                    <i class="red ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.reg_status == 2 and train.pub_status == 0 %}
+                    <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
+                    {% endif %}
                     {{train.name}}
                 </a>
                 </li>
@@ -25,7 +44,7 @@
                 <div id="{{train.id}}" class="tab-pane">
                     <div class="profile-user-info profile-user-info-striped">
                         <div >
-                            <div class="profile-info-name">培训ID</div>
+                            <div class="profile-info-name">培训编号</div>
                             <div class="profile-info-value t_id" >{{train.id}}</div>
                         </div>
                         <div>
