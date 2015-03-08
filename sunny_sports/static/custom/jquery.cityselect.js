@@ -23,7 +23,7 @@ required:必选项
 			city:null,
 			dist:null,
 			nodata:null,
-			required:true
+			required:false
 		},settings);
 
 		var box_obj=this;
