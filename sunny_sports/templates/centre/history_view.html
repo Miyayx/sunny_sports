@@ -10,12 +10,12 @@
   jQuery(function($) {
     var oTable1 = $('#coach-table').dataTable({
       bAutoWidth : false,
-      "aoColumns" : [ null, null, null ],
+      "aoColumns" : [ null, null, null, null ],
       "aaSorting" : [],
     });
     var oTable2 = $('#judge-table').dataTable({
       bAutoWidth : false,
-      "aoColumns" : [ null, null, null ],
+      "aoColumns" : [ null, null, null, null ],
       "aaSorting" : [],
     });
   })
@@ -33,8 +33,9 @@
         <thead>
           <tr>
             <th class="center">组织机构</th>
-            <th class="center">培训名</th>
+            <th class="center">培训名称</th>
             <th class="center">等级</th>
+            <th class="center">开始时间</th>
           </tr>
         </thead>
 
@@ -44,6 +45,7 @@
             <td class="center">{{t.org.name}}</td>
             <td class="center"><a href="/centre/history_view?t_id={{t.id}}">{{t.name}}</a></td>
             <td class="center">{{t.get_level_display}}</td>
+            <td class="center">{{t.train_stime}}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -59,8 +61,9 @@
           <thead>
             <tr>
               <th class="center">组织机构</th>
-              <th class="center">培训名</th>
-              <th class="center">等级</th>
+            <th class="center">培训名称</th>
+            <th class="center">等级</th>
+            <th class="center">开始时间</th>
             </tr>
           </thead>
 
@@ -70,6 +73,7 @@
               <td class="center">{{t.org.name}}</td>
               <td class="center"><a href="/centre/history_view?t_id={{t.id}}">{{t.name}}</a></td>
               <td class="center">{{t.get_level_display}}</td>
+              <td class="center">{{t.traim_stime}}</td>
             </tr>
             {% endfor %}
           </tbody>

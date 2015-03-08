@@ -28,11 +28,13 @@ def centre(req):
 @login_required()
 @transaction.atomic
 def test_check(req, train_id=None):
-    
+    """
+    待审核页面
+    """
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
         print "test_check, id %s"%train_id
-        if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
+        if train_id and len(train_id) > 0: #有编号的话就返回对应培训的人名单
             c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=0, train__sub_status=1, status__gt=0) #已提交但未发表
             #train = Train.objects.get(id=train_id)
             #filter return a list
@@ -41,9 +43,9 @@ def test_check(req, train_id=None):
                 train = c_t[0].train
                 return render_to_response('centre/test_check2.html',{"c_t":c_t, "train":train})
             else:
-                return HttpResponse("<h2>没有该课程的审核请求</h2>")
+                return HttpResponse("<h2>没有该培训的审核请求</h2>")
         else:#否则返回待审核列表
-            ctlist = Train.objects.filter(pub_status=0, sub_status=1) #这里查的是Train的status，是联合两个表的查询，用两个_
+            ctlist = Train.objects.filter(pub_status=0, sub_status=1).order_by('train_stime') #这里查的是Train的status，是联合两个表的查询，用两个_
             jtlist = []
             return render_to_response('centre/test_check.html',{"ctlist":ctlist, "jtlist":jtlist})
 
@@ -89,15 +91,15 @@ def check_pass(req):
 def history_view(req):
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
-        if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
+        if train_id and len(train_id) > 0: #有编号的话就返回对应培训的人名单
             c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1, status__gt=0)
             if len(c_t) > 0:
                 train = c_t[0].train
                 return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train, "base":"./centre/base.html"})
             else:
-                return HttpResponse("<h2>没有该课程的历史信息</h2>")
-        else:#否则返回课程列表
-            ctlist = Train.objects.filter(pub_status=1) 
+                return HttpResponse("<h2>没有该培训的历史信息</h2>")
+        else:#否则返回培训列表
+            ctlist = Train.objects.filter(pub_status=1).order_by('-train_stime')
             jtlist = []
             return render_to_response('centre/history_view.html',{"ctlist":ctlist, "jtlist":jtlist})
 

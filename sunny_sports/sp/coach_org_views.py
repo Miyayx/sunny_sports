@@ -29,24 +29,27 @@ def home(req):
     # 用这个id查信息哦
     print uuid
     coachorg = CoachOrg.objects.get(user_id=uuid)
-    opentrains = Train.objects.filter(org=coachorg, pub_status=0).order_by('train_stime')
-    endtrains = Train.objects.filter(org=coachorg, pub_status=1).order_by('train_stime')
+    opentrains = Train.objects.filter(org=coachorg, pub_status=0).order_by('-train_stime')#按培训开始时间排序
+    endtrains = Train.objects.filter(org=coachorg, pub_status=1).order_by('-train_stime')#按培训开始时间排序
     return render_to_response('coach_org/home.html',{"coachorg":coachorg,"opentrains":opentrains, "endtrains":endtrains[:5]} ,RequestContext(req))
 
 @login_required()
 def train(req):
+    """
+    历史培训查看
+    """
     uuid = req.user.id
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
-        if train_id and len(train_id) > 0: #有编号的话就返回对应课程的人名单
+        if train_id and len(train_id) > 0: #有编号的话就返回对应培训的人名单
             c_t = CoachTrain.objects.filter(train_id=train_id, train__pub_status=1)
             if len(c_t) > 0:
                 train = c_t[0].train
                 return render_to_response('centre/history_view2.html',{"c_t":c_t, "train":train, "base":"./coach_org/base.html"}, RequestContext(req))
             else:
-                return HttpResponse("<h2>没有该课程的历史信息</h2>")
-        else:#否则返回课程列表
-            endtrains = Train.objects.filter(org__user_id=uuid, pub_status=1).order_by('train_stime')
+                return HttpResponse("<h2>没有该培训的历史信息</h2>")
+        else:#否则返回培训列表
+            endtrains = Train.objects.filter(org__user_id=uuid, pub_status=1).order_by('-train_stime')#按培训开始时间排序
             return render_to_response('coach_org/train_query.html',{"coachorgtrains":endtrains}, RequestContext(req))
 
 @login_required()
@@ -84,15 +87,10 @@ def train_publish(req):
 
 @login_required()
 def train_manage(req):
-    if req.method == "POST":
-        pass
-    else:
-        uuid = req.user.id
-        # 用这个id查信息哦
-        print uuid
-        opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')
-        coachtrains = [CoachTrain.objects.filter(train=t, status__gt=0) for t in opentrains]
-        return render_to_response('coach_org/train_manage.html',{"zipped":zip(opentrains, coachtrains)}, RequestContext(req))
+    uuid = req.user.id
+    opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')#按培训开始时间排序
+    coachtrains = [CoachTrain.objects.filter(train=t, status__gt=0) for t in opentrains]
+    return render_to_response('coach_org/train_manage.html',{"zipped":zip(opentrains, coachtrains)}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
