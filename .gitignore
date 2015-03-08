@@ -4,3 +4,5 @@
 css+js/
 /sunny_sports/templates/base/include.back
 *.rar
+/sunny_sports/media/upload/
+/sunny_sports/static/custom/convert_city.py
