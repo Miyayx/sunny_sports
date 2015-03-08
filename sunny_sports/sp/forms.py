@@ -16,6 +16,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
 
+from captcha.fields import CaptchaField
+from captcha.models import CaptchaStore
+from captcha.helpers import captcha_image_url
+
 from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models import *
 from utils import *
@@ -187,5 +191,23 @@ class CoachPropertyForm(ModelForm):
 #头像上传
 class UserForm(forms.Form):
     headImg = forms.FileField()
-    
 
+class CaptchaForm(forms.Form):
+    captcha = CaptchaField()
+
+    def is_valide(self):
+        self.cleaned_data['captcha'] = self.cleaned_data['captcha'].upper()
+        print self.cleaned_data
+        return super(CaptchaForm, self).is_valid()
+
+class CustomCaptcha():
+    def __init__(self, hidden_input_id, input_id, img_id):
+        self.hidden_input_id = hidden_input_id
+        self.input_id =  input_id
+        self.img_id = img_id
+        self.cptch_key = CaptchaStore.generate_key()
+        print self.cptch_key
+        self.cptch_img = captcha_image_url(self.cptch_key)
+        print self.cptch_img
+    
+     

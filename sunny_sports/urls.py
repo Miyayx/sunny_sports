@@ -8,7 +8,8 @@ from . import views
 import os
 
 urlpatterns = patterns('',
-        url(r'^$', 'sunny_sports.views.login'),
+        url(r'^$', 'sunny_sports.sp.views.mylogin'),
+        url(r'^/$', 'sunny_sports.sp.views.mylogin'),
         #url(r'^favicon.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/clear.png'}),
         url(r'^login$', 'sunny_sports.sp.views.mylogin'),
         url(r'^signup$', 'sunny_sports.sp.views.signup'),
@@ -30,6 +31,7 @@ urlpatterns = patterns('',
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
 
         url(r'^msg$','sunny_sports.sp.views.get_msg'),
+        url(r'^get_captcha$','sunny_sports.sp.views.get_captcha'),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
         url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'media')}),

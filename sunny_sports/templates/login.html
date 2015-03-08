@@ -182,7 +182,7 @@
                                         -->
                                         <input type="hidden" name="role" value="admin"/>
 
-                                        {% include "components/login.html"%}
+                                        {% include "components/login.html" with form=form1%}
                                       </form>
                                     </div> <!--/admin-tab -->
 
@@ -226,7 +226,7 @@
                                   <fieldset>
 
                                     {% include "components/register/phone.html"%}
-                                    {% include "components/register/v_code.html" with btn_id="pwd-code-btn"%}
+                                    {% include "components/register/v_code.html" with btn_id="pwd-code-btn" form=form2 %}
 
                                     <div class="clearfix">
                                       <button type="submit" id="find-pwd" class="width-35 pull-right btn btn-sm btn-danger">
@@ -285,7 +285,7 @@
 
                                         {% include "components/register/phone.html"%}
                                         {% include "components/register/password.html"%}
-                                        {% include "components/register/v_code.html" with btn_id="reg-code-btn"%}
+                                        {% include "components/register/v_code.html" with btn_id="reg-code-btn" form=form3 %}
 
                                         <label class="block">
                                           <input required="required" type="checkbox" class="ace" />

@@ -2,6 +2,7 @@
 from django import forms
 from django.shortcuts import render
 from django.shortcuts import render_to_response
+from django.shortcuts import redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.template.loader import render_to_string
@@ -14,6 +15,9 @@ from django.contrib import messages
 from django.template import RequestContext
 
 from django.views.decorators.http import require_http_methods
+
+from captcha.models import CaptchaStore
+from captcha.helpers import captcha_image_url
 
 from sunny_sports.sp.models import *
 from sunny_sports.sp.models.models import *
@@ -32,8 +36,12 @@ def vcode(req):
     获取验证码请求
     """
     phone = req.POST.get('phone').strip()
+    form = CaptchaForm(req.POST)
+    if not form.is_valid():
+        print form.errors
+        return JsonResponse({"msg":u"图形验证码错误"})
     if not phone or len(phone) == 0:
-        return None
+        return JsonResponse({"msg":u"手机号码错误"})
     result, code = send_vcode(phone)
     print phone
     print code
@@ -66,11 +74,11 @@ def signup(req):
         p, msg = check_vcode(phone, v_code)
         if not p:
             messages.error(req, msg,extra_tags='regist')
-            return HttpResponseRedirect('signup#signup-box')
+            return redirect('/#signup-box')
         #检验密码是否一致
         if not password == password2:
             messages.error(req, u"两次密码输入不一致",extra_tags='regist')
-            return HttpResponseRedirect('signup#signup-box')
+            return redirect('/#signup-box')
 
         role = req.POST.get('role2').strip()
         r_id = get_role_id(role)
@@ -82,9 +90,9 @@ def signup(req):
                 login(req,u) #django自带的login将userid写入session,这步之前一定有authenticate
                 return HttpResponseRedirect('/%s'%role)
         messages.error(req, u"用户身份验证错误",extra_tags='regist')
-        return HttpResponseRedirect('signup#signup-box')
+        return redirect('/#signup-box')
     else:
-        return render_to_response('login.html', context_instance=RequestContext(req))
+        return redirect('/')
 
 @transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
@@ -95,7 +103,8 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
         role = req.POST.get('role',None)
         if not role:
             messages.error(req, u"请选择角色")
-            return render_to_response("login.html", context_instance=RequestContext(req))
+            return redirect('/')
+            #return render_to_response("login.html", context_instance=RequestContext(req))
         user = None
         if un and len(un) >0: #如果用用户名
             #user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
@@ -115,15 +124,22 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                     return HttpResponseRedirect('/%s'%role)
                 else:
                     messages.error(req, u"请选择正确的角色")
-                return render_to_response("login.html", context_instance=RequestContext(req))
+                #return render_to_response("login.html", context_instance=RequestContext(req))
+                return redirect('/login')
             else:
                 messages.error(req, "The password is valid, but the account has been disabled!")
-                return render_to_response("login.html", context_instance=RequestContext(req))
+                return redirect('/login')
         else:
         # the authentication system was unable to verify the username and password
             messages.error(req, u"用户名或密码错误")
-            return render_to_response("login.html", context_instance=RequestContext(req))
-    return render_to_response("login.html", context_instance=RequestContext(req))
+            #return render_to_response("login.html", context_instance=RequestContext(req))
+            return redirect('/login')
+    else:
+        print "login page"
+        form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
+        form2 = CustomCaptcha("hidden2", "captcha2", "captcha-img2")
+        form3 = CustomCaptcha("hidden3", "captcha3", "captcha-img3")
+        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3 }, context_instance=RequestContext(req))
           
 def index(req):
     uuid = req.user.id
@@ -271,3 +287,9 @@ def coach_info(req):
             print e
             return HttpResponse(u"该教练不存在")
     return HttpResponse(u"该教练不存在")
+
+def get_captcha(req):
+    data = dict()
+    data['cptch_key'] = CaptchaStore.generate_key()
+    data['cptch_img'] = captcha_image_url(data['cptch_key'])
+    return JsonResponse(data)
