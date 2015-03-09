@@ -70,7 +70,7 @@ def check_pass(req):
                 #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
                 cur = CoachTrain.objects.filter(pass_status=1, train__level=train.level).count()
                 for i in range(len(pass_c_t)):
-                    pass_c_t[i].check_pass(cert=cur+i)
+                    pass_c_t[i].check_pass(cert=cur+i+1) #编号从1开始计数
                     coach = pass_c_t[i].coach
                     coach.t_level = train[0].level
                     coach.save()
