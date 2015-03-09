@@ -117,6 +117,11 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                 roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
                 print "roles:",roles
                 if role == "admin" and "centre" in roles:
+                    form = CaptchaForm(req.POST)
+                    if not form.is_valid():
+                        print form.errors
+                        messages.error(req, u"图形验证码错误")
+                        return redirect('/login')
                     return HttpResponseRedirect('/centre')
                 elif role == "admin" and "coach_org" in roles:
                     return HttpResponseRedirect('/coach_org')

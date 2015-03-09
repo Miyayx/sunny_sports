@@ -1,0 +1,25 @@
+
+<label class="block clearfix">
+  <span class="block input-icon input-icon-right">
+    <input id="{{form.hidden_input_id}}" required="required" type="hidden" value={{form.cptch_key}} name="captcha_0" />
+    <input required="required"  class="form-control" name="captcha_1" placeholder="图形验证码" id="{{form.input_id}}" />
+    <img class="width-47" style="float:right; margin-top:-32px; cursor:pointer;z-index:100" alt="点击更换" id={{form.img_id}} src="{{form.cptch_img}}"/>
+  </span>
+</label>
+
+<script>
+jQuery(function() {
+
+  //获取验证码
+	var get_captcha = function(){
+	  $.get('/get_captcha',function(res){
+      $('#{{form.hidden_input_id}}').attr('value',res['cptch_key'])
+      $('#{{form.img_id}}').attr('src', res['cptch_img']);
+	  });
+	}
+	//get_captcha();
+  $('#{{form.img_id}}').click(function(){
+	  get_captcha();
+	});
+});
+</script>
