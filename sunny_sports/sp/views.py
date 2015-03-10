@@ -116,15 +116,16 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                 login(req,user) #django自带的login将userid写入session
                 roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
                 print "roles:",roles
-                if role == "admin" and "centre" in roles:
+                if role == "admin":
                     form = CaptchaForm(req.POST)
                     if not form.is_valid():
                         print form.errors
                         messages.error(req, u"图形验证码错误")
                         return redirect('/login')
-                    return HttpResponseRedirect('/centre')
-                elif role == "admin" and "coach_org" in roles:
-                    return HttpResponseRedirect('/coach_org')
+                    if "centre" in roles:
+                        return HttpResponseRedirect('/centre')
+                    elif "coach_org" in roles:
+                        return HttpResponseRedirect('/coach_org')
                 elif role in roles:
                     return HttpResponseRedirect('/%s'%role)
                 else:
@@ -155,7 +156,7 @@ def index(req):
 def mylogout(req):
     logout(req)
     #req.session.clear()
-    return render_to_response("login.html" ,context_instance=RequestContext(req))
+    return redirect('/login')
 
 def find_password(req) :
     if req.method == 'POST':
