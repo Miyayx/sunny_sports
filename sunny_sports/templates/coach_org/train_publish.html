@@ -214,7 +214,9 @@
 <script src="../../assets/js/excanvas.min.js"></script>
 <![endif]-->
 <script src="../../static/js/date-time/jquery.datetimepicker.js"></script>
+<script src="../../static/js/date-time/moment.min.js"></script>
 <script src="../../static/custom/jquery.cityselect.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 <script type="text/javascript">
     jQuery(function($) {
 
@@ -249,6 +251,55 @@
             $(this).prev().focus();
         });
 
+        jQuery.validator.addMethod("reg_etime", function (value, element) {
+            return moment($('#reg-end').val()) > moment($('#reg-start').val());//要用moment转换一下
+        }, "<p class='red'>开始时间晚于结束时间</p>");
+        jQuery.validator.addMethod("train_stime", function (value, element) {
+            return moment($('#train-start').val()) > moment($('#reg-end').val());//要用moment转换一下
+        }, "<p class='red'>培训时间早于报名时间</p>");
+        jQuery.validator.addMethod("train_etime", function (value, element) {
+            return moment($('#train-end').val()) > moment($('#train-start').val());//要用moment转换一下
+        }, "<p class='red'>开始时间晚大于结束时间</p>");
+
+        $('#t-pub-form').validate({
+            rules: {
+                name:{
+                    required:true,
+                },
+                reg_etime: {
+                    required: true,
+                    reg_etime: true,
+                },
+                train_stime: {
+                    required: true,
+                    train_stime: true
+                },
+                train_etime: {
+                    required: true,
+                    train_etime: true
+                }
+            },
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                error.appendTo(element.closest('.form-group span'));
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+
+
         $('#submit').click(function(e){
             e.preventDefault();
             var data = $('#t-pub-form').serialize();
@@ -257,11 +308,10 @@
                     alert("已发布");
                     $('#t-pub-form').trigger('reset');
                 }else{
-                    alert("发布失败，请检查数据格式并重试");
+                    alert("发布失败，请检查发布信息并重试");
                 }
 
             });
-
         });
     });
 </script>

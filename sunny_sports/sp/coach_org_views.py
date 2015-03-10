@@ -78,7 +78,7 @@ def train_publish(req):
             return JsonResponse({'success':True})
         else:
             print t.errors
-            return JsonResponse({'success':False})
+            return JsonResponse({'success':False })
         
     else:
         uuid = req.user.id

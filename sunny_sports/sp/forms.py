@@ -175,6 +175,24 @@ class TrainPublishForm(ModelForm):
         model = Train
         fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime','train_etime']
 
+    def is_valid(self):
+        if super(TrainPublishForm, self).is_valid():
+            if self.cleaned_data['reg_stime'] > self.cleaned_data['reg_etime']:
+                self._errors['time_error'] = u"结束时间早于开始时间"
+                print self._errors['time_error']
+                return False
+            elif self.cleaned_data['reg_etime'].date() > self.cleaned_data['train_stime']:
+                self._errors['time_error'] = u"培训时间早于报名时间"
+                print self._errors['time_error']
+                return False
+            elif self.cleaned_data['train_stime'] > self.cleaned_data['train_etime']:
+                self._errors['time_error'] = u"结束时间早于开始时间"
+                print self._errors['time_error']
+                return False
+            return True
+        else:
+            return False
+
     def save(self, commit=True):
         instance = super(TrainPublishForm, self).save(commit=False)
         instance.reg_status = 1 if instance.reg_stime < timezone.now() else 0
