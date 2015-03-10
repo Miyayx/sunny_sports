@@ -8,7 +8,6 @@ from role import *
 
 import random
 
-
 def make_id():
     """
     Generate id for train

@@ -19,6 +19,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.update(
         CELERY_RESULT_BACKEND='djcelery.backends.cache:CacheBackend',
         )
+CELERY_IMPORTS=("sunny_sports.sp.tasks",)
 
 
 @app.task(bind=True)

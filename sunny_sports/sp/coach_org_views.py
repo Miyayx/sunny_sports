@@ -17,6 +17,11 @@ from sunny_sports.sp.models.models import *
 from sunny_sports.sp.models.status import *
 from sunny_sports.sp.forms import *
 
+from sunny_sports.sp.tasks import train_reg_start
+from sunny_sports.sp.tasks import train_reg_end
+
+from datetime import datetime, timedelta
+
 from convert import *
 
 @login_required()
@@ -72,9 +77,11 @@ def train_publish(req):
         data['address'] = data.get('prov','')+data.get('city','')+data.get('dist','')+data.get('addr','')
         print data
         
-        t = TrainPublishForm(data)
-        if t.is_valid():
-            t.save()
+        tform = TrainPublishForm(data)
+        if tform.is_valid():
+            t = tform.save()
+            train_reg_start.apply_async((t.id,), eta=t.reg_stime+timedelta(seconds=3))
+            train_reg_end.apply_async((t.id,), eta=t.reg_etime+timedelta(seconds=3))
             return JsonResponse({'success':True})
         else:
             print t.errors

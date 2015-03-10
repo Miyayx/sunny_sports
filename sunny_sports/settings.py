@@ -34,6 +34,7 @@ else:
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'django://'
+CELERY_IMPORTS=("sunny_sports.sp.tasks",)
 
 
 # Application definition
