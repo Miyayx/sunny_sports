@@ -30,13 +30,18 @@ jQuery(function($) {
 	$('#birth').editable({
 		type: 'adate',
 		name: 'birth',
-		date: {
+		datepicker: {
 			//datepicker plugin options
 			format: 'yyyy-mm-dd',
 			viewformat: 'yyyy-mm-dd',
 			weekStart: 1,
 			language: "zh-CN" //要引用 bootstrap-datepicker.zh-CN.js
-		}
+		},
+        combodate:{
+            minYear:1945,
+			format: 'yyyy-mm-dd',
+			viewformat: 'yyyy-mm-dd',
+        }
 	});
 
 	$('#email').editable({
