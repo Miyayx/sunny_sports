@@ -252,6 +252,7 @@ def download_excel(req):
 @login_required()
 def download_qualification(req):
     #证书下载
+    from sunny_sports.sp.tools import cufon
     cert = req.GET.get("cert",0)
     if cert:
         try:
@@ -259,10 +260,14 @@ def download_qualification(req):
             roles = UserRole.objects.filter(user__id=uuid).values_list('role', flat=True)
             ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
             if 0 in roles or 1 in roles: #如果是管理员级别的
-                return render_to_response('qualification.html', {"ct":ct}, RequestContext(req))
+                js = cufon.get_js(ct.coach.property.name)
+                print js
+                return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
             elif 3 in roles: #如果是本人
                 if uuid == ct.coach.property.user.id:
-                    return render_to_response('qualification.html', {"ct":ct}, RequestContext(req))
+                    js = cufon.get_js(ct.coach.property.name)
+                    print js
+                    return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
                 else: return HttpResponse(u"没有下载权限")
             else: return HttpResponse(u"没有下载权限")
         except Exception,e:

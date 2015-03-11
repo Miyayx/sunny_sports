@@ -10,12 +10,14 @@
               document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
               }
             </script>
-            <script src="../../static/js/jspdf.min.js"></script>' 
-            <script src="../../static/js/cufon.js"></script>' 
-            <script src="../../static/js/html2canvas.min.js"></script>' 
+            <script src="../../static/js/jspdf.min.js"></script>
+            <script src="../../static/js/html2canvas.min.js"></script>
+            <script src="../../static/js/cufon/cufon-yui.js"></script>
           </head>
           <body>
+            <script type="text/javascript"> {{ cufon|safe }} </script>
             <script type="text/javascript"> Cufon.now(); </script>
+            <script src="../../static/js/cufon/fangsong.font.js"></script>
             <script>
               $(function(){
                 var img = new Image();
@@ -27,20 +29,25 @@
                 img.src = "/media/zhengshu3.jpg";
                 {% endif %}
                 img.onload = function(){
+
                   var width = img.width;
                   var height = img.height;
-                  var $name = $('<span style="position:absolute;top:'+height*0.44+';left:'+width*0.2+';font-size:'+width*0.04+'px">{{ct.coach.property.name}}</span>');
-                  var $s_y = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.38+';font-size:'+width*0.03+'px">{{ct.train.train_stime.year}}</span>');
-                  var $s_m = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.5+';font-size:'+width*0.03+'px">{{ct.train.train_stime.month}}</span>');
-                  var $s_d = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.59+';font-size:'+width*0.03+'px">{{ct.train.train_stime.day}}</span>');
-                  var $e_y = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.7+';font-size:'+width*0.03+'px">{{ct.train.train_etime.year}}</span>');
-                  var $e_m = $('<span style="position:absolute;top:'+height*0.46+';left:'+width*0.82+';font-size:'+width*0.03+'px">{{ct.train.train_etime.month}}</span>');
-                  var $e_d = $('<span style="position:absolute;top:'+height*0.53+';left:'+width*0.14+';font-size:'+width*0.03+'px">{{ct.train.train_etime.day}}</span>');
-                  var $cert = $('<span style="position:absolute;top:'+height*0.75+';left:'+width*0.17+';font-size:'+width*0.02+'px;color:red">{{ct.certificate}}</span>');
+                  var name_ratio = 0.04;
+                  var date_ratio = 0.03;
+                  var cert_ratio = 0.02;
+
+                  var $name = $('<span class="name" style="position:absolute;top:'+height*0.43+';left:'+width*0.2+';font-size:'+width*name_ratio+'px">{{ct.coach.property.name}}</span>');
+                  var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
+                  var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
+                  var $s_d = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.59+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.day}}</span>');
+                  var $e_y = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.7+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.year}}</span>');
+                  var $e_m = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.82+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.month}}</span>');
+                  var $e_d = $('<span class="number" style="position:absolute;top:'+height*0.52+';left:'+width*0.14+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.day}}</span>');
+                  var $cert = $('<span class="number" style="position:absolute;top:'+height*0.74+';left:'+width*0.17+';font-size:'+width*cert_ratio+'px;color:red">{{ct.certificate}}</span>');
                   // get time
-                  var $g_y = $('<span style="position:absolute;top:'+height*0.803+';left:'+width*0.63+';font-size:'+width*0.02+'px">{{ct.get_time.year}}</span>');
-                  var $g_m = $('<span style="position:absolute;top:'+height*0.803+';left:'+width*0.715+';font-size:'+width*0.02+'px">{{ct.get_time.month}}</span>');
-                  var $g_d = $('<span style="position:absolute;top:'+height*0.803+';left:'+width*0.765+';font-size:'+width*0.02+'px">{{ct.get_time.day}}</span>');
+                  var $g_y = $('<span class="number" style="position:absolute;top:'+height*0.803+';left:'+width*0.63+';font-size:'+width*cert_ratio+'px">{{ct.get_time.year}}</span>');
+                  var $g_m = $('<span class="number" style="position:absolute;top:'+height*0.803+';left:'+width*0.715+';font-size:'+width*cert_ratio+'px">{{ct.get_time.month}}</span>');
+                  var $g_d = $('<span class="number" style="position:absolute;top:'+height*0.803+';left:'+width*0.765+';font-size:'+width*cert_ratio+'px">{{ct.get_time.day}}</span>');
 
                   var $c = $('<div></div>')
 
@@ -62,11 +69,19 @@
 
                   $('body').append($c);
 
-                  Cufon.set('fontFamily', 'Amaze').replace('span');
-                  Cufon.set('fontSize', width*0.5+'px');
-                  Cufon.replace('span');
+                  //数字字体
+                  //Cufon.set('fontFamily', 'Times New Roman');
+                  Cufon.set('fontFamily', 'FangSong_GB2312');
+                  //Cufon.set('fontFamily', 'STXingkai');
+                  Cufon.replace('span.number');
 
-                  var pdf = new jsPDF('l','px','a4');
+                  //姓名字体
+                  //Cufon.set('fontFamily', 'KaiTi_GB2312');
+                  Cufon.set('fontFamily', 'STXingkai');
+                  Cufon.set('fontSize', width*name_ratio+'px');
+                  Cufon.replace('span.name');
+
+                  var pdf = new jsPDF('l','px','b5');
                   //var pdf = new jsPDF('l','px',[height, width]);
 
                   {% if ct.train.level == 1 %}
@@ -80,7 +95,7 @@
                   pdf.addHTML( $c ,function() {
                     var pdfdata = pdf.output('datauristring');
                     pdf.save(filename);
-                    window.close();
+                    //window.close();
                   });
                 }
               });
