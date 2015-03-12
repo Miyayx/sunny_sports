@@ -25,160 +25,161 @@
         <link rel="stylesheet" href="../../static/css/ace-skins.min.css" />
         <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
 
-      <!-- basic scripts -->
-    <script>
-      if (!document.addEventListener) {
-        // IE6~IE8
-        //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
-        //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
-          document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
-        }else{
-        document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
-      }
-      </script>
-
-        <!--[if lte IE 9]>
-        <link rel="stylesheet" href="../../static/css/ace-ie.min.css" />
-        <![endif]-->
-
-        <script type="text/javascript">
-            if('ontouchstart' in document.documentElement) 
-                document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-                </script>
-
-        <!-- basic scripts -->
-
-        <script src="../../static/js/jquery-ui.min.js"></script>
-        <script src="../../static/js/jquery.hotkeys.min.js"></script>
-        <script src="../../static/js/bootstrap.min.js"></script>
-
-        <!-- ace scripts -->
-        <script src="../../static/js/ace.min.js"></script>
-        <script src="../../static/js/ace-elements.min.js"></script>
-
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-
-        <!--[if lte IE 8]>
-        <script src="../../static/js/html5shiv.js"></script>
-        <script src="../../static/js/respond.min.js"></script>
-        <![endif]-->
         <!-- page specific plugin styles -->
         <link rel="stylesheet" href="../../static/css/jquery-ui.custom.min.css" />
         <link rel="stylesheet" href="../../static/css/jquery.gritter.css" />
 
-        {% endblock %}
+        <style type="text/css">
+            .user-block{
+            }
+            .user-block .nav-user-photo{
+                min-height:60px;
+                min-width:60px;
+                border-radius: 100%;
+                border: 2px solid #FFF;
+                margin:10px;
+            }
+        </style>
 
-    </head>
+        <!-- basic scripts -->
+        <script>
+            if (!document.addEventListener) {
+                // IE6~IE8
+                //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+                    //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+                        document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
+                            }else{
+                            document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+                            }
+                        </script>
 
-    <style type="text/css">
-        .user-block{
-        }
-        .user-block .nav-user-photo{
-            min-height:60px;
-            min-width:60px;
-            border-radius: 100%;
-            border: 2px solid #FFF;
-            margin:10px;
-        }
-    </style>
+                        <!--[if lte IE 9]>
+                        <link rel="stylesheet" href="../../static/css/ace-ie.min.css" />
+                        <![endif]-->
 
-    <body class="no-skin">
-        {% block body %}
+                        <script type="text/javascript">
+                            if('ontouchstart' in document.documentElement) 
+                                document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+                                </script>
 
-        <!-- #section:basics/navbar.layout -->
-        {% include './base/header.html' %}
-        {% block main-container %}
-        <div class="main-container" id="main-container">
-            <script type="text/javascript">
-                try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-            </script>
+                                {% endblock %}
 
-            {% block sidebar %}
-            <!-- #section:basics/sidebar -->
-            <div id="sidebar" class="sidebar responsive">
-                <script type="text/javascript">
-                    try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-                </script>
-
-                {% block user%}
-                {% endblock %}
-
-                {% block menu %}
-                {% endblock %}
-
-                <!-- #section:basics/sidebar.layout.minimize -->
-                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-                    <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-                </div>
-
-                <!-- /section:basics/sidebar.layout.minimize -->
-                <script type="text/javascript">
-                    try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-                </script>
-            </div>
-
-            <!-- /section:basics/sidebar -->
-            {% endblock %}
-            <div class="main-content">
-                <!-- #section:basics/content.breadcrumbs -->
-                <div class="breadcrumbs" id="breadcrumbs">
-                    <script type="text/javascript">
-                        try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
-                    </script>
-
-                    <ul class="breadcrumb">
-                        <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#">Home</a>
-                        </li>
-                    </ul><!-- /.breadcrumb -->
-
-                </div>
-
-                <!-- /section:basics/content.breadcrumbs -->
-
-                <div class="page-content">
-                    <div class="page-content-area">
-                        <!-- ajax content goes here -->
-                        {% block content %}
-                        {% endblock %}
-                    </div><!-- /.page-content-area -->
-                </div><!-- /.page-content -->
-            </div><!-- /.main-content -->
-            {% include './base/footer.html' %}
-
-            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-            </a>
-        </div><!-- /.main-container -->
-        {% endblock %} <!-- end main-container -->
-
-        {% endblock %}
+                            </head>
 
 
-                <script src="../../static/custom/base.js"></script>
+                            <body class="no-skin">
+                                {% block body %}
 
-                <script type="text/javascript">
-                    //Load content via ajax
-                    //jQuery(function($) {
-                        //  if('enable_ajax_content' in ace) {
-                            //    var options = {
-                                //      content_url: function(url) {
-                                    //        //this is for Ace demo only, you should change it
-                                    //        //please refer to documentation for more info
+                                <!-- #section:basics/navbar.layout -->
+                                {% include './base/header.html' %}
+                                {% block main-container %}
+                                <div class="main-container" id="main-container">
+                                    <script type="text/javascript">
+                                        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+                                    </script>
 
-                                    //        if(!url.match(/^page\//)) return false;
+                                    {% block sidebar %}
+                                    <!-- #section:basics/sidebar -->
+                                    <div id="sidebar" class="sidebar responsive">
+                                        <script type="text/javascript">
+                                            try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+                                        </script>
 
-                                        //          var path = document.location.pathname;
+                                        {% block user%}
+                                        {% endblock %}
 
-                                    //        //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
-                                    //        return url.replace(/^page\//,"");
+                                        {% block menu %}
+                                        {% endblock %}
 
-                                        //      },
-                                    //    default_url: 'index',//default url
-                                    //    }
-                                    //    ace.enable_ajax_content($, options);
-                                    //  }
+                                        <!-- #section:basics/sidebar.layout.minimize -->
+                                        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                                            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                                        </div>
+
+                                        <!-- /section:basics/sidebar.layout.minimize -->
+                                        <script type="text/javascript">
+                                            try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+                                        </script>
+                                    </div>
+
+                                    <!-- /section:basics/sidebar -->
+                                    {% endblock %}
+                                    <div class="main-content">
+                                        <!-- #section:basics/content.breadcrumbs -->
+                                        <div class="breadcrumbs" id="breadcrumbs">
+                                            <script type="text/javascript">
+                                                try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+                                            </script>
+
+                                            <ul class="breadcrumb">
+                                                <li>
+                                                <i class="ace-icon fa fa-home home-icon"></i>
+                                                <a href="#">Home</a>
+                                                </li>
+                                            </ul><!-- /.breadcrumb -->
+
+                                        </div>
+
+                                        <!-- /section:basics/content.breadcrumbs -->
+
+                                        <div class="page-content">
+                                            <div class="page-content-area">
+                                                <!-- ajax content goes here -->
+                                                {% block content %}
+                                                {% endblock %}
+                                            </div><!-- /.page-content-area -->
+                                        </div><!-- /.page-content -->
+                                    </div><!-- /.main-content -->
+                                    {% include './base/footer.html' %}
+
+                                    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                                        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+                                    </a>
+                                </div><!-- /.main-container -->
+                                {% endblock %} <!-- end main-container -->
+
+                                {% endblock %}
+
+                                <!-- basic scripts -->
+
+                                <script src="../../static/js/jquery-ui.min.js"></script>
+                                <script src="../../static/js/jquery.hotkeys.min.js"></script>
+                                <script src="../../static/js/bootstrap.min.js"></script>
+
+                                <!-- ace scripts -->
+                                <script src="../../static/js/ace.min.js"></script>
+                                <script src="../../static/js/ace-elements.min.js"></script>
+
+                                <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+                                <!--[if lte IE 8]>
+                                <script src="../../static/js/html5shiv.js"></script>
+                                <script src="../../static/js/respond.min.js"></script>
+                                <![endif]-->
+
+                                <script src="../../static/custom/base.js"></script>
+
+                                <script type="text/javascript">
+                                    //Load content via ajax
+                                    //jQuery(function($) {
+                                        //  if('enable_ajax_content' in ace) {
+                                            //    var options = {
+                                                //      content_url: function(url) {
+                                                    //        //this is for Ace demo only, you should change it
+                                                    //        //please refer to documentation for more info
+
+                                                    //        if(!url.match(/^page\//)) return false;
+
+                                                        //          var path = document.location.pathname;
+
+                                                    //        //for Ace HTML demo version, convert ajax.html#page/gallery to > gallery.html and load it
+                                                    //        return url.replace(/^page\//,"");
+
+                                                        //      },
+                                                    //    default_url: 'index',//default url
+                                                    //    }
+                                                    //    ace.enable_ajax_content($, options);
+                                                    //  }
               //});
 
               //jQuery(document)

@@ -53,16 +53,6 @@
               if('ontouchstart' in document.documentElement) document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
               </script>
 
-              <script src="../../static/js/bootstrap.min.js"></script>
-              <script src="../../static/js/jquery-ui.custom.min.js"></script>
-              <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
-              <script src="../../static/js/bootbox.min.js"></script>
-              <script src="../../static/js/jquery.hotkeys.min.js"></script>
-              <script src="../../static/js/jquery.gritter.min.js"></script>
-              <!-- ace scripts -->
-              <script src="../../static/js/ace.min.js"></script>
-              <script src="../../static/js/ace-elements.min.js"></script>
-
             </head>
 
             <body class="login-layout blur-login">
@@ -329,8 +319,16 @@
                 </div>
               </div><!-- /.main-content -->
 
+              <script src="../../static/js/bootstrap.min.js"></script>
+              <script src="../../static/js/jquery-ui.custom.min.js"></script>
+              <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
+              <script src="../../static/js/bootbox.min.js"></script>
+              <script src="../../static/js/jquery.hotkeys.min.js"></script>
+              <script src="../../static/js/jquery.gritter.min.js"></script>
+              <!-- ace scripts -->
+              <script src="../../static/js/ace.min.js"></script>
+              <script src="../../static/js/ace-elements.min.js"></script>
 
-              <!-- inline scripts related to this page -->
               <script type="text/javascript">
                 jQuery(function($) {
                   window.onload = function() {
@@ -376,54 +374,29 @@
                     text: '因系统测试原因，3月3日晚曾清空数据库。在此之前的注册用户信息未保留，请重新注册。为您带来的不便敬请谅解。'
                   });
 
-                  //	$('#students').click(function () {
-                    //		$("#studnetsLabel").css("font-weight","bold");
-                    //		$("#studnetsLabel").css("color","#0066FF ");
-                    //		$("#teamsLabel").css("font-weight","normal");
-                    //		$("#teamsLabel").css("color","black");
-                    //		$("#adminLabel").css("font-weight","normal");
-                    //		$("#adminLabel").css("color","black");
-                //	});
-                //	$('#teams').click(function () {
-                  //		$("#teamsLabel").css("font-weight","bold");
-                  //		$("#teamsLabel").css("color","#0066FF ");
-                  //		$("#studnetsLabel").css("font-weight","normal");
-                  //		$("#studnetsLabel").css("color","black");
-                  //		$("#adminLabel").css("font-weight","normal");
-                  //		$("#adminLabel").css("color","black");
-                //	});
-                //	$('#admin').click(function () {
-                  //		$("#studnetsLabel").css("font-weight","normal");
-                  //		$("#studnetsLabel").css("color","black");
-                  //		$("#adminLabel").css("font-weight","bold");
-                  //		$("#adminLabel").css("color","#0066FF ");
-                  //		$("#teamsLabel").css("font-weight","normal");
-                  //		$("#teamsLabel").css("color","black");
-                //	});
-
-                $('#student2').click(function () {
-                  $("#studentForm").show();
-                  $("#judgeForm").hide();
-                  $("#coachForm").hide();
-                });
-                $('#coach2').click(function () {
-                  $("#studentForm").hide();
-                  $("#judgeForm").hide();
-                  $("#coachForm").show();
-                });
-                $('#judge2').click(function () {
-                  $("#studentForm").hide();
-                  $("#judgeForm").show();
-                  $("#coachForm").hide();
-                });
-                $('#club2').click(function () {
-                  $("#clubForm").show();
-                  $("#teamForm").hide();
-                });
-                $('#team2').click(function () {
-                  $("#clubForm").hide();
-                  $("#teamForm").show();
-                });
+                  $('#student2').click(function () {
+                    $("#studentForm").show();
+                    $("#judgeForm").hide();
+                    $("#coachForm").hide();
+                  });
+                  $('#coach2').click(function () {
+                    $("#studentForm").hide();
+                    $("#judgeForm").hide();
+                    $("#coachForm").show();
+                  });
+                  $('#judge2').click(function () {
+                    $("#studentForm").hide();
+                    $("#judgeForm").show();
+                    $("#coachForm").hide();
+                  });
+                  $('#club2').click(function () {
+                    $("#clubForm").show();
+                    $("#teamForm").hide();
+                  });
+                  $('#team2').click(function () {
+                    $("#clubForm").hide();
+                    $("#teamForm").show();
+                  });
 
                 });
               </script>
