@@ -8,8 +8,8 @@ import datetime
 
 from django.utils import timezone
 
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.models import *
+from sp.models.models import *
+from sp.models import *
 
 def gen_vcode():
     return random.randint(100000,999999)

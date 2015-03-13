@@ -1,25 +1,16 @@
 
 # -*- coding:utf-8 -*-
-from django.shortcuts import render,render_to_response,redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import JsonResponse
+
+from g_import import *
+
 from django.core.context_processors import csrf
-from django.views.decorators.http import require_http_methods
-from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
-from django.db.models import F
 
-from sunny_sports.sp.models import *
-from sunny_sports.sp.models.association import *
-from sunny_sports.sp.models.role import *
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.forms import *
 from utils import *
 from alipay_utils import alipay_payment
 
-from sunny_sports.sp.tasks import payment_check
+from sp.tasks import payment_check
 from django import forms
 from datetime import datetime, timedelta
 from PIL import Image
@@ -260,6 +251,8 @@ def update_img(request):
             suffix = path.split('.')[1];
             if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
                 imgpath = os.path.join(MEDIA_ROOT,path)
+                print "imgpath-->"+imgpath
+                #imgpath = path
                 im = Image.open(imgpath)
                 new_img=im.resize((200,200),Image.ANTIALIAS)
                 new_img.save(imgpath)

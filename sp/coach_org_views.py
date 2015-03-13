@@ -1,24 +1,12 @@
 
 # -*- coding:utf-8 -*-
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import JsonResponse
-from django.shortcuts import render_to_response
+
+from g_import import *
+
 from django.core.context_processors import csrf
-from django.views.decorators.http import require_http_methods
-from django.template import RequestContext
-from django.contrib.auth.decorators import login_required
-from django.db.models import F
 
-from sunny_sports.sp.models import *
-from sunny_sports.sp.models.association import *
-from sunny_sports.sp.models.role import *
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.models.status import *
-from sunny_sports.sp.forms import *
-
-from sunny_sports.sp.tasks import train_reg_start
-from sunny_sports.sp.tasks import train_reg_end
+from sp.tasks import train_reg_start
+from sp.tasks import train_reg_end
 
 from datetime import datetime, timedelta
 

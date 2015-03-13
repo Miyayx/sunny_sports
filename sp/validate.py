@@ -6,9 +6,9 @@ from django.http import JsonResponse
 from django.core.context_processors import csrf
 from django.template import RequestContext
 
-from sunny_sports.sp.models import *
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.models.status import get_role_id
+from sp.models import *
+from sp.models.models import *
+from sp.models.status import get_role_id
 
 def is_phone_exists(req):
     #检验该手机号是否已注册

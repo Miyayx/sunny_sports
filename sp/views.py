@@ -1,30 +1,21 @@
+
 # -*- coding:utf-8 -*-
+
+from g_import import *
+
 from django import forms
-from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.shortcuts import redirect
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import JsonResponse
 from django.template.loader import render_to_string
-from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 #from django.contrib.auth import authenticate
 from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.template import RequestContext
-
-from django.views.decorators.http import require_http_methods
 
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 
-from sunny_sports.sp.models import *
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.models.status import get_role_id
-from sunny_sports.sp.backend import MyBackend 
+from sp.models.status import get_role_id
+from sp.backend import MyBackend 
 
-from forms import *
 from utils import *
 
 # Create your views here.
@@ -252,7 +243,7 @@ def download_excel(req):
 @login_required()
 def download_qualification(req):
     #证书下载
-    from sunny_sports.sp.tools import cufon
+    from sp.tools import cufon
     cert = req.GET.get("cert",0)
     if cert:
         try:

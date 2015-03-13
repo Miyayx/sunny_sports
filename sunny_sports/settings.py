@@ -34,7 +34,7 @@ else:
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'django://'
-CELERY_IMPORTS=("sunny_sports.sp.tasks",)
+CELERY_IMPORTS=("sp.tasks",)
 
 
 # Application definition
@@ -49,7 +49,7 @@ INSTALLED_APPS = (
     'djcelery',
     'captcha',
     'kombu.transport.django',
-    'sunny_sports.sp',
+    'sp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,7 +60,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'sunny_sports.sp.middleware.AutoLogout',
+    'sp.middleware.AutoLogout',
 )
 
 #Handle session is not Json Serializable
@@ -96,7 +96,7 @@ DATE_FORMAT = "Y-m-d"
 DATETIME_FORMAT = "Y-m-d H:i"
 
 AUTH_USER_MODEL = 'sp.MyUser'     
-AUTHENTICATION_BACKENDS = ( 'sunny_sports.sp.backend.MyBackend', )
+AUTHENTICATION_BACKENDS = ( 'sp.backend.MyBackend', )
 
 LOGIN_URL='/'
 LOGOUT_URL='/login'
@@ -121,18 +121,33 @@ USE_TZ = True
 
 # Template files(HTML)
 TEMPLATE_DIRS=( 
-        os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'), 
+        os.path.join(BASE_DIR, 'templates').replace('\\','/'), 
         ) 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATICFILES_DIRS=( 
-        os.path.join(os.path.dirname(__file__), 'static').replace('\\','/'), 
+        os.path.join(BASE_DIR, 'static').replace('\\','/'), 
         ) 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media').replace('\\','/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\','/')
+
+# Role definition
+USER_ROLES = (
+        'centre',
+        'coach_org',
+        'student',
+        'coach',
+        'judge',
+        'club',
+        'team',
+        'committee',
+        )
+
+CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_dots',)
+

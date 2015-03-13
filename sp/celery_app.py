@@ -9,7 +9,7 @@ from django.conf import settings
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sunny_sports.settings')
 
-app = Celery('sunny_sports')
+app = Celery('sp')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
@@ -19,7 +19,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.update(
         CELERY_RESULT_BACKEND='djcelery.backends.cache:CacheBackend',
         )
-CELERY_IMPORTS=("sunny_sports.sp.tasks",)
+CELERY_IMPORTS=("sp.tasks",)
 
 
 @app.task(bind=True)

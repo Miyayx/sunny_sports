@@ -20,8 +20,9 @@ from captcha.fields import CaptchaField
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.models import *
+from sp.models.models import *
+from sp.models import *
+
 from utils import *
 
 class LoginForm(forms.Form):
@@ -210,6 +211,7 @@ class CoachPropertyForm(ModelForm):
 class UserForm(forms.Form):
     headImg = forms.FileField()
 
+#验证码
 class CaptchaForm(forms.Form):
     captcha = CaptchaField()
 

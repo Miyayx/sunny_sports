@@ -9,8 +9,8 @@ from django.contrib.auth.models import (
         )
 from django.db import transaction
 
-from sunny_sports.sp.models.status import * 
-#from sunny_sports.sp.models.role import CoachProperty
+from sp.models.status import * 
+#from sp.models.role import CoachProperty
 import role as role_model
 
 # Create your models here.

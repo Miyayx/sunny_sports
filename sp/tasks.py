@@ -6,11 +6,11 @@ from celery import task
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 
-from sunny_sports.sp.models.association import *
-from sunny_sports.sp.models.role import *
-from sunny_sports.sp.models.models import *
-from sunny_sports.sp.models.status import *
-from sunny_sports.sp.models.train import *
+from sp.models.association import *
+from sp.models.role import *
+from sp.models.models import *
+from sp.models.status import *
+from sp.models.train import *
 
 #@periodic_task(run_every=crontab(hour=0, minute=0))
 @periodic_task(run_every=crontab(minute='*/10'))

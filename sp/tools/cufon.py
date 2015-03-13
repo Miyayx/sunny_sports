@@ -34,8 +34,8 @@ if __name__ == "__main__":
     django.setup()
 
     import datetime
-    from sunny_sports.sp.models import *
-    from sunny_sports.sp.models.models import *
+    from sp.models import *
+    from sp.models.models import *
 
     js = get_js(get_all_letters())
     print js

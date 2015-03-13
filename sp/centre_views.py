@@ -1,24 +1,6 @@
 # -*- coding:utf-8 -*-
-import json
-
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.shortcuts import render_to_response
-from django.shortcuts import redirect
-from django.template import RequestContext
-from django.template import Context, Template
-from django.db.models import F
+from g_import import *
 from django.core.context_processors import csrf
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
-
-from sunny_sports.sp.models import *
-from sunny_sports.sp.models.association import *
-from sunny_sports.sp.models.role import *
-from sunny_sports.sp.models.models import *
-
-from forms import *
 
 @login_required()
 @transaction.atomic

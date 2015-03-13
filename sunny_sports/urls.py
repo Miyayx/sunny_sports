@@ -3,26 +3,26 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from . import views
+from . import settings
 
 import os
 
 urlpatterns = patterns('',
-        url(r'^$', 'sunny_sports.sp.views.mylogin'),
-        url(r'^/$', 'sunny_sports.sp.views.mylogin'),
+        url(r'^$', 'sp.views.mylogin'),
+        url(r'^/$', 'sp.views.mylogin'),
         #url(r'^favicon.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/img/clear.png'}),
-        url(r'^login$', 'sunny_sports.sp.views.mylogin'),
-        url(r'^signup$', 'sunny_sports.sp.views.signup'),
-        url(r'^logout$', 'sunny_sports.sp.views.mylogout'),
-        url(r'^vcode$', 'sunny_sports.sp.views.vcode'),
-        url(r'^find_password$', 'sunny_sports.sp.views.find_password'),
-        url(r'^reset_password$', 'sunny_sports.sp.views.reset_password'),
-        url(r'^password$', 'sunny_sports.sp.views.password'),
+        url(r'^login$', 'sp.views.mylogin'),
+        url(r'^signup$', 'sp.views.signup'),
+        url(r'^logout$', 'sp.views.mylogout'),
+        url(r'^vcode$', 'sp.views.vcode'),
+        url(r'^find_password$', 'sp.views.find_password'),
+        url(r'^reset_password$', 'sp.views.reset_password'),
+        url(r'^password$', 'sp.views.password'),
         url(r'^service_term$', TemplateView.as_view(template_name='service_term.html')),
-        url(r'^download$', 'sunny_sports.sp.views.download_excel'),
-        url(r'^dl_qual$', 'sunny_sports.sp.views.download_qualification'),
-        url(r'^train_info$', 'sunny_sports.sp.views.train_info'),
-        url(r'^coach_info$', 'sunny_sports.sp.views.coach_info'),
+        url(r'^download$', 'sp.views.download_excel'),
+        url(r'^dl_qual$', 'sp.views.download_qualification'),
+        url(r'^train_info$', 'sp.views.train_info'),
+        url(r'^coach_info$', 'sp.views.coach_info'),
 
         url(r'^student/', TemplateView.as_view(template_name='student/empty.html')),
         url(r'^judge/', TemplateView.as_view(template_name='judge/empty.html')),
@@ -30,11 +30,11 @@ urlpatterns = patterns('',
         url(r'^team/', TemplateView.as_view(template_name='team/empty.html')),
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
 
-        url(r'^msg$','sunny_sports.sp.views.get_msg'),
-        url(r'^get_captcha$','sunny_sports.sp.views.get_captcha'),
+        url(r'^msg$','sp.views.get_msg'),
+        url(r'^get_captcha$','sp.views.get_captcha'),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
-        url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'media')}),
+        url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
         url(r'^admin/', include(admin.site.urls)),
         )
 
@@ -43,7 +43,7 @@ urlpatterns += patterns('',
             url(r'^captcha/', include('captcha.urls')),
             )
 
-urlpatterns += patterns('sunny_sports.sp.validate',
+urlpatterns += patterns('sp.validate',
             url(r'^validate/phone', 'is_phone_exists'),
             url(r'^validate/nickname', 'is_nickname_exists'),
             url(r'^validate/shortname', 'is_orgshortname_exists'),
@@ -51,7 +51,7 @@ urlpatterns += patterns('sunny_sports.sp.validate',
             )
 
 # centre
-urlpatterns += patterns('sunny_sports.sp.centre_views',
+urlpatterns += patterns('sp.centre_views',
         url(r'^centre$', 'centre'),
         url(r'^centre/test_check$','test_check'),
         #url(r'^centre/test_check/(?P<train_id>\d{9-10})/$','test_check'),
@@ -67,7 +67,7 @@ urlpatterns += patterns('sunny_sports.sp.centre_views',
         )
 
 # coach_org
-urlpatterns += patterns('sunny_sports.sp.coach_org_views',
+urlpatterns += patterns('sp.coach_org_views',
         url(r'^coach_org$', 'coach_org'),
         url(r'^coach_org/home$', 'home'),
         url(r'^coach_org/train_query$', 'train'),
@@ -81,7 +81,7 @@ urlpatterns += patterns('sunny_sports.sp.coach_org_views',
         )
 
 # coach
-urlpatterns += patterns('sunny_sports.sp.coach_views',
+urlpatterns += patterns('sp.coach_views',
         url(r'^coach$', 'coach'),
         url(r'^coach/home$', 'home'),
         url(r'^coach/center$', 'center'),
