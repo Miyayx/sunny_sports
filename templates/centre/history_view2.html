@@ -67,7 +67,11 @@
                         <td class="center">{{i.number}}</td>
                         -->
                         <td class="center">{{i.get_pass_status_display}}</td>
-                        <td class="center">{{i.certificate}}</td>
+                        <td class="center">{{i.certificate}}
+                            {% if i.pass_status %}
+                            <a href="/dl_qual?cert={{i.certificate}}" class="btn btn-minier btn-success" style="margin-left:10px"> 下载 </a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
