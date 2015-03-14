@@ -27,22 +27,22 @@ def train_reg_end_p():
 @task
 def train_reg_start(t_id):
     print("%s train reg start at %s"%(t_id, timezone.now()))
-    Train.objects.filter(id=t_id, reg_status=0, reg_stime__lte=timezone.now()).update(reg_status=1)
+    Train.objects.filter(id=t_id, pass_status=1, reg_status=0, reg_stime__lte=timezone.now()).update(reg_status=1)
 
 @task
 def train_reg_end(t_id):
     print("%s train reg end at %s"%(t_id, timezone.now()))
-    Train.objects.filter(id=t_id, reg_status__lte=2, reg_etime__lte=timezone.now()).update(reg_status=2)
+    Train.objects.filter(id=t_id, pass_status=1, reg_status__lte=2, reg_etime__lte=timezone.now()).update(reg_status=2)
 
 @task
 def train_start(t_id):
     print("%s train start at %s"%(t_id, timezone.now()))
-    Train.objects.filter(id=t_id, train_stime__lte=timezone.now()).update(train_status=1)
+    Train.objects.filter(id=t_id, pass_status=1, train_stime__lte=timezone.now()).update(train_status=1)
 
 @task
 def train_end(t_id):
     print("%s train end at %s"%(t_id, timezone.now()))
-    Train.objects.filter(id=t_id, train_etime__lte=timezone.now()).update(train_status=2)
+    Train.objects.filter(id=t_id, pass_status=1, train_etime__lte=timezone.now()).update(train_status=2)
 
 @task
 def payment_check(ct_id):

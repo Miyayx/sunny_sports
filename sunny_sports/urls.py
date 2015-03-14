@@ -53,6 +53,8 @@ urlpatterns += patterns('sp.validate',
 # centre
 urlpatterns += patterns('sp.centre_views',
         url(r'^centre$', 'centre'),
+        url(r'^centre/train_check$','train_check'),
+        url(r'^centre/train_pass$','train_pass'),
         url(r'^centre/test_check$','test_check'),
         #url(r'^centre/test_check/(?P<train_id>\d{9-10})/$','test_check'),
         #url(r'^centre/test_check/(?P<train_id>\d+)/$','test_check'),

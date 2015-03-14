@@ -9,9 +9,44 @@ def centre(req):
 
 @login_required()
 @transaction.atomic
+def train_check(req, train_id=None):
+    """
+    发布培训待审核页面
+    """
+    if req.method == "GET":
+        train_id = req.GET.get("t_id", None)
+        print "train_check, id %s"%train_id
+        if train_id and len(train_id) > 0: #有编号的话就返回对应培训的页面
+            try:
+                train = Train.objects.get(id=train_id)
+                return render_to_response('centre/train_check2.html',{"train":train})
+            except:
+                return HttpResponse("<h2>没有该培训的审核请求</h2>")
+        else:#否则返回待审核列表
+            ctlist = Train.objects.filter(pass_status=0).order_by('reg_stime')
+            return render_to_response('centre/train_check.html',{"ctlist":ctlist})
+
+@login_required()
+@transaction.atomic
+def train_pass(req):
+    """
+    审核批准后
+    """
+    if req.method == "POST":
+        t_id = req.POST.get("t_id")
+        if int(req.POST.get("pass", 0)): #审核通过
+            Train.objects.filter(id=t_id).update(pass_status=1)
+        else: #审核不通过,该培训直接删除
+            Train.objects.filter(id=t_id).delete()
+        return JsonResponse({"success":True})
+    else:
+        return JsonResponse({"success":False})
+
+@login_required()
+@transaction.atomic
 def test_check(req, train_id=None):
     """
-    待审核页面
+    培训结果待审核页面
     """
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
@@ -89,7 +124,7 @@ def history_view(req):
 @transaction.atomic
 def current_view(req):
     if req.method == "GET":
-        trains = Train.objects.filter(pub_status=0).exclude(sub_status=1).order_by('train_stime') #未提交审核的，未成历史的
+        trains = Train.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('train_stime') #未提交审核的，未成历史的
         return render_to_response('centre/current_view.html',{"trains":trains})
 
 @login_required()

@@ -81,7 +81,9 @@
                                 <td class="hidden-480">{{train.id}}</td>
                                 <td><a href="/coach_org/train_manage#{{train.id}}">{{train.name}}</a></td>
                                 <td>{{train.get_level_display}}</td>
-                                {% if train.reg_status == 0 %}
+                                {% if train.pass_status == 0 %}
+                                <td>等待审核</td>
+                                {% elif train.reg_status == 0 %}
                                 <td>未开始</td>
                                 {% elif train.reg_status == 1 %}
                                 <td>报名中</td>
@@ -93,7 +95,7 @@
                                 <td>培训结束</td>
                                 {% elif train.sub_status == 1 and train.pub_status == 0 %}
                                 <td>等待结果审核</td>
-                                {% elif train.sub_status == 2 and train.pub_status == 0 %}
+                                {% elif train.pass_status == 2 or train.sub_status == 2 and train.pub_status == 0 %}
                                 <td>审核未通过</td>
                                 {% endif %}
 

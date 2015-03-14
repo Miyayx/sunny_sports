@@ -14,7 +14,7 @@
             <li style="display:inline; margin-right:30px"> <i class="purple ace-icon fa fa-asterisk bigger-110"></i> 报名结束 </li>
             <li style="display:inline; margin-right:30px"> <i class="green ace-icon fa fa-asterisk bigger-110"></i> 培训中 </li>
             <li style="display:inline; margin-right:30px"> <i class="pink ace-icon fa fa-asterisk bigger-110"></i> 培训结束 </li>
-            <li style="display:inline; margin-right:30px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待结果审核 </li>
+            <li style="display:inline; margin-right:30px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待审核 </li>
             <li style="display:inline; margin-right:30px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
         </ul>
         <div class="space-8"></div>
@@ -24,7 +24,9 @@
                 {% for train, cts in zipped %}
                 <li>
                 <a data-toggle="tab" href="#{{train.id}}">
-                    {% if train.reg_status == 0 %}
+                    {% if train.pass_status == 0 %}
+                    <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.reg_status == 0 %}
                     <i class="grey ace-icon fa fa-asterisk bigger-110"></i>
                     {% elif train.reg_status == 1 %}
                     <i class="blue ace-icon fa fa-asterisk bigger-110"></i>
@@ -34,9 +36,9 @@
                     <i class="green ace-icon fa fa-asterisk bigger-110"></i>
                     {% elif train.train_status == 2 and train.sub_status == 0 %}
                     <i class="pink ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.sub_status == 2 %}
+                    {% elif train.pass_status == 2 or train.sub_status == 2 %}
                     <i class="red ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.sub_status == 1 and train.pub_status == 0 %}
+                    {% elif train.pass_status == 0 or train.sub_status == 1 and train.pub_status == 0 %}
                     <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
                     {% endif %}
                     {{train.name}}
@@ -90,7 +92,9 @@
                         <div>
                             <div class="profile-info-name">当前状态</div>
                             <div class="profile-info-value">
-                                {% if train.reg_status == 0 %}
+                    {% if train.pass_status == 0 %}
+                                <span class="red">等待审核</span>
+                                {% elif train.reg_status == 0 %}
                                 <span class="red">报名未开始</span>
                                 {% elif train.reg_status == 1 %}
                                 <span class="red">报名中</span>
@@ -100,9 +104,9 @@
                                 <span class="red">培训中</span>
                                 {% elif train.train_status == 2 and train.sub_status == 0 %}
                                 <span class="red">培训结束</span>
-                                {% elif train.sub_status == 2 %}
+                                {% elif train.pass_stauts == 2 or train.sub_status == 2 %}
                                 <span class="red">审核未通过</span>
-                                {% elif train.sub_status == 1 and train.pub_status == 0 %}
+                                {% elif train.pass_status == 0 or train.sub_status == 1 and train.pub_status == 0 %}
                                 <span class="red">等待结果审核</span>
                                 {% endif %}
                             </div>
@@ -110,7 +114,7 @@
                     </div>
                     <div>
                         <div class="row">
-                            {% if train.reg_status == 2 and not train.sub_status == 1 %}
+                            {% if train.pass_status == 1 and train.reg_status == 2 and not train.sub_status == 1 %}
                             <h3 class="col-sm-10">结果录入</h3>
                             {% else %}
                             <h3 class="col-sm-10">班级信息</h3>
@@ -136,14 +140,14 @@
                                         {% endif %}
                                         -->
                                         <!-- 报名期间不出现“是否通过”的列-->
-                                        {% if train.reg_status == 2 and not train.sub_status == 1 %}
+                                        {% if train.pass_status == 1 and train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                         <th class="center">是否通过
                                             <br/>
                                             <input type="checkbox" class="ace check-all">
                                             <span class="lbl"></span>
                                         </th>
-                                        {% elif train.reg_status == 2 and train.sub_status == 1 %}
+                                        {% elif train.pass_status == 1 and train.reg_status == 2 and train.sub_status == 1 %}
                                         <!-- 报名截止, 且成绩结果已提交，等待中心审核-->
                                         <th class="center">是否通过
                                             <br/>
@@ -166,7 +170,7 @@
                                         <td class="center mem-num">{{ct.number}}</td>
                                         {% endif %}
                                         -->
-                                        {% if train.reg_status == 2 and not train.sub_status == 1 %}
+                                        {% if train.pass_status and train.reg_status == 2 and not train.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
                                         <td class="center">
                                             {% if ct.pass_status %}
@@ -176,7 +180,7 @@
                                             {% endif %}
                                             <span class="lbl"></span>
                                         </td>
-                                        {% elif train.reg_status == 2 and train.sub_status == 1 %}
+                                        {% elif train.pass_status and train.reg_status == 2 and train.sub_status == 1 %}
                                         <!-- 报名截止, 且成绩结果已提交，等待中心审核-->
                                         <td class="center">
                                             {% if ct.pass_status %}
@@ -195,7 +199,7 @@
                                 {% if train.cur_num > 0  %}
                                 <a class="btn btn-success download-btn" href="/download?t_id={{train.id}}" target="_blank">下载Excel</a>
                                 {% endif %}
-                                {% if train.reg_status == 2 and not train.sub_status == 1 %}
+                                {% if train.pass_status and train.reg_status == 2 and not train.sub_status == 1 %}
                                 <button class="btn btn-success save-btn">保存</button>
                                 <button class="btn btn-info submit-btn">提交</button>
                                 {% endif %}

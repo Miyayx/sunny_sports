@@ -196,7 +196,7 @@ class TrainPublishForm(ModelForm):
 
     def save(self, commit=True):
         instance = super(TrainPublishForm, self).save(commit=False)
-        instance.reg_status = 1 if instance.reg_stime < timezone.now() else 0
+        instance.reg_status = 1 if instance.reg_stime < timezone.now() and instance.pass_status else 0
         if commit:
             instance.save()
         return instance
