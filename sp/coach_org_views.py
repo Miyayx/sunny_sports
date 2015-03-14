@@ -5,8 +5,7 @@ from g_import import *
 
 from django.core.context_processors import csrf
 
-from sp.tasks import train_reg_start
-from sp.tasks import train_reg_end
+from sp.tasks import *
 
 from datetime import datetime, timedelta
 
@@ -68,8 +67,11 @@ def train_publish(req):
         tform = TrainPublishForm(data)
         if tform.is_valid():
             t = tform.save()
+            #启动计时器
             train_reg_start.apply_async((t.id,), eta=t.reg_stime+timedelta(seconds=3))
             train_reg_end.apply_async((t.id,), eta=t.reg_etime+timedelta(seconds=3))
+            train_start.apply_async((t.id,), eta=t.train_stime+timedelta(seconds=3))
+            train_end.apply_async((t.id,), eta=t.train_etime+timedelta(seconds=3))
             return JsonResponse({'success':True})
         else:
             print t.errors

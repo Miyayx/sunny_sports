@@ -11,7 +11,9 @@
             <li style="display:inline; margin-right:60px; color:grey"> <i class="light ace-icon fa fa-bell bigger-110"></i> 按培训时间排序 </li>
             <li style="display:inline; margin-right:30px"> <i class="grey ace-icon fa fa-asterisk bigger-110"></i> 报名未开始 </li>
             <li style="display:inline; margin-right:30px"> <i class="blue ace-icon fa fa-asterisk bigger-110"></i> 报名中 </li>
+            <li style="display:inline; margin-right:30px"> <i class="purple ace-icon fa fa-asterisk bigger-110"></i> 报名结束 </li>
             <li style="display:inline; margin-right:30px"> <i class="green ace-icon fa fa-asterisk bigger-110"></i> 培训中 </li>
+            <li style="display:inline; margin-right:30px"> <i class="pink ace-icon fa fa-asterisk bigger-110"></i> 培训结束 </li>
             <li style="display:inline; margin-right:30px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待结果审核 </li>
             <li style="display:inline; margin-right:30px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
         </ul>
@@ -26,11 +28,15 @@
                     <i class="grey ace-icon fa fa-asterisk bigger-110"></i>
                     {% elif train.reg_status == 1 %}
                     <i class="blue ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.reg_status == 2 and train.sub_status == 0 %}
+                    {% elif train.reg_status == 2 and train.train_status == 0 %}
+                    <i class="purple ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.train_status == 1 and train.sub_status == 0 %}
                     <i class="green ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.reg_status == 2 and train.sub_status == 2 %}
+                    {% elif train.train_status == 2 and train.sub_status == 0 %}
+                    <i class="pink ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif train.sub_status == 2 %}
                     <i class="red ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.reg_status == 2 and train.pub_status == 0 %}
+                    {% elif train.sub_status == 1 and train.pub_status == 0 %}
                     <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
                     {% endif %}
                     {{train.name}}
@@ -86,11 +92,15 @@
                                 <span class="red">报名未开始</span>
                                 {% elif train.reg_status == 1 %}
                                 <span class="red">报名中</span>
-                                {% elif train.reg_status == 2 and train.sub_status == 0 %}
+                                {% elif train.reg_status == 2 and train.train_status == 0 %}
+                                <span class="red">报名结束</span>
+                                {% elif train.train_status == 1 and train.sub_status == 0 %}
                                 <span class="red">培训中</span>
-                                {% elif train.reg_status == 2 and train.sub_status == 2 %}
+                                {% elif train.train_status == 2 and train.sub_status == 0 %}
+                                <span class="red">培训结束</span>
+                                {% elif train.sub_status == 2 %}
                                 <span class="red">审核未通过</span>
-                                {% elif train.reg_status == 2 and train.pub_status == 0 %}
+                                {% elif train.sub_status == 1 and train.pub_status == 0 %}
                                 <span class="red">等待结果审核</span>
                                 {% endif %}
                             </div>
@@ -257,13 +267,13 @@
                 });
         });
 
-    $("td a[href^='/coach_info']").click(function(e){
-        e.preventDefault();
-        var url = $(this).attr('href');
-        $.get(url, function(page){
-            bootbox.alert(page, function(){})
+        $("td a[href^='/coach_info']").click(function(e){
+            e.preventDefault();
+            var url = $(this).attr('href');
+            $.get(url, function(page){
+                bootbox.alert(page, function(){})
+            });
         });
-    });
 
         $('.del-member').click(function(e){
             var $delbtn = $(this);

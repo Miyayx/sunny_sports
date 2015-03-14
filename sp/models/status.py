@@ -28,6 +28,13 @@ REG_STATUS = (
         (2,"regist end"),
         )
 
+#培训状态
+TRAIN_STATUS = (
+        (0,"未开始"),
+        (1,"进行中"),
+        (2,"结束"),
+        )
+
 #成绩是否发布
 PUB_STATUS = (
         (0,"not_published"),

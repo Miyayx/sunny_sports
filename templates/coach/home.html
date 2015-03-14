@@ -5,6 +5,11 @@
 <script src="http://sunny-sports.qiniudn.com/static/js/excanvas.min.js"></script>
 <![endif]-->
 
+{% with "lmh" as level_tabs %}
+{% with "初中高" as level_labels %}
+
+{% load template_tags%}
+
 <div class="page-header"><h1>首页</h1></div>
 
 <div class="row">
@@ -44,7 +49,7 @@
         </div>
     </div>
 
-	<div class="col-sm-1"></div>
+    <div class="col-sm-1"></div>
     <div class="col-xs-12 col-sm-6">
         <div class="space-10"></div>
         <div class="col-sm-11">
@@ -149,91 +154,43 @@
 
             <div class="widget-body">
                 <div class="widget-main">
+                    {% for k in "123" %}
+                    {% with forloop.counter0 as i %}
                     <div class="profile-activity clearfix">
                         <!-- 这里对等级进行判断，已确定当前显示-->
-                        {% if coach.t_level >= 1 %}
+                        {% if coach.t_level > i %}
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
-                        初级：已通过
-                        {% elif coach.t_level == 0 and not ct and t_count > 0 %}
+                        {{level_labels|get:i}}级：已通过
+                        {% elif coach.t_level == i and not ct and t_count > 0 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        初级：<a href="/coach/train"> 去报名 </a>
-                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 0 %}
+                        {{level_labels|get:i}}级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == i and ct.pass_status == 0 and ct.status == 0 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        初级：<a href="/coach/train"> 去报名 </a>
-                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 1 %}
+                        {{level_labels|get:i}}级：<a href="/coach/train"> 去报名 </a>
+                        {% elif coach.t_level == i and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        初级：<a href="/coach/train"> 已报名 </a>
-                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
+                        {{level_labels|get:i}}级：<a href="/coach/train"> 已报名 </a>
+                        {% elif coach.t_level == i and ct.pass_status == 0 and ct.status == 2 and ct.train.train_status == 0 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        初级：<a href="/coach/train"> 已报名 </a>
-                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 2 %}
+                        {{level_labels|get:i}}级：<a href="/coach/train"> 等待培训开始 </a>
+                        {% elif coach.t_level == i and ct.pass_status == 0 and ct.status == 2 and ct.train.train_status == 1 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        初级：<a href="/coach/train"> 进行中 </a>
-                        {% elif coach.t_level == 0 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 2 %}
+                        {{level_labels|get:i}}级：<a href="/coach/train"> 进行中 </a>
+                        {% elif coach.t_level == i and ct.pass_status == 0 and ct.status == 2 and ct.train.train_status == 2 %}
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        初级：<a href="/coach/train"> 进行中 </a>
+                        {{level_labels|get:i}}级：<a href="/coach/train"> 已结束 </a>
                         {% else %}
                         <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
-                        初级：未进行
+                        {{level_labels|get:i}}级：未进行
                         {% endif %}
                     </div>
-                    <div class="profile-activity clearfix">
-                        {% if coach.t_level >= 2 %}
-                        <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
-                        中级：已通过
-                        {% elif coach.t_level == 1 and ct.pass_status == 1 and t_count > 0 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        中级：<a href="/coach/train"> 去报名 </a>
-                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 0 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        中级：<a href="/coach/train"> 去报名 </a>
-                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 1 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        中级：<a href="/coach/train"> 已报名 </a>
-                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        中级：<a href="/coach/train"> 已报名 </a>
-                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 2 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        中级：<a href="/coach/train"> 进行中 </a>
-                        {% elif coach.t_level == 1 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 2 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        中级：<a href="/coach/train"> 进行中 </a>
-                        {% else %}
-                        <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
-                        中级：未进行
-                        {% endif %}
-                    </div>
-                    <div class="profile-activity clearfix">
-                        {% if coach.t_level >= 3 %}
-                        <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
-                        高级：已通过
-                        {% elif coach.t_level == 2 and ct.pass_status == 1 and t_count > 0 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        高级：<a href="/coach/train"> 去报名 </a>
-                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 0 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        高级：<a href="/coach/train"> 去报名 </a>
-                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 1 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        高级：<a href="/coach/train"> 已报名 </a>
-                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 1 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        高级：<a href="/coach/train"> 已报名 </a>
-                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 1 and ct.train.reg_status == 2 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        高级：<a href="/coach/train"> 进行中 </a>
-                        {% elif coach.t_level == 2 and ct.pass_status == 0 and ct.status == 2 and ct.train.reg_status == 2 %}
-                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        高级：<a href="/coach/train"> 进行中 </a>
-                        {% else %}
-                        <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
-                        高级：未进行
-                        {% endif %}
-                    </div>
+                    {% endwith %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endwith %}
+{% endwith %}
 {% endblock %}

@@ -33,9 +33,13 @@
             报名未开始
             {% elif t.reg_status == 1 %}
             报名中
-            {% elif t.reg_status == 2 and t.sub_status == 0 %}
+            {% elif t.reg_status == 2 and t.train_status == 0 %}
+            报名结束
+            {% elif t.train_status == 1 and t.sub_status == 0 %}
             培训中
-            {% elif t.reg_status == 2 and t.sub_status == 2 %}
+            {% elif t.train_status == 2 and t.sub_status == 0 %}
+            培训结束
+            {% elif t.sub_status == 2 %}
             审核未通过
             {% endif %}
           </td>

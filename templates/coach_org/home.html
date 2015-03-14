@@ -85,11 +85,15 @@
                                 <td>未开始</td>
                                 {% elif train.reg_status == 1 %}
                                 <td>报名中</td>
-                                {% elif train.reg_status == 2 and train.sub_status == 0 %}
+                                {% elif train.reg_status == 2 and train.train_status == 0 %}
+                                <td>报名结束</td>
+                                {% elif train.train_status == 1 and train.sub_status == 0 %}
                                 <td>培训中</td>
-                                {% elif train.reg_status == 2 and train_sub_status == 1 and train.pub_status == 0 %}
+                                {% elif train.train_status == 2 and train.sub_status == 0 %}
+                                <td>培训结束</td>
+                                {% elif train.sub_status == 1 and train.pub_status == 0 %}
                                 <td>等待结果审核</td>
-                                {% elif train.reg_status == 2 and train.sub_status == 2 and train.pub_status == 0 %}
+                                {% elif train.sub_status == 2 and train.pub_status == 0 %}
                                 <td>审核未通过</td>
                                 {% endif %}
 
