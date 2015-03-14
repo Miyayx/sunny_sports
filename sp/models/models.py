@@ -129,6 +129,12 @@ class MyUser(AbstractBaseUser):
     def get_short_name(self):
         return "Shortname"
 
+    def is_role(self, roles):
+        for r in self.role.all():
+            if r.get_role_display() in roles:
+                return True
+        return False
+
 class UserRole(models.Model):
     user = models.ForeignKey(MyUser)
     role = models.ForeignKey(Role)

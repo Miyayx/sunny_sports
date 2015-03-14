@@ -18,6 +18,7 @@ import os
 from sunny_sports.settings import MEDIA_ROOT
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def coach(req):
     uuid = req.user.id
     u=UserRole.objects.get(user_id=uuid, role_id=3)
@@ -28,6 +29,7 @@ def coach(req):
         return HttpResponseRedirect("coach/home")
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def home(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -45,6 +47,7 @@ def home(req):
     return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def train(req):
     uuid = req.user.id # 用这个id查信息哦
     coach = Coach.objects.get(property__user_id=uuid)
@@ -77,6 +80,7 @@ def train(req):
     return render_to_response('coach/train.html',{"coach":coach, "trains":trains, "old_cts":old_cts, "ct":ct.latest("id") if len(ct) > 0 else None, "items":range(0,3) }, RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -89,6 +93,7 @@ def center(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach']))
 def info_confirm(req):
     """
     报名后的信息确认
@@ -149,6 +154,7 @@ def info_confirm(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach']))
 def reg_cancel(req):
     """
     取消报名
@@ -167,6 +173,7 @@ def reg_cancel(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach']))
 def payment(req):
     print req.method
     if req.method == "GET":
@@ -193,6 +200,7 @@ def payment(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach']))
 def update_info(req):
     """
     个人中心，用户更新基本信息
@@ -237,6 +245,7 @@ def update_info(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach']))
 def update_img(request):
     uuid = request.user.id
     coach = Coach.objects.get(property__user_id=uuid)

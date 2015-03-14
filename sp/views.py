@@ -229,6 +229,7 @@ def password(req):
         return render_to_response('password.html', {"phone":u.phone}, RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org','centre']))
 def download_excel(req):
     t_id = req.GET.get("t_id",0)
     if t_id:
@@ -245,6 +246,7 @@ def download_excel(req):
         return export_xls(req, "%s-%s"%(train.id,train.name), fields, rows)
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach','coach_org','centre']))
 def download_qualification(req):
     #证书下载
     from sp.tools import cufon

@@ -4,11 +4,13 @@ from django.core.context_processors import csrf
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def centre(req):
     return render_to_response('centre/base.html')
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def train_check(req, train_id=None):
     """
     发布培训待审核页面
@@ -28,6 +30,7 @@ def train_check(req, train_id=None):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def train_pass(req):
     """
     审核批准后
@@ -44,6 +47,7 @@ def train_pass(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def test_check(req, train_id=None):
     """
     培训结果待审核页面
@@ -68,6 +72,7 @@ def test_check(req, train_id=None):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def check_pass(req):
     """
     审核批准后
@@ -105,6 +110,7 @@ def check_pass(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def history_view(req):
     if req.method == "GET":
         train_id = req.GET.get("t_id",None)
@@ -122,6 +128,7 @@ def history_view(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def current_view(req):
     if req.method == "GET":
         trains = Train.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('train_stime') #未提交审核的，未成历史的
@@ -139,6 +146,7 @@ def history_print(req, train_id=None):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def msg_publish(req):
     """
     """
@@ -170,6 +178,7 @@ def password_page(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def org_manage(req):
     if req.method == "GET":
         orgs = CoachOrg.objects.all()
@@ -177,6 +186,7 @@ def org_manage(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def org_info(req):
     if req.method == "GET":
         num = req.GET.get("org_num")
@@ -226,6 +236,7 @@ def org_info(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def org_del(req):
 
     if req.method == "POST":

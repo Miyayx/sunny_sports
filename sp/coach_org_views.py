@@ -12,10 +12,12 @@ from datetime import datetime, timedelta
 from convert import *
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def coach_org(req):
     return HttpResponseRedirect("coach_org/home")
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def home(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -26,6 +28,7 @@ def home(req):
     return render_to_response('coach_org/home.html',{"coachorg":coachorg,"opentrains":opentrains, "endtrains":endtrains[:5]} ,RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def train(req):
     """
     历史培训查看
@@ -45,6 +48,7 @@ def train(req):
             return render_to_response('coach_org/train_query.html',{"coachorgtrains":endtrains}, RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -52,6 +56,7 @@ def center(req):
     return render_to_response('coach_org/center.html',{"coachorg":coach_org[0]},RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def train_publish(req):
     if req.method == "POST":
         data = req.POST.copy()
@@ -97,6 +102,7 @@ def train_publish(req):
         return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org, 'train': t }, RequestContext(req))
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def train_manage(req):
     uuid = req.user.id
     opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')#按培训开始时间排序
@@ -105,6 +111,7 @@ def train_manage(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def score_input(req):
     if req.method == "POST":
         data = req.POST.copy()
@@ -126,6 +133,7 @@ def score_input(req):
         
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def update_info(req):
     """
     个人中心，用户更新基本信息
@@ -154,6 +162,7 @@ def update_info(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def add_member(req):
     if req.method == "GET":
         phone = req.GET.get("phone")
@@ -182,6 +191,7 @@ def add_member(req):
 
 @login_required()
 @transaction.atomic
+@user_passes_test(lambda u: u.is_role(['coach_org']))
 def del_member(req):
 
     if req.method == "POST":
