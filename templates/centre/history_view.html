@@ -25,7 +25,7 @@
 
 <div class="row">
   <div class="col-sm-1"></div>
-  <div class="col-sm-5">
+  <div class="col-sm-10">
     <div class="table-header">教练培训信息查看</div>
     <div>
       <table id="coach-table"
@@ -51,34 +51,6 @@
         </tbody>
       </table>
     </div>
-    </div>
-    <!-- /.col-ms-10 -->
-    <div class="col-sm-5">
-      <div class="table-header">裁判培训信息查看</div>
-      <div>
-        <table id="judge-table"
-          class="table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-              <th class="center">组织机构</th>
-            <th class="center">培训名称</th>
-            <th class="center">等级</th>
-            <th class="center">开始时间</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for t in jtlist %}
-            <tr>
-              <td class="center">{{t.org.name}}</td>
-              <td class="center"><a href="/centre/history_view?t_id={{t.id}}">{{t.name}}</a></td>
-              <td class="center">{{t.get_level_display}}</td>
-              <td class="center">{{t.traim_stime}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
     </div>
     <!-- /.col-ms-10 -->
     <div class="col-sm-1"></div>

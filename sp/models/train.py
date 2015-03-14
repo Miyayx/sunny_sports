@@ -55,6 +55,6 @@ class Train(models.Model):
         """
         if len(self.id) == 0:
             now = datetime.datetime.now()
-            self.id = "{0}{1}{2:0>2d}".format(self.org.shortname, now.year, Train.objects.filter(org=self.org, train_stime__year=now.year).count())
+            self.id = "{0}{1}{2:0>2d}".format(self.org.shortname, now.year, Train.objects.filter(org=self.org, train_stime__year=now.year).count()+1)
 
         super(Train, self).save(*args, **kwargs)
