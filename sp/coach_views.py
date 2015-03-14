@@ -244,20 +244,19 @@ def update_img(request):
         uf = UserForm(request.POST,request.FILES)
         if uf.is_valid():
             headImg = uf.cleaned_data['headImg']
-            temp = coach.property.avatar
-            coach.property.avatar = headImg
-            coach.property.save()
-            path = coach.property.avatar.name
-            suffix = path.split('.')[1];
+            suffix = headImg.name.split('.')[-1]; #check if it's an image
             if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
-                imgpath = os.path.join(MEDIA_ROOT,path)
+                old = coach.property.avatar.name
+                print "old-->"+old
+                coach.property.avatar = headImg
+                coach.property.save() #保存到数据库
+                path = coach.property.avatar.name
+                imgpath = os.path.join(MEDIA_ROOT, path) #图片真实路径
                 print "imgpath-->"+imgpath
-                #imgpath = path
                 im = Image.open(imgpath)
                 new_img=im.resize((200,200),Image.ANTIALIAS)
-                new_img.save(imgpath)
-            else:
-                coach.property.avatar = temp
-                coach.property.save()
+                new_img.save(imgpath) #保存图片
+                os.remove(os.path.join(MEDIA_ROOT, old)) #删除旧头像
+                print "delete-->"+os.path.join(MEDIA_ROOT, old)
     
     return HttpResponseRedirect('/coach/center')
