@@ -56,15 +56,25 @@ def train_publish(req):
     if req.method == "POST":
         data = req.POST.copy()
         uuid = req.user.id
-        org = CoachOrg.objects.get(user_id=uuid)
-        data['org'] = org.id
-        data['level'] = int(data['level'])
-        data['money'] = int(data['money'])
-        data['limit'] = int(data['limit'])
-        data['address'] = data.get('prov','')+data.get('city','')+data.get('dist','')+data.get('addr','')
-        print data
+        t_id = data.get('t_id',0)
+        if t_id: #update train
+            train = Train.objects.get(id=t_id)
+            data['address'] = train.address
+            data['org'] = train.org.id
+            data.pop('t_id')
+            data['level'] = int(data['level'])
+            data['money'] = int(data['money'])
+            data['limit'] = int(data['limit'])
+            tform = TrainPublishForm(data, instance=train)
+        else: # create new train
+            org = CoachOrg.objects.get(user_id=uuid)
+            data['org'] = org.id
+            data['address'] = data.get('prov','')+data.get('city','')+data.get('dist','')+data.get('addr','')
+            data['level'] = int(data['level'])
+            data['money'] = int(data['money'])
+            data['limit'] = int(data['limit'])
+            tform = TrainPublishForm(data)
         
-        tform = TrainPublishForm(data)
         if tform.is_valid():
             t = tform.save()
             #启动计时器
@@ -74,13 +84,17 @@ def train_publish(req):
             train_end.apply_async((t.id,), eta=t.train_etime+timedelta(seconds=3))
             return JsonResponse({'success':True})
         else:
-            print t.errors
+            print tform.errors
             return JsonResponse({'success':False })
         
     else:
+        t_id = req.GET.get('t_id',0)
+        t = None
+        if t_id :
+            t = Train.objects.get(id=t_id)
         uuid = req.user.id
         org = CoachOrg.objects.get(user_id=uuid)
-        return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org}, RequestContext(req))
+        return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org, 'train': t }, RequestContext(req))
 
 @login_required()
 def train_manage(req):

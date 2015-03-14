@@ -29,11 +29,14 @@
                     <label class="control-label no-padding-right">{{ org.name }}</label>
                 </div>
             </div>
+            {% if train %}
+                        <input type="hidden" id="t-id" name="t_id" value="{{train.id}}" required="required">
+            {% endif %}
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训名称</label>
                 <div class="col-sm-9">
                     <span>
-                        <input type="text" id="t-name" name="name" required="required">
+                        <input type="text" id="t-name" name="name" value="{{train.name}}" required="required">
                     </span>
                 </div>
             </div>
@@ -58,12 +61,17 @@
                         <select class="form-control" id="t-level" name="level">
                             <option value="0"> </option>
                             {% for i, l in level %}
+                            {% if train and train.level == i %}
+                            <option value="{{i}}" selected> {{l}} </option>
+                            {% else %}
                             <option value="{{i}}"> {{l}} </option>
+                            {% endif %}
                             {% endfor %}
                         </select>
                     </span>
                 </div>
             </div>
+            {% if not train %}
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 培训地点 </label>
                 <div class="col-sm-9" id="position">
@@ -86,28 +94,14 @@
                     <!-- /section:elements.form.input-icon -->
                 </div>
             </div>
+            {% endif %}
 
-            <!--
-            <div class="space-4"></div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训教师</label>
-                <div class="col-sm-9">
-                    <span class="input-icon input-icon-right">
-                        <select class="form-control" id="form-field-select-1">
-                            <option value=""></option>
-                            <option value="AL">李老师</option>
-                            <option value="AK">牛老师</option>
-                        </select>
-                    </span>
-                </div>
-            </div>
-            -->
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right">人数限制</label>
                 <div class="col-sm-9">
                     <!-- #section:elements.form.input-icon -->
                     <span>
-                        <input class="col-xs-1" type="text" id="limit" name="limit" value="50" required="required" >
+                        <input class="col-xs-1" type="text" id="limit" name="limit" value="{{train.limit}}" required="required" >
                         填写整数
                     </span>
                     <!-- /section:elements.form.input-icon -->
@@ -118,7 +112,7 @@
                 <div class="col-sm-9">
                     <!-- #section:elements.form.input-icon -->
                     <span>
-                        <input class="col-xs-1" type="text" id="t-payment" name="money" value="300" required="required" >
+                        <input class="col-xs-1" type="text" id="t-payment" name="money" value="{{train.money}}" required="required" >
                         填写整数
                     </span>
                     <!-- /section:elements.form.input-icon -->
@@ -130,7 +124,7 @@
                     <div class="col-sm-9">
                         <span class="col-sm-3" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
-                                <input class="form-control" required="required" id="reg-start" name="reg_stime" type="text">
+                                <input class="form-control" required="required" id="reg-start" name="reg_stime" type="text" value="{{train.reg_stime|date:'Y-m-d H:i'}}">
                                 <span class="input-group-addon">
                                     <i class="fa fa-clock-o bigger-110"></i>
                                 </span>
@@ -145,7 +139,7 @@
                     <div class="col-sm-9">
                         <span class="col-sm-3" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
-                                <input class="form-control" required="required" id="reg-end" name="reg_etime" type="text">
+                                <input class="form-control" required="required" id="reg-end" name="reg_etime" type="text" value="{{train.reg_etime|date:'Y-m-d H:i'}}">
                                 <span class="input-group-addon">
                                     <i class="fa fa-clock-o bigger-110"></i>
                                 </span>
@@ -160,7 +154,7 @@
                     <div class="col-sm-9">
                         <span class="col-sm-3" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
-                                <input class="form-control date-picker" required="required" id="train-start" type="text" name="train_stime" data-date-format="yyyy-mm-dd">
+                                <input class="form-control date-picker" required="required" id="train-start" type="text" name="train_stime" data-date-format="yyyy-mm-dd" value="{{train.train_stime|date:'Y-m-d'}}">
                                 <span class="input-group-addon">
                                     <i class="fa fa-calendar bigger-110"></i>
                                 </span>
@@ -175,7 +169,7 @@
                     <div class="col-sm-9">
                         <span class="col-sm-3" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
-                                <input class="form-control date-picker" required="required" id="train-end" type="text" name="train_etime" data-date-format="yyyy-mm-dd">
+                                <input class="form-control date-picker" required="required" id="train-end" type="text" name="train_etime" data-date-format="yyyy-mm-dd" value="{{train.train_etime|date:'Y-m-d'}}">
                                 <span class="input-group-addon">
                                     <i class="fa fa-calendar bigger-110"></i>
                                 </span>
@@ -187,14 +181,18 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-11">其他说明</label>
                 <div class="col-sm-9">
-                    <textarea id="demo" name="demo" class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 52px;width:500px">
+                    <textarea id="demo" name="demo" class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 52px;width:500px" value="{{train.demo}}">
                     </textarea>
                 </div>
             </div>
             <div class="col-md-offset-3 col-md-9">
                 <button class="btn btn-info" type="button" id="submit">
                     <i class="ace-icon fa fa-check bigger-110"></i>
-                    发布
+                    {% if train %}
+                    确定
+                    {% else %}
+                   提交审核 
+                   {% endif %}
                 </button>
                 &nbsp; &nbsp; &nbsp;
                 <button class="btn" type="reset">
@@ -305,13 +303,19 @@
 
         $('#submit').click(function(e){
             e.preventDefault();
+            $('#t-pub-form').removeAttr('novalidate');
+            $('#t-pub-form').validate();
             var data = $('#t-pub-form').serialize();
             $.post('/coach_org/train_publish',data,function(data){
                 if(data['success']){
-                    alert("已发布");
+                    alert("已提交");
+                    {% if train %}
+                    window.location.href = '/coach_org/train_manage#{{train.id}}'
+                    {% else %}
                     $('#t-pub-form').trigger('reset');
+                    {% endif %}
                 }else{
-                    alert("发布失败，请检查发布信息并重试");
+                    alert("失败，请检查发布信息并重试");
                 }
 
             });
