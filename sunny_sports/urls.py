@@ -23,6 +23,7 @@ urlpatterns = patterns('',
         url(r'^dl_qual$', 'sp.views.download_qualification'),
         url(r'^train_info$', 'sp.views.train_info'),
         url(r'^coach_info$', 'sp.views.coach_info'),
+        url(r'^inbox$', 'sp.views.inbox'),
 
         url(r'^student/', TemplateView.as_view(template_name='student/empty.html')),
         url(r'^judge/', TemplateView.as_view(template_name='judge/empty.html')),

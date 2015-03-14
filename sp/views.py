@@ -46,12 +46,27 @@ def get_msg(req):
     header部分获取未读消息
     """
     uuid = req.user.id
+    r = req.session.get('role')
+    print "role-->"+str(r)
     if uuid:
-        msgs = UserMessage.objects.filter(user_id=uuid, checked=False)
+        msgs = UserMessage.objects.filter(userrole__user_id=uuid, userrole__role=r, checked=False)
         print len(msgs)
         html = render_to_string('base/msg.html', {'num':len(msgs), 'msgs': msgs[:5]})
         return HttpResponse(html)
     return None
+
+@login_required()
+def inbox(req):
+    base = {1:"centre/base.html",2:"coach_org/base.html", 3:"coach/base.html"}
+    uuid = req.user.id
+    r = req.session.get('role')
+    print "role-->"+str(r)
+    if uuid:
+        msgs = UserMessage.objects.filter(userrole__user_id=uuid, userrole__role=r)
+        print len(msgs)
+        return render_to_response('inbox.html', {'msgs': msgs[:10], "base":base[r]})
+    return None
+
 
 @transaction.atomic
 def signup(req):
@@ -78,6 +93,7 @@ def signup(req):
         if u is not None:
             # the password verified for the user
             if u.is_active:
+                req.session['role'] = r_id
                 login(req,u) #django自带的login将userid写入session,这步之前一定有authenticate
                 return HttpResponseRedirect('/%s'%role)
         messages.error(req, u"用户身份验证错误",extra_tags='regist')
@@ -104,6 +120,7 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
             # the password verified for the user
             if user.is_active:
                 print("User is valid, active and authenticated")
+                req.session['role'] = user.role.all()[0].role
                 login(req,user) #django自带的login将userid写入session
                 roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
                 print "roles:",roles

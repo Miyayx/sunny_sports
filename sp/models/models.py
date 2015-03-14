@@ -161,6 +161,7 @@ class PasswordDigitalSignature(models.Model):
 
 class Message(models.Model):
     title = models.CharField(max_length=1000) #消息标题
+    sender = models.CharField(max_length=200, default="")
     cont = models.CharField(max_length=3000)  #消息内容
     time = models.DateTimeField(auto_now=True) #发布时间
 
@@ -168,7 +169,7 @@ class Message(models.Model):
         app_label='sp'
 
 class UserMessage(models.Model):
-    user = models.ForeignKey(MyUser)
+    userrole = models.ForeignKey(UserRole)
     msg = models.ForeignKey(Message)
     checked = models.BooleanField(default=False) #是否查看过
 
