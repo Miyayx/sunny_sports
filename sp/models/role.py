@@ -127,6 +127,7 @@ class CoachOrg(models.Model):
     city = models.CharField(max_length=30, blank=True)
     dist = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
+    is_active = models.BooleanField(default=True) 
     
     class Meta:
         app_label='sp'

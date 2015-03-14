@@ -195,11 +195,9 @@ def org_del(req):
 
     if req.method == "POST":
         orgnum = req.POST.get("orgnum")
-        co = CoachOrg.objects.get(org_num=orgnum)        
-        u = co.user
-        print u
-        co.delete()
-        u.delete()
+        co = CoachOrg.objects.get(org_num=orgnum)
+        co.is_active = False if co.is_active else True
+        co.save()
         return JsonResponse({'success':True})
     else:
         return JsonResponse({'success':False})

@@ -44,7 +44,13 @@
                         <td class="center">{{o.province}},{{o.city}},{{o.dist}},{{o.address}}</td>
                         <td class="center">{{o.director}}</td>
                         <td class="center">{{o.user.phone}}</td>
-                        <td class="center"><a class="btn btn-minier btn-primary">编辑</a><a class="btn btn-minier btn-danger org-del"> 删除</a></td>
+                        <td class="center"><a class="btn btn-minier btn-primary">编辑</a>
+                            {% if o.is_active %}
+                            <a class="btn btn-minier btn-danger org-st">禁用</a>
+                            {% else %}
+                            <a class="btn btn-minier btn-danger org-st">开启</a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -69,19 +75,19 @@
         });
     });
 
-    $('.org-del').click(function(){
-        var $delbtn = $(this);
-        var $info = '确定删除组织<b>'+ $delbtn.parents('tr').find("td:first").html().trim()+'</b>?';
+    $('.org-st').click(function(){
+        var $btn = $(this);
+        var $info = '确定对<b>'+ $btn.parents('tr').find("td:first").html().trim()+'</b> 的<b>'+$btn.text()+'</b>操作?';
         bootbox.setDefaults({locale:'zh_CN'});
         bootbox.confirm($info, function(result){
             $.post("/centre/org_del",
             {
                 'csrfmiddlewaretoken': '{{csrf_token}}',
-                'orgnum' : $delbtn.parents('tr').find('.orgnum').html().trim()
+                'orgnum' : $btn.parents('tr').find('.orgnum').html().trim()
                 }, function(res){
                 if(res && res['success'])
-                $delbtn.parents('tr').remove();
-                else alert('删除失败');
+                $btn.text($btn.text()=="禁用" ? "开启":"禁用");
+                else alert('失败');
             });
         });
 

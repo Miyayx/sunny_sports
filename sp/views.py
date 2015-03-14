@@ -116,7 +116,11 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                     if "centre" in roles:
                         return HttpResponseRedirect('/centre')
                     elif "coach_org" in roles:
-                        return HttpResponseRedirect('/coach_org')
+                        if CoachOrg.objects.get(user=user).is_active:
+                            return HttpResponseRedirect('/coach_org')
+                        else:
+                            messages.error(req, u"该机构已禁用")
+                            mylogout(req)
                 elif role in roles:
                     return HttpResponseRedirect('/%s'%role)
                 else:
