@@ -1,0 +1,16 @@
+[Unit]
+Description=uWSGI kuaileticao
+After=syslog.target
+
+[Service]
+#ExecStart=/root/uwsgi/uwsgi --ini /usr/share/nginx/sunny_sports/conf/kuaileticao/uwsgi.ini
+ExecStart=/root/uwsgi/uwsgi --ini /etc/uwsgi/kuaileticao.uwsgi.ini
+ExecStop=/usr/bin/kill -9 `cat /tmp/kuaileticao-master.pid`
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
