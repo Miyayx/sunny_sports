@@ -22,10 +22,10 @@ OS = platform.dist()[0]
 SECRET_KEY = 'x*7jb4_74q_pf6s05%@7ecrt*fhxp5s&3p%xer$)mw4x#xj+j)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if OS == 'centos':
+if OS == 'centos' and 'home' in BASE_DIR:
     DEBUG = False
     TEMPLATE_DEBUG = False
-    ALLOWED_HOSTS = ['localhost','127.0.0.1','121.52.209.117','kuaileticao.com','www.kuaileticao.com']
+    ALLOWED_HOSTS = ['localhost','127.0.0.1','121.52.209.117','kuaileticao.com','www.kuaileticao.com', 'kuaileticao.miyayx.me', 'test.kuaileticao.com']
 else:
     DEBUG = True
     TEMPLATE_DEBUG = True
@@ -80,7 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'mysql.connector.django',
-        'NAME': 'sunny_sports' if not OS == 'centos' else 'kuaileticao',
+        'NAME': 'sunny_sports' if not OS == 'centos' and 'home' in BASE_DIR else 'kuaileticao',
         #'USER': 'root',
         #'PASSWORD': '123',
         #'HOST': '127.0.0.1',
