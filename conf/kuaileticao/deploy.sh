@@ -1,7 +1,7 @@
 #!/bin/sh
 
-cp kuaileticao.com /etc/nginx/site-available/
-ln -s /etc/nginx/site-available/kuaileticao.com /etc/nginx/site-enable/
+cp kuaileticao.com /etc/nginx/sites-available/
+ln -s /etc/nginx/sites-available/kuaileticao.com /etc/nginx/sites-enabled/
 
 mkdir /var/log/nginx
 mkdir /var/log/nginx/kuaileticao.com

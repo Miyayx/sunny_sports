@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cp kuaileticao.miyayx.me /etc/nginx/site-available/
+cp kuaileticao.miyayx.me /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/kuaileticao.miyayx.me /etc/nginx/sites-enabled/
 
 mkdir /var/log/nginx
