@@ -6,3 +6,4 @@ css+js/
 *.rar
 /media/upload/
 /static/custom/convert_city.py
+/sp/migrations/

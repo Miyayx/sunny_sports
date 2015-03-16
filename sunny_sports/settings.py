@@ -80,7 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'mysql.connector.django',
-        'NAME': 'sunny_sports' if not OS == 'centos' and 'home' in BASE_DIR else 'kuaileticao',
+        'NAME': 'sunny_sports' if DEBUG else 'kuaileticao',
         #'USER': 'root',
         #'PASSWORD': '123',
         #'HOST': '127.0.0.1',
@@ -150,4 +150,5 @@ USER_ROLES = (
         )
 
 CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_dots',)
+MSG_CODE = True if OS == 'centos' else False
 
