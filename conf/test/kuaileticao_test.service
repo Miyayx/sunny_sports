@@ -1,9 +1,15 @@
 [Unit]
 Description=uWSGI kuaileticao
 After=syslog.target
+Requires=mysqld.service nginx.service
+Wants=mysqld.service nginx.service
 
 [Service]
-ExecStart=/root/uwsgi/uwsgi --ini /home/kltc/Project/sunny_sports/sunny_sports/uwsgi.ini
+User=kltc
+Group=kltc
+ExecStart=/usr/bin/uwsgi --ini /etc/uwsgi/kuaileticao_test.uwsgi.ini
+#ExecStop=/usr/bin/kill -9 `cat /tmp/kuaileticao_test-master.pid`
+
 Restart=always
 KillSignal=SIGQUIT
 Type=notify

@@ -13,6 +13,7 @@ chown -R kltc:kltc /var/run/celery
 #cp celery_test /etc/sysconfig/
 #cp celerybeat_test /etc/sysconfig/
 cp uwsgi.ini /etc/uwsgi/kuaileticao_test.uwsgi.ini
+chmod 664 /etc/uwsgi/kuaileticao_test.uwsgi.ini
 cp kuaileticao_test.service /etc/systemd/system/
 #cp celery_test.service /etc/systemd/system/
 #cp celerybeat_test.service /etc/systemd/system/
