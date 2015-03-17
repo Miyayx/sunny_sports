@@ -265,7 +265,8 @@ def update_img(request):
                 im = Image.open(imgpath)
                 new_img=im.resize((200,200),Image.ANTIALIAS)
                 new_img.save(imgpath) #保存图片
-                os.remove(os.path.join(MEDIA_ROOT, old)) #删除旧头像
+                if os.path.isfile(old):
+                    os.remove(os.path.join(MEDIA_ROOT, old)) #删除旧头像
                 print "delete-->"+os.path.join(MEDIA_ROOT, old)
     
     return HttpResponseRedirect('/coach/center')
