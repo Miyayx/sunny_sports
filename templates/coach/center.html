@@ -288,6 +288,7 @@
             onchange:null,
             thumbnail:false
         });
+        $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
 
         $('#token').editable({
             value: '{{csrf_token}}',

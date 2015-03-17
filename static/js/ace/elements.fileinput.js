@@ -144,7 +144,8 @@
 
 	Ace_File_Input.prototype.reset_input_ui = function() {
 		 this.$label.attr({'data-title':this.settings.btn_choose, 'class':'ace-file-container'})
-			.find('.ace-file-name:first').attr({'data-title':this.settings.no_file , 'class':'ace-file-name'})
+			//.find('.ace-file-name:first').attr({'data-title':this.settings.no_file , 'class':'ace-file-name'})
+			.find('.ace-file-name:first').attr({ 'class':'ace-file-name'}).text(this.settings.nofile)
 			.find(ace.vars['.icon']).attr('class', ace.vars['icon'] + this.settings.no_icon)
 			.prev('img').remove();
 			if(!this.settings.no_icon) this.$label.find(ace.vars['.icon']).remove();
