@@ -56,19 +56,19 @@ def train(req):
     ct = []
     trains = None
     if coach.t_level == 0:
-        trains = Train.objects.filter(level=1, reg_status=1)
+        trains = Train.objects.filter(level=1, pass_status=1, reg_status=1)
         ct = CoachTrain.objects.filter(coach=coach, train__level=1)
     elif coach.t_level == 1:
         old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
         old_cts.append(old_ct)
         ct = CoachTrain.objects.filter(coach=coach, train__level=2)
-        trains = Train.objects.filter(level=2, reg_status=1)
+        trains = Train.objects.filter(level=2, pass_status=1, reg_status=1)
     elif coach.t_level == 2:
         old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
         old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]
         old_cts.append(old_ct)
         old_cts.append(old_ct2)
-        trains = Train.objects.filter(level=3, reg_status=1)
+        trains = Train.objects.filter(level=3, pass_status=1, reg_status=1)
         ct = CoachTrain.objects.filter(coach=coach, train__level=3)
     else:
         old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
