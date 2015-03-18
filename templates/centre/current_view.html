@@ -27,7 +27,7 @@
           <td class="center">{{t.name}}</td>
           <td class="center">{{t.get_level_display}}</td>
           <td class="center">{{t.reg_stime}}</td>
-          <td class="center">{{t.train_stime}}</td>
+          <td class="center">{{t.train_stime|date:"Y-m-d"}}</td>
           <td class="center">{{t.cur_num}}/{{t.limit}}</td>
           <td class="center">
             {% if t.reg_status == 0 %}

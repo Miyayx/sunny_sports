@@ -125,8 +125,12 @@
                                         &nbsp;{{train.org.name}}<p/>
                                         </li>
                                         <li><i class="ace-icon fa fa-circle green"></i>
-                                        <font size="3px"><b>培训时间：</b></font>
-                                        &nbsp;{{train.train_stime}}<p/>
+                                        <font size="3px"><b>开始时间：</b></font>
+                                        &nbsp;{{train.train_stime|date:"Y-m-d"}}<p/>
+                                        </li>
+                                        <li><i class="ace-icon fa fa-circle green"></i>
+                                        <font size="3px"><b>结束时间：</b></font>
+                                        &nbsp;{{train.train_etime|date:"Y-m-d"}}<p/>
                                         </li>
                                         <li><i class="ace-icon fa fa-circle green"></i>
                                         <font size="3px"><b>培训地点：</b></font>

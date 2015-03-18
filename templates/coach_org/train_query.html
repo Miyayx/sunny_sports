@@ -40,6 +40,7 @@
             <th>等级</th>
             <th>地点</th>
             <th>开始时间</th>
+            <th>结束时间</th>
           </tr>
         </thead>
 
@@ -51,7 +52,8 @@
             <td><a href="/coach_org/train_query?t_id={{train.id}}">{{train.name}}</a></td>
             <td>{{train.get_level_display}}</td>
             <td>{{train.address}}</td>
-            <td>{{train.train_stime}}</td>
+            <td>{{train.train_stime|date:"Y-m-d"}}</td>
+            <td>{{train.train_etime|date:"Y-m-d"}}</td>
           </tr> 
           {% endfor %}
         </tbody>
