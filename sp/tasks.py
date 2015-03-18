@@ -15,14 +15,28 @@ from sp.models.train import *
 #@periodic_task(run_every=crontab(hour=0, minute=0))
 @periodic_task(run_every=crontab(minute='*/30'))
 def train_reg_start_p():
-    print("%d trains start"%len(Train.objects.filter(reg_status=0, reg_stime__lte=timezone.now())))
-    Train.objects.filter(reg_status=0, reg_stime__lte=timezone.now()).update(reg_status=1)
+    trains = Train.objects.filter(reg_status=0, reg_stime__lte=timezone.now())
+    print("%d trains start"%len(trains))
+    trains.update(reg_status=1)
 
 #@periodic_task(run_every=crontab(hour=0, minute=0))
 @periodic_task(run_every=crontab(minute='*/30'))
 def train_reg_end_p():
-    print("%d trains end"%len(Train.objects.filter(reg_status=1, reg_etime__lte=timezone.now())))
-    Train.objects.filter(reg_status=1, reg_etime__lte=timezone.now()).update(reg_status=2)
+    trains = Train.objects.filter(reg_status=1, reg_etime__lte=timezone.now())
+    print("%d trains end"%len(trains))
+    trains.update(reg_status=2)
+
+@periodic_task(run_every=crontab(minute='*/30'))
+def train_start_p():
+    trains = Train.objects.filter(id=t_id, pass_status=1, train_stime__lte=timezone.now())
+    print("%d trains start at %s"%(len(trains), timezone.now()))
+    trains.update(train_status=1)
+
+@periodic_task(run_every=crontab(minute='*/30'))
+def train_end_p():
+    trains = Train.objects.filter(id=t_id, pass_status=1, train_etime__lte=timezone.now())
+    print("%d trains end at %s"%(len(trains), timezone.now()))
+    trains.update(train_status=2)
 
 @task
 def train_reg_start(t_id):

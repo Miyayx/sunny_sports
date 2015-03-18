@@ -92,7 +92,9 @@
                     {% endif %}
                     {% ifequal coach.t_level i %}
                     <div class="center">
-                        {% if ct and ct.status < 3 and ct.status > 0 and ct.train.train_status == 1 %}
+                        {% if ct and ct.status < 3 and ct.status > 0 and not ct.train.sub_status == 0 %}
+                        <span class="label label-xlg label-primary arrowed arrowed-right">培训结束</span>
+                        {% elif ct and ct.status < 3 and ct.status > 0 and ct.train.train_status == 1 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">培训进行中</span>
                         {% elif ct and ct.status < 3 and ct.status > 0 and ct.train.reg_status == 1 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
@@ -154,7 +156,7 @@
                                         <td>{{t.org.name}}</td>
                                         <td>{{t.reg_stime}}</td>
                                         <td>{{t.reg_etime}}</td>
-                                        <td>{{t.train_stime}}</td>
+                                        <td>{{t.train_stime|date:"Y-m-d"}}</td>
                                         <td class="hidden-480">{{t.address}}</td>
                                         <td>{{t.money}}</td>
                                         <td class="hidden-480">{{t.cur_num}}/{{t.limit}}</td>
