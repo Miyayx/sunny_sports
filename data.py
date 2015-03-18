@@ -49,15 +49,15 @@ def init():
 def new_data():
     #pass #新数据的添加写在这里，把pass删掉
     org1 = CoachOrg.objects.filter(id=1)
-    org2 = CoachOrg.objects.filter(id=2)
-    train1 = train.Train(org=org2[0], name=u"2013年第二次培训", address=u"北京体育中心", level=3, max=10, money=200, reg_stime="2013-10-01", reg_etime="2013-10-15", train_stime="2013-11-01")
+    #org2 = CoachOrg.objects.filter(id=2)
+    train1 = train.Train(org=org1[0], name=u"2013年第二次培训", address=u"北京体育中心", level=2, limit=1, money=200, reg_stime="2015-03-18 13:32", reg_etime="2015-03-18 13:38", train_stime="2015-03-22", train_etime="2015-03-24")
     train1.save()
-    train2 = train.Train(org=org1[0], name=u"2014年第一次培训", address=u"北京体育中心", level=2, max=20, money=300, reg_stime="2014-04-01", reg_etime="2014-04-15", train_stime="2014-05-01")
-    train2.save()
-    train3 = train.Train(org=org2[0], name=u"2014年第二次培训", address=u"北京体育中心", level=2, max=20, money=300, reg_stime="2014-10-01", reg_etime="2014-10-15", train_stime="2014-11-01")
-    train3.save()
-    train4 = train.Train(org=org1[0], name=u"2015年第一次培训", address=u"北京体育中心", level=1, max=30, money=500, reg_stime="2015-04-01", reg_etime="2015-04-15", train_stime="2015-05-01")
-    train4.save()
+    #train2 = train.Train(org=org1[0], name=u"2014年第一次培训", address=u"北京体育中心", level=2, max=20, money=300, reg_stime="2014-04-01", reg_etime="2014-04-15", train_stime="2014-05-01")
+    #train2.save()
+    #train3 = train.Train(org=org2[0], name=u"2014年第二次培训", address=u"北京体育中心", level=2, max=20, money=300, reg_stime="2014-10-01", reg_etime="2014-10-15", train_stime="2014-11-01")
+    #train3.save()
+    #train4 = train.Train(org=org1[0], name=u"2015年第一次培训", address=u"北京体育中心", level=1, max=30, money=500, reg_stime="2015-04-01", reg_etime="2015-04-15", train_stime="2015-05-01")
+    #train4.save()
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sunny_sports.settings")
@@ -67,6 +67,6 @@ if __name__ == "__main__":
     from sp.models import *
     from sp.models.models import *
 
-    init()
-    #new_data()
+    #init()
+    new_data()
     

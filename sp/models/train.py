@@ -36,8 +36,8 @@ class Train(models.Model):
     money = models.IntegerField() #费用
     reg_stime = models.DateTimeField() #报名开始时间
     reg_etime = models.DateTimeField() #报名截止时间
-    train_stime = models.DateField() #培训开始时间
-    train_etime = models.DateField() #培训结束时间
+    train_stime = models.DateTimeField() #培训开始时间
+    train_etime = models.DateTimeField() #培训结束时间
     pass_status = models.IntegerField(choices=PASS_STATUS, default=0)#审核状态
     reg_status = models.IntegerField(choices=REG_STATUS, default=0) #报名状态
     train_status = models.IntegerField(choices=TRAIN_STATUS, default=0) #培训状态
