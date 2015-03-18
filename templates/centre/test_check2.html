@@ -11,21 +11,25 @@
                 <div class="profile-info-name">培训编号</div>
                 <div class="profile-info-value">{{train.id}}</div>
             </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name">培训机构</div>
+                <div class="profile-info-value">{{train.org.name}}</div>
+            </div>
             <div>
-                <div class="profile-info-name">培训课程</div>
+                <div class="profile-info-name">培训名称</div>
                 <div class="profile-info-value">{{train.name}}</div>
             </div>
             <div>
-                <div class="profile-info-name">培训时间</div>
-                <div class="profile-info-value">{{train.train_stime}}</div>
+                <div class="profile-info-name">开始时间</div>
+                <div class="profile-info-value">{{train.train_stime|date:"Y-m-d"}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">结束时间</div>
+                <div class="profile-info-value">{{train.train_etime|date:"Y-m-d"}}</div>
             </div>
             <div class="profile-info-row">
                 <div class="profile-info-name">培训等级</div>
                 <div class="profile-info-value">{{train.get_level_display}}</div>
-            </div>
-            <div class="profile-info-row">
-                <div class="profile-info-name">培训机构</div>
-                <div class="profile-info-value">{{train.org.name}}</div>
             </div>
         </div>
         <hr />
@@ -122,7 +126,7 @@
                                     var csrftoken = $.cookie('csrftoken');
                                     $.post('/centre/check_pass', 
                                         //{"pass":1,"t_id":"{{ train.id }}", "csrfmiddlewaretoken": csrftoken, "cert":JSON.stringify(cert)},
-                                        {"pass":1,"t_id":"{{ train.id }}", "csrfmiddlewaretoken": csrftoken, "ids":JSON.stringify(ids)},
+                                        {"pass":1, "t_id":"{{ train.id }}", "csrfmiddlewaretoken": csrftoken, "ids":JSON.stringify(ids)},
                                         function(data){
                                             if (data["success"]){ //提交成功后
                                                 //$.get('/centre/test_check', function(page){

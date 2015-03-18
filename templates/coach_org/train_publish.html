@@ -30,7 +30,7 @@
                 </div>
             </div>
             {% if train %}
-                        <input type="hidden" id="t-id" name="t_id" value="{{train.id}}" required="required">
+            <input type="hidden" id="t-id" name="t_id" value="{{train.id}}" required="required">
             {% endif %}
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">培训名称</label>
@@ -191,8 +191,8 @@
                     {% if train %}
                     确定
                     {% else %}
-                   提交审核 
-                   {% endif %}
+                    提交审核 
+                    {% endif %}
                 </button>
                 &nbsp; &nbsp; &nbsp;
                 <button class="btn" type="reset">
@@ -204,6 +204,8 @@
         <!-- PAGE CONTENT ENDS -->
     </div><!-- /.col-sm-10 -->
 </div><!-- /.row -->
+<div class="space-4"></div>
+<p class="alert alert-warning"> 若审核不通过则该培训删除,届时请重新发布</p>
 {% endblock %}
 
 {% block script %}
