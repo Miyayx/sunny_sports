@@ -36,8 +36,8 @@ def home(req):
     print uuid
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
-    cts = CoachTrain.objects.filter(coach=coach)
-    t_count = Train.objects.filter(level=coach.t_level+1, reg_status = 1).count()
+    cts = CoachTrain.objects.filter(coach=coach, train__pub_status=0)
+    t_count = Train.objects.filter(level=coach.t_level+1, pass_status=1, reg_status=1, pub_status=0).count()
     if len(cts):
         ct = cts.latest('id')
     else:
@@ -56,20 +56,20 @@ def train(req):
     ct = []
     trains = None
     if coach.t_level == 0:
-        trains = Train.objects.filter(level=1, pass_status=1, reg_status=1)
-        ct = CoachTrain.objects.filter(coach=coach, train__level=1)
+        trains = Train.objects.filter(level=1, pass_status=1, reg_status=1, pub_status=0)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=1, train__pub_status=0)
     elif coach.t_level == 1:
         old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
         old_cts.append(old_ct)
         ct = CoachTrain.objects.filter(coach=coach, train__level=2)
-        trains = Train.objects.filter(level=2, pass_status=1, reg_status=1)
+        trains = Train.objects.filter(level=2, pass_status=1, reg_status=1, train__pub_status=0)
     elif coach.t_level == 2:
         old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
         old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]
         old_cts.append(old_ct)
         old_cts.append(old_ct2)
         trains = Train.objects.filter(level=3, pass_status=1, reg_status=1)
-        ct = CoachTrain.objects.filter(coach=coach, train__level=3)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=3, train__pub_status=0)
     else:
         old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
         old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]

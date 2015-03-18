@@ -307,6 +307,7 @@ def coach_info(req):
     if c_id:
         try:
             coach = Coach.objects.get(id=c_id)
+            coach.property.age = calculate_age(coach.property.birth)
             return render_to_response('common/coach_info.html', {"coach":coach}, RequestContext(req))
         except Exception,e:
             print e
