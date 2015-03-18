@@ -178,9 +178,9 @@
                                         <!-- 成绩结果未提交或审核不通过-->
                                         <td class="center">
                                             {% if ct.pass_status %}
-                                            <input type="checkbox" checked="true" class="ace" name="{{ct.number}}">
+                                            <input type="checkbox" checked="true" class="ace" name="{{ct.id}}">
                                             {% else %}
-                                            <input type="checkbox" class="ace" name="{{ct.number}}">
+                                            <input type="checkbox" class="ace" name="{{ct.id}}">
                                             {% endif %}
                                             <span class="lbl"></span>
                                         </td>
@@ -188,9 +188,9 @@
                                         <!-- 成绩结果已提交，等待中心审核-->
                                         <td class="center">
                                             {% if ct.pass_status %}
-                                            <input type="checkbox" checked="true" class="ace" name="{{ct.number}}" disabled="true">
+                                            <input type="checkbox" checked="true" class="ace" name="{{ct.id}}" disabled="true">
                                             {% else %}
-                                            <input type="checkbox" class="ace" name="{{ct.number}}" disabled="true">
+                                            <input type="checkbox" class="ace" name="{{ct.id}}" disabled="true">
                                             {% endif %}
                                             <span class="lbl"></span>
                                         </td>

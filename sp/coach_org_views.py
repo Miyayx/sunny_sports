@@ -120,16 +120,14 @@ def score_input(req):
         t_id = data.pop("t_id")[0]
         cts = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
         for ct in cts:
-            print data[str(int(ct.number))]
-            print "status",str2bool(data[str(int(ct.number))])
-            ct.pass_status = str2bool(data[str(int(ct.number))])
+            #print data[str(int(ct.id))]
+            #print "status",str2bool(data[str(int(ct.id))])
+            ct.pass_status = str2bool(data[str(int(ct.id))])
             ct.save()
-        
         if submit:
             cts[0].train.sub_status=1
             cts[0].train.save()
         return JsonResponse({"success":True})
-
         
 @login_required()
 @transaction.atomic
