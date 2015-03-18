@@ -81,8 +81,7 @@ def check_pass(req):
         t_id = req.POST.get("t_id")
         if int(req.POST.get("pass", 0)): #审核通过
             train = Train.objects.filter(id=t_id)
-            train.update(pub_status=1)
-            train.update(sub_status=1)
+            train.update(pub_status=1, sub_status=1)
             # generate certificate
             #ns = json.loads(req.POST.get("cert","")).keys() #get number list获得审核通过的学号列表 
             ids = json.loads(req.POST.get("ids","")) #get number list获得审核通过的学号列表 
@@ -90,9 +89,10 @@ def check_pass(req):
             pass_c_t = CoachTrain.objects.filter(id__in=ids, train_id=t_id, status__gt=0)            
             if len(pass_c_t):
                 #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
-                cur = CoachTrain.objects.filter(pass_status=1, train__level=train.level).count()
+                cur = CoachTrain.objects.exclude(certificate__isnull=True).exclude(certificate__exact='').filter(train__level=train[0].level).count()
+                #cur = CoachTrain.objects.filter(pass_status=1, train__level=train[0].level).count()
                 for i in range(len(pass_c_t)):
-                    pass_c_t[i].check_pass(cert=cur+i+1) #编号从1开始计数
+                    pass_c_t[i].check_pass(num=cur+i+1) #编号从1开始计数
                     coach = pass_c_t[i].coach
                     coach.t_level = train[0].level
                     coach.save()
@@ -101,8 +101,7 @@ def check_pass(req):
             title = u"考试结果"
             content = u"恭喜培训%s考试通过"%t_id
         else: #审核不通过
-            Train.objects.filter(id=t_id).update(sub_status=2)
-            Train.objects.filter(id=t_id).update(pub_status=0)
+            Train.objects.filter(id=t_id).update(sub_status=2, pub_status=0)
         return JsonResponse({"success":True})
     else:
         return JsonResponse({"success":False})
