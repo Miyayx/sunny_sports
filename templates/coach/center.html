@@ -89,11 +89,7 @@
                                                     for="form-field-nickname"> 昵称 </label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
-                                                        {% if coach.property.user.nickname %}
-                                                        <span class="myeditable editable editable-click" id="nickname">{{coach.property.user.nickname}}</span>
-                                                        {% else %}
-                                                        <span class="myeditable editable editable-click" id="nickname"></span>
-                                                        {% endif %}
+                                                        <span class="myeditable editable editable-click" id="nickname">{{coach.property.user.nickname|default_if_none:""}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,11 +109,7 @@
                                                     for="form-field-email">邮箱</label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
-                                                        {% if coach.property.user.email %}
-                                                        <span class="myeditable editable editable-click" id="email">{{coach.property.user.email}}</span>
-                                                        {% else %}
-                                                        <span class="myeditable editable editable-click" id="email"></span>
-                                                        {% endif %}
+                                                        <span class="myeditable editable editable-click" id="email">{{coach.property.user.email|default_if_none:""}}</span>
                                                     </div>
                                                 </div>
                                             </div>

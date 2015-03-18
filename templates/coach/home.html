@@ -26,7 +26,7 @@
 
             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                 <div class="inline position-relative">
-                    <span class="white">{{coach.property.user.nickname}}</span>
+                    <span class="white">{{coach.property.user.nickname|default_if_none:""}}</span>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
 
                 <a class="btn btn-link">
                     <i class="ace-icon fa fa-envelope bigger-120 pink"></i>
-                    {{coach.property.user.email}}
+                    {{coach.property.user.email|default_if_none:""}}
                 </a>
             </div>
         </div>

@@ -36,7 +36,7 @@
                 <div class="profile-info-row">
                     <div class="profile-info-name"> 邮箱 </div>
                     <div class="profile-info-value">
-                        <span>{{coachorg.user.email}}</span>
+                        <span>{{coachorg.user.email|default_if_none:""}}</span>
                     </div>
                 </div>
 

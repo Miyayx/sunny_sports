@@ -95,7 +95,7 @@
               for="form-field-email">邮箱</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="email">{{coachorg.user.email}}</span>
+                <span class="myeditable editable editable-click" id="email">{{coachorg.user.email|default_if_none:""}}</span>
               </div>
             </div>
           </div>

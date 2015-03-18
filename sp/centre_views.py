@@ -208,16 +208,20 @@ def org_info(req):
         if len(co) == 0:
             print "add coachorg"
             phone = data.get('phone')
+            email = data.get('email',None)
             r_id = 1
-            user = MyUser.objects.create_user(phone = phone, nickname=orgnum, email=None, role=r_id, password = orgnum)
+            user = MyUser.objects.create_user(phone = phone, nickname=orgnum, email=email if email and len(email.strip()) > 0 else None, role=r_id, password = orgnum)
             co = CoachOrg(user=user)
         else:
             co = co[0]
+            co.user.phone = data["phone"]
+            email = data.get("email",None)
+            print "email-->"+email
+            co.user.email = email if email and len(email.strip()) > 0 else None
 
         co.org_num = orgnum
         co.name = data["orgname"]
         co.shortname = data["orgshortname"]
-        co.user.phone = data["phone"]
         if data.has_key("director"):
             co.director = data["director"]
         if data.has_key("province"):
@@ -229,6 +233,7 @@ def org_info(req):
         if data.has_key("address"):
             co.address = data.get("address","")
         try:
+            co.user.save()
             co.save()
         except:
             return JsonResponse({'success':False})

@@ -1,4 +1,6 @@
 function isEmail(email) {
+    if (email.length == 0)
+    return true;
 	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 	return regex.test(email);
 }
@@ -108,6 +110,8 @@ function isDate8(sDate) {
 }
 
 function isPhoneNum(phone) {
+    if (phone.length == 0)
+    return true;
 	if (! (/^0?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(phone))) return false;
 	else return true;
 }

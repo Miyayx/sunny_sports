@@ -40,28 +40,28 @@
 
                                         <div class="profile-info-name">性别</div>
                                         <div class="profile-info-value">
-                                            <span class="myeditable editable editable-click" id="sex" data-type="select"> {{coach.property.get_sex_display}} </span>
+                                            <span class="myeditable editable editable-click" id="sex" data-type="select" value="{{coach.property.sex}}"> {{coach.property.get_sex_display}} </span>
                                         </div>
                                     </div>
 
                                     <div>
                                         <div class="profile-info-name">电话</div>
                                         <div class="profile-info-value">
-                                            <span class="myeditable editable editable-click" id="phone">{{coach.property.user.phone}}</span>
+                                            <span class="myeditable editable editable-click" id="phone">{{coach.property.user.phone|default_if_no:""}}</span>
                                         </div>
                                     </div>
 
                                     <div>
                                         <div class="profile-info-name">邮箱</div>
                                         <div class="profile-info-value">
-                                            <span class="myeditable editable editable-click" id="email">{{coach.property.user.email}}</span>
+                                            <span class="myeditable editable editable-click" id="email">{{coach.property.user.email|default_if_no:""}}</span>
                                         </div>
                                     </div>
 
                                     <div>
                                         <div class="profile-info-name">身份证号</div>
                                         <div class="profile-info-value">
-                                            <span class="myeditable editable editable-click" id="identity">{{coach.property.identity}}</span>
+                                            <span class="myeditable editable editable-click" id="identity">{{coach.property.identity|default_if_no:""}}</span>
                                         </div>
                                     </div>
 
