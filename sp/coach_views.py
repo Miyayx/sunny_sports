@@ -59,21 +59,21 @@ def train(req):
         trains = Train.objects.filter(level=1, pass_status=1, reg_status=1, pub_status=0)
         ct = CoachTrain.objects.filter(coach=coach, train__level=1, train__pub_status=0)
     elif coach.t_level == 1:
-        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0).latest('id')
         old_cts.append(old_ct)
-        ct = CoachTrain.objects.filter(coach=coach, train__level=2)
-        trains = Train.objects.filter(level=2, pass_status=1, reg_status=1, train__pub_status=0)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=2, train__pub_status=0)
+        trains = Train.objects.filter(level=2, pass_status=1, reg_status=1, pub_status=0)
     elif coach.t_level == 2:
-        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
-        old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0).latest('id')
+        old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0).latest('id')
         old_cts.append(old_ct)
         old_cts.append(old_ct2)
-        trains = Train.objects.filter(level=3, pass_status=1, reg_status=1)
+        trains = Train.objects.filter(level=3, pass_status=1, reg_status=1, pub_status=0)
         ct = CoachTrain.objects.filter(coach=coach, train__level=3, train__pub_status=0)
     else:
-        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0)[0]
-        old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0)[0]
-        old_ct3 = CoachTrain.objects.filter(coach=coach, train__level=3, status__gt=0)[0]
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=1, status__gt=0).latest('id')
+        old_ct2 = CoachTrain.objects.filter(coach=coach, train__level=2, status__gt=0).latest('id')
+        old_ct3 = CoachTrain.objects.filter(coach=coach, train__level=3, status__gt=0).latest('id')
         old_cts.append(old_ct)
         old_cts.append(old_ct2)
         old_cts.append(old_ct3)
