@@ -115,7 +115,7 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
         user = None
         if un and len(un) >0: #如果用用户名
             #user = MyBackend().authenticate(username=un, password=pw)#用django自带函数检验
-            user = authenticate(username=un, password=pw)#用django自带函数检验
+            user = authenticate(username=un.encode('utf-8'), password=pw)#用django自带函数检验
         if user is not None:
             # the password verified for the user
             if user.is_active:
