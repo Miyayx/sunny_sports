@@ -237,7 +237,7 @@ def password(req):
             new_pw = req.POST["password"]
             u.set_password(new_pw)
             u.save()
-            return JsonResponse({"success":True,"msg":u"密码已修改"}) 
+            return JsonResponse({"success":True,"msg":u"密码已修改,请重新登录"}) 
         else:
             return JsonResponse({"success":False,"msg":u"密码错误"}) 
 
@@ -280,7 +280,7 @@ def download_qualification(req):
             elif 3 in roles: #如果是本人
                 if uuid == ct.coach.property.user.id:
                     js = cufon.get_js(ct.coach.property.name)
-                    print js
+                    #print js
                     return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
                 else: return HttpResponse(u"没有下载权限")
             else: return HttpResponse(u"没有下载权限")

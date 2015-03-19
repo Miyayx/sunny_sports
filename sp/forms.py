@@ -182,7 +182,7 @@ class TrainPublishForm(ModelForm):
                 self._errors['time_error'] = u"结束时间早于开始时间"
                 print self._errors['time_error']
                 return False
-            elif self.cleaned_data['reg_etime'].date() > self.cleaned_data['train_stime']:
+            elif self.cleaned_data['reg_etime'] > self.cleaned_data['train_stime']:
                 self._errors['time_error'] = u"培训时间早于报名时间"
                 print self._errors['time_error']
                 return False
