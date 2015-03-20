@@ -1,0 +1,17 @@
+[Unit]
+Description=uWSGI in Emperor mode
+After=syslog.target
+Requires=mysqld.service nginx.service
+Wants=mysqld.service nginx.service
+
+[Service]
+ExecStart = /usr/bin/uwsgi --ini /etc/uwsgi/emperor.ini
+ExecStop = /usr/bin/kill -INT `cat /run/uwsgi.pid`
+ExecReload = /usr/bin/kill -TERM `cat /run/uwsgi.pid`
+Restart = always
+Type = notify
+NotifyAccess = main
+PIDFile = /run/uwsgi.pid
+
+[Install]
+WantedBy=multi-user.target
