@@ -6,18 +6,14 @@ After=network.target
 #Type=forking
 User=kltc
 Group=kltc
-EnvironmentFile=-/etc/sysconfig/celery
-#WorkingDirectory=/mnt/wind/GitProject/sunny_sports/
 WorkingDirectory=/usr/share/nginx/sunny_sports/
-ExecStart=/usr/bin/celery  $CELERYD_NODES\
-    -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
+EnvironmentFile=-/etc/sysconfig/celery
+ExecStart=/usr/bin/python manage.py celery $CELERYD_NODES\
+    --pidfile=${CELERYD_PID_FILE} \
     --logfile=${CELERYD_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL}
-#ExecStart=/usr/bin/celery -A $CELERY_APP $CELERYD_NODES
-#ExecStart=$CELERY_BIN multi start worker -A sunny_sports
-ExecStop=/usr/bin/celery multi stopwait $CELERYD_NODES \
-    --pidfile=${CELERYD_PID_FILE}
-ExecReload=/usr/bin/celery multi restart $CELERYD_NODES \
-    -A ${CELERY_APP} --pidfile=${CELERYD_PID_FILE} \
+ExecStop=/usr/bin/python manage.py celery multi stopwait $CELERYD_NODES --pidfile=${CELERYD_PID_FILE}
+ExecReload=/usr/bin/python manage.py celery multi restart $CELERYD_NODES \
+    --pidfile=${CELERYD_PID_FILE} \
     --logfile=${CELERYD_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL}
 
 [Install]

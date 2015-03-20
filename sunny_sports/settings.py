@@ -31,11 +31,6 @@ else:
     TEMPLATE_DEBUG = True
     ALLOWED_HOSTS = []
 
-import djcelery
-djcelery.setup_loader()
-BROKER_URL = 'django://'
-CELERY_IMPORTS=("sp.tasks",)
-
 
 # Application definition
 
@@ -62,6 +57,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'sp.middleware.AutoLogout',
 )
+
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = 'django://'
+#CELERY_IMPORTS=("sp.tasks",)
+
 
 #Handle session is not Json Serializable
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

@@ -28,13 +28,13 @@ def train_reg_end_p():
 
 @periodic_task(run_every=crontab(minute='*/30'))
 def train_start_p():
-    trains = Train.objects.filter(id=t_id, pass_status=1, train_stime__lte=timezone.now())
+    trains = Train.objects.filter(pass_status=1, train_stime__lte=timezone.now())
     print("%d trains start at %s"%(len(trains), timezone.now()))
     trains.update(train_status=1)
 
 @periodic_task(run_every=crontab(minute='*/30'))
 def train_end_p():
-    trains = Train.objects.filter(id=t_id, pass_status=1, train_etime__lte=timezone.now())
+    trains = Train.objects.filter(pass_status=1, train_etime__lte=timezone.now())
     print("%d trains end at %s"%(len(trains), timezone.now()))
     trains.update(train_status=2)
 

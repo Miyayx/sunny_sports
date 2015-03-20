@@ -1,12 +1,12 @@
 # See
 # http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html#available-options
 
-CELERY_APP="sp.celery_app" #sp app 中的celery_app.py, 最好写到.py文件，不然默认找这个app中的celery.py
+#CELERY_APP="sp.celery_app" #sp app 中的celery_app.py, 最好写到.py文件，不然默认找这个app中的celery.py
 CELERYD_NODES="beat"
 CELERYD_OPTS=""
 #CELERY_BIN="/usr/bin/python -m celery"
 CELERY_BIN=/usr/bin/celery
-CELERYD_PID_FILE="/var/run/celery/sunny_sports-%n.pid"
-CELERYD_LOG_FILE="/var/log/celery/sunny_sports-%n.log"
+CELERYD_PID_FILE="/var/run/celery/kuaileticao-beat-%n.pid"
+CELERYD_LOG_FILE="/var/log/celery/kuaileticao-beat-%n.log"
 CELERYD_LOG_LEVEL="INFO"
 
