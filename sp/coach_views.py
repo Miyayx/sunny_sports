@@ -36,7 +36,7 @@ def home(req):
     print uuid
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
-    cts = CoachTrain.objects.filter(coach=coach, train__pub_status=0)
+    cts = CoachTrain.objects.filter(coach=coach, train__pub_status=0, train__level=coach.t_level+1)
     t_count = Train.objects.filter(level=coach.t_level+1, pass_status=1, reg_status=1, pub_status=0).count()
     if len(cts):
         ct = cts.latest('id')

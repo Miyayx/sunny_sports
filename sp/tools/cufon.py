@@ -19,7 +19,7 @@ def get_js(letters):
     Get cufun js from website
     letters: a string of all letters
     """
-    data = {'letter' : "0123456789"+letters.encode('utf-8')}
+    data = {'letter' : "0123456789 "+letters.encode('utf-8')}
     f = urllib2.urlopen(
         #url = 'http://www.cufon-font.com/font.php?mod=render&fid=5', #楷体
         url = 'http://www.cufon-font.com/font.php?mod=render&fid=11', #华文行楷

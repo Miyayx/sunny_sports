@@ -35,13 +35,18 @@
                   var name_ratio = 0.04;
                   var date_ratio = 0.03;
                   var cert_ratio = 0.02;
+                  var name = "{{ct.coach.property.name}}"
+                  if (name.length == 2){
+                      name=name[0]+" "+name[1];
+                    }
 
-                  var $name = $('<span class="name" style="position:absolute;top:'+height*0.43+';left:'+width*0.2+';font-size:'+width*name_ratio+'px">{{ct.coach.property.name}}</span>');
-                  var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
-                  var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
-                  var $s_d = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.59+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.day}}</span>');
-                  var $e_y = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.7+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.year}}</span>');
-                  var $e_m = $('<span class="number" style="position:absolute;top:'+height*0.45+';left:'+width*0.82+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.month}}</span>');
+                  var $name = $('<span class="name" style="position:absolute;top:'+height*0.43+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
+                  $name.text(name);
+                  var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
+                  var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
+                  var $s_d = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.59+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.day}}</span>');
+                  var $e_y = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.7+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.year}}</span>');
+                  var $e_m = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.82+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.month}}</span>');
                   var $e_d = $('<span class="number" style="position:absolute;top:'+height*0.52+';left:'+width*0.14+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.day}}</span>');
                   var $cert = $('<span class="number" style="position:absolute;top:'+height*0.74+';left:'+width*0.17+';font-size:'+width*cert_ratio+'px;color:red">{{ct.certificate}}</span>');
                   // get time
