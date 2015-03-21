@@ -1,6 +1,7 @@
 #!/bin/bash
 
-projectpath='/home/kltc/Project/sunny_sports/sunny_sports/'
+#projectpath='/home/kltc/Project/sunny_sports/sunny_sports/'
+projectpath='/usr/share/nginx/sunny_sports/'
 backuppath='/home/kltc/kuaileticao/'
 #database='sunny_sports'
 database='kuaileticao'
