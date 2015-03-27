@@ -22,7 +22,7 @@
               $(function(){
                 var img = new Image();
                 {% if ct.train.level == 1 %}
-                img.src = "/media/zhengshu-2000.jpeg";
+                img.src = "/media/zhengshu-lv1-2.jpg";
                 {% elif ct.train.level == 2 %}
                 img.src = "/media/zhengshu2.png";
                 {% elif ct.train.level == 3 %}
@@ -40,19 +40,23 @@
                       name=name[0]+" "+name[1];
                     }
 
-                  var $name = $('<span class="name" style="position:absolute;top:'+height*0.43+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
+                  var $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
                   $name.text(name);
-                  var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
-                  var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
-                  var $s_d = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.59+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.day}}</span>');
-                  var $e_y = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.7+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.year}}</span>');
-                  var $e_m = $('<span class="number" style="position:absolute;top:'+height*0.447+';left:'+width*0.82+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.month}}</span>');
+                  //train start time
+                  var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
+                  var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
+                  var $s_d = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.59+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.day}}</span>');
+                  //train end time
+                  var $e_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.7+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.year}}</span>');
+                  var $e_m = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.82+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.month}}</span>');
                   var $e_d = $('<span class="number" style="position:absolute;top:'+height*0.52+';left:'+width*0.14+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.day}}</span>');
                   var $cert = $('<span class="number" style="position:absolute;top:'+height*0.74+';left:'+width*0.17+';font-size:'+width*cert_ratio+'px;color:red">{{ct.certificate}}</span>');
                   // get time
                   var $g_y = $('<span class="number" style="position:absolute;top:'+height*0.79+';left:'+width*0.63+';font-size:'+width*cert_ratio+'px">{{ct.get_time.year}}</span>');
                   var $g_m = $('<span class="number" style="position:absolute;top:'+height*0.79+';left:'+width*0.715+';font-size:'+width*cert_ratio+'px">{{ct.get_time.month}}</span>');
                   var $g_d = $('<span class="number" style="position:absolute;top:'+height*0.79+';left:'+width*0.76+';font-size:'+width*cert_ratio+'px">{{ct.get_time.day}}</span>');
+
+                  //var $img = $('<img src="../media/yinzhang.png" style="position:absolute; top:'+height*0.73+';left:'+width*0.68+';"></img>');
 
                   var $c = $('<div></div>')
 
@@ -71,6 +75,7 @@
                   $c.append($g_y);
                   $c.append($g_m);
                   $c.append($g_d);
+                  //$c.append($img);
 
                   $('body').append($c);
 
