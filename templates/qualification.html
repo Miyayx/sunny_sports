@@ -40,7 +40,11 @@
                       name=name[0]+" "+name[1];
                     }
 
-                  var $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
+                    var $name;
+                  if (name.length == 4)
+                    $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.18+';font-size:'+width*name_ratio+'px"></span>');
+                  else
+                    $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
                   $name.text(name);
                   //train start time
                   var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
