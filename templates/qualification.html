@@ -43,9 +43,12 @@
                     var $name;
                   if (name.length == 4)
                     $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.18+';font-size:'+width*name_ratio+'px"></span>');
+                  else if(name.replace(' ','').length == 2)
+                    $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.22+';font-size:'+width*name_ratio+'px"></span>');
                   else
                     $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
-                  $name.text(name);
+                  for(var i in name)
+                  $name.append($('<span>'+name[i]+'</span>'));
                   //train start time
                   var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
                   var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
@@ -94,6 +97,16 @@
                   Cufon.set('fontFamily', 'STXingkai');
                   Cufon.set('fontSize', width*name_ratio+'px');
                   Cufon.replace('span.name');
+
+                  //对没有渲染体的特殊字
+                  $('span.name').find('span').each(function(i,v){
+                    if (!$(v).find('cufon').length){
+                      $(v).text(name[i]);
+                      $(v).css('font-size',width*name_ratio*0.85);
+                      $(v).css('position','relative');
+                      $(v).css('top','8px');
+                    }
+                  });
 
                   var pdf = new jsPDF('l','px','b5');
                   //var pdf = new jsPDF('l','px',[height, width]);
