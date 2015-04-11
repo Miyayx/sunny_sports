@@ -130,7 +130,7 @@
                                         {% endif %}
                                     </tr>
                                 </thead>
-                                {% if ct and ct.status < 3 and ct.status > 0 %}
+                                {% if ct %}
                                 <tbody>
                                     <tr>
                                         <td><a href="/train_info?t_id={{ct.train.id}}">{{ct.train.name}}</a></td>

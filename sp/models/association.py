@@ -14,6 +14,14 @@ def make_ct_num():
     import random
     return random.randint(0,100)
 
+class CoachTrainManager(models.Manager):
+    def create_ct(self, coach, train):
+        ct = self.create(coach=coach, train=train)
+        ct.save()
+        train.cur_num = train.cur_num + 1
+        train.save()
+        return ct
+
 
 class CoachTrain(models.Model):
     number = models.IntegerField(default=0)
@@ -25,6 +33,8 @@ class CoachTrain(models.Model):
     certificate = models.CharField(max_length=100, null=True) #证书编号
     reg_time = models.DateTimeField(auto_now=True) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
+
+    objects = CoachTrainManager()
 
     class Meta:
         app_label='sp'
@@ -46,6 +56,12 @@ class CoachTrain(models.Model):
         self.get_time=datetime.datetime.now()
         self.pass_status=1
         self.save()
+
+    def delete(self, *args, **kwargs):
+        print "delete"
+        self.train.cur_num = self.train.cur_num - 1
+        self.train.save()
+        super(CoachTrain, self).delete(*args, **kwargs)
 
 
 #class StudentTeam(models.Model):
