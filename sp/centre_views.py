@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from g_import import *
 from django.core.context_processors import csrf
+import datetime
 
 @login_required()
 @transaction.atomic
@@ -38,7 +39,11 @@ def train_pass(req):
     if req.method == "POST":
         t_id = req.POST.get("t_id")
         if int(req.POST.get("pass", 0)): #审核通过
-            Train.objects.filter(id=t_id).update(pass_status=1)
+            t = Train.objects.get(id=t_id)
+            t.pass_status = 1
+            if t.reg_stime < timezone.now():
+                t.reg_status = 1
+            t.save()
         else: #审核不通过,该培训直接删除
             Train.objects.filter(id=t_id).delete()
         return JsonResponse({"success":True})
@@ -188,7 +193,7 @@ def org_manage(req):
 @user_passes_test(lambda u: u.is_role(['centre']))
 def org_info(req):
     if req.method == "GET":
-        num = req.GET.get("org_num")
+        num = req.GET.get("orgnum")
         co = None
         if num:
             co = CoachOrg.objects.filter(org_num=num)

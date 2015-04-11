@@ -150,9 +150,9 @@
                                 <div class="space"></div>
                                 <div class="row">
                                     <div class="col-md-offset-4 col-md-8">
-                                        <button class="btn btn-info" type="button" id="save-btn">
-                                            <i class="ace-icon fa fa-check bigger-110"></i> 确认信息并报名
-                                        </button>
+                                        <a class="btn btn-info" type="button" id="save-btn">
+                                            <i class="ace-icon fa fa-check bigger-110"></i> 确认信息并付款
+                                        </a>
                                     </div>
                                 </div>
                                 <form>
@@ -255,7 +255,7 @@
                         success: function(data) {
                             if(data && data.success){
                                 alert("报名成功");
-                                window.location.href="/coach/train";
+                                window.location.href=data.url;
                             }else{
                                 alert(data.msg);
                             }

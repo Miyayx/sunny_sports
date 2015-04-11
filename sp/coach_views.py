@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.db import transaction
 
 from utils import *
-from alipay_utils import alipay_payment
+from payment.views import pay as ali_pay
 
 from sp.tasks import payment_check
 from django import forms
@@ -143,8 +143,8 @@ def info_confirm(req):
         #tomorrow = datetime.utcnow() + timedelta(minute=5)
         #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
 
-        return JsonResponse({ 'success':True })
-        #return HttpResponseRedirect('/coach/train/payment?ct_id=%s'%ct.id)
+        #return JsonResponse({ 'success':True })
+        return HttpResponseRedirect('/coach/train/pay?ct_id=%s'%ct.id)
     else:
         t_id = req.GET.get("t_id",0)
         train = Train.objects.get(id=t_id)
@@ -171,32 +171,31 @@ def reg_cancel(req):
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
+from payment.views import pay
+
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['coach']))
-def payment(req):
+def pay(req):
     print req.method
     if req.method == "GET":
         ct_id = req.GET.get("ct_id")
+        print req.get_host()
         ct = CoachTrain.objects.get(id=ct_id)
         params = {  
-                'subject'     :"快乐体操教练培训费用",  
-                'body'        :"快乐体操教练培训费用",  
-                'total_fee'   :ct.train.money  
+                'subject'     :u"快乐体操教练培训费用",  
+                'body'        :u"快乐体操教练培训费用",  
+                'total_fee'   :ct.train.money,
+                'return_url'  :"http://%s/coach/train"%req.get_host(),
+                'notify_url'  :'info',
+                'order_num'   :ct_id#用来生成账单编号
                 }  
-        ct.status = 2
-        ct.save()
-        print "支付成功"
-        return redirect("/coach/train")
-        #rlt = alipay_payment(ct_id, params)
-        #if rlt == 'success':  
-        #    ct.status = 2
-        #    ct.save()
-        #else:
-        #    pass
+        url = ali_pay(req, 0, params)
+        #return HttpResponseRedirect(url)
+        return JsonResponse({'success':True,'url':url})
     else:
-        pass
 
+        pass
 
 @login_required()
 @transaction.atomic

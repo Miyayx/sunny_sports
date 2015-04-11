@@ -92,7 +92,7 @@ urlpatterns += patterns('sp.coach_views',
         url(r'^coach/train$', 'train'),
         url(r'^coach/train/info_confirm$', 'info_confirm'),
         url(r'^coach/train/reg_cancel$', 'reg_cancel'),
-        url(r'^coach/train/payment$', 'payment'),
+        url(r'^coach/train/pay$', 'pay'),
         url(r'^coach/up_info$', 'update_info'),
         url(r'^coach/up_img$', 'update_img'),
         )

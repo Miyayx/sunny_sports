@@ -29,7 +29,6 @@ if OS == 'centos' and 'home' in BASE_DIR:
 else:
     DEBUG = True
     TEMPLATE_DEBUG = True
-    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -43,12 +42,16 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djcelery',
     'captcha',
+    'corsheaders',
     'kombu.transport.django',
     'sp',
+    'payment',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #CorsMiddleware needs to come before Django's CommonMiddleware if you are using Django's USE_ETAGS = True setting, otherwise the CORS headers will be lost from the 304 not-modified responses, causing errors in some browsers.
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -152,4 +155,6 @@ USER_ROLES = (
 
 CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_dots',)
 MSG_CODE = True if OS == 'centos' else False
+
+CORS_ORIGIN_ALLOW_ALL = True
 
