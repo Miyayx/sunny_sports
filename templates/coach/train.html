@@ -96,8 +96,10 @@
                         <span class="label label-xlg label-primary arrowed arrowed-right">培训结束</span>
                         {% elif ct and ct.status < 3 and ct.status > 0 and ct.train.train_status == 1 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">培训进行中</span>
-                        {% elif ct and ct.status < 3 and ct.status > 0 and ct.train.reg_status == 1 %}
-                        <span class="label label-xlg label-primary arrowed arrowed-right">已报名</span>
+                        {% elif ct and ct.status == 0 and ct.train.reg_status == 1 %}
+                        <span class="label label-xlg label-primary arrowed arrowed-right">未缴费</span>
+                        {% elif ct and ct.status == 1 and ct.train.reg_status == 1 %}
+                        <span class="label label-xlg label-primary arrowed arrowed-right">已缴费</span>
                         {% elif ct and ct.status < 3 and ct.status > 0 and ct.train.reg_status == 2 and ct.train.train_status == 0 %}
                         <span class="label label-xlg label-primary arrowed arrowed-right">等待培训开始</span>
                         {% elif ct and ct.status < 3 and ct.status > 0 and ct.train.reg_status == 2 and ct.train.train_status == 2 %}
@@ -141,9 +143,7 @@
                                         <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
                                         {% if ct.train.reg_status == 1%}
                                         <td>
-                                            <!--
-                                            {% if ct.status == 1 %}<a class="btn btn-minier btn-primary">去付款</a>{% endif %}
-                                            -->
+                                            {% if ct.status == 0 %}<a class="btn btn-minier btn-primary" href="/coach/train/pay?ct_id={{ct.id}}">去付款</a>{% endif %}
                                             <a class="btn btn-minier btn-danger">取消报名</a></td>
                                         {% endif %}
                                     </tr>
@@ -209,7 +209,7 @@
 
     $("td a.btn-danger").click(function(){
         bootbox.dialog({
-            message: "<h3>确定取消报名？</h3>",
+            message: "<h3>确定取消报名(报名费用。。。)？</h3>",
             buttons: {
                 cancel: {
                     label: "取消",
