@@ -178,9 +178,10 @@ def pay(req):
                 'body'        :u"快乐体操教练培训费用,培训编号:%s"%ct.train.id,  
                 'total_fee'   :ct.train.money,
                 'return_url'  :"http://%s/coach/train/pay_return"%req.get_host(),
-                'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
+                #'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
                 'order_num'   :ct_id,#用来生成账单编号
-                'comment'     :u"快乐体操教练培训费用, 培训课程:%s"%ct.train.name#给组织机构的备注
+                'org_email'   :ct.train.org.ali_email,#分润给组织机构
+                'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id)#给组织机构的备注
                 }  
         url, bill = ali_pay(req, 0, params)
         ct.bill = bill
@@ -192,7 +193,7 @@ def pay(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
-def pay_notify(req):
+def pay_return(req):
     if req.GET.get('trade_status') == "TRADE_SUCCESS":
         print "out_trade_no:",req.GET.get('out_trade_no')
         try:
