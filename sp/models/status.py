@@ -57,8 +57,8 @@ SUB_STATUS = (
 
 #培训状态，报名还是交过报名费，结束等等
 ROLE_TRAIN_STATUS = (
-        (0, '未缴费'),
-        (1, '已缴费'), 
+        (0, '未付费'),
+        (1, '已付费'), 
         )
 
 ROLE_TRAIN_PASS_STATUS = (
