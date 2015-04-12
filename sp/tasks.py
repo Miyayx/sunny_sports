@@ -60,8 +60,8 @@ def train_end(t_id):
 
 @task
 def payment_check(ct_id):
-    #规定时间进行检查，若还未缴费，状态改成未报名
+    #规定时间进行检查，若还未缴费,删除报名记录
     # 若缴费前报名已经截止？
     print("payment check")
-    CoachTrain.objects.filter(id = ct_id, status=1).update(status=0)
+    CoachTrain.objects.filter(id=ct_id, status=0).delete()
 
