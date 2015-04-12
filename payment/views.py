@@ -48,10 +48,12 @@ def pay(request, b_type, params, b_no=None ):
             )
   params['out_trade_no'] = b_no
   params['quantity'] = 1
-  params['enable_paymethod'] = 'bankPay'
+  params['paymethod'] = 'directPay'
+  params['enable_paymethod'] = 'directPay^bankPay'
   params['royalty_type'] = "10"
   params['royalty_parameters'] = '%s^%0.2f^%s'%(params['org_email'], params['total_fee']*ratio*org_ratio, params['comment'])
   print params['royalty_parameters']
   url = alipayTool.create_direct_pay_by_user_url(**params)
+  print url
   return url, bill
 
