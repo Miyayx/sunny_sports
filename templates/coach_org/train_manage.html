@@ -328,8 +328,11 @@
                             "t_id":$addbtn.parents('.tab-pane').find('.t_id span').html().trim(),
                             'csrfmiddlewaretoken': '{{csrf_token}}'
                         }, function(res){
-                            if(res && res["success"])
+                            if(res && res.success)
                                 location.reload();
+                            else if(res)
+                                alert(res.msg);
+                            
                         });
                 }
             });

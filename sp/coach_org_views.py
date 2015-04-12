@@ -106,7 +106,7 @@ def train_publish(req):
 def train_manage(req):
     uuid = req.user.id
     opentrains = Train.objects.filter(org__user_id=uuid, pub_status=0).order_by('-train_stime')#按培训开始时间排序
-    coachtrains = [CoachTrain.objects.filter(train=t, status__gt=0) for t in opentrains]
+    coachtrains = [CoachTrain.objects.filter(train=t, status__gt=-1) for t in opentrains]
     return render_to_response('coach_org/train_manage.html',{"zipped":zip(opentrains, coachtrains)}, RequestContext(req))
 
 @login_required()
@@ -179,11 +179,13 @@ def add_member(req):
         c = Coach.objects.filter(property__user__phone=phone, property__name=name)
         if len(c) > 0:
             c = c[0]
-            ct = CoachTrain.objects.create(coach=c, train=Train.objects.get(id=t_id), status=2)
-            ct.train.cur_num = ct.train.cur_num + 1
-            ct.train.save()
-            ct.save()
-            return JsonResponse({'success':True})
+            t = Train.objects.get(id=t_id)
+            try:
+                ct = CoachTrain.objects.get(coach=c, train=t)
+                return JsonResponse({'success':False, 'msg':'已报名'})
+            except:
+                ct = CoachTrain.objects.create_ct(coach=c, train=t)#要用create_ct创建CoachTrain，否则报名数量不增加
+                return JsonResponse({'success':True})
         else:
             return JsonResponse({'success':False})
 

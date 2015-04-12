@@ -131,7 +131,12 @@ def info_confirm(req):
         train = train=Train.objects.get(id=t_id)
         if train.cur_num < train.limit:
             try:
-                ct = CoachTrain.objects.create_ct(coach=coach, train=train) #未缴费状态
+                ct = CoachTrain.objects.get(coach=coach, train=train)
+                return JsonResponse({'success':False, 'msg':'已报名'})
+            except:
+                pass
+            try:
+                ct = CoachTrain.objects.create_ct(coach=coach, train=train) #要用create_ct创建CoachTrain，否则报名数量不增加
                 #tomorrow = datetime.utcnow() + timedelta(hours=24)
                 #tomorrow = datetime.utcnow() + timedelta(minute=5)
                 #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，删除报名记录
