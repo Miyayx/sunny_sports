@@ -192,12 +192,6 @@
 {% block script %}
 <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
 <script type="text/javascript">
-    $("td a.btn-primary").click(function(){
-        $.post("/coach/train/payment", 
-            {"ct_id":"{{ct.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
-            function(data){
-            });
-    });
 
     $("td a[href^='/train_info']").click(function(e){
         e.preventDefault();

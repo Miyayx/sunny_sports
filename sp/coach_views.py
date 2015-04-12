@@ -130,21 +130,18 @@ def info_confirm(req):
 
         train = train=Train.objects.get(id=t_id)
         if train.cur_num < train.limit:
-            ct = CoachTrain(coach=coach, train=train, status=1) #未缴费状态
-            train.cur_num = F('cur_num') + 1
             try:
-                train.save()
-                ct.save()
+                ct = CoachTrain.objects.create_ct(coach=coach, train=train) #未缴费状态
+                #tomorrow = datetime.utcnow() + timedelta(hours=24)
+                #tomorrow = datetime.utcnow() + timedelta(minute=5)
+                #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，删除报名记录
+
+                return JsonResponse({ 'success':True,'ct_id':ct.id })
             except Exception,e:
+                print e
                 return JsonResponse({ 'success':False,'msg':'信息存储错误' })
         else:
             return JsonResponse({ 'success':False,'msg':'报名人数已满' })
-        #tomorrow = datetime.utcnow() + timedelta(days=1)
-        #tomorrow = datetime.utcnow() + timedelta(minute=5)
-        #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，取消
-
-        #return JsonResponse({ 'success':True })
-        return HttpResponseRedirect('/coach/train/pay?ct_id=%s'%ct.id)
     else:
         t_id = req.GET.get("t_id",0)
         train = Train.objects.get(id=t_id)
@@ -161,13 +158,8 @@ def reg_cancel(req):
     """
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
-        #ct = CoachTrain.objects.filter(id=ct_id).update(status=0, train_cur_num=F('train_cur_num') - 1)
         ct = CoachTrain.objects.get(id=ct_id)
-        ct.status = 0
-        ct.train.cur_num = ct.train.cur_num - 1
-        ct.train.save()
         ct.delete()
-        #Train.objects.filter(id=ct.train.id).update(cur_num=F('cur_num') - 1)
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
@@ -180,22 +172,41 @@ def pay(req):
     print req.method
     if req.method == "GET":
         ct_id = req.GET.get("ct_id")
-        print req.get_host()
         ct = CoachTrain.objects.get(id=ct_id)
         params = {  
                 'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用",  
+                'body'        :u"快乐体操教练培训费用,培训编号:%s"%ct.train.id,  
                 'total_fee'   :ct.train.money,
-                'return_url'  :"http://%s/coach/train"%req.get_host(),
-                'notify_url'  :'info',
-                'order_num'   :ct_id#用来生成账单编号
+                'return_url'  :"http://%s/coach/train/pay_return"%req.get_host(),
+                'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
+                'order_num'   :ct_id,#用来生成账单编号
+                'comment'     :u"快乐体操教练培训费用, 培训课程:%s"%ct.train.name#给组织机构的备注
                 }  
-        url = ali_pay(req, 0, params)
-        #return HttpResponseRedirect(url)
-        return JsonResponse({'success':True,'url':url})
+        url, bill = ali_pay(req, 0, params)
+        ct.bill = bill
+        ct.save()
+        return HttpResponseRedirect(url)
+        #return JsonResponse({'success':True,'url':url})
     else:
-
         pass
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
+def pay_notify(req):
+    if req.GET.get('trade_status') == "TRADE_SUCCESS":
+        print "out_trade_no:",req.GET.get('out_trade_no')
+        try:
+            ct = CoachTrain.objects.get(bill_id=req.GET.get('out_trade_no'))
+            ct.status = 1
+            ct.save()
+            print '付款成功！'
+        except:
+        #return HttpResponse(u'付款成功！')
+            return HttpResponse(u'找不到报名信息！')
+        return HttpResponseRedirect('/coach/train')
+    else:
+        return HttpResponse(u'付款失败！')
+
 
 @login_required()
 @transaction.atomic

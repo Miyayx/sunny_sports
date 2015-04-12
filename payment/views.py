@@ -35,11 +35,8 @@ def pay(request, b_type, params, b_no=None ):
   Request for upgrade account to acc_type. Redirect to alipay
   payment web page due to ACC_TYPE.
   """
-  bill = None
-  try: bill = Bill.objects.get(no=b_no,user=request.user) 
-  except: 
-      b_no = generate_order_num(params.pop('order_num'))
-      bill = Bill.objects.create(no=b_no, user=request.user, bill_type=b_type)
+  b_no = generate_order_num(params['order_num'])
+  bill = Bill.objects.create(no=b_no, user=request.user, bill_type=b_type, total_fee=params['total_fee'])
 
   alipayTool=alipay.Alipay(  
             pid=settings.ALIPAY_PARTNER,  
@@ -47,6 +44,10 @@ def pay(request, b_type, params, b_no=None ):
             seller_email=settings.ALIPAY_SELLER_EMAIL
             )
   params['out_trade_no'] = b_no
+  params['quantity'] = 1
+  params['enable_paymethod'] = 'directPay^bankPay'
+  #params['royalty_type'] = 10
+  #params['royalty_parameters'] = '%s^%f^%s|%s^%f^%s'%("meeya.yx@gmail.com", params['total_fee']*0.95, params['comment'], settings.ALIPAY_SELLER_EMAIL, params['total_fee']*0.05, params['comment'])
   url = alipayTool.create_direct_pay_by_user_url(**params)
-  return url
+  return url, bill
 

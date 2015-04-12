@@ -191,13 +191,9 @@ def add_member(req):
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['coach_org']))
 def del_member(req):
-
     if req.method == "POST":
         ct_id = req.POST.get("ct_id")
-        ct = CoachTrain.objects.get(id=ct_id)
-        ct.train.cur_num = ct.train.cur_num - 1
-        ct.train.save()
-        ct.delete()
+        CoachTrain.objects.get(id=ct_id).delete() #这里train的cur_num也要减一，写在了coachtrain的重载delete里
         return JsonResponse({'success':True})
     else:
         return JsonResponse({'success':False})

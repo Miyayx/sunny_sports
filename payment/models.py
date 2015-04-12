@@ -36,7 +36,7 @@ class Bill (models.Model):
   #trade_status = models.CharField (max_length=50, default='INIT', null=True)
     total_fee = models.FloatField(default=0.0)
     start_date = models.DateTimeField(default=datetime.datetime.now())
-    expire_date = models.DateTimeField(default=datetime.datetime.utcnow() + datetime.timedelta(days=1))
+    expire_date = models.DateTimeField(default=datetime.datetime.utcnow() + datetime.timedelta(hours=24))
 
     class Meta:
         app_label='payment'

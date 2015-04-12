@@ -10,6 +10,8 @@ from train import *
 from committee import *
 from status import *
 
+from payment.models import Bill
+
 def make_ct_num():
     import random
     return random.randint(0,100)
@@ -33,7 +35,8 @@ class CoachTrain(models.Model):
     certificate = models.CharField(max_length=100, null=True) #证书编号
     reg_time = models.DateTimeField(auto_now=True) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
-
+    bill = models.OneToOneField(Bill, null=True)
+    
     objects = CoachTrainManager()
 
     class Meta:
