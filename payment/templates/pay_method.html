@@ -91,10 +91,10 @@
 
   </head>
   <body>
-    <div id="trade-info" class="col-xs-12 col-sm-8 pricing-box">
+    <div id="trade-info" class="col-xs-8 col-sm-8 pricing-box">
       <div class="widget-box widget-color-green">
         <div class="widget-header">
-          <h5 class="widget-title bigger lighter">{{bill.subject}}</h5>
+          <h3 class="widget-title bigger lighter">{{bill.subject}}</h3>
         </div>
 
         <div class="widget-body">
@@ -115,7 +115,6 @@
               {{bill.total_fee}} <small>元</small>
             </div>
             <hr />
-
             <div>
 
               {% if bill.bill_type == 0%}
@@ -125,55 +124,53 @@
                 <form id='choose-meth' method='POST' action='/team/pay'>
                   {% endif %}
                   <input type="hidden" value="{{bill.order_num}}" name="order_num"></input>
-                  <div class="col-xs-12 col-ms-12 label label-lg label-success">
+                  <div class="col-xs-11 col-ms-11 label label-lg label-success">
                     <b>选择付款方式</b>
                   </div>
                   <br/>
-                <div>
-                <h3 class="orange">网络平台支付</h3>
-                <hr/>
-                <ul class="ui-list-icons ui-four-icons fn-clear cashier-bank" >
-                  <li class="cashier-bank">
-                  <input type="radio" name="channelToken" id="alipay" value="alipay"  checked="true"  />
-                  <label class="icon-box limited-coupon "  for="alipay">
-                    <span class="icon-box-sparkling" bbd="false">
-                    </span>
-                    <span class="false icon" style="background-image:url(/static/logo_alipay.gif);" title="ALIPAY"></span>
-                    <span class="bank-name">支付宝</span>
-                  </label>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 class="blue">网银支付</h3>
-                <hr/>
+                  <div class="col-xs-11 col-ms-11">
+                    <h3 class="orange">网络平台支付</h3>
+                    <ul class="ui-list-icons ui-four-icons fn-clear cashier-bank" >
+                      <li class="cashier-bank">
+                      <input type="radio" name="channelToken" id="alipay" value="alipay"  checked="true"  />
+                      <label class="icon-box limited-coupon "  for="alipay">
+                        <span class="icon-box-sparkling" bbd="false">
+                        </span>
+                        <span class="false icon" style="background-image:url(/static/logo_alipay.gif);" title="ALIPAY"></span>
+                        <span class="bank-name">支付宝</span>
+                      </label>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-xs-11 col-ms-11">
+                    <h3 class="blue">网银支付</h3>
 
-                <ul class="ui-list-icons ui-four-icons fn-clear cashier-bank"  id="J-chooseBankList">
-                  {% for bank, bankno, bankimage in banks %}
-                  <li class="cashier-bank">
-                  <input type="radio" name="channelToken" id="J-b2c_ebank-{{bankno}}" value="{{bankno}}"    />
-                  <label class="icon-box limited-coupon "  for="J-b2c_ebank-{{bankno}}">
-                    <span class="icon-box-sparkling" bbd="false">
-                    </span>
-                    <span class="false icon {{bankimage}} " title="{{bank}}"></span>
-                    <span class="bank-name">{{bank}}</span>
-                  </label>
-                  </li>
-                  {% endfor %}
-                </ul>
+                    <ul class="ui-list-icons ui-four-icons fn-clear cashier-bank"  id="J-chooseBankList">
+                      {% for bank, bankno, bankimage in banks %}
+                      <li class="cashier-bank">
+                      <input type="radio" name="channelToken" id="J-b2c_ebank-{{bankno}}" value="{{bankno}}"    />
+                      <label class="icon-box limited-coupon "  for="J-b2c_ebank-{{bankno}}">
+                        <span class="icon-box-sparkling" bbd="false">
+                        </span>
+                        <span class="false icon {{bankimage}} " title="{{bank}}"></span>
+                        <span class="bank-name">{{bank}}</span>
+                      </label>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  <button type="submit" href="#" class="btn btn-block btn-success">
+                    <i class="ace-icon fa fa-arrow-right bigger-110 icon-on-right"></i>
+                    <span class="white"><b>下一步</b></span>
+                  </button>
+                </form>
               </div>
-              <button type="submit" href="#" class="btn btn-block btn-success">
-                <i class="ace-icon fa fa-arrow-right bigger-110 icon-on-right"></i>
-                <span>下一步</span>
-              </button>
-            </form>
-          </div>
-        </div> <!-- widget-main-->
-      </div><!-- widget-body -->
+            </div> <!-- widget-main-->
+          </div><!-- widget-body -->
 
-    </div><!--widget-box-->
-  </div>
-</div>
+        </div><!--widget-box-->
+      </div>
+    </div>
 
   </body>
 </html>

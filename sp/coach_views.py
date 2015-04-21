@@ -182,7 +182,7 @@ def pay(req):
         method = req.POST.get("channelToken")
         params = {  
                 'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用,培训编号:%s"%ct.train.id,  
+                'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
                 'total_fee'   :ct.train.money,
                 'return_url'  :"http://%s/coach/train/pay_return"%req.get_host(),
                 #'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
@@ -202,7 +202,7 @@ def pay(req):
         ct = CoachTrain.objects.get(id=ct_id, status=0)
         params = {  
                 'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用,培训编号:%s"%ct.train.id,  
+                'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
                 'total_fee'   :ct.train.money,
                 'receiver'    :u"北京快乐童年阳光体操文化发展有限责任公司",
                 'order_num'   :ct_id,
