@@ -173,7 +173,9 @@
                                         {% if train.pass_status and train.train_status and not train.sub_status == 1 %}
                                         <!-- 成绩结果未提交或审核不通过-->
                                         <td class="center">
-                                            {% if ct.pass_status %}
+                                            {% if ct.status == 0%} <!-- 没付款不能录入成绩 -->
+                                            <input type="checkbox" disabled="true" class="ace" name="{{ct.id}}">
+                                            {% elif ct.pass_status %}
                                             <input type="checkbox" checked="true" class="ace" name="{{ct.id}}">
                                             {% else %}
                                             <input type="checkbox" class="ace" name="{{ct.id}}">
