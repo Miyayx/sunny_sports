@@ -48,8 +48,8 @@
                             <div id="edit-basic" class="tab-pane in active">
                                 <h4 class="header blue bolder smaller">基本信息</h4>
                                 <form class="form-horizontal">
-                                    <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
                                     <div class="row">
+                                        <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
                                         <div class="vspace-12-sm"></div>
                                         <div class="col-xs-12 col-sm-8">
                                             <div class="form-group">
@@ -125,6 +125,18 @@
                                                 </div>
                                             </div>
 
+                                            <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-email">支付宝帐号(邮箱)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="ali-email">{{coachorg.ali_email|default_if_none:""}}</span>
+                                                        <p class="red">请输入正确的邮箱地址，以确保汇款顺利</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="space"></div>
                                             <div class="row">
                                                 <div class="col-md-offset-4 col-md-8">
@@ -189,7 +201,6 @@
         //text editable
         $('#token')
         .editable({
-            value:'{{csrf_token}}',
             type: 'text',
             name: 'csrfmiddlewaretoken'
         });
@@ -210,44 +221,53 @@
             }
         });
 
-        $('#phone').editable({
+        $('#ali-email').editable({
             type: 'text',
-            name: 'phone',
+            name: 'ali_email',
             validate: function(v) {
                 v = $.trim(v);
-                if (v == '') {
-                    return '必填项';
-                }
-                if (!isPhoneNum(v)) {
-                    return '请输入正确的手机号码';
-                }
-                if (! ($(this).text() == v || $(this)[0].value == v)) {
-                    if (phoneExists($.trim(v))) return '手机号码已注册';
-                }
+                if (!isEmail($.trim(v))) return '请输入正确的邮件地址';
             }
-        });
+    });
 
-        // click save btn
-        $('#save-btn').click(function() {
-            $('.myeditable').editable('submit', { 
-                url: '/coach_org/up_info', 
-                ajaxOptions: {
-                    dataType: 'json' //assuming json response
-                },           
-                success: function(data) {
-                    if(data && data.success)
-                        alert("已保存");
-                        location.reload();
-                },
-                error: function(errors) {
-                    var info = "";
-                    for(var k in errors){
-                        info += (k+":  "+errors[k]+"\n");
-                    }
-                    alert(info);
-                } 
-            });
+    $('#phone').editable({
+        type: 'text',
+        name: 'phone',
+        validate: function(v) {
+            v = $.trim(v);
+            if (v == '') {
+                return '必填项';
+            }
+            if (!isPhoneNum(v)) {
+                return '请输入正确的手机号码';
+            }
+            if (! ($(this).text() == v || $(this)[0].value == v)) {
+                if (phoneExists($.trim(v))) return '手机号码已注册';
+            }
+        }
+    });
+
+    // click save btn
+    $('#save-btn').click(function() {
+        $('.myeditable').editable('submit', { 
+            url: '/coach_org/up_info', 
+            ajaxOptions: {
+                dataType: 'json' //assuming json response
+            },           
+            success: function(data) {
+                if(data && data.success)
+                    alert("已保存");
+                location.reload();
+            },
+            error: function(errors) {
+                var info = "";
+                for(var k in errors){
+                    info += (k+":  "+errors[k]+"\n");
+                }
+                alert(info);
+            } 
         });
+    });
 
         });
 

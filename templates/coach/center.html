@@ -70,7 +70,7 @@
 										</form>
                                     </div>
                                     <form class="form-horizontal">
-                                        <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
+                                        <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
 
                                         <div class="vspace-12-sm"></div>
                                         <div class="col-xs-12 col-sm-7">
@@ -283,7 +283,7 @@
         $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
 
         $('#token').editable({
-            value: '{{csrf_token}}',
+        //    value: '{{csrf_token}}',
             type: 'text',
             name: 'csrfmiddlewaretoken'
         });
