@@ -4,11 +4,13 @@
 from g_import import *
 
 from django.core.context_processors import csrf
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.db import transaction
 
 from utils import *
 from payment.views import pay as ali_pay
+from payment.views import pay_method 
 
 from sp.tasks import payment_check
 from django import forms
@@ -168,16 +170,16 @@ def reg_cancel(req):
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
-from payment.views import pay
-
 @login_required()
 @transaction.atomic
+@csrf_exempt
 @user_passes_test(lambda u: u.is_role(['coach']))
 def pay(req):
     print req.method
-    if req.method == "GET":
-        ct_id = req.GET.get("ct_id")
-        ct = CoachTrain.objects.get(id=ct_id)
+    if req.method == "POST":
+        ct_id = req.POST.get("order_num")
+        ct = CoachTrain.objects.get(id=ct_id, status=0)
+        method = req.POST.get("channelToken")
         params = {  
                 'subject'     :u"快乐体操教练培训费用",  
                 'body'        :u"快乐体操教练培训费用,培训编号:%s"%ct.train.id,  
@@ -188,13 +190,25 @@ def pay(req):
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
                 'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id)#给组织机构的备注
                 }  
+        if not 'alipay' == method:
+            params['bank'] = method
         url, bill = ali_pay(req, 0, params)
         ct.bill = bill
         ct.save()
         return HttpResponseRedirect(url)
         #return JsonResponse({'success':True,'url':url})
-    else:
-        pass
+    else: #GET return pay_method page
+        ct_id = req.GET.get("ct_id")
+        ct = CoachTrain.objects.get(id=ct_id, status=0)
+        params = {  
+                'subject'     :u"快乐体操教练培训费用",  
+                'body'        :u"快乐体操教练培训费用,培训编号:%s"%ct.train.id,  
+                'total_fee'   :ct.train.money,
+                'receiver'    :u"北京快乐童年阳光体操文化发展有限责任公司",
+                'order_num'   :ct_id,
+                'bill_type'   :0,
+                }  
+        return pay_method(req, params)
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))

@@ -15,8 +15,8 @@ def generate_order_num(_id):
     return "{0:0>4d}{1:0>2d}{2:0>2d}{3:0>2d}{4:0>2d}{5:0>2d}{6}".format(now.year, now.month, now.day, now.hour, now.minute, now.second, _id)
 
 BILL_TYPE = (
-        (0, 'coach_train'),
-        (1, 'game'),
+        (0, u'快乐体操教练培训费用'),
+        (1, u'快乐体操比赛报名费用'),
         )
 PAY_TYPE = (
         (0, 'alipay_direct_pay'),
@@ -37,6 +37,8 @@ class Bill (models.Model):
     total_fee = models.FloatField(default=0.0)
     start_date = models.DateTimeField(default=datetime.datetime.now())
     expire_date = models.DateTimeField(default=datetime.datetime.utcnow() + datetime.timedelta(hours=24))
+    body = models.CharField(max_length=1000, null=True)
+    
 
     class Meta:
         app_label='payment'

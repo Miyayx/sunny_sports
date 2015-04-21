@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 from django.shortcuts import render
 
 """
@@ -7,6 +8,8 @@ Copy from https://github.com/fengli/alipay_python
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 import datetime
 import logging
 import urllib
@@ -36,7 +39,8 @@ def pay(request, b_type, params, b_no=None ):
   payment web page due to ACC_TYPE.
   """
   b_no = generate_order_num(params['order_num'])
-  bill = Bill.objects.create(no=b_no, user=request.user, bill_type=b_type, total_fee=params['total_fee'])
+  print params['body']
+  bill = Bill.objects.create(no=b_no, user=request.user, bill_type=b_type, total_fee=params['total_fee'], body=params['body'].encode('unicode_escape'))
   ratio = 1 - settings.ALIPAY_RATIO
   our_ratio = 0.05
   org_ratio = 1-our_ratio
@@ -47,8 +51,10 @@ def pay(request, b_type, params, b_no=None ):
             seller_email=settings.ALIPAY_SELLER_EMAIL
             )
   params['out_trade_no'] = b_no
-  params['quantity'] = 1
   params['paymethod'] = 'directPay'
+  if 'bank' in params:
+      params['defaultbank'] = params['bank']
+  #params['need_ctu_check'] = 'Y'
   params['enable_paymethod'] = 'directPay^bankPay'
   params['royalty_type'] = "10"
   params['royalty_parameters'] = '%s^%0.2f^%s'%(params['org_email'], params['total_fee']*ratio*org_ratio, params['comment'])
@@ -56,4 +62,25 @@ def pay(request, b_type, params, b_no=None ):
   url = alipayTool.create_direct_pay_by_user_url(**params)
   print url
   return url, bill
+
+#('bankname','bank_no_alipay','bank_imageclass')
+BANKS = [
+        (u'中国工商银行','ICBC-DEBIT','ICBC'),
+        (u'中国建设银行','CCB-DEBIT','CCB'),
+        (u'中国农业银行','ABC','ABC'),
+        (u'中国邮政储蓄银行','PSBC-DEBIT','PSBC'),
+        (u'交通银行','COMM','COMM'),
+        (u'招商银行','CMB-DEBIT','CMB'),
+        (u'中国银行','BOC-DEBIT','BOC'),
+        #(u'中国光大银行','CEB-DEBIT','CEB'),
+        (u'中信银行','CITIC-DEBIT','CITIC'),
+        (u'浦发银行','SPDB','SPDB'),
+        (u'中国民生银行','CMBC','CMBC'),
+        (u'广发银行','GDB-DEBIT','GDB'),
+        ]
+
+        
+@login_required
+def pay_method(request, params):
+    return render_to_response('pay_method.html',{"bill":params, "banks":BANKS}, RequestContext(request))
 
