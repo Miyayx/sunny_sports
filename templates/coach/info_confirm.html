@@ -24,8 +24,8 @@
                     <div class="space"></div>
                     <div class="alert alert-info">此处资料来源于个人信息，编辑同时会更新原有个人信息</div>
                     <form class="form-horizontal">
-                        <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
-                        <input class="myeditable" name="t_id" id="train_id" type="hidden" value="{{train.id}}"/>
+                        <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
+                        <span class="myeditable" name="t_id" id="train_id" style="display:none"/>{{train.id}}</span>
                         <div class="row">
                             <div class="col-xs-12 col-sm-7">
 
@@ -196,13 +196,11 @@
                 //text editable
                 $('#token')
                 .editable({
-                    value:'{{csrf_token}}',
                     type: 'text',
                     name: 'csrfmiddlewaretoken'
                 });
                 $('#train_id')
                 .editable({
-                    value:'{{train.id}}',
                     type: 'text',
                     name: 't_id'
                 });
@@ -263,10 +261,10 @@
                                             className: "btn-success",
                                             callback: function() {
                                                 //$.ajax({
-                                                //    url:"/coach/train/pay?ct_id="+data.ct_id,
-                                                //    dataType:"jsonp"
-                                                //});
-                                                window.location.href="/coach/train/pay?ct_id="+data.ct_id;
+                                                    //    url:"/coach/train/pay?ct_id="+data.ct_id,
+                                                    //    dataType:"jsonp"
+                                //});
+                                window.location.href="/coach/train/pay?ct_id="+data.ct_id;
                                             }
                                         },
                                         main: {

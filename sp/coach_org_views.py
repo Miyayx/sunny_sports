@@ -151,7 +151,8 @@ def update_info(req):
             co.dist = data.get("dist","")
         if data.has_key("address"):
             co.address = data.get("address","")
-
+        if data.has_key("ali_email"):
+            co.ali_email = data.get("ali_email","")
         try:
             co.save()
         except:
@@ -185,7 +186,7 @@ def add_member(req):
                 return JsonResponse({'success':False, 'msg':'已报名'})
             except:
                 ct = CoachTrain.objects.create_ct(coach=c, train=t)#要用create_ct创建CoachTrain，否则报名数量不增加
-                return JsonResponse({'success':True})
+                return JsonResponse({'success':True, 'msg':'添加成功'})
         else:
             return JsonResponse({'success':False})
 

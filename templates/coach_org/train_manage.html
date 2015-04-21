@@ -8,14 +8,14 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
         <ul>
-            <li style="display:inline; margin-right:60px; color:grey"> <i class="light ace-icon fa fa-bell bigger-110"></i> 按培训时间排序 </li>
-            <li style="display:inline; margin-right:30px"> <i class="grey ace-icon fa fa-asterisk bigger-110"></i> 报名未开始 </li>
-            <li style="display:inline; margin-right:30px"> <i class="blue ace-icon fa fa-asterisk bigger-110"></i> 报名中 </li>
-            <li style="display:inline; margin-right:30px"> <i class="purple ace-icon fa fa-asterisk bigger-110"></i> 报名结束 </li>
-            <li style="display:inline; margin-right:30px"> <i class="green ace-icon fa fa-asterisk bigger-110"></i> 培训中 </li>
-            <li style="display:inline; margin-right:30px"> <i class="pink ace-icon fa fa-asterisk bigger-110"></i> 培训结束 </li>
-            <li style="display:inline; margin-right:30px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待审核 </li>
-            <li style="display:inline; margin-right:30px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
+            <li style="display:inline; margin-right:40px; color:grey"> <i class="light ace-icon fa fa-bell bigger-110"></i> 按培训时间排序 </li>
+            <li style="display:inline; margin-right:25px"> <i class="grey ace-icon fa fa-asterisk bigger-110"></i> 报名未开始 </li>
+            <li style="display:inline; margin-right:25px"> <i class="blue ace-icon fa fa-asterisk bigger-110"></i> 报名中 </li>
+            <li style="display:inline; margin-right:25px"> <i class="purple ace-icon fa fa-asterisk bigger-110"></i> 报名结束 </li>
+            <li style="display:inline; margin-right:25px"> <i class="green ace-icon fa fa-asterisk bigger-110"></i> 培训中 </li>
+            <li style="display:inline; margin-right:25px"> <i class="pink ace-icon fa fa-asterisk bigger-110"></i> 培训结束 </li>
+            <li style="display:inline; margin-right:25px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待审核 </li>
+            <li style="display:inline; margin-right:25px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
         </ul>
         <div class="space-8"></div>
         {% if zipped|length %}
@@ -285,18 +285,18 @@
         $('.del-member').click(function(e){
             var $delbtn = $(this);
             e.preventDefault();
-            var $info = '确定删除学员<b>'+ $delbtn.parent().find("a").html().trim()+'</b>?';
+            var $info = '确定删除学员<b>'+ $.trim($delbtn.parent().find("a").html())+'</b>?';
             bootbox.setDefaults({locale:'zh_CN'});
             bootbox.confirm($info, function(result){
                 if(result){ //选择确认
                     $.post("/coach_org/del_member",
                         {
                             'csrfmiddlewaretoken': '{{csrf_token}}',
-                            'ct_id':$delbtn.parents('td').find('p').html().trim()
+                            'ct_id':$.trim($delbtn.parents('td').find('p').html())
                         }, function(res){
                             if(res && res['success']){
                                 $curnum = $delbtn.parents('.tab-pane').find('.curnum')
-                                curnum = parseInt($curnum.html().trim());
+                                curnum = parseInt($.trim($curnum.html()));
                                 $curnum.html(curnum-1);
                                 $delbtn.parents('tr').remove();
                             }
@@ -319,9 +319,9 @@
             bootbox.confirm($searchbox, function(result){
                 if(result){
                     $.post("/coach_org/add_member",
-                        {"phone":$('#member-phone').val().trim(), 
-                            "name":$('#member-name').html().trim(),
-                            "t_id":$addbtn.parents('.tab-pane').find('.t_id span').html().trim(),
+                        {"phone":$.trim($('#member-phone').val()), 
+                            "name":$.trim($('#member-name').html()),
+                            "t_id":$.trim($addbtn.parents('.tab-pane').find('.t_id span').html()),
                             'csrfmiddlewaretoken': '{{csrf_token}}'
                         }, function(res){
                             if(res && res.success)

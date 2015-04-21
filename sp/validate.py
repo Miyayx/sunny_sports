@@ -20,7 +20,7 @@ def is_phone_exists(req):
         return JsonResponse({"exists":False})
 
 def is_nickname_exists(req):
-    #检验该手机号是否已注册
+    #检验该昵称是否已注册
     nickname = req.GET.get('nickname')
     u = MyUser.objects.filter(nickname=nickname)
     if len(u) > 0:
@@ -29,8 +29,8 @@ def is_nickname_exists(req):
         return JsonResponse({"exists":False})
 
 def is_orgshortname_exists(req):
-    #检验该手机号是否已注册
-    osn = req.GET.get('orgshortname')
+    #检验该组织机构简称是否已注册
+    osn = req.GET.get('shortname')
     u = CoachOrg.objects.filter(shortname=osn)
     if len(u) > 0:
         return JsonResponse({"exists":True})
@@ -38,7 +38,7 @@ def is_orgshortname_exists(req):
         return JsonResponse({"exists":False})
 
 def is_email_exists(req):
-    #检验该手机号是否已注册
+    #检验该邮箱是否已注册
     email = req.GET.get('email')
     u = MyUser.objects.filter(email=email)
     if len(u) > 0:
