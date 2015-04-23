@@ -186,6 +186,7 @@ def pay(req):
                 'total_fee'   :ct.train.money,
                 'return_url'  :"http://%s/coach/train/pay_return"%req.get_host(),
                 #'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
+                'notify_url'  :"http:/kuaileticao.miyayx.me/coach/train/pay_notify",
                 'order_num'   :ct_id,#用来生成账单编号
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
                 'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id)#给组织机构的备注
@@ -212,7 +213,25 @@ def pay(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
+def pay_notify(req):
+    #if req.GET.get('trade_status') == "TRADE_SUCCESS":
+    print "notify"
+    print "out_trade_no:",req.GET.get('out_trade_no')
+    try:
+        ct = CoachTrain.objects.get(bill_id=req.GET.get('out_trade_no'))
+        ct.status = 1
+        ct.save()
+        print '付款成功！'
+    except:
+    #return HttpResponse(u'付款成功！')
+        return HttpResponse(u'找不到报名信息！')
+    #else:
+    #    return HttpResponse(u'付款失败！')
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def pay_return(req):
+    print "return"
     if req.GET.get('trade_status') == "TRADE_SUCCESS":
         print "out_trade_no:",req.GET.get('out_trade_no')
         try:

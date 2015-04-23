@@ -57,7 +57,7 @@ def pay(request, b_type, params, b_no=None ):
   #params['need_ctu_check'] = 'Y'
   params['enable_paymethod'] = 'directPay^bankPay'
   params['royalty_type'] = "10"
-  params['royalty_parameters'] = '%s^%0.2f^%s'%(params['org_email'], params['total_fee']*ratio*org_ratio, params['comment'])
+  params['royalty_parameters'] = '%s^%0.2f^%s'%(params['org_email'], params['total_fee']*org_ratio, params['comment'])
   print params['royalty_parameters']
   url = alipayTool.create_direct_pay_by_user_url(**params)
   print url
@@ -70,7 +70,7 @@ BANKS = [
         (u'中国农业银行','ABC','ABC'),
         (u'中国邮政储蓄银行','PSBC-DEBIT','PSBC'),
         (u'交通银行','COMM','COMM'),
-        (u'招商银行','CMB-DEBIT','CMB'),
+        (u'招商银行','CMB','CMB'),
         (u'中国银行','BOC-DEBIT','BOC'),
         #(u'中国光大银行','CEB-DEBIT','CEB'),
         (u'中信银行','CITIC-DEBIT','CITIC'),
