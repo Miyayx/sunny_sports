@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+#os.environ['HTTPS'] = "on"
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 import platform
 OS = platform.dist()[0]
@@ -22,7 +23,7 @@ OS = platform.dist()[0]
 SECRET_KEY = 'x*7jb4_74q_pf6s05%@7ecrt*fhxp5s&3p%xer$)mw4x#xj+j)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if OS == 'centos' and 'home' in BASE_DIR:
+if OS == 'centos' and not 'home' in BASE_DIR:
     DEBUG = False
     TEMPLATE_DEBUG = False
     ALLOWED_HOSTS = ['localhost','127.0.0.1','121.52.209.117','kuaileticao.com','www.kuaileticao.com', 'kuaileticao.miyayx.me', 'test.kuaileticao.com']
@@ -30,6 +31,7 @@ else:
     DEBUG = True
     TEMPLATE_DEBUG = True
 
+print "DEBUG?",DEBUG
 
 # Application definition
 
@@ -95,6 +97,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+print "DATABASE:",DATABASES['default']['NAME']
 
 DATE_FORMAT = "Y-m-d"
 DATETIME_FORMAT = "Y-m-d H:i"
