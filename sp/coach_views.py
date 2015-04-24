@@ -212,8 +212,7 @@ def pay(req):
                 }  
         return pay_method(req, params)
 
-@login_required()
-@user_passes_test(lambda u: u.is_role(['coach']))
+@csrf_exempt
 def pay_notify(req):
     #if req.GET.get('trade_status') == "TRADE_SUCCESS":
     print "notify"
