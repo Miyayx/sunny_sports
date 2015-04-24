@@ -216,11 +216,11 @@ def pay(req):
 def pay_notify(req):
     #if req.GET.get('trade_status') == "TRADE_SUCCESS":
     print "notify"
-    print "out_trade_no:",req.GET.get('out_trade_no')
-    if notify_verify(request.POST):
+    print "out_trade_no:",req.POST.get('out_trade_no')
+    if notify_verify(req.POST):
         print ('pass verification...')
-        tn = request.POST.get('out_trade_no')
-        trade_status = request.POST.get('trade_status')
+        tn = req.POST.get('out_trade_no')
+        trade_status = req.POST.get('trade_status')
 
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             print ('TRADE SUCCESS, so upgrade bill')
