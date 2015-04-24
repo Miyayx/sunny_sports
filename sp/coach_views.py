@@ -184,7 +184,7 @@ def pay(req):
                 'subject'     :u"快乐体操教练培训费用",  
                 'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
                 'total_fee'   :ct.train.money,
-                'return_url'  :"http://%s/coach/train/pay_return"%req.get_host(),
+                'return_url'  :"http://kuaileticao.miyayx.me/coach/train/pay_return"%req.get_host(),
                 #'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
                 'notify_url'  :"http:/kuaileticao.miyayx.me/coach/train/pay_notify",
                 'order_num'   :ct_id,#用来生成账单编号

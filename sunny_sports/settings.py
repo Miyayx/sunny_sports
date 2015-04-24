@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'djcelery',
     'captcha',
-    'corsheaders',
+    #'corsheaders',
     'kombu.transport.django',
     'sp',
     'payment',
@@ -140,7 +140,6 @@ STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATICFILES_DIRS=( 
         os.path.join(BASE_DIR, 'static').replace('\\','/'), 
-        os.path.join(BASE_DIR, 'payment/static').replace('\\','/'), 
         ) 
 
 
