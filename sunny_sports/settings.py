@@ -16,6 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 import platform
 OS = platform.dist()[0]
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -163,4 +164,7 @@ CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_dots',)
 MSG_CODE = True if OS == 'centos' else False
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+HOST = 'kuaileticao.miyayx.me' if DEBUG else 'kuaileticao.com'
+print 'HOST:',HOST
 

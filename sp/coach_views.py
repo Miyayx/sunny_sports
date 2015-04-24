@@ -19,8 +19,7 @@ from datetime import datetime, timedelta
 from PIL import Image
 import os
 from sunny_sports.settings import MEDIA_ROOT
-
-
+from sunny_sports.settings import HOST
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -187,9 +186,8 @@ def pay(req):
                 'subject'     :u"快乐体操教练培训费用",  
                 'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
                 'total_fee'   :ct.train.money,
-                'return_url'  :"http://kuaileticao.miyayx.me/coach/train/pay_return"%req.get_host(),
-                #'notify_url'  :"http://%s/coach/train/pay_notify"%req.get_host(),
-                'notify_url'  :"http:/kuaileticao.miyayx.me/coach/train/pay_notify",
+                'return_url'  :"http://%s/coach/train/pay_return"%HOST,
+                'notify_url'  :"http://%s/coach/train/pay_notify"%HOST,
                 'order_num'   :ct_id,#用来生成账单编号
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
                 'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id)#给组织机构的备注
