@@ -30,6 +30,7 @@ if OS == 'centos' and not 'home' in BASE_DIR:
 else:
     DEBUG = True
     TEMPLATE_DEBUG = True
+    ALLOWED_HOSTS = ['*']
 
 print "DEBUG?",DEBUG
 
