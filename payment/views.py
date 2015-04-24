@@ -65,18 +65,18 @@ def pay(request, b_type, params, b_no=None ):
 
 #('bankname','bank_no_alipay','bank_imageclass')
 BANKS = [
-        (u'中国工商银行','ICBC-DEBIT','ICBC'),
-        (u'中国建设银行','CCB-DEBIT','CCB'),
+        #(u'中国工商银行','ICBC','ICBC'), #工商银行的混合渠道总是超时
+        (u'中国建设银行','CCB','CCB'),
         (u'中国农业银行','ABC','ABC'),
-        (u'中国邮政储蓄银行','PSBC-DEBIT','PSBC'),
-        (u'交通银行','COMM','COMM'),
+        (u'中国邮政储蓄银行','POSTGC','PSBC'),
+        #(u'交通银行','COMM-DEBIT','COMM'), #出错啦！
         (u'招商银行','CMB','CMB'),
-        (u'中国银行','BOC-DEBIT','BOC'),
-        #(u'中国光大银行','CEB-DEBIT','CEB'),
-        (u'中信银行','CITIC-DEBIT','CITIC'),
+        (u'中国银行','BOCB2C','BOC'),
+        ##(u'中国光大银行','CEB-DEBIT','CEB'),
+        (u'中信银行','CITIC-DEBIT','CITIC'), #中信关闭了信用卡网银支付
         (u'浦发银行','SPDB','SPDB'),
         (u'中国民生银行','CMBC','CMBC'),
-        (u'广发银行','GDB-DEBIT','GDB'),
+        (u'广发银行','GDB','GDB'),
         ]
 
         
