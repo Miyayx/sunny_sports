@@ -11,6 +11,7 @@ from django.db import transaction
 from utils import *
 from payment.views import pay as ali_pay
 from payment.views import pay_method 
+from payment.alipay_python.alipay import *
 
 from sp.tasks import payment_check
 from django import forms
@@ -18,6 +19,8 @@ from datetime import datetime, timedelta
 from PIL import Image
 import os
 from sunny_sports.settings import MEDIA_ROOT
+
+
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -217,34 +220,46 @@ def pay_notify(req):
     #if req.GET.get('trade_status') == "TRADE_SUCCESS":
     print "notify"
     print "out_trade_no:",req.GET.get('out_trade_no')
-    try:
-        ct = CoachTrain.objects.get(bill_id=req.GET.get('out_trade_no'))
-        ct.status = 1
-        ct.save()
-        print '付款成功！'
-    except:
-    #return HttpResponse(u'付款成功！')
-        return HttpResponse(u'找不到报名信息！')
-    #else:
-    #    return HttpResponse(u'付款失败！')
+    if notify_verify(request.POST):
+        print ('pass verification...')
+        tn = request.POST.get('out_trade_no')
+        trade_status = request.POST.get('trade_status')
+
+        if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
+            print ('TRADE SUCCESS, so upgrade bill')
+            try:
+                ct = CoachTrain.objects.get(bill_id=tn)
+                ct.status = 1
+                ct.save()
+                print '付款成功！'
+            except:
+                pass
+            return HttpResponse("success")
+        else:
+            return HttpResponse("success")
+    else:
+        return HttpResponse('fail')
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
 def pay_return(req):
     print "return"
-    if req.GET.get('trade_status') == "TRADE_SUCCESS":
-        print "out_trade_no:",req.GET.get('out_trade_no')
-        try:
-            ct = CoachTrain.objects.get(bill_id=req.GET.get('out_trade_no'))
-            ct.status = 1
-            ct.save()
-            print '付款成功！'
-        except:
-        #return HttpResponse(u'付款成功！')
-            return HttpResponse(u'找不到报名信息！')
-        return HttpResponseRedirect('/coach/train')
+    if notify_verify(req.GET):
+        if req.GET.get('trade_status') == "TRADE_SUCCESS":
+            print "out_trade_no:",req.GET.get('out_trade_no')
+            try:
+                ct = CoachTrain.objects.get(bill_id=req.GET.get('out_trade_no'))
+                ct.status = 1
+                ct.save()
+                print '付款成功！'
+            except:
+            #return HttpResponse(u'付款成功！')
+                return HttpResponse(u'找不到报名信息！')
+            return HttpResponseRedirect('/coach/train')
+        else:
+            return HttpResponse(u'付款失败')
     else:
-        return HttpResponse(u'付款失败！')
+        return HttpResponse(u'信息验证错误')
 
 
 @login_required()
