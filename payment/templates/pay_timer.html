@@ -1,0 +1,44 @@
+
+<div class="center">
+  <h4 class="text-warning">距离付款结束还有: <span id="event_time_remain"></span> &nbsp; <span id="second_remain"></span></h4>
+</div>
+<script type="text/javascript">
+
+  //开始计时
+  function event_timer(time_remain) {  
+    //由页面提交的时间与服务器时间一般都有2~4秒的差值
+    rt = parseInt(time_remain) + 4;
+    var eventid=document.getElementById('event_time_remain');
+    var second_remain=document.getElementById('second_remain');
+    if (rt == 0) {  
+      alert("timeover");
+      window.location.reload();
+    }else {   
+      eventid.innerHTML = time_format(rt);
+      time_remain = time_remain - 1;
+      setTimeout("event_timer('" + time_remain + "')",1000); 
+    }
+  }
+
+  // 以hh:mm:ss格式化时间，可以根据需要 定义格式 
+  function time_format(s) {
+    var t;
+    if(s > -1){
+      hour = Math.floor(s/3600);
+      min = Math.floor(s/60) % 60;
+      sec = s % 60;
+
+      t = hour + ":";
+
+      if(min < 10){t += "0";}
+      t += min + ":";
+      if(sec < 10){t += "0";}
+      t += sec;}
+    else
+      {t = "0:00:0x";}
+    return t;
+  }
+
+  event_timer({{time_remain}});
+</script>
+

@@ -59,6 +59,7 @@ def train(req):
     old_cts = []
     ct = []
     trains = None
+    time_remain = 0
     if coach.t_level == 0:
         trains = Train.objects.filter(level=1, pass_status=1, reg_status=1, pub_status=0)
         ct = CoachTrain.objects.filter(coach=coach, train__level=1, train__pub_status=0)
@@ -81,7 +82,14 @@ def train(req):
         old_cts.append(old_ct)
         old_cts.append(old_ct2)
         old_cts.append(old_ct3)
-    return render_to_response('coach/train.html',{"coach":coach, "trains":trains, "old_cts":old_cts, "ct":ct.latest("id") if len(ct) > 0 else None, "items":range(0,3) }, RequestContext(req))
+
+    if len(ct): 
+        temp = ct.latest('id')
+        if temp.status == 0:
+            time_remain = temp.reg_time+timedelta(days=1)-timezone.now()
+    print 'time_remain',time_remain
+        
+    return render_to_response('coach/train.html',{"coach":coach, "trains":trains, "old_cts":old_cts, "ct":ct.latest("id") if len(ct) > 0 else None, "items":range(0,3), "time_remain":int(time_remain.total_seconds())}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
