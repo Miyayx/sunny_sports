@@ -7,11 +7,9 @@ from models.models import *
 
 admin.site.register(role.StudentProperty)
 admin.site.register(role.CoachProperty)
-admin.site.register(role.JudgeProperty)
 admin.site.register(role.Club)
 admin.site.register(role.Student)
 admin.site.register(role.Coach)
-admin.site.register(role.Judge)
 admin.site.register(role.CoachOrg)
 admin.site.register(train.Train)
 admin.site.register(centre.Centre)

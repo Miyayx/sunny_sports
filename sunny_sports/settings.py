@@ -154,7 +154,6 @@ USER_ROLES = (
         'coach_org',
         'student',
         'coach',
-        'judge',
         'club',
         'team',
         'committee',

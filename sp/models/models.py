@@ -73,11 +73,6 @@ class MyUserManager(BaseUserManager):
             sp = role_model.StudentProperty(user=user)
             sp.save()
             role_model.Student(property=sp).save()
-        elif r.get_role_display() == "judge":
-            print "Create Judge"
-            jp = role_model.JudgeProperty(user=user)
-            jp.save()
-            role_model.Judge(property=jp).save()
         elif r.get_role_display() == "club":
             print "Create Club"
             pass

@@ -5,10 +5,9 @@ ROLE_LIST = (
         (1, 'coach_org'),
         (2, 'student'),
         (3, 'coach'),
-        (4, 'judge'),
-        (5, 'club'),
-        (6, 'team'),
-        (7, 'committee'),
+        (4, 'club'),
+        (5, 'team'),
+        (6, 'committee'),
         )
 
 def get_role_id(r_str):

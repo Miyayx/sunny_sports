@@ -50,19 +50,6 @@ class CoachProperty(PersonProperty):
     class Meta:
         app_label='sp'
 
-class JudgeProperty(PersonProperty):
-    """
-    继承于PersonProperty
-    """
-    company = models.CharField(max_length=50, blank=True)
-    province = models.CharField(max_length=20, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-    county = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=100, blank=True)
-    
-    class Meta:
-        app_label='sp'
-
 class Club(models.Model):
     user = models.ForeignKey(MyUser, unique=True, db_index=True)
     province = models.CharField(max_length=20, blank=True)
@@ -89,19 +76,6 @@ class Student(models.Model):
         return str(self.property)
 
     
-class Judge(models.Model):
-    property = models.ForeignKey(JudgeProperty)
-    club = models.ForeignKey(Club, null=True)
-    level = models.IntegerField(choices=COACH_LEVEL, default=0)
-    status = models.IntegerField(default=0)
-    ifreg = models.BooleanField(default=False)#今年是否注册
-    class Meta:
-        app_label='sp'
-
-    def __str__(self):
-        return str(self.property)
-
-
 class Coach(models.Model):
     property = models.ForeignKey(CoachProperty)
     club = models.ForeignKey(Club, null=True)

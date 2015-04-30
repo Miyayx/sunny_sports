@@ -161,8 +161,6 @@ def msg_publish(req):
             post["stu"] = True
         if post.get("coach", False):
             post["coach"] = True
-        if post.get("judge", False):
-            post["judge"] = True
         print post
         form = MessagePublishForm(post)
         print form.is_valid()

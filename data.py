@@ -23,7 +23,6 @@ def init():
     #u11 = MyUser.objects.create_user("111111", "org2","org2@test.com", 1, "org")
     #u2 = MyUser.objects.create_user("22222", "student","student@test.com", 2, "student")
     #u3 = MyUser.objects.create_user("33333", "coach","coach@test.com", 3, "coach")
-    #u4 = MyUser.objects.create_user("44444", "judge","judge@test.com", 4, "judge")
     #u5 = MyUser.objects.create_user("55555", "club","club@test.com", 5, "club")
     #u1 = MyUser.objects.get(phone="11111")
     #u11 = MyUser.objects.get(phone="111111")
@@ -67,6 +66,6 @@ if __name__ == "__main__":
     from sp.models import *
     from sp.models.models import *
 
-    #init()
-    new_data()
+    init()
+    #new_data()
     

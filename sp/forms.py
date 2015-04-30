@@ -128,10 +128,8 @@ class AdminPasswordChangeForm(forms.Form):
 class MessagePublishForm(forms.Form):
     stu   = forms.BooleanField(initial=False, required=False)
     coach = forms.BooleanField(initial=False, required=False)
-    judge = forms.BooleanField(initial=False, required=False)
     stuorg   = forms.BooleanField(initial=False, required=False)
     coachorg = forms.BooleanField(initial=False, required=False)
-    judgeorg = forms.BooleanField(initial=False, required=False)
     gameorg = forms.BooleanField(initial=False, required=False)
     title = forms.CharField(max_length=100)
     content = forms.CharField(max_length=1000)
@@ -143,7 +141,6 @@ class MessagePublishForm(forms.Form):
    #     cleaned_data = super(MessagePublishForm, self).clean()
    #     stu = cleaned_data.get("stu", False)
    #     coach = cleaned_data.get("coach", False)
-   #     judge = cleaned_data.get("judge", False)
 
    #     title = cleaned_data.get("title",None)
    #     if not title:
@@ -163,9 +160,6 @@ class MessagePublishForm(forms.Form):
             print len(user_list)
         if data.get('coach',False):
             user_list += MyUser.objects.filter(role=3)
-            print len(user_list)
-        if data.get('judge',False):
-            user_list += MyUser.objects.filter(role=4)
             print len(user_list)
 
         #utils.py里
