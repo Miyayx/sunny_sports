@@ -168,7 +168,7 @@
                                             <button class="btn btn-minier btn-danger del-member pull-right"> 删除 </button>
                                         </td>
                                         {% if train.train_status == 0 %}
-                                        <td class="center">{{ct.get_status_display}}</td>
+                                        <td class="center">已报名，{{ct.get_status_display}}</td>
                                         {% endif %}
                                         {% if train.pass_status and train.train_status and not train.sub_status == 1 %}
                                         <!-- 成绩结果未提交或审核不通过-->

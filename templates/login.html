@@ -129,7 +129,7 @@
                                           </div>  
                                           -->
                                           <input type="radio" name="role" value="student" disabled="true"/> 学员
-                                          <input type="radio" name="role" value="judge" disabled="true"/> 裁判
+                                          <!--<input type="radio" name="role" value="judge" disabled="true"/> 裁判-->
                                           <input type="radio" name="role" value="coach" checked="true"/> 教练
 
                                           {% include "components/login.html"%}
@@ -263,7 +263,7 @@
                                           <label id="student2" class="btn btn-success">
                                             -->
                                             <input type="radio" name="role2" value="student" disabled="true"/> 学员
-                                            <input type="radio" name="role2" value="judge" disabled="true"/> 裁判
+                                            <!--<input type="radio" name="role2" value="judge" disabled="true"/> 裁判-->
                                             <input type="radio" name="role2" value="coach" checked="true" /> 教练
                                             <br/>
                                             <input type="radio" name="role2" value="club" disabled="true"/> 俱乐部
@@ -311,7 +311,7 @@
                     <div class="footer-content" style="border-top: 0px">
                       <h4 class="light-blue" id="id-company-text">
                         &copy;北京快乐童年阳光体操文化有限责任公司</h4>
-                      <span class="bigger-120">
+                      <span class="bigger-110">
                         <span class="blue bolder">Created by Queendorm</span>
                       </span>
                     </div>
@@ -366,28 +366,17 @@
                     text: '请尽量选择Chrome，Firefox以及IE10以上版本进行操作'
                   });
 
-                  $('#student2').click(function () {
-                    $("#studentForm").show();
-                    $("#judgeForm").hide();
-                    $("#coachForm").hide();
+                  $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title: '学员报名系统将于6月1日开放',
+                    sticky:true,
+                    text: ''
                   });
-                  $('#coach2').click(function () {
-                    $("#studentForm").hide();
-                    $("#judgeForm").hide();
-                    $("#coachForm").show();
-                  });
-                  $('#judge2').click(function () {
-                    $("#studentForm").hide();
-                    $("#judgeForm").show();
-                    $("#coachForm").hide();
-                  });
-                  $('#club2').click(function () {
-                    $("#clubForm").show();
-                    $("#teamForm").hide();
-                  });
-                  $('#team2').click(function () {
-                    $("#clubForm").hide();
-                    $("#teamForm").show();
+                  $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title: '参赛报名系统将于8月1日开放',
+                    sticky:true,
+                    text: ''
                   });
 
                 });
