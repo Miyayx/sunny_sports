@@ -11,7 +11,7 @@
     var eventid=document.getElementById('event_time_remain');
     var second_remain=document.getElementById('second_remain');
     if (rt == 0) {  
-      alert("timeover");
+      alert("付款超时");
       window.location.reload();
     }else {   
       eventid.innerHTML = time_format(rt);

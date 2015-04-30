@@ -20,6 +20,7 @@ from PIL import Image
 import os
 from sunny_sports.settings import MEDIA_ROOT
 from sunny_sports.settings import HOST
+from sunny_sports.settings import PAYMENT_LIMIT
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -86,10 +87,16 @@ def train(req):
     if len(ct): 
         temp = ct.latest('id')
         if temp.status == 0:
-            time_remain = temp.reg_time+timedelta(days=1)-timezone.now()
+            time_remain = temp.reg_time+PAYMENT_LIMIT-timezone.now()
     print 'time_remain',time_remain
-        
-    return render_to_response('coach/train.html',{"coach":coach, "trains":trains, "old_cts":old_cts, "ct":ct.latest("id") if len(ct) > 0 else None, "items":range(0,3), "time_remain":int(time_remain.total_seconds())}, RequestContext(req))
+
+    return render_to_response('coach/train.html',{"coach":coach, 
+        "trains":trains, 
+        "old_cts":old_cts, 
+        "ct":ct.latest("id") if len(ct) > 0 else None,
+        "items":range(0,3), 
+        "time_remain":int(time_remain.total_seconds()) if time_remain else 0
+        }, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -149,9 +156,8 @@ def info_confirm(req):
                 pass
             try:
                 ct = CoachTrain.objects.create_ct(coach=coach, train=train) #要用create_ct创建CoachTrain，否则报名数量不增加
-                #tomorrow = datetime.utcnow() + timedelta(hours=24)
-                #tomorrow = datetime.utcnow() + timedelta(minute=5)
-                #payment_check.apply_async((ct.id,), eta=tomorrow) #24小时后进行check，若未缴费，删除报名记录
+                check_time = datetime.utcnow() + PAYMENT_LIMIT
+                payment_check.apply_async((ct.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
 
                 return JsonResponse({ 'success':True,'ct_id':ct.id })
             except Exception,e:

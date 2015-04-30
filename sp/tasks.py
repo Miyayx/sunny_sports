@@ -12,6 +12,11 @@ from sp.models.models import *
 from sp.models.status import *
 from sp.models.train import *
 
+import datetime
+from django.utils import timezone
+
+from sunny_sports import settings
+
 #@periodic_task(run_every=crontab(hour=0, minute=0))
 @periodic_task(run_every=crontab(minute='*/30'))
 def train_reg_start_p():
@@ -63,5 +68,7 @@ def payment_check(ct_id):
     #规定时间进行检查，若还未缴费,删除报名记录
     # 若缴费前报名已经截止？
     print("payment check")
-    CoachTrain.objects.filter(id=ct_id, status=0).delete()
+    ct = CoachTrain.objects.get(id=ct_id, status=0)
+    if timezone.now() >= ct.reg_time + settings.PAYMENT_LIMIT: # 因为以前的task不会取消，这里判断下是不是最新的task
+        ct.delete()
 
