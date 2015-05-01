@@ -113,21 +113,7 @@
                                         {% csrf_token %}
 
                                         <fieldset> 
-                                          <!--
-                                          <div class="btn-group" data-toggle="buttons">
-                                            <button class="btn btn-primary btn-sm active">
-                                              <input type="radio" name="role" value="student" /> 学员
-                                            </button>
-
-                                            <button class="btn btn-primary btn-sm">
-                                            </button>
-
-                                            <button class="btn btn-primary btn-sm">
-                                              <input type="radio" name="role" value="coach"/> 教练
-                                            </button>
-                                          </div>  
-                                          -->
-                                          <input type="radio" name="role" value="student" disabled="true"/> 学员
+                                          <input type="radio" name="role" value="student" disabled="true"/> 学生
                                           <input type="radio" name="role" value="coach" checked="true"/> 教练
 
                                           {% include "components/login.html"%}
@@ -139,19 +125,6 @@
                                     <div id="organization-tab" class="tab-pane">
                                       <form action="login" method="post">
                                         {% csrf_token %}
-                                        <!--
-                                        <div class="btn-group" data-toggle="buttons">
-                                          <button class="btn btn-primary btn-sm active">
-                                            <input type="radio" name="role" value="club" /> 俱乐部
-                                          </button>
-                                          <button class="btn btn-primary btn-sm">
-                                            <input type="radio" name="role" value="team" /> 参赛队
-                                          </button>
-                                          <button class="btn btn-primary btn-sm">
-                                            <input type="radio" name="role" value="committee" /> 通级委员会
-                                          </button>
-                                        </div>  
-                                        -->
                                         <input type="radio" name="role" value="club" checked="true"/> 俱乐部
                                         {% include "components/login.html"%}
                                       </form>
@@ -161,13 +134,6 @@
 
                                       <form action="login" method="post">
                                         {% csrf_token %}
-                                        <!--
-                                        <div class="btn-group" data-toggle="buttons">
-                                          <button class="btn btn-primary btn-sm active">
-                                            <input type="radio" name="role" value="admin" /> 管理员
-                                          </button>
-                                        </div>  
-                                        -->
                                         <input type="hidden" name="role" value="admin"/>
 
                                         {% include "components/login.html" with form=form1%}
@@ -260,7 +226,7 @@
                                         <div class="btn-group" data-toggle="buttons">
                                           <label id="student2" class="btn btn-success">
                                             -->
-                                            <input type="radio" name="role2" value="student" disabled="true"/> 学员
+                                            <input type="radio" name="role2" value="student" disabled="true"/> 学生
                                             <input type="radio" name="role2" value="coach" checked="true" /> 教练
                                             <br/>
                                             <input type="radio" name="role2" value="club" disabled="true"/> 俱乐部
@@ -365,7 +331,7 @@
 
                   $.gritter.add({
                     // (string | mandatory) the heading of the notification
-                    title: '学员报名系统将于6月1日开放',
+                    title: '学生报名系统将于6月1日开放',
                     sticky:true,
                     text: ''
                   });
