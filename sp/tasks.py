@@ -68,7 +68,9 @@ def payment_check(ct_id):
     #规定时间进行检查，若还未缴费,删除报名记录
     # 若缴费前报名已经截止？
     print("payment check")
-    ct = CoachTrain.objects.get(id=ct_id, status=0)
-    if timezone.now() >= ct.reg_time + settings.PAYMENT_LIMIT: # 因为以前的task不会取消，这里判断下是不是最新的task
+    try:
+        ct = CoachTrain.objects.get(id=ct_id, status=0)
         ct.delete()
+    except:
+        pass
 

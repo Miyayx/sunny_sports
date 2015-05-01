@@ -40,7 +40,7 @@ def pay(request, b_type, params, b_no=None ):
   """
   b_no = generate_order_num(params['order_num'])
   print params['body']
-  bill = Bill.objects.create(no=b_no, user=request.user, bill_type=b_type, total_fee=params['total_fee'], body=params['body'].encode('unicode_escape'))
+  bill = Bill.objects.create(no=b_no, user=request.user, bill_type=b_type, total_fee=params['total_fee'], body=params['comment'].encode('unicode_escape'))
   ratio = 1 - settings.ALIPAY_RATIO
   our_ratio = 0.05
   org_ratio = 1-our_ratio

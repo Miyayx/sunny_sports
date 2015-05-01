@@ -235,8 +235,8 @@ def pay_notify(req):
     if notify_verify(req.POST):
         print ('pass verification...')
         tn = req.POST.get('out_trade_no')
-        bill = Bill.objects.get(id=tn)
         trade_status = req.POST.get('trade_status')
+        bill = Bill.objects.get(no=tn)
         bill.trade_status = trade_status
         bill.save()
 
@@ -260,14 +260,14 @@ def pay_notify(req):
 def pay_return(req):
     print "return"
     if notify_verify(req.GET):
-        if req.GET.get('trade_status') == "TRADE_SUCCESS":
-            tn = req.GET.get('out_trade_no')
-            print tn
+        tn = req.GET.get('out_trade_no')
+        trade_status = req.GET.get('trade_status')
+        print tn
+        bill = Bill.objects.get(no=tn)
+        bill.trade_status = trade_status
+        bill.save()
+        if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             try:
-                bill = Bill.objects.get(id=tn)
-                trade_status = req.GET.get('trade_status')
-                bill.trade_status = trade_status
-                bill.save()
                 ct = CoachTrain.objects.get(bill_id=tn)
                 ct.status = 1
                 ct.save()
