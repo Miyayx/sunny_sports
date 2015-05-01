@@ -150,14 +150,14 @@
                                         <td>
                                             {% if ct.status == 0 %}
                                             <a class="btn btn-minier btn-primary" href="/coach/train/pay?ct_id={{ct.id}}">去付款</a>
-                                           {% if ct.train.reg_status == 1 %}
+                                            {% if ct.train.reg_status == 1 %}
                                             <a class="btn btn-minier btn-danger">取消报名</a>
                                             {% endif %}
                                             {% else %}
                                             <span>退课请联系举办方<br/>
-                                            电话：{{ct.train.org.user.phone}}</span>
-                                        {% endif %}
-                                    </td>
+                                                电话：{{ct.train.org.user.phone}}</span>
+                                            {% endif %}
+                                        </td>
                                         {% endif %}
                                     </tr>
                                 </tbody>
@@ -196,6 +196,23 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
+    <div class="ace-settings-container onpage-help-toggle-container">
+        <a data-toggle="dropdown" class="btn btn-app btn-xs btn-info ace-setting-btn onpage-help-toggle-btn" href="#">
+            <i class="ace-icon fa fa-question bigger-150"></i>
+        </a>
+
+        <ul class="dropdown-menu-right dropdown-navbar navbar-blue dropdown-menu dropdown-caret dropdown-close">
+            <li class="dropdown-header">
+            <i class="ace-icon fa fa-download"></i>
+            下载说明文档
+            </li>
+            <li> <a href="/tutorial/coach">
+                <div class="clearfix">
+                    教练报名与付款教程
+                </div>
+            </a> </li>
+        </ul>
     </div>
 </div>
 {% endwith %}
