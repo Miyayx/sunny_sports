@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.db import transaction
 
 from utils import *
+from payment.models import Bill
 from payment.views import pay as ali_pay
 from payment.views import pay_method 
 from payment.alipay_python.alipay import *
@@ -204,7 +205,7 @@ def pay(req):
                 'notify_url'  :"http://%s/coach/train/pay_notify"%HOST,
                 'order_num'   :ct_id,#用来生成账单编号
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
-                'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id)#给组织机构的备注
+                'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s, t_id:%s, ct_id:%s"%(ct.train.name, ct.train.id, ct.train.id, ct.id)#给组织机构的备注
                 }  
         if not 'alipay' == method:
             params['bank'] = method
@@ -234,7 +235,10 @@ def pay_notify(req):
     if notify_verify(req.POST):
         print ('pass verification...')
         tn = req.POST.get('out_trade_no')
+        bill = Bill.objects.get(id=tn)
         trade_status = req.POST.get('trade_status')
+        bill.trade_status = trade_status
+        bill.save()
 
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             print ('TRADE SUCCESS, so upgrade bill')
@@ -257,9 +261,14 @@ def pay_return(req):
     print "return"
     if notify_verify(req.GET):
         if req.GET.get('trade_status') == "TRADE_SUCCESS":
-            print "out_trade_no:",req.GET.get('out_trade_no')
+            tn = req.GET.get('out_trade_no')
+            print tn
             try:
-                ct = CoachTrain.objects.get(bill_id=req.GET.get('out_trade_no'))
+                bill = Bill.objects.get(id=tn)
+                trade_status = req.GET.get('trade_status')
+                bill.trade_status = trade_status
+                bill.save()
+                ct = CoachTrain.objects.get(bill_id=tn)
                 ct.status = 1
                 ct.save()
                 print '付款成功！'

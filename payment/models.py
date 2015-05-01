@@ -33,13 +33,12 @@ class Bill (models.Model):
   # It'll be one of the 4 status ('WAIT_BUYER_PAY', 'WAIT_SELLER_SEND_GOODS',
   # 'WAIT_BUYER_CONFIRM_GOODS', 'TRADE_FINISHED', 'TRADE_CLOSED'), the inital
   # status will be 'INIT'.
-  #trade_status = models.CharField (max_length=50, default='INIT', null=True)
+    trade_status = models.CharField (max_length=50, default='INIT', null=True)
     total_fee = models.FloatField(default=0.0)
     start_date = models.DateTimeField(default=datetime.datetime.now())
     expire_date = models.DateTimeField(default=datetime.datetime.utcnow() + datetime.timedelta(hours=24))
     body = models.CharField(max_length=1000, null=True)
     
-
     class Meta:
         app_label='payment'
 
