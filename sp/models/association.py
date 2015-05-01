@@ -4,10 +4,8 @@
 from django.db import models
 
 from role import *
-from club import *
 from game import *
 from train import *
-from committee import *
 from status import *
 
 from payment.models import Bill
