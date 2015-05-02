@@ -3,6 +3,8 @@
 
 from uuid import uuid1
 
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import (
         UserManager, BaseUserManager, AbstractBaseUser
@@ -100,7 +102,7 @@ class MyUser(AbstractBaseUser):
     phone    = models.CharField(max_length=15, unique=True, db_index=True)
     #password = models.CharField(max_length=64) #password 在abstract class里有
 
-    regist_time = models.DateTimeField(auto_now=True,blank=True)
+    regist_time = models.DateTimeField(default=datetime.datetime.now,blank=True)
     is_active = models.BooleanField(default=True)
     is_staff  = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -142,7 +144,7 @@ class UserRole(models.Model):
 class Code(models.Model):
     phone = models.CharField(max_length=15)
     code = models.CharField(max_length=10)
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         app_label='sp'
@@ -150,7 +152,7 @@ class Code(models.Model):
 class PasswordDigitalSignature(models.Model):
     phone = models.CharField(max_length=15)
     signature = models.CharField(max_length=200)
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         app_label='sp'
@@ -159,7 +161,7 @@ class Message(models.Model):
     title = models.CharField(max_length=1000) #消息标题
     sender = models.CharField(max_length=200, default="")
     cont = models.CharField(max_length=3000)  #消息内容
-    time = models.DateTimeField(auto_now=True) #发布时间
+    time = models.DateTimeField(default=datetime.datetime.now) #发布时间
 
     class Meta:
         app_label='sp'
