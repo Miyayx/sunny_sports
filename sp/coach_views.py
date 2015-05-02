@@ -192,7 +192,6 @@ def reg_cancel(req):
 @csrf_exempt
 @user_passes_test(lambda u: u.is_role(['coach']))
 def pay(req):
-    print req.method
     if req.method == "POST":
         ct_id = req.POST.get("order_num")
         ct = CoachTrain.objects.get(id=ct_id, status=0)
@@ -212,6 +211,7 @@ def pay(req):
         url, bill = ali_pay(req, 0, params)
         ct.bill = bill
         ct.save()
+        print "reg time:", ct.reg_time
         return HttpResponseRedirect(url)
         #return JsonResponse({'success':True,'url':url})
     else: #GET return pay_method page
@@ -225,6 +225,7 @@ def pay(req):
                 'order_num'   :ct_id,
                 'bill_type'   :0,
                 }  
+        print "reg time:", ct.reg_time
         return pay_method(req, params)
 
 @csrf_exempt
@@ -273,7 +274,7 @@ def pay_return(req):
                 print '付款成功！'
             except:
             #return HttpResponse(u'付款成功！')
-                return HttpResponse(u'找不到报名信息！')
+                return HttpResponse(u'找不到报名信息！若已付款，请联系网络平台负责人')
             return HttpResponseRedirect('/coach/train')
         else:
             return HttpResponse(u'付款失败')

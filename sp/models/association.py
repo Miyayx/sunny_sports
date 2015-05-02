@@ -3,6 +3,8 @@
 
 from django.db import models
 
+import datetime
+
 from role import *
 from game import *
 from train import *
@@ -31,7 +33,7 @@ class CoachTrain(models.Model):
     status = models.IntegerField(default=0,choices=ROLE_TRAIN_STATUS)
     pass_status = models.IntegerField(default=0,choices=ROLE_TRAIN_PASS_STATUS)
     certificate = models.CharField(max_length=100, null=True) #证书编号
-    reg_time = models.DateTimeField(auto_now=True) #报名时间
+    reg_time = models.DateTimeField(default=datetime.datetime.now) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
     bill = models.OneToOneField(Bill, null=True)
     
