@@ -72,5 +72,6 @@ def payment_check(ct_id):
         ct = CoachTrain.objects.get(id=ct_id, status=0)
         ct.delete()
     except:
-        pass
+        print "ct_id:",ct_id,"has paid or doesn't exist"
+        
 
