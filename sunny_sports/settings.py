@@ -50,6 +50,8 @@ INSTALLED_APPS = (
     'kombu.transport.django',
     'sp',
     'payment',
+    'student',
+    'game',
 )
 
 MIDDLEWARE_CLASSES = (
