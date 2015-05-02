@@ -236,7 +236,6 @@ def pay_notify(req):
     print "notify"
     print "out_trade_no:",req.POST.get('out_trade_no')
     if notify_verify(req.POST):
-        print ('pass verification...')
         tn = req.POST.get('out_trade_no')
         trade_status = req.POST.get('trade_status')
         bill = Bill.objects.get(no=tn)
@@ -266,7 +265,7 @@ def pay_return(req):
     if notify_verify(req.GET):
         tn = req.GET.get('out_trade_no')
         trade_status = req.GET.get('trade_status')
-        print tn
+        print 'out_trade_no:',tn
         bill = Bill.objects.get(no=tn)
         bill.trade_status = trade_status
         bill.save()
