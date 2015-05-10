@@ -113,7 +113,7 @@
                                         {% csrf_token %}
 
                                         <fieldset> 
-                                          <input type="radio" name="role" value="student" disabled="true"/> 学生
+                                          <input type="radio" name="role" value="student" /> 学生
                                           <input type="radio" name="role" value="coach" checked="true"/> 教练
 
                                           {% include "components/login.html"%}
@@ -125,7 +125,8 @@
                                     <div id="organization-tab" class="tab-pane">
                                       <form action="login" method="post">
                                         {% csrf_token %}
-                                        <input type="radio" name="role" value="club" checked="true"/> 俱乐部
+                                        <input type="radio" name="role" value="club" disabled="true"/> 俱乐部
+                                        <input type="radio" name="role" value="team" disabled="true"/> 参赛队
                                         {% include "components/login.html"%}
                                       </form>
                                     </div>
@@ -226,17 +227,19 @@
                                         <div class="btn-group" data-toggle="buttons">
                                           <label id="student2" class="btn btn-success">
                                             -->
-                                            <input type="radio" name="role2" value="student" disabled="true"/> 学生
+                                            <input type="radio" name="role2" value="student"/> 学生
                                             <input type="radio" name="role2" value="coach" checked="true" /> 教练
                                             <br/>
                                             <input type="radio" name="role2" value="club" disabled="true"/> 俱乐部
+                                            <input type="radio" name="role2" value="team" /> 参赛队
                                             <!-- 
                                           </label>
                                         </div>  
                                         -->
-                                        <div class="space"></div>
 
+                                        <div class="space"></div>
                                         {% include "components/register/phone.html"%}
+                                        <p>手机号已用？<a href="/morerole">申请新角色</a></p>
                                         {% include "components/register/password.html"%}
                                         {% include "components/register/v_code.html" with btn_id="reg-code-btn" form=form3 %}
 

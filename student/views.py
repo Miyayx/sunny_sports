@@ -1,3 +1,96 @@
+#-*- coding:utf-8 -*-
 from django.shortcuts import render
 
+from sp.g_import import *
+from sp.utils import *
+
+from student.models import *
+
+from django.contrib import messages
+
 # Create your views here.
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['student']))
+def student(req):
+    uuid = req.user.id
+    u=UserRole.objects.get(user_id=uuid, role_id=2)
+    if u.is_first:
+        messages.error(req, u"请补全个人信息")
+        return HttpResponseRedirect("student/center")
+    else:
+        return HttpResponseRedirect("student/home")
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['student']))
+def home(req):
+    uuid = req.user.id
+    stu = Student.objects.get(property__user_id=uuid)
+    stu.property.age = calculate_age(stu.property.birth) 
+
+    return render_to_response('student/home.html',{"student":stu}, RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['student']))
+def center(req):
+    uuid = req.user.id
+    # 用这个id查信息哦
+    u = UserRole.objects.get(user_id=uuid, role_id=2)
+    if u.is_first:
+        messages.error(req, u"请补全个人信息")
+    stu = Student.objects.filter(property__user_id=uuid)
+    return render_to_response('student/center.html',{"student":stu[0] }, RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['student']))
+def current_game(req):
+    return render_to_response('student/cur_game.html', RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['student']))
+def history_game(req):
+    return render_to_response('student/history_game.html', RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['student']))
+def update_info(req):
+    """
+    个人中心，用户更新基本信息
+    """
+    if req.method == "POST":
+        data = req.POST.copy()
+
+        uuid = req.user.id
+        ur = UserRole.objects.get(user_id=uuid, role_id=3)
+        ur.is_first = False
+        if data.has_key("nickname") and len(data['nickname'].strip()):
+            MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
+        else:
+            MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
+
+        cp = CoachProperty.objects.get(user_id=uuid)
+        cp.name = data.get("name","")
+        if data.has_key("sex"):
+            cp.sex = int(data.get("sex"))
+        if data.has_key("identity"):
+            cp.identity = data.get("identity","")
+        if data.has_key('birth'):
+            cp.birth = data.get("birth")
+        if data.has_key("company"):
+            cp.company = data["company"]
+        if data.has_key("province"):
+            cp.province = data.get("province","")
+        if data.has_key("city"):
+            cp.city = data.get("city","")
+        if data.has_key("dist"):
+            cp.dist = data.get("dist","")
+        if data.has_key("address"):
+            cp.address = data.get("address","")
+        try:
+            cp.save()
+            ur.save()
+        except Exception,e:
+            print e
+            return JsonResponse({'success':False})
+        return JsonResponse({'success':True})

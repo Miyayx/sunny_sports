@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>快乐体操网络平台</title>
+
+    <meta name="description" content="User login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../static/css/font-awesome.min.css" />
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="../../static/css/ace-fonts.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="../../static/css/ace.min.css" />
+    <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="../../static/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="../../static/css/jquery.gritter.css" />
+
+    <!-- basic scripts -->
+    <script>
+      if (!document.addEventListener) {
+        // IE6~IE8
+        //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+          //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+            document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
+              }else{
+              document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+              }
+            </script>
+
+
+            <!--[if lte IE 9]>
+            <link rel="stylesheet" href="../assets/css/ace-part2.min.css" />
+            <![endif]-->
+            <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+
+            <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+            <!--[if lt IE 9]>
+            <script src="../assets/js/html5shiv.js"></script>
+            <script src="../assets/js/respond.min.js"></script>
+            <![endif]-->
+
+
+            <script type="text/javascript">
+              if('ontouchstart' in document.documentElement) document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+              </script>
+
+            </head>
+
+            <body class="login-layout blur-login">
+              <div class="main-container">
+                <div class="main-content">
+                  <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                      <div class="center">
+                        <h1>
+                          <i class="ace-icon fa fa-leaf green"></i>
+                          <span class="red">中国体操协会快乐体操推广委员会</span><br/>
+                          <span class="white" id="id-text2">唯一指定网络平台</span>
+                        </h1>
+                      </div>
+                      <div class="login-container">
+                        <div class="space-30"></div>
+
+                        {% if messages %}
+                        <p class="alert alert-danger">
+                        {% for m in messages %}
+                        {% if forloop.first %}
+                        {{ m }}
+                        {% endif %}
+                        {% endfor %}
+                        </p>
+                        {% endif %}
+
+                        <div class="position-relative">
+                          <div id="login-box" class="login-box visible widget-box no-border" style="min-width:400px">
+                            <div class="widget-body">
+                              <div class="widget-main">
+                                <div class="widget-main padding-4">
+                                  <h4 class="header blue lighter bigger">
+                                    <i class="ace-icon fa fa-coffee green"></i>
+                                    创建新角色
+                                  </h4>
+                                  <div class="tab-content padding-8">
+                                    <div id="person-tab">
+                                      <form action="morerole" method="post">
+                                        {% csrf_token %}
+
+                                        <fieldset> 
+
+                                          {% include "components/register/phone.html" with pass_check=1 %}
+
+                                          <label class="block clearfix">
+                                            <span class="block input-icon input-icon-right">
+                                              <input method="post" name="password" required="required" type="password" class="form-control" placeholder="密码" />
+                                              <i class="ace-icon fa fa-lock"></i>
+                                            </span>
+                                          </label>
+                                          {% include "components/register/v_code.html" with btn_id="reg-code-btn" form=form1 %}
+
+                                          <h5 class="">
+                                            新角色:
+                                            <input type="radio" name="role" value="student" class="blue" checked/> 学生
+                                            <input type="radio" name="role" value="coach"/> 教练
+                                            <input type="radio" name="role" value="team" disabled="true"/> 参赛队
+                                          </h5>
+                                          <div class="space"></div>
+                                        </fieldset>
+                                        <div class="clearfix">
+                                          <button type="sumbit" class="login-btn width-55 pull-right btn btn-sm btn-primary">
+                                            <i class="ace-icon fa fa-key"></i>
+                                            <span class="bigger-110">登录新角色</span>
+                                          </button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div><!-- /.widget-main -->
+
+                              <div class="toolbar clearfix">
+
+                                <div>
+                                  <a href="/login#signup-box" data-target="#signup-box" class="user-signup-link">
+                                    <i class="ace-icon fa fa-arrow-left"></i>
+                                    注册新用户
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div><!-- /.widget-body -->
+                        </div><!-- /.login-box -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- /.position-relative -->
+            </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="footer">
+          <div class="footer-inner">
+            <div class="footer-content" style="border-top: 0px">
+              <h4 class="light-blue" id="id-company-text">
+                &copy;北京快乐童年阳光体操文化有限责任公司</h4>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.main-content -->
+
+      <script src="../../static/js/bootstrap.min.js"></script>
+      <script src="../../static/js/jquery-ui.custom.min.js"></script>
+      <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
+      <script src="../../static/js/jquery.hotkeys.min.js"></script>
+      <!-- ace scripts -->
+      <script src="../../static/js/ace.min.js"></script>
+      <script src="../../static/js/ace-elements.min.js"></script>
+
+      <script type="text/javascript">
+        jQuery(function($) {
+
+        });
+      </script>
+    </body>
+  </html>

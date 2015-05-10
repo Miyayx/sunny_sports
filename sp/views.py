@@ -16,6 +16,8 @@ from captcha.helpers import captcha_image_url
 from sp.models.status import get_role_id
 from sp.backend import MyBackend 
 
+from student.models import *
+
 from utils import *
 
 # Create your views here.
@@ -163,6 +165,64 @@ def index(req):
     uuid = req.user.id
     name = req.user.name
     return render_to_response('index.html', {'username': name}, context_instance=RequestContext(req))
+
+@transaction.atomic
+def more_role(req):
+    if req.method == "POST":
+        req.session.clear()
+        un = req.POST['phone']
+        pw = req.POST['password']
+        role = req.POST.get('role',None)
+        if not role in ["coach","student","team","club"]:
+            messages.error(req, u"请选择正确的角色")
+            return redirect('/morerole')
+
+        v_code    = req.POST.get('v_code')
+        #检验手机验证码
+        p, msg = check_vcode(un, v_code)
+        if not p:
+            messages.error(req, msg,extra_tags='regist')
+            return redirect('/#signup-box')
+
+        user = None
+        if un and len(un) >0: #如果用用户名
+            user = authenticate(username=un.encode('utf-8'), password=pw)#用django自带函数检验
+        if user is not None:
+            # the password verified for the user
+            if user.is_active:
+                login(req, user) #django自带的login将userid写入session
+                roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
+                print "roles:",roles
+                if role in roles:
+                    messages.error(req, u"该角色已注册")
+                    mylogout(req)
+                    return redirect('/morerole')
+                r_id = get_role_id(role)
+                UserRole.objects.create(role_id=r_id, user_id=user.id)
+                if role == "coach":
+                    print "Create Coach"
+                    cp = CoachProperty(user=user)
+                    cp.save()
+                    Coach(property=cp).save()
+                elif role == "student":
+                    print "Create Student"
+                    sp = StudentProperty(user=user)
+                    sp.save()
+                    Student(property=sp).save()
+                elif role == "team":
+                    pass
+                elif role == "club":
+                    pass
+                return HttpResponseRedirect('/%s'%role)
+            else:
+                return redirect('/morerole')
+        else:
+        # the authentication system was unable to verify the username and password
+            messages.error(req, u"用户名或密码错误")
+            return redirect('/morerole')
+    else:
+        form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
+        return render_to_response("more_role.html", {"form1":form1}, context_instance=RequestContext(req))
           
 @login_required()
 def mylogout(req):
