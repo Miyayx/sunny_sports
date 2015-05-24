@@ -5,6 +5,7 @@ from sp.g_import import *
 from sp.utils import *
 
 from student.models import *
+from game.models import *
 
 from django.contrib import messages
 
@@ -49,7 +50,20 @@ def current_game(req):
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
 def history_game(req):
-    return render_to_response('student/history_game.html', RequestContext(req))
+    if req.method == "GET":
+        game_id = req.GET.get("g_id",None)
+        if game_id and len(game_id) > 0: #有编号的话就返回对应比赛信息
+            sts = StudentTeam.objects.filter(team__game_id=game_id)
+            if len(st) > 0:
+                st = sts[0]
+                tes = TeamEvent.objects.filter(team=st.team)
+                return render_to_response('student/history_game2.html',{"st":st, "tes":tes})
+            else:
+                return HttpResponse("<h2>没有该比赛的历史信息</h2>")
+        else:#否则返回历史比赛列表
+            uuid = req.user.id
+            sts = StudentTeam.objects.filter(student__property__user_id=uuid)
+            return render_to_response('student/history_game.html', {"sts":sts}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
