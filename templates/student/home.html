@@ -30,12 +30,12 @@
         <!-- #section:pages/profile.contact -->
         <div class="profile-contact-info">
             <div class="profile-contact-links align-left">
-                <a class="btn btn-link">
+                <a class="btn btn-link" style="text-decoration:none;cursor:default">
                     <i class="ace-icon fa fa-phone bigger-120 green"></i>
                     {{student.property.user.phone}}
                 </a>
 
-                <a class="btn btn-link">
+                <a class="btn btn-link" style="text-decoration:none;cursor:default">
                     <i class="ace-icon fa fa-comment bigger-125 blue"></i>
                     {{student.property.user.email|default_if_none:""}}
                 </a>
@@ -112,6 +112,7 @@
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
                         已通过：{{student.level}}级
                     </div>
+                    <!--
                     <div class="profile-activity clearfix">
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
                         <a data-url="judge/train" href="#page/judge/train">可报名：{{student.level|add:"1"}}级</a>
@@ -120,8 +121,8 @@
                         <i class="pull-left thumbicon fa fa-pencil-square-o btn-yellow no-hover"></i>
                         进行中：{{student.level|add:"1"}}级
                     </div>
+                    -->
 
-                    <!-- /section:pages/profile.skill-progress -->
                 </div>
             </div>
         </div>
@@ -137,10 +138,12 @@
 
             <div class="widget-body">
                 <div class="widget-main">
+                    {% if game %}
                     <div class="profile-activity clearfix">
                         <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
-                        <a href="/student/cur_game">第八套体操比赛</a>
+                        <a href="/student/cur_game">{{cur_game.name}}</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -154,14 +157,12 @@
 
             <div class="widget-body">
                 <div class="widget-main">
+                    {% for game in games %}
                     <div class="profile-activity clearfix">
                         <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
-                        <a href="/student/history_game">第七套体操比赛</a>
+                        <a href="/student/history_game?g_id={{game.id}}">{{game.name}}</a>
                     </div>
-                    <div class="profile-activity clearfix">
-                        <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
-                        <a href="/student/history_game">第七套体操比赛</a>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

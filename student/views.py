@@ -29,15 +29,24 @@ def home(req):
     stu = Student.objects.get(property__user_id=uuid)
     stu.property.age = calculate_age(stu.property.birth) 
 
-    return render_to_response('student/home.html',{"student":stu}, RequestContext(req))
+    game = None
+    try:
+        st = StudentTeam.objects.get(student=stu, team__game__pub_status = 0)
+        cur_game = st.team.game
+    except:
+        cur_game = None
+
+    games = StudentTeam.objects.filter(student=stu, team__game__pub_status=1)[:3]
+    
+    return render_to_response('student/home.html',{"student":stu, "cur_game":cur_game, "games":games }, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
-    u = UserRole.objects.get(user_id=uuid, role_id=2)
-    if u.is_first:
+    ur = UserRole.objects.get(user_id=uuid, role_id=2)
+    if ur.is_first:
         messages.error(req, u"请补全个人信息")
     stu = Student.objects.filter(property__user_id=uuid)
     return render_to_response('student/center.html',{"student":stu[0] }, RequestContext(req))
@@ -76,33 +85,37 @@ def update_info(req):
         data = req.POST.copy()
 
         uuid = req.user.id
-        ur = UserRole.objects.get(user_id=uuid, role_id=3)
+        ur = UserRole.objects.get(user_id=uuid, role_id=2)
         ur.is_first = False
         if data.has_key("nickname") and len(data['nickname'].strip()):
             MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         else:
             MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
 
-        cp = CoachProperty.objects.get(user_id=uuid)
-        cp.name = data.get("name","")
+        sp = StudentProperty.objects.get(user_id=uuid)
+        sp.name = data.get("name","")
         if data.has_key("sex"):
-            cp.sex = int(data.get("sex"))
+            sp.sex = int(data.get("sex"))
         if data.has_key("identity"):
-            cp.identity = data.get("identity","")
+            sp.identity = data.get("identity","")
         if data.has_key('birth'):
-            cp.birth = data.get("birth")
+            sp.birth = data.get("birth")
         if data.has_key("company"):
-            cp.company = data["company"]
+            sp.company = data["company"]
         if data.has_key("province"):
-            cp.province = data.get("province","")
+            sp.province = data.get("province","")
         if data.has_key("city"):
-            cp.city = data.get("city","")
+            sp.city = data.get("city","")
         if data.has_key("dist"):
-            cp.dist = data.get("dist","")
+            sp.dist = data.get("dist","")
         if data.has_key("address"):
-            cp.address = data.get("address","")
+            sp.address = data.get("address","")
+        if data.has_key("height"):
+            sp.height = data.get("height","")
+        if data.has_key("weight"):
+            sp.weight = data.get("weight","")
         try:
-            cp.save()
+            sp.save()
             ur.save()
         except Exception,e:
             print e

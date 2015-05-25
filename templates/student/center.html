@@ -81,11 +81,11 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-nickname"> 昵称 </label>
+                                                <label class="col-sm-4 control-label no-padding-right" for="form-field-nickname"> 昵称 </label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="nickname">{{student.property.user.nickname|default_if_none:""}}</span>
+                                                <label class="control-label no-padding-right"> (登录用) </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,7 +123,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-7">
-                                            <label class="col-sm-3 control-label no-padding-right"
+                                            <label class="col-sm-2 control-label no-padding-right"
                                                 for="form-field-identity"> 身份证号 </label>
                                             <div class="col-sm-8">
                                                 <div class="profile-info-value">
@@ -144,7 +144,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-7">
-                                            <label class="col-sm-3 control-label no-padding-right"
+                                            <label class="col-sm-2 control-label no-padding-right"
                                                 for="form-field-company">单位</label>
                                             <div class="col-sm-8">
                                                 <div class="profile-info-value">
@@ -164,7 +164,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-7">
-                                            <label class="col-sm-3 control-label no-padding-right"
+                                            <label class="col-sm-2 control-label no-padding-right"
                                                 for="form-field-place">常驻地</label>
                                             <div class="col-sm-2">
                                                 <div class="profile-info-value">
@@ -178,7 +178,7 @@
                                                     市
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-3">
                                                 <div class="profile-info-value">
                                                     <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{student.property.dist}}</span>
                                                     区/县
@@ -189,6 +189,25 @@
                                                     <span class="myeditable editable editable-click" id="address">{{student.property.address}}</span>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="form-group col-sm-5">
+                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-company">身高</label>
+                                            <div class="col-sm-1">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="height">{{student.property.height}}</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label no-padding-right">cm</label>
+                                            </div>
+                                        <div class="form-group col-sm-7">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-company">体重</label>
+                                            <div class="col-sm-1">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="weight">{{student.property.weight}}</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-1 control-label no-padding-right">kg</label>
                                         </div>
                                         <div class="space"></div>
                                     </div>
@@ -274,7 +293,6 @@
         $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
 
         $('#token').editable({
-        //    value: '{{csrf_token}}',
             type: 'text',
             name: 'csrfmiddlewaretoken'
         });
@@ -307,6 +325,16 @@
         .editable({
             type:'text',
             name:'company'
+        });
+
+        $('#height').editable({
+            type: 'text',
+            name: 'height'
+        });
+
+        $('#weight').editable({
+            type: 'text',
+            name: 'weight'
         });
 
 
