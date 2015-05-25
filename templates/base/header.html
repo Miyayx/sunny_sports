@@ -38,6 +38,9 @@
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
       <ul class="nav ace-nav">
 
+        <li class="purple" id="switch-box" style="display:none">
+        </li>
+
         <li class="green" id="msg-box">
         </li>
 
@@ -65,6 +68,16 @@
       url: "/msg", 
       success : function(data) {
         $('#msg-box').html(data);
+      }
+    });
+
+    $.ajax({
+      type: "GET",
+      url: "/switch", 
+      success : function(data) {
+        if (data.length > 0 )
+            $('#switch-box').html(data);
+            $('#switch-box').show();
       }
     });
   });

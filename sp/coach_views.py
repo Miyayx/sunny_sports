@@ -28,6 +28,7 @@ from sunny_sports.settings import PAYMENT_LIMIT
 def coach(req):
     uuid = req.user.id
     u=UserRole.objects.get(user_id=uuid, role_id=3)
+    req.session['role'] = 3
     if u.is_first:
         messages.error(req, u"请补全个人信息")
         return HttpResponseRedirect("coach/center")

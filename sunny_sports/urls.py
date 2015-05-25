@@ -32,6 +32,7 @@ urlpatterns = patterns('',
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
 
         url(r'^msg$','sp.views.get_msg'),
+        url(r'^switch$','sp.views.get_otherrole'),
         url(r'^get_captcha$','sp.views.get_captcha'),
 
         url(r'^tutorial/coach$', 'sp.help_views.coach_help'),

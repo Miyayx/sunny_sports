@@ -58,6 +58,23 @@ def get_msg(req):
     return None
 
 @login_required()
+def get_otherrole(req):
+    """
+    header部分角色切换
+    """
+    uuid = req.user.id
+    r = req.session.get('role')
+    print "role-->"+str(r)
+    if uuid:
+        roles = UserRole.objects.filter(user_id=uuid)
+        if len(roles) > 1:
+            roles = [role for role in roles if not role.role_id == r]
+            html = render_to_string('base/switch.html', {'roles':roles})
+            return HttpResponse(html)
+        return HttpResponse("")
+    return HttpResponse("")
+
+@login_required()
 def inbox(req):
     base = {1:"centre/base.html",2:"coach_org/base.html", 3:"coach/base.html"}
     uuid = req.user.id
@@ -141,6 +158,8 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                             messages.error(req, u"该机构已禁用")
                             mylogout(req)
                 elif role in roles:
+                    r_id = get_role_id(role)
+                    req.session['role'] = r_id
                     return HttpResponseRedirect('/%s'%role)
                 else:
                     messages.error(req, u"请选择正确的角色")

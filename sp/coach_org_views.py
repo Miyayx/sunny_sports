@@ -14,6 +14,7 @@ from convert import *
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach_org']))
 def coach_org(req):
+    req.session['role'] = 1
     return HttpResponseRedirect("coach_org/home")
 
 @login_required()

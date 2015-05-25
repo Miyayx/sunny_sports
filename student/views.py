@@ -16,6 +16,7 @@ from django.contrib import messages
 def student(req):
     uuid = req.user.id
     u=UserRole.objects.get(user_id=uuid, role_id=2)
+    req.session['role'] = 2
     if u.is_first:
         messages.error(req, u"请补全个人信息")
         return HttpResponseRedirect("student/center")
