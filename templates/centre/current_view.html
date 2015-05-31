@@ -24,7 +24,9 @@
         <tr>
           <td class="center">{{t.org.name}}</td>
           <td class="center">{{t.id}}</td>
-          <td class="center">{{t.name}}</td>
+          <td class="center">
+              <a href="/centre/current_view?t_id={{t.id}}"> {{t.name}} </a>
+          </td>
           <td class="center">{{t.get_level_display}}</td>
           <td class="center">{{t.reg_stime}}</td>
           <td class="center">{{t.train_stime|date:"Y-m-d"}}</td>

@@ -329,7 +329,7 @@ def password(req):
 def download_excel(req):
     t_id = req.GET.get("t_id",0)
     if t_id:
-        coachtrains = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
+        coachtrains = CoachTrain.objects.filter(train_id=t_id)
         if not len(coachtrains):
             return HttpResponse(u"该培训暂无学员报名，不提供名单")
         train = coachtrains[0].train
