@@ -11,6 +11,7 @@ from qiniu import put_data
 from qiniu import BucketManager
 
 from sunny_sports.settings import MEDIA_ROOT
+from sunny_sports.settings import DEFAULT_PHOTO
 from forms import *
 from config import *
 
@@ -49,7 +50,7 @@ def update_photo_in_qiniu(request, obj):
                 print "old-->"+old.name
                 obj.avatar = headImg
                 #obj.avatar.name = obj.avatar.name.rsplit('.',1)[0]+'_'+str(uuid.uuid1())+'.'+obj.avatar.name.rsplit('.',1)[1]
-                obj.avatar.name = obj.avatar.name.rsplit('.',1)[0]+'_'+gen_random_str(10)+'.'+obj.avatar.name.rsplit('.',1)[1]
+                obj.avatar.name = obj.avatar.name.rsplit('.',1)[0]+'_'+gen_random_str(10)+'.'+suffix
                 obj.save() 
                 path = obj.avatar.name
                 imgpath = os.path.join(MEDIA_ROOT, path) #图片真实路径
@@ -57,7 +58,7 @@ def update_photo_in_qiniu(request, obj):
                 im = Image.open(imgpath)
                 new_img=im.resize((200,200),Image.ANTIALIAS)
                 buf = StringIO.StringIO()
-                new_img.save(buf, format='jpeg')
+                new_img.save(buf, format=suffix)
                 if(update_to_qiniu(buf.getvalue(), path, old.name)):
                     obj.save() #保存到数据库
                 else:
@@ -74,6 +75,8 @@ def update_to_qiniu(data, newkey, oldkey):
     print(info)
     assert ret['key'] == newkey
 
+    if oldkey == DEFAULT_PHOTO:
+        return True
     bucket = BucketManager(q)
     print "delete-->"+oldkey
     ret, info = bucket.delete(bucket_name, oldkey)
