@@ -6,8 +6,13 @@ from sp.utils import *
 
 from student.models import *
 from game.models import *
+from sunny_sports.settings import PHOTO_ROOT
+
+#from photo.views import update_photo
+from photo.views import update_photo_in_qiniu
 
 from django.contrib import messages
+
 
 # Create your views here.
 
@@ -39,7 +44,7 @@ def home(req):
 
     games = StudentTeam.objects.filter(student=stu, team__game__pub_status=1)[:3]
     
-    return render_to_response('student/home.html',{"student":stu, "cur_game":cur_game, "games":games }, RequestContext(req))
+    return render_to_response('student/home.html',{"student":stu, "cur_game":cur_game, "games":games, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
@@ -50,7 +55,7 @@ def center(req):
     if ur.is_first:
         messages.error(req, u"请补全个人信息")
     stu = Student.objects.filter(property__user_id=uuid)
-    return render_to_response('student/center.html',{"student":stu[0] }, RequestContext(req))
+    return render_to_response('student/center.html',{"student":stu[0], "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
@@ -122,3 +127,13 @@ def update_info(req):
             print e
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['student']))
+def update_img(req):
+    uuid = req.user.id
+    stu = Student.objects.get(property__user_id=uuid)
+    #update_photo(req, coach.property)
+    update_photo_in_qiniu(req, stu.property)
+    return HttpResponseRedirect('/student/center')

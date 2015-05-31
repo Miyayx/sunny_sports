@@ -112,4 +112,5 @@ urlpatterns += patterns('student.views',
         url(r'^student/history_game$', 'history_game'),
         url(r'^student/center$', 'center'),
         url(r'^student/up_info$', 'update_info'),
+        url(r'^student/up_img$', 'update_img'),
         )

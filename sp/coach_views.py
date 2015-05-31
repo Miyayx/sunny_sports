@@ -53,7 +53,7 @@ def home(req):
         ct = None
     print "t_count",t_count
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
