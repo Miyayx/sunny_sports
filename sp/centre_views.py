@@ -135,8 +135,25 @@ def history_view(req):
 @user_passes_test(lambda u: u.is_role(['centre']))
 def current_view(req):
     if req.method == "GET":
-        trains = Train.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('train_stime') #未提交审核的，未成历史的
-        return render_to_response('centre/current_view.html',{"trains":trains})
+        train_id = req.GET.get("t_id",None)
+        if train_id and len(train_id) > 0: #有编号的话就返回对应培训的人名单
+            c_t = CoachTrain.objects.filter(train_id=train_id)
+            train = Train.objects.get(id=train_id)
+            return render_to_response('centre/current_view2.html',{"c_t":c_t, "train":train, "base":"./centre/base.html"}, RequestContext(req))
+        else:
+            trains = Train.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('train_stime') #未提交审核的，未成历史的
+            return render_to_response('centre/current_view.html',{"trains":trains}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def change_payment_status(req):
+    if req.method == "POST":
+        ct_id = req.POST.get('ct_id', None)
+        if ct_id:
+            CoachTrain.objects.filter(id=ct_id, status=0).update(status=1)
+            return JsonResponse({'success':True})
+        return JsonResponse({'success':False})
 
 @login_required()
 def history_print(req, train_id=None):

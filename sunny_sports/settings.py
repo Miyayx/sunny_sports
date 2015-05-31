@@ -50,6 +50,8 @@ INSTALLED_APPS = (
     'kombu.transport.django',
     'sp',
     'payment',
+    'student',
+    'game',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,6 +71,13 @@ import djcelery
 djcelery.setup_loader()
 BROKER_URL = 'django://'
 #CELERY_IMPORTS=("sp.tasks",)
+BROKER_HOST = "localhost"
+BROKER_PORT = 5672
+BROKER_USER = "celery_user"
+BROKER_PASSWORD = "celery_password"
+BROKER_VHOST = "celery"
+CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
 #Handle session is not Json Serializable
@@ -86,6 +95,7 @@ WSGI_APPLICATION = 'sunny_sports.wsgi.application'
 
 DATABASES = {
     'default': {
+        'STORAGE_ENGINE': 'MyISAM / INNODB / ETC',
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'mysql.connector.django',
         'NAME': 'sunny_sports' if DEBUG else 'kuaileticao',
@@ -147,6 +157,10 @@ STATICFILES_DIRS=(
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\','/')
+
+PHOTO_URL = '/photo/'
+PHOTO_ROOT = 'http://7xjdtv.com1.z0.glb.clouddn.com/'
+DEFAULT_PHOTO = 'upload/default00.jpg'
 
 # Role definition
 USER_ROLES = (

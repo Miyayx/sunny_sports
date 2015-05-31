@@ -113,7 +113,8 @@
                                         {% csrf_token %}
 
                                         <fieldset> 
-                                          <input type="radio" name="role" value="student" disabled="true"/> 学生
+                                          <input type="hidden" name="next" value="{{next}}"/>
+                                          <input type="radio" name="role" value="student" /> 学生
                                           <input type="radio" name="role" value="coach" checked="true"/> 教练
 
                                           {% include "components/login.html"%}
@@ -125,7 +126,9 @@
                                     <div id="organization-tab" class="tab-pane">
                                       <form action="login" method="post">
                                         {% csrf_token %}
-                                        <input type="radio" name="role" value="club" checked="true"/> 俱乐部
+                                        <input type="hidden" name="next" value="{{next}}"/>
+                                        <input type="radio" name="role" value="club" disabled="true"/> 俱乐部
+                                        <input type="radio" name="role" value="team" disabled="true"/> 参赛队
                                         {% include "components/login.html"%}
                                       </form>
                                     </div>
@@ -135,6 +138,7 @@
                                       <form action="login" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="role" value="admin"/>
+                                        <input type="hidden" name="next" value="{{next}}"/>
 
                                         {% include "components/login.html" with form=form1%}
                                       </form>
@@ -226,17 +230,19 @@
                                         <div class="btn-group" data-toggle="buttons">
                                           <label id="student2" class="btn btn-success">
                                             -->
-                                            <input type="radio" name="role2" value="student" disabled="true"/> 学生
+                                            <input type="radio" name="role2" value="student"/> 学生
                                             <input type="radio" name="role2" value="coach" checked="true" /> 教练
                                             <br/>
                                             <input type="radio" name="role2" value="club" disabled="true"/> 俱乐部
+                                            <input type="radio" name="role2" value="team" disabled="true"/> 参赛队
                                             <!-- 
                                           </label>
                                         </div>  
                                         -->
-                                        <div class="space"></div>
 
+                                        <div class="space"></div>
                                         {% include "components/register/phone.html"%}
+                                        <p>手机号已用？<a href="/morerole">申请新角色</a></p>
                                         {% include "components/register/password.html"%}
                                         {% include "components/register/v_code.html" with btn_id="reg-code-btn" form=form3 %}
 
@@ -329,12 +335,6 @@
                     text: '请尽量选择Chrome，Firefox以及IE10以上版本进行操作'
                   });
 
-                  $.gritter.add({
-                    // (string | mandatory) the heading of the notification
-                    title: '学生报名系统将于6月1日开放',
-                    sticky:true,
-                    text: ''
-                  });
                   $.gritter.add({
                     // (string | mandatory) the heading of the notification
                     title: '参赛报名系统将于8月1日开放',

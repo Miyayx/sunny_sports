@@ -72,9 +72,10 @@ class MyUserManager(BaseUserManager):
             role_model.Coach(property=cp).save()
         elif r.get_role_display() == "student":
             print "Create Student"
-            sp = role_model.StudentProperty(user=user)
+            import student.models as student
+            sp = student.StudentProperty(user=user)
             sp.save()
-            role_model.Student(property=sp).save()
+            student.Student(property=sp).save()
         elif r.get_role_display() == "club":
             print "Create Club"
             pass

@@ -49,6 +49,7 @@
         $form.find("button.v-code").attr("disabled", true);
         $c.closest(".form-group").addClass("has-error");
       } else {
+        {% if not pass_check %}
         $.get('/validate/phone?phone='+phone, function(res){
           if(res['exists']){
             $form.find(".phoneErr").show();
@@ -68,6 +69,7 @@
             }
           }
         });
+        {% endif %}
       }
 
     });

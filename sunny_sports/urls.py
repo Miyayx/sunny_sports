@@ -14,6 +14,7 @@ urlpatterns = patterns('',
         url(r'^login$', 'sp.views.mylogin'),
         url(r'^signup$', 'sp.views.signup'),
         url(r'^logout$', 'sp.views.mylogout'),
+        url(r'^morerole$', 'sp.views.more_role'),
         url(r'^vcode$', 'sp.views.vcode'),
         url(r'^find_password$', 'sp.views.find_password'),
         url(r'^reset_password$', 'sp.views.reset_password'),
@@ -25,18 +26,20 @@ urlpatterns = patterns('',
         url(r'^coach_info$', 'sp.views.coach_info'),
         url(r'^inbox$', 'sp.views.inbox'),
 
-        url(r'^student/', TemplateView.as_view(template_name='student/empty.html')),
+        #url(r'^student/', include('student.urls')),
         url(r'^club/', TemplateView.as_view(template_name='club/empty.html')),
         url(r'^team/', TemplateView.as_view(template_name='team/empty.html')),
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
 
         url(r'^msg$','sp.views.get_msg'),
+        url(r'^switch$','sp.views.get_otherrole'),
         url(r'^get_captcha$','sp.views.get_captcha'),
 
         url(r'^tutorial/coach$', 'sp.help_views.coach_help'),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
-        url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
+        #url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
+        url(r'^photo/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.PHOTO_ROOT}),
         url(r'^admin/', include(admin.site.urls)),
         )
 
@@ -68,6 +71,7 @@ urlpatterns += patterns('sp.centre_views',
         url(r'^centre/org_del$', 'org_del'),
         url(r'^centre/org_info$', 'org_info'),
         url(r'^centre/password$','password_page'),
+        url(r'^centre/ch_payment_st$','change_payment_status'),
         )
 
 # coach_org
@@ -98,4 +102,15 @@ urlpatterns += patterns('sp.coach_views',
         url(r'^coach/train/pay_return$', 'pay_return'),
         url(r'^coach/up_info$', 'update_info'),
         url(r'^coach/up_img$', 'update_img'),
+        )
+
+# student
+urlpatterns += patterns('student.views',
+        url(r'^student$', 'student'),
+        url(r'^student/home$', 'home'),
+        url(r'^student/cur_game$', 'current_game'),
+        url(r'^student/history_game$', 'history_game'),
+        url(r'^student/center$', 'center'),
+        url(r'^student/up_info$', 'update_info'),
+        url(r'^student/up_img$', 'update_img'),
         )

@@ -16,6 +16,8 @@ from captcha.helpers import captcha_image_url
 from sp.models.status import get_role_id
 from sp.backend import MyBackend 
 
+from student.models import *
+
 from utils import *
 
 # Create your views here.
@@ -54,6 +56,23 @@ def get_msg(req):
         html = render_to_string('base/msg.html', {'num':len(msgs), 'msgs': msgs[:5]})
         return HttpResponse(html)
     return None
+
+@login_required()
+def get_otherrole(req):
+    """
+    header部分角色切换
+    """
+    uuid = req.user.id
+    r = req.session.get('role')
+    print "role-->"+str(r)
+    if uuid:
+        roles = UserRole.objects.filter(user_id=uuid)
+        if len(roles) > 1:
+            roles = [role for role in roles if not role.role_id == r]
+            html = render_to_string('base/switch.html', {'roles':roles})
+            return HttpResponse(html)
+        return HttpResponse("")
+    return HttpResponse("")
 
 @login_required()
 def inbox(req):
@@ -104,6 +123,7 @@ def signup(req):
 @transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
     if req.method == 'POST':
+        next_page = req.POST.get('next',None)
         req.session.clear()
         un = req.POST['username']
         pw = req.POST['password']
@@ -131,15 +151,17 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                         messages.error(req, u"图形验证码错误")
                         return redirect('/login')
                     if "centre" in roles:
-                        return HttpResponseRedirect('/centre')
+                        return HttpResponseRedirect(next_page) if next_page and 'centre' in next_page else HttpResponseRedirect('/centre')
                     elif "coach_org" in roles:
                         if CoachOrg.objects.get(user=user).is_active:
-                            return HttpResponseRedirect('/coach_org')
+                            return HttpResponseRedirect(next_page) if next_page and 'coach_org' in next_page else HttpResponseRedirect('/coach_org')
                         else:
                             messages.error(req, u"该机构已禁用")
                             mylogout(req)
                 elif role in roles:
-                    return HttpResponseRedirect('/%s'%role)
+                    r_id = get_role_id(role)
+                    req.session['role'] = r_id
+                    return HttpResponseRedirect(next_page) if next_page and role in next_page else HttpResponseRedirect('/%s'%role)
                 else:
                     messages.error(req, u"请选择正确的角色")
                 #return render_to_response("login.html", context_instance=RequestContext(req))
@@ -154,15 +176,74 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
             return redirect('/login')
     else:
         print "login page"
+        print req.GET.items()
         form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
         form2 = CustomCaptcha("hidden2", "captcha2", "captcha-img2")
         form3 = CustomCaptcha("hidden3", "captcha3", "captcha-img3")
-        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3 }, context_instance=RequestContext(req))
+        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3, "next":req.GET.get('next', None) }, context_instance=RequestContext(req))
           
 def index(req):
     uuid = req.user.id
     name = req.user.name
     return render_to_response('index.html', {'username': name}, context_instance=RequestContext(req))
+
+@transaction.atomic
+def more_role(req):
+    if req.method == "POST":
+        req.session.clear()
+        un = req.POST['phone']
+        pw = req.POST['password']
+        role = req.POST.get('role',None)
+        if not role in ["coach","student","team","club"]:
+            messages.error(req, u"请选择正确的角色")
+            return redirect('/morerole')
+
+        v_code    = req.POST.get('v_code')
+        #检验手机验证码
+        p, msg = check_vcode(un, v_code)
+        if not p:
+            messages.error(req, msg,extra_tags='regist')
+            return redirect('/#signup-box')
+
+        user = None
+        if un and len(un) >0: #如果用用户名
+            user = authenticate(username=un.encode('utf-8'), password=pw)#用django自带函数检验
+        if user is not None:
+            # the password verified for the user
+            if user.is_active:
+                login(req, user) #django自带的login将userid写入session
+                roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
+                print "roles:",roles
+                if role in roles:
+                    messages.error(req, u"该角色已注册")
+                    mylogout(req)
+                    return redirect('/morerole')
+                r_id = get_role_id(role)
+                UserRole.objects.create(role_id=r_id, user_id=user.id)
+                if role == "coach":
+                    print "Create Coach"
+                    cp = CoachProperty(user=user)
+                    cp.save()
+                    Coach(property=cp).save()
+                elif role == "student":
+                    print "Create Student"
+                    sp = StudentProperty(user=user)
+                    sp.save()
+                    Student(property=sp).save()
+                elif role == "team":
+                    pass
+                elif role == "club":
+                    pass
+                return HttpResponseRedirect('/%s'%role)
+            else:
+                return redirect('/morerole')
+        else:
+        # the authentication system was unable to verify the username and password
+            messages.error(req, u"用户名或密码错误")
+            return redirect('/morerole')
+    else:
+        form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
+        return render_to_response("more_role.html", {"form1":form1}, context_instance=RequestContext(req))
           
 @login_required()
 def mylogout(req):
@@ -250,7 +331,7 @@ def password(req):
 def download_excel(req):
     t_id = req.GET.get("t_id",0)
     if t_id:
-        coachtrains = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
+        coachtrains = CoachTrain.objects.filter(train_id=t_id)
         if not len(coachtrains):
             return HttpResponse(u"该培训暂无学员报名，不提供名单")
         train = coachtrains[0].train

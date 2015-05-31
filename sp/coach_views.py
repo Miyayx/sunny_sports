@@ -1,4 +1,3 @@
-
 # -*- coding:utf-8 -*-
 
 from g_import import *
@@ -8,26 +7,30 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.db import transaction
 
+import os
 from utils import *
 from payment.models import Bill
 from payment.views import pay as ali_pay
 from payment.views import pay_method 
 from payment.alipay_python.alipay import *
 
+#from photo.views import update_photo
+from photo.views import update_photo_in_qiniu
+
 from sp.tasks import payment_check
 from django import forms
+
 from datetime import datetime, timedelta
-from PIL import Image
-import os
-from sunny_sports.settings import MEDIA_ROOT
 from sunny_sports.settings import HOST
 from sunny_sports.settings import PAYMENT_LIMIT
+from sunny_sports.settings import PHOTO_ROOT
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
 def coach(req):
     uuid = req.user.id
     u=UserRole.objects.get(user_id=uuid, role_id=3)
+    req.session['role'] = 3
     if u.is_first:
         messages.error(req, u"请补全个人信息")
         return HttpResponseRedirect("coach/center")
@@ -50,7 +53,7 @@ def home(req):
         ct = None
     print "t_count",t_count
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -109,7 +112,7 @@ def center(req):
         messages.error(req, u"请补全个人信息")
     coach = Coach.objects.filter(property__user_id=uuid)
     club = Club.objects.filter()
-    return render_to_response('coach/center.html',{"coach":coach[0], "club":club}, RequestContext(req))
+    return render_to_response('coach/center.html',{"coach":coach[0], "club":club, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
@@ -243,7 +246,8 @@ def pay_notify(req):
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             print ('TRADE SUCCESS, so upgrade bill')
             try:
-                ct = CoachTrain.objects.get(bill_id=tn)
+                #ct = CoachTrain.objects.get(bill_id=tn)
+                ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
                 print '付款成功！'
@@ -268,7 +272,8 @@ def pay_return(req):
         bill.save()
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             try:
-                ct = CoachTrain.objects.get(bill_id=tn)
+                #ct = CoachTrain.objects.get(bill_id=tn)
+                ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
                 print '付款成功！'
@@ -326,32 +331,12 @@ def update_info(req):
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
-
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['coach']))
-def update_img(request):
-    uuid = request.user.id
+def update_img(req):
+    uuid = req.user.id
     coach = Coach.objects.get(property__user_id=uuid)
-    if request.method == "POST":
-        uf = UserForm(request.POST,request.FILES)
-        if uf.is_valid():
-            headImg = uf.cleaned_data['headImg']
-            suffix = headImg.name.split('.')[-1]; #check if it's an image
-            if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
-                old = coach.property.avatar.name
-                print "old-->"+old
-                coach.property.avatar = headImg
-                coach.property.save() #保存到数据库
-                path = coach.property.avatar.name
-                imgpath = os.path.join(MEDIA_ROOT, path) #图片真实路径
-                print "imgpath-->"+imgpath
-                im = Image.open(imgpath)
-                new_img=im.resize((200,200),Image.ANTIALIAS)
-                new_img.save(imgpath) #保存图片
-                old = os.path.join(MEDIA_ROOT, old)
-                if os.path.isfile(old):
-                    os.remove(old) #删除旧头像
-                print "delete-->"+os.path.join(MEDIA_ROOT, old)
-    
+    #update_photo(req, coach.property)
+    update_photo_in_qiniu(req, coach.property)
     return HttpResponseRedirect('/coach/center')

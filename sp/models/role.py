@@ -14,27 +14,12 @@ class PersonProperty(models.Model):
     sex = models.IntegerField(choices=SEX, default=0)
     birth = models.DateField(default="1990-01-01")
     identity = models.CharField(max_length=20, unique=True, null=True)
-    avatar = models.ImageField(upload_to = 'upload', default='upload/default.jpg')
+    avatar = models.ImageField(upload_to = 'upload', default='upload/default00.jpg')
     class Meta:
         abstract = True
 
     def __str__(self):
         return "user:%s, name:%s"%(self.user, self.name)
-
-class StudentProperty(PersonProperty):
-    """
-    继承于PersonProperty
-    """
-    height = models.IntegerField(null=True, default=0)
-    weight = models.IntegerField(null=True, default=0)
-    company = models.CharField(max_length=50, blank=True)
-    province = models.CharField(max_length=20, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-    county = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=100, blank=True)
-    
-    class Meta:
-        app_label='sp'
 
 
 class CoachProperty(PersonProperty):
@@ -62,18 +47,6 @@ class Club(models.Model):
 
     def __str__(self):
         return self.user.nickname
-
-class Student(models.Model):
-    property = models.ForeignKey(StudentProperty)
-    club = models.ForeignKey(Club, null=True)
-    level = models.IntegerField(choices=STUDENT_LEVEL, default=0)
-    status = models.IntegerField(default=0)
-
-    class Meta:
-        app_label='sp'
-
-    def __str__(self):
-        return str(self.property)
 
     
 class Coach(models.Model):
