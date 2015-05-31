@@ -158,6 +158,9 @@ STATICFILES_DIRS=(
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\','/')
 
+PHOTO_URL = '/photo/'
+PHOTO_ROOT = 'http://7xjdtv.com1.z0.glb.clouddn.com/'
+
 # Role definition
 USER_ROLES = (
         'centre',
