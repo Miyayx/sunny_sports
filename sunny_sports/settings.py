@@ -160,6 +160,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\','/')
 
 PHOTO_URL = '/photo/'
 PHOTO_ROOT = 'http://7xjdtv.com1.z0.glb.clouddn.com/'
+DEFAULT_PHOTO = 'upload/default00.jpg'
 
 # Role definition
 USER_ROLES = (

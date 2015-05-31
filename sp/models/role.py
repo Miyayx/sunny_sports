@@ -14,7 +14,7 @@ class PersonProperty(models.Model):
     sex = models.IntegerField(choices=SEX, default=0)
     birth = models.DateField(default="1990-01-01")
     identity = models.CharField(max_length=20, unique=True, null=True)
-    avatar = models.ImageField(upload_to = 'upload', default='upload/default.jpg')
+    avatar = models.ImageField(upload_to = 'upload', default='upload/default00.jpg')
     class Meta:
         abstract = True
 

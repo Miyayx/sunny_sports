@@ -246,7 +246,8 @@ def pay_notify(req):
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             print ('TRADE SUCCESS, so upgrade bill')
             try:
-                ct = CoachTrain.objects.get(bill_id=tn)
+                #ct = CoachTrain.objects.get(bill_id=tn)
+                ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
                 print '付款成功！'
@@ -271,7 +272,8 @@ def pay_return(req):
         bill.save()
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             try:
-                ct = CoachTrain.objects.get(bill_id=tn)
+                #ct = CoachTrain.objects.get(bill_id=tn)
+                ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
                 print '付款成功！'
