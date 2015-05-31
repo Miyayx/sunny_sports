@@ -123,6 +123,7 @@ def signup(req):
 @transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
     if req.method == 'POST':
+        next_page = req.POST.get('next',None)
         req.session.clear()
         un = req.POST['username']
         pw = req.POST['password']
@@ -150,17 +151,17 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                         messages.error(req, u"图形验证码错误")
                         return redirect('/login')
                     if "centre" in roles:
-                        return HttpResponseRedirect('/centre')
+                        return HttpResponseRedirect(next_page) if next_page and 'centre' in next_page else HttpResponseRedirect('/centre')
                     elif "coach_org" in roles:
                         if CoachOrg.objects.get(user=user).is_active:
-                            return HttpResponseRedirect('/coach_org')
+                            return HttpResponseRedirect(next_page) if next_page and 'coach_org' in next_page else HttpResponseRedirect('/coach_org')
                         else:
                             messages.error(req, u"该机构已禁用")
                             mylogout(req)
                 elif role in roles:
                     r_id = get_role_id(role)
                     req.session['role'] = r_id
-                    return HttpResponseRedirect('/%s'%role)
+                    return HttpResponseRedirect(next_page) if next_page and role in next_page else HttpResponseRedirect('/%s'%role)
                 else:
                     messages.error(req, u"请选择正确的角色")
                 #return render_to_response("login.html", context_instance=RequestContext(req))
@@ -175,10 +176,11 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
             return redirect('/login')
     else:
         print "login page"
+        print req.GET.items()
         form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
         form2 = CustomCaptcha("hidden2", "captcha2", "captcha-img2")
         form3 = CustomCaptcha("hidden3", "captcha3", "captcha-img3")
-        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3 }, context_instance=RequestContext(req))
+        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3, "next":req.GET.get('next', None) }, context_instance=RequestContext(req))
           
 def index(req):
     uuid = req.user.id

@@ -113,6 +113,7 @@
                                         {% csrf_token %}
 
                                         <fieldset> 
+                                          <input type="hidden" name="next" value="{{next}}"/>
                                           <input type="radio" name="role" value="student" /> 学生
                                           <input type="radio" name="role" value="coach" checked="true"/> 教练
 
@@ -125,6 +126,7 @@
                                     <div id="organization-tab" class="tab-pane">
                                       <form action="login" method="post">
                                         {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{next}}"/>
                                         <input type="radio" name="role" value="club" disabled="true"/> 俱乐部
                                         <input type="radio" name="role" value="team" disabled="true"/> 参赛队
                                         {% include "components/login.html"%}
@@ -136,6 +138,7 @@
                                       <form action="login" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="role" value="admin"/>
+                                        <input type="hidden" name="next" value="{{next}}"/>
 
                                         {% include "components/login.html" with form=form1%}
                                       </form>
