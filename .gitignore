@@ -7,4 +7,3 @@ css+js/
 /media/upload/
 !/media/upload/default.jpg
 /static/custom/convert_city.py
-/sp/migrations/
