@@ -128,7 +128,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="next" value="{{next}}"/>
                                         <input type="radio" name="role" value="club" disabled="true"/> 俱乐部
-                                        <input type="radio" name="role" value="team" disabled="true"/> 参赛队
+                                        <input type="radio" name="role" value="school" disabled="true"/> 社会团体
                                         {% include "components/login.html"%}
                                       </form>
                                     </div>
@@ -233,8 +233,8 @@
                                             <input type="radio" name="role2" value="student"/> 学生
                                             <input type="radio" name="role2" value="coach" checked="true" /> 教练
                                             <br/>
-                                            <input type="radio" name="role2" value="club" disabled="true"/> 俱乐部
-                                            <input type="radio" name="role2" value="team" disabled="true"/> 参赛队
+                                            <input type="radio" name="role2" value="club" /> 俱乐部
+                                            <input type="radio" name="role2" value="group" /> 社会团体
                                             <!-- 
                                           </label>
                                         </div>  

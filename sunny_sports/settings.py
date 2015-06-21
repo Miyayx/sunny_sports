@@ -52,6 +52,8 @@ INSTALLED_APPS = (
     'payment',
     'student',
     'game',
+    'group',
+    'club',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,7 +126,7 @@ LOGOUT_URL='/login'
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'zh-cn'
+LANGUAGE_CODE = 'zh-hans'
 
 LANGUAGE=(
         ('zh-cn', u'简体中文'), # instead of 'zh-CN'

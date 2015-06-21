@@ -5,6 +5,8 @@ from django.db import models
 from models import *
 from status import *
 
+from club.models import *
+
 class PersonProperty(models.Model):
     """
     这是一个父类,所有个人角色继承于它
@@ -34,19 +36,6 @@ class CoachProperty(PersonProperty):
     
     class Meta:
         app_label='sp'
-
-class Club(models.Model):
-    user = models.ForeignKey(MyUser, unique=True, db_index=True)
-    province = models.CharField(max_length=20, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-    county = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=100,blank=True)
-    level = models.IntegerField(default=0)
-    class Meta:
-        app_label='sp'
-
-    def __str__(self):
-        return self.user.nickname
 
     
 class Coach(models.Model):

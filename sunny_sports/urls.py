@@ -114,3 +114,23 @@ urlpatterns += patterns('student.views',
         url(r'^student/up_info$', 'update_info'),
         url(r'^student/up_img$', 'update_img'),
         )
+
+# club
+#urlpatterns += patterns('club.views',
+#        url(r'^club$', 'club'),
+#        url(r'^club/home$', 'home'),
+#        url(r'^club/cur_game$', 'current_game'),
+#        url(r'^club/history_game$', 'history_game'),
+#        url(r'^club/center$', 'center'),
+#        url(r'^club/up_info$', 'update_info'),
+#        )
+
+# group
+urlpatterns += patterns('group.views',
+        url(r'^group$', 'group'),
+        url(r'^group/home$', 'home'),
+        url(r'^group/cur_game$', 'current_game'),
+        url(r'^group/history_game$', 'history_game'),
+        url(r'^group/center$', 'center'),
+        url(r'^group/up_info$', 'update_info'),
+        )

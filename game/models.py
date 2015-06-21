@@ -24,15 +24,6 @@ class Event(models.Model):
     class Meta:
         app_label='sp'
     
-class Contestant(models.Model):
-    user = models.ForeignKey(MyUser)
-    fullname = models.CharField(max_length=200, blank=True)
-    org_num  = models.CharField(max_length=20, blank=True)
-    province = models.CharField(max_length=20, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-    dist = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=100,blank=True)
-
 class Game(models.Model):
     id = models.CharField(max_length=16, primary_key=True)
     name = models.CharField(max_length=50, blank=True)
@@ -69,7 +60,7 @@ class Game(models.Model):
 
 class Team(models.Model):
     id = models.CharField(max_length=16, primary_key=True)
-    contestant = models.ForeignKey(Contestant) #所属参赛单位
+    contestant = models.ForeignKey(UserRole) #所属参赛单位
     game = models.ForeignKey(Game)
     name = models.CharField(max_length=30, null=True) #队名
     leader = models.CharField(max_length=20, null=True)# 领队

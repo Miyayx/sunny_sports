@@ -6,7 +6,7 @@ ROLE_LIST = (
         (2, 'student'),
         (3, 'coach'),
         (4, 'club'),
-        (5, 'team'),
+        (5, 'group'),
         (6, 'committee'),
         )
 

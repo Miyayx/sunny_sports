@@ -17,6 +17,8 @@ from sp.models.status import get_role_id
 from sp.backend import MyBackend 
 
 from student.models import *
+from group.models import *
+from club.models import *
 
 from utils import *
 
@@ -194,7 +196,7 @@ def more_role(req):
         un = req.POST['phone']
         pw = req.POST['password']
         role = req.POST.get('role',None)
-        if not role in ["coach","student","team","club"]:
+        if not role in ["coach","student","group","club"]:
             messages.error(req, u"请选择正确的角色")
             return redirect('/morerole')
 
@@ -230,10 +232,13 @@ def more_role(req):
                     sp = StudentProperty(user=user)
                     sp.save()
                     Student(property=sp).save()
-                elif role == "team":
-                    pass
+                elif role == "group":
+                    print "Create Group"
+                    g = Group(user=user)
+                    g.save()
                 elif role == "club":
-                    pass
+                    c = Club(user=user)
+                    c.save()
                 return HttpResponseRedirect('/%s'%role)
             else:
                 return redirect('/morerole')
