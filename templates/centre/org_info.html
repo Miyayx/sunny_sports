@@ -1,6 +1,6 @@
 
 <div class="page-header">
-  {% if coachorg and coachorg.org_num%}
+  {% if org and org.org_num%}
   <h1>编辑组织机构</h1>
   {% else %}
   <h1>添加组织机构</h1>
@@ -15,6 +15,7 @@
 
     <form class="form-horizontal">
       <input class="myeditable" name="csrfmiddlewaretoken" id="token" type="hidden" value="{{csrf_token}}"/>
+      <input class="myeditable" name="orgtype" id="orgtype" type="hidden" value="{{orgtype}}"/>
       <div class="row">
         <div class="vspace-12-sm"></div>
         <div class="col-xs-12 col-sm-8">
@@ -24,7 +25,7 @@
             <div class="col-sm-8">
               <div class="profile-info-value">
                 <span class="myeditable editable editable-click" id="orgnum">
-                  {{coachorg.org_num}}</span>
+                  {{org.org_num}}</span>
               </div>
             </div>
           </div>
@@ -33,7 +34,7 @@
               for="form-field-orgname">名称</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="orgname">{{coachorg.name}}</span>
+                <span class="myeditable editable editable-click" id="orgname">{{org.name}}</span>
               </div>
             </div>
           </div>
@@ -42,7 +43,7 @@
               for="form-field-orgname">字母缩写(用于生成培训id与检索等)</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="orgshortname">{{coachorg.shortname}}</span>
+                <span class="myeditable editable editable-click" id="orgshortname">{{org.shortname}}</span>
               </div>
             </div>
           </div>
@@ -52,7 +53,7 @@
             <div class="col-sm-8">
               <div class="profile-info-value">
                 <span class="myeditable editable editable-click" id="director">
-                  {{coachorg.director}}
+                  {{org.director}}
                 </span>
               </div>
             </div>
@@ -63,7 +64,7 @@
             <div class="col-sm-8">
               <div class="profile-info-value">
                 <span class="myeditable editable editable-click" id="phone">
-                  {{coachorg.user.phone}}
+                  {{org.user.phone}}
                 </span>
               </div>
             </div>
@@ -73,19 +74,19 @@
               for="form-field-place">地址</label>
             <div class="col-sm-11">
               <div class="profile-info-value" id="position">
-                <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{coachorg.province}}</span>
+                <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{org.province}}</span>
                 省
               </div>
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{coachorg.city}}</span>
+                <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{org.city}}</span>
                 市
               </div>
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{coachorg.dist}}</span>
+                <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{org.dist}}</span>
                 区/县
               </div>
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="address">{{coachorg.address}}</span>
+                <span class="myeditable editable editable-click" id="address">{{org.address}}</span>
               </div>
             </div>
           </div>
@@ -95,7 +96,7 @@
               for="form-field-email">邮箱</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="email">{{coachorg.user.email|default_if_none:""}}</span>
+                <span class="myeditable editable editable-click" id="email">{{org.user.email|default_if_none:""}}</span>
               </div>
             </div>
           </div>
@@ -154,6 +155,12 @@
           type: 'text',
           name: 'csrfmiddlewaretoken'
         });
+        $('#orgtype')
+        .editable({
+          value:'{{orgtype}}',
+          type: 'text',
+          name: 'orgtype'
+        });        
         $('#orgnum')
         .editable({
           type: 'text',
@@ -186,7 +193,7 @@
         });	
         $('#permission').editable({
           type:'checklist',
-          //value:[{{coachorg.permission}}],
+          //value:[{{org.permission}}],
           value:[2],
           source: [
             {value: 1, text: '学员通级'},
@@ -216,7 +223,7 @@
 
         // click save btn
         $('#save-btn').click(function() {
-          var orgnum = "{{coachorg.org_num}}";
+          var orgnum = "{{org.org_num}}";
           var data,
           $elems = $('.myeditable'),
           errors = $elems.editable('validate'); //run validation for all values

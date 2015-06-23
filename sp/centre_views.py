@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from g_import import *
 from django.core.context_processors import csrf
+from django.utils.encoding import smart_text
 import datetime
 
 @login_required()
@@ -198,39 +199,58 @@ def password_page(req):
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
-def org_manage(req):
+def coach_org_manage(req):
     if req.method == "GET":
         orgs = CoachOrg.objects.all()
-        return render_to_response('centre/org_manage.html', {"orgs":orgs}, RequestContext(req))
+        return render_to_response('centre/org_manage.html', {"orgs":orgs,"orgtype":"coach"}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def game_org_manage(req):
+    if req.method == "GET":
+        orgs = GameOrg.objects.all()
+        return render_to_response('centre/org_manage.html', {"orgs":orgs,"orgtype":"game"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
 def org_info(req):
+    Org = CoachOrg
+    orgtype = 'coach'
+     
+    if req.method == "GET" and req.GET.get('orgtype', 'coach') == 'game':
+        Org = GameOrg
+        orgtype = 'game'
+    if req.method == "POST" and req.POST.get('orgtype','coach') == 'game':
+        Org = GameOrg
+        orgtype = 'game'
+
     if req.method == "GET":
         num = req.GET.get("orgnum")
+        print num
         co = None
         if num:
-            co = CoachOrg.objects.filter(org_num=num)
+            co = Org.objects.filter(org_num=num)
         if num and len(co) > 0:
-            return render_to_response('centre/org_info.html', {"coachorg":co[0]}, RequestContext(req))
+            return render_to_response('centre/org_info.html', {"org":co[0], "orgtype":req.GET.get('orgtype')}, RequestContext(req))
         else:
-            return render_to_response('centre/org_info.html', {}, RequestContext(req))
+            return render_to_response('centre/org_info.html', {"orgtype":req.GET.get('orgtype')}, RequestContext(req))
     else:
         data = req.POST.copy()
         orgnum = data.get("orgnum")
         for k in ["orgnum",'phone','orgname']:
             if not data.has_key(k) or len(data[k].strip()) == 0:
                 return JsonResponse({},status=400)
-        co = CoachOrg.objects.filter(org_num=orgnum) | CoachOrg.objects.filter(user__phone=data.get('phone'))
+        co = Org.objects.filter(org_num=orgnum) | Org.objects.filter(user__phone=data.get('phone'))
         #如果数据库里没有记录，证明是添加新组织
         if len(co) == 0:
             print "add coachorg"
             phone = data.get('phone')
             email = data.get('email',None)
-            r_id = 1
+            r_id = 1 if not orgtype=='game' else 7
             user = MyUser.objects.create_user(phone = phone, nickname=orgnum, email=email if email and len(email.strip()) > 0 else None, role=r_id, password = orgnum)
-            co = CoachOrg(user=user)
+            co = Org(user=user)
         else:
             co = co[0]
             co.user.phone = data["phone"]
@@ -254,7 +274,8 @@ def org_info(req):
         try:
             co.user.save()
             co.save()
-        except:
+        except Exception,e:
+            print e
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
@@ -262,10 +283,12 @@ def org_info(req):
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
 def org_del(req):
-
+    Org = CoachOrg
+    if req.method == "POST" and req.POST.get('orgtype') == 'game':
+        Org = GameOrg
     if req.method == "POST":
         orgnum = req.POST.get("orgnum")
-        co = CoachOrg.objects.get(org_num=orgnum)
+        co = Org.objects.get(org_num=orgnum)
         co.is_active = False if co.is_active else True
         co.save()
         return JsonResponse({'success':True})

@@ -1,0 +1,327 @@
+
+{% extends "./game_org/base.html" %}
+<!--
+重载head部分，主要是添加meta，css，js一类
+-->
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="../../static/css/date-time/jquery.datetimepicker.css">
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+    <h1>
+        发布比赛信息
+    </h1>
+</div><!-- /.page-header -->
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <!-- PAGE CONTENT BEGINS -->
+        <form class="form-horizontal" role="form" id="t-pub-form">
+            {% csrf_token %}
+            <!-- #section:elements.form -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">比赛机构</label>
+                <div class="col-sm-9">
+                    <label class="control-label no-padding-right">{{ org.name }}</label>
+                </div>
+            </div>
+            {% if train %}
+            <input type="hidden" id="t-id" name="t_id" value="{{train.id}}" required="required">
+            {% endif %}
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛名称</label>
+                <div class="col-sm-9">
+                    <span>
+                        <input type="text" id="t-name" name="name" value="{{train.name}}" required="required">
+                    </span>
+                </div>
+            </div>
+            <!--
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛角色</label>
+                <div class="col-sm-9">
+                    <span class="input-icon input-icon-right">
+                        <select class="form-control" id="form-field-select-1">
+                            <option value=""></option>
+                            <option value="AL">裁判员</option>
+                            <option value="AK">教练员</option>
+                        </select>
+                    </span>	
+                </div>
+            </div>
+            -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 比赛等级 </label>
+                <div class="col-sm-9">
+                    <span class="input-icon input-icon-right">
+                        <select class="form-control" id="t-level" name="level">
+                            <option value="0"> </option>
+                            {% for i, l in level %}
+                            {% if train and train.level == i %}
+                            <option value="{{i}}" selected> {{l}} </option>
+                            {% else %}
+                            <option value="{{i}}"> {{l}} </option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </span>
+                </div>
+            </div>
+            {% if not train %}
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 比赛地点 </label>
+                <div class="col-sm-9" id="position">
+                    <!-- #section:elements.form.input-icon -->
+                    <span>
+                        <select class="prov" name="prov"></select>
+                        省
+                    </span>
+                    <span>
+                        <select class="city" disabled="disabled" name="city"></select>
+                        市
+                    </span>
+                    <span>
+                        <select class="dist" disabled="disabled" name="dist"></select>
+                        区
+                    </span>
+                    <span>
+                        <input type="text" id="addr" name="addr">
+                    </span>
+                    <!-- /section:elements.form.input-icon -->
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">人数限制</label>
+                <div class="col-sm-9">
+                    <!-- #section:elements.form.input-icon -->
+                    <span>
+                        <input class="col-xs-1" type="text" id="limit" name="limit" value="{{train.limit}}" required="required" >
+                        填写整数
+                    </span>
+                    <!-- /section:elements.form.input-icon -->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">费用</label>
+                <div class="col-sm-9">
+                    <!-- #section:elements.form.input-icon -->
+                    <span>
+                        <input class="col-xs-1" type="text" id="t-payment" name="money" value="{{train.money}}" required="required" >
+                        填写整数
+                    </span>
+                    <!-- /section:elements.form.input-icon -->
+                </div>
+            </div>
+            <div class="form-group">
+                <span id="time_list">
+                    <label class="col-sm-3 control-label no-padding-right" for="reg-start"> 报名开始时间</label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-3" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control" required="required" id="reg-start" name="reg_stime" type="text" value="{{train.reg_stime|date:'Y-m-d H:i'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <span id="time_list">
+                    <label class="col-sm-3 control-label no-padding-right" for="reg-end"> 报名结束时间</label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-3" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control" required="required" id="reg-end" name="reg_etime" type="text" value="{{train.reg_etime|date:'Y-m-d H:i'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <span id="time_list">
+                    <label class="col-sm-3 control-label no-padding-right" for="t-start"> 比赛开始时间</label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-3" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control date-picker" required="required" id="train-start" type="text" name="train_stime" data-date-format="yyyy-mm-dd" value="{{train.train_stime|date:'Y-m-d'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <span>
+                    <label class="col-sm-3 control-label no-padding-right" for="t-end"> 比赛结束时间</label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-3" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control date-picker" required="required" id="train-end" type="text" name="train_etime" data-date-format="yyyy-mm-dd" value="{{train.train_etime|date:'Y-m-d'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-11">其他说明</label>
+                <div class="col-sm-9">
+                    <textarea id="demo" name="demo" class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 52px;width:500px" value="{{train.demo}}">
+                    </textarea>
+                </div>
+            </div>
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-info" type="button" id="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    {% if train %}
+                    确定
+                    {% else %}
+                    提交审核 
+                    {% endif %}
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    重置
+                </button>
+            </div>
+        </form>
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col-sm-10 -->
+</div><!-- /.row -->
+<div class="space-4"></div>
+<p class="alert alert-warning"> 若审核不通过，则该比赛删除，届时请重新发布</p>
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+<!--[if lte IE 8]>
+<script src="../../assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="../../static/js/date-time/jquery.datetimepicker.js"></script>
+<script src="../../static/js/date-time/moment.min.js"></script>
+<script src="../../static/custom/jquery.cityselect.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    jQuery(function($) {
+
+        $('#position').citySelect();
+
+        //datetimepicker plugin
+
+        $('#reg-start').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d H:i',
+            defaultTime:'00:00'
+
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#reg-end').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d H:i',
+            defaultTime:'00:00'
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#train-start').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d',
+            timepicker:false
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#train-end').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d',
+            timepicker:false
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+
+        jQuery.validator.addMethod("reg_etime", function (value, element) {
+            return moment($('#reg-end').val()) > moment($('#reg-start').val());//要用moment转换一下
+        }, "<p class='red'>开始时间晚于结束时间</p>");
+        jQuery.validator.addMethod("train_stime", function (value, element) {
+            return moment($('#train-start').val()) > moment($('#reg-end').val());//要用moment转换一下
+        }, "<p class='red'>比赛时间早于报名时间</p>");
+        jQuery.validator.addMethod("train_etime", function (value, element) {
+            return moment($('#train-end').val()) > moment($('#train-start').val());//要用moment转换一下
+        }, "<p class='red'>开始时间晚大于结束时间</p>");
+
+        $('#t-pub-form').validate({
+            rules: {
+                name:{
+                    required:true,
+                },
+                reg_etime: {
+                    required: true,
+                    reg_etime: true,
+                },
+                train_stime: {
+                    required: true,
+                    train_stime: true
+                },
+                train_etime: {
+                    required: true,
+                    train_etime: true
+                }
+            },
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                error.appendTo(element.closest('.form-group span'));
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+
+
+        $('#submit').click(function(e){
+            e.preventDefault();
+            $('#t-pub-form').removeAttr('novalidate');
+            $('#t-pub-form').validate();
+            var data = $('#t-pub-form').serialize();
+            $.post('/coach_org/train_publish',data,function(data){
+                if(data['success']){
+                    alert("已提交");
+                    {% if train %}
+                    window.location.href = '/coach_org/train_manage#{{train.id}}'
+                    {% else %}
+                    $('#t-pub-form').trigger('reset');
+                    {% endif %}
+                }else{
+                    alert("失败，请检查发布信息并重试");
+                }
+
+            });
+        });
+    });
+</script>
+{% endblock %}

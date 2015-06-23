@@ -127,8 +127,8 @@
                                       <form action="login" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="next" value="{{next}}"/>
-                                        <input type="radio" name="role" value="club" disabled="true"/> 俱乐部
-                                        <input type="radio" name="role" value="school" disabled="true"/> 社会团体
+                                        <input type="radio" name="role" value="club" /> 俱乐部
+                                        <input type="radio" name="role" value="group" /> 社会团体
                                         {% include "components/login.html"%}
                                       </form>
                                     </div>

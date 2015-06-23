@@ -8,6 +8,7 @@ ROLE_LIST = (
         (4, 'club'),
         (5, 'group'),
         (6, 'committee'),
+        (7, 'game_org'),
         )
 
 def get_role_id(r_str):

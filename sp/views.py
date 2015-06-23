@@ -160,6 +160,12 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                         else:
                             messages.error(req, u"该机构已禁用")
                             mylogout(req)
+                    elif "game_org" in roles:
+                        if GameOrg.objects.get(user=user).is_active:
+                            return HttpResponseRedirect(next_page) if next_page and 'game_org' in next_page else HttpResponseRedirect('/game_org')
+                        else:
+                            messages.error(req, u"该机构已禁用")
+                            mylogout(req)
                 elif role in roles:
                     r_id = get_role_id(role)
                     req.session['role'] = r_id

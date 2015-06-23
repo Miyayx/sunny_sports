@@ -71,3 +71,22 @@ class CoachOrg(models.Model):
     def __str__(self):
         return "num:%s, name:%s"%(self.org_num,self.name)
 
+class GameOrg(models.Model):
+    user = models.ForeignKey(MyUser)
+    org_num  = models.CharField(max_length=20)
+    name = models.CharField(max_length=256)
+    shortname = models.CharField(max_length=10)
+    director = models.CharField(max_length=256, blank=True, default="")
+    province = models.CharField(max_length=20, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+    dist = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    is_active = models.BooleanField(default=True) 
+    ali_email = models.EmailField(null=True)
+    
+    class Meta:
+        app_label='sp'
+
+    def __str__(self):
+        return "num:%s, name:%s"%(self.org_num,self.name)
+

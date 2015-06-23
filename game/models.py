@@ -26,6 +26,7 @@ class Event(models.Model):
     
 class Game(models.Model):
     id = models.CharField(max_length=16, primary_key=True)
+    org = models.ForeignKey(GameOrg) #组织机构
     name = models.CharField(max_length=50, blank=True)
     description = models.TextField(max_length=500, blank=True)
     sponsor = models.CharField(max_length=500, blank=True) #主办单位 ;分隔

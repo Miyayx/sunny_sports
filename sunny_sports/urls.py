@@ -67,7 +67,8 @@ urlpatterns += patterns('sp.centre_views',
         url(r'^centre/current_view$','current_view'),
         url(r'^centre/history_view$','history_view'),
         url(r'^centre/msg_publish$','msg_publish'),
-        url(r'^centre/org_manage$', 'org_manage'),
+        url(r'^centre/coach_org_manage$', 'coach_org_manage'),
+        url(r'^centre/game_org_manage$', 'game_org_manage'),
         url(r'^centre/org_del$', 'org_del'),
         url(r'^centre/org_info$', 'org_info'),
         url(r'^centre/password$','password_page'),
@@ -87,6 +88,21 @@ urlpatterns += patterns('sp.coach_org_views',
         url(r'^coach_org/up_info$', 'update_info'),
         url(r'^coach_org/add_member$', 'add_member'),
         url(r'^coach_org/del_member$', 'del_member'),
+        )
+
+# game_org
+urlpatterns += patterns('sp.game_org_views',
+        url(r'^game_org$', 'game_org'),
+        url(r'^game_org/home$', 'home'),
+        url(r'^game_org/center$', 'center'),
+        url(r'^game_org/game_history$', 'game_history'),
+        url(r'^game_org/game_publish$', 'game_publish'),
+        url(r'^game_org/game_edit$', 'game_publish'),
+        url(r'^game_org/game_manage$', 'game_manage'),
+        url(r'^game_org/score_input$', 'score_input'),
+        url(r'^game_org/up_info$', 'update_info'),
+        #url(r'^game_org/add_member$', 'add_member'),
+        #url(r'^game_org/del_member$', 'del_member'),
         )
 
 # coach
