@@ -1,12 +1,11 @@
-<body>
-<div class="page-header">
-  <h1>
-    比赛进行
-  </h1>
-</div><!-- /.page-header -->
+{% extends base %} 
+{% block content %}
+{{ block.super }}
+
+<div class="page-header"> <h1> 比赛进行 </h1> </div><!-- /.page-header -->
 <div class="row">
-  <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-    <!-- #section:pages/timeline -->
+  <div class="col-xs-1"></div>
+  <div class="col-xs-10">
     <div class="timeline-container">
       <div class="timeline-items">
         <div class="timeline-item clearfix">
@@ -17,20 +16,9 @@
           <!-- /section:pages/timeline.info -->
           <div class="widget-box transparent">
             <div class="widget-header widget-header-small">
-              <h5 class="widget-title smaller">
-                比赛介绍
-              </h5>
-
-              <span class="widget-toolbar no-border">
-                <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                16:22
-              </span>
+              <h5 class="widget-title smaller"> 比赛介绍 </h5>
 
               <span class="widget-toolbar">
-                <a href="#" data-action="reload">
-                  <i class="ace-icon fa fa-refresh"></i>
-                </a>
-
                 <a href="#" data-action="collapse">
                   <i class="ace-icon fa fa-chevron-up"></i>
                 </a>
@@ -39,32 +27,13 @@
 
             <div class="widget-body">
               <div class="widget-main">
-                呵呵呵呵呵呵
+                <p> <div class="col-xs-1">比赛名称：</div>game.name</p>
+                <p> <div class="col-xs-1">举办方：</div> game.org.name</p>
+                <p> <div class="col-xs-1">主办单位：</div> game.sponsor</p>
+                <p> <div class="col-xs-1">协办单位：</div> game.organizer</p>
+                <p>game.description</p>
                 <div class="space-6"></div>
 
-                <div class="widget-toolbox clearfix">
-                  <div class="pull-left">
-                    <i class="ace-icon fa fa-hand-o-right grey bigger-125"></i>
-                    <a href="#" class="bigger-110">点击查看更多 &hellip;</a>
-                  </div>
-
-                  <!-- #section:custom/extra.action-buttons -->
-                  <div class="pull-right action-buttons">
-                    <a href="#">
-                      <i class="ace-icon fa fa-check green bigger-130"></i>
-                    </a>
-
-                    <a href="#">
-                      <i class="ace-icon fa fa-pencil blue bigger-125"></i>
-                    </a>
-
-                    <a href="#">
-                      <i class="ace-icon fa fa-times red bigger-125"></i>
-                    </a>
-                  </div>
-
-                  <!-- /section:custom/extra.action-buttons -->
-                </div>
               </div>
             </div>
           </div>
@@ -80,19 +49,12 @@
       </div>
       <div class="timeline-item clearfix">
         <div class="timeline-info">
-          <i class="timeline-indicator ace-icon fa fa-bug btn btn-danger no-hover"></i>
+          <i class="timeline-indicator ace-icon fa fa-bug btn btn-primary no-hover"></i>
         </div>
-        <div class="widget-box widget-color-red2">
+        <div class="widget-box widget-color-blue2">
           <div class="widget-header widget-header-small">
             <h5 class="widget-title smaller">当前状态</h5>
-              <span class="widget-toolbar no-border">
-                <i class="ace-icon fa fa-clock-o bigger-110"></i>
-                9:15
-              </span>
               <span class="widget-toolbar">
-                <a href="#" data-action="reload">
-                  <i class="ace-icon fa fa-refresh"></i>
-                </a>
                 <a href="#" data-action="collapse">
                   <i class="ace-icon fa fa-chevron-up"></i>
                 </a>
@@ -226,6 +188,9 @@
     <!-- /section:pages/timeline -->
   </div>
 </div>
+{% endblock %}
+
+{% block script %}
 
 <script type="text/javascript">
 
@@ -290,4 +255,4 @@ className: "btn btn-info btn-sm",
     });
 </script>
 
-</body>
+{% endblock %}
