@@ -148,6 +148,117 @@ def current_view(req):
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
+def game_check(req, game_id=None):
+    """
+    发布比赛待审核页面
+    """
+    if req.method == "GET":
+        game_id = req.GET.get("g_id", None)
+        print "game_check, id %s"%game_id
+        if game_id and len(game_id) > 0: #有编号的话就返回对应比赛页面
+            try:
+                game = Game.objects.get(id=game_id)
+                return render_to_response('centre/game_check2.html',{"game":game})
+            except:
+                return HttpResponse("<h2>没有该比赛的审核请求</h2>")
+        else:#否则返回待审核列表
+            glist = Game.objects.filter(pass_status=0).order_by('reg_stime')
+            return render_to_response('centre/game_check.html',{"glist":glist})
+    else:
+        g_id = req.POST.get("g_id")
+        if int(req.POST.get("pass", 0)): #审核通过
+            g = Game.objects.get(id=g_id)
+            g.pass_status = 1
+            if g.reg_stime < timezone.now():
+                g.reg_status = 1
+            g.save()
+        else: #审核不通过,该比赛直接删除
+            Game.objects.filter(id=g_id).delete()
+        return JsonResponse({"success":True})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def game_val(req, g_id=None):
+    """
+    比赛结果待审核页面
+    g_id: game id
+    """
+    if req.method == "GET":
+        g_id = req.GET.get("g_id",None)
+        print "game_val, game id %s"%g_id
+        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛参赛队名单
+            t_e = TeamEvent.objects.filter(team__game_id=g_id, team__game_pub_status=0, team__game_sub_status=1, team__pay_status__gt=0) #已提交但未发表
+            if len(t_e) > 0:
+                return render_to_response('centre/game_val2.html',{"t_e", t_e})
+            else:
+                return HttpResponse("<h2>没有该队的审核请求</h2>")
+        else:#否则返回待审核列表
+            games = Game.objects.filter(pub_status=0, sub_status=1).order_by('game_stime') 
+            return render_to_response('centre/game_val.html',{"games":games})
+
+    if req.method == "POST":# 审核批准后
+        g_id = req.POST.get("g_id")
+        if int(req.POST.get("pass", 0)): #审核通过
+            game = Game.objects.filter(id=g_id)
+            game.update(pub_status=1, sub_status=1)
+            # generate certificate
+            ids = json.loads(req.POST.get("ids","")) #get number list获得审核通过的学号列表 
+            #not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
+            pass_c_t = CoachTrain.objects.filter(id__in=ids, train_id=t_id, status__gt=0)            
+            if len(pass_c_t):
+                #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
+                cur = CoachTrain.objects.exclude(certificate__isnull=True).exclude(certificate__exact='').filter(train__level=train[0].level).count()
+                #cur = CoachTrain.objects.filter(pass_status=1, train__level=train[0].level).count()
+                for i in range(len(pass_c_t)):
+                    pass_c_t[i].check_pass(num=cur+i+1) #编号从1开始计数
+                    coach = pass_c_t[i].coach
+                    coach.t_level = train[0].level
+                    coach.save()
+
+        else: #审核不通过
+            Game.objects.filter(id=g_id).update(sub_status=2, pub_status=0)
+        return JsonResponse({"success":True})
+    else:
+        return JsonResponse({"success":False})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def history_game(req):
+    if req.method == "GET":
+        g_id = req.GET.get("g_id",None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
+            teams = Team.objects.filter(game_id=g_id, game__pub_status=1, pay_status__gt=0) #已提交但未发表
+            if len(teams) > 0:
+                t_e = [TeamEvent.objects.filter(team=t) for t in teams]
+                team_te = zip(teams, t_e)
+                return render_to_response('centre/history_game2.html',{"team_te":team_te, "game":game, "base":"./centre/base.html"})
+            else:
+                return HttpResponse("<h2>没有该培训的历史信息</h2>")
+        else:#否则返回列表
+            games = Game.objects.filter(pub_status=1).order_by('-game_stime')
+            return render_to_response('centre/history_game.html',{"games":games})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def current_game(req):
+    if req.method == "GET":
+        g_id = req.GET.get("g_id", None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
+            teams = Team.objects.filter(game_id=g_id)
+            game = teams[0].game if len(teams) > 0 else None
+            return render_to_response('centre/current_game2.html',{"game":game, "teams":teams, "base":"./centre/base.html"}, RequestContext(req))
+        else:
+            games = Game.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('game_stime') #未提交审核的，未成历史的
+            for g in games:
+                g.cur_num = len(Team.objects.filter(game=g))
+            return render_to_response('centre/current_game.html',{"games":games}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def change_payment_status(req):
     if req.method == "POST":
         ct_id = req.POST.get('ct_id', None)

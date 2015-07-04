@@ -1,0 +1,33 @@
+
+{% extends "./centre/base.html" %}
+{% block content%}
+{{ block.super }}
+<div class="page-header"><h1>比赛信息审核</h1></div>
+<div class="row">
+  <div class="col-xs-1"></div>
+
+  <div class="col-xs-10">
+    <h3 class="header purple">待审核列表</h3>
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="thin-border-bottom">
+        <th class="center">组织机构</th>
+        <th class="center">比赛名称</th>
+        <th class="center">报名开始时间</th>
+        <th class="center">比赛开始时间</th>
+      </thead>
+      <tbody>
+        {% for g in games %}
+        <tr>
+          <td class="center">{{g.org.name}}</td>
+          <td class="center"><a href="/centre/game_check?t_id={{g.id}}">{{g.name}}</a></td>
+          <td class="center">{{g.reg_stime}}</td>
+          <td class="center">{{g.game_stime}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-xs-1"></div>
+</div>
+{% endblock %}

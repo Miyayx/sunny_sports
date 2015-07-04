@@ -1,0 +1,162 @@
+
+{% extends "./centre/base.html" %}
+{% block content%}
+{{ block.super }}
+<div class="page-header"><h1>比赛结果审核</h1></div>
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <div>
+            <div>
+                <div class="profile-info-name">比赛编号</div>
+                <div class="profile-info-value">{{game.id}}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name">比赛机构</div>
+                <div class="profile-info-value">{{game.org.name}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">比赛名称</div>
+                <div class="profile-info-value">{{game.name}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">开始时间</div>
+                <div class="profile-info-value">{{game.game_stime|date:"Y-m-d"}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">结束时间</div>
+                <div class="profile-info-value">{{game.game_etime|date:"Y-m-d"}}</div>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <table id="check-table" class="table table-striped table-bordered table-hover">
+                <thead class="thin-border-bottom">
+                    <tr>
+                        <th class="center" style="display:none">
+                            ct id 
+                        </th>
+                        <th class="center"> 参赛队 </th>
+                        <th class="center"> 参赛机构 </th>
+                        <th class="center"> 比赛结果 </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for team, t_e in team_te %}
+                    <tr>
+                        <td class="center" style="display:none">{{team.id}}</td>
+                        <td class="center"><a>{{team.name}}</a></td>
+                        <td class="center">{{i.contestant.name}}</td>
+                        <td class="center">
+                            <div class="row">
+                                {% for te in t_e %}
+                                <div class="col-xs-2">{{te.event.display_name}}:{{te.display_award}} </div>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="row center">
+                <button class="btn btn-success" id="pass-btn">通过并发布</button>
+                <button class="btn btn-info" id="not-pass-btn">审批不通过</button>
+            </div>
+            <div class="col-xs-1"></div>
+        </div>
+        {% endblock %}
+
+        {% block script %}
+        {{ block.super }}
+        <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../../static/js/jquery.cookie.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var cert = {};
+                var ids = []
+                $('#pass-btn').click(function(){
+                    //生成编号
+                    var t_id = '{{ game.id }}';
+                    var c_t = '{{ c_t }}';
+                    var $m = '';
+                    $m += '<table class="table table-striped table-bordered table-hover">';
+                    $m += '<thead class="thin-border-bottom">';
+                    $m += '<tr> <th class="center"> <i class="ace-icon fa fa-user"></i>姓名</th>';
+                    //$m += '<th class="center">证书编号</th>';
+                    $m += '</tr> </thead>';
+                    $m += '<tbody><tr>';
+                    
+                    $("#check-table tbody tr").each(function(i, e){
+                        if ($(e).find("input[type=checkbox]").attr('checked')){ //通过的才有证书编号
+                            $m += '<tr><td class="center">';
+                            $m += $(e).find('td:eq(1)').html();
+                            $m += '</td>';
+                            var id = $(e).find("td:eq(0)").html().trim();//获取ct id
+                            ids.push(id);
+                        }
+                    });
+                    
+                    $m += '</tr></tbody>';
+
+                    bootbox.dialog({
+                        message: $m,
+                        //title: "证书编号生成",
+                        title: "通过学员名单",
+                        buttons: {
+                            success: {
+                                label: "确认并发布",
+                                className: "btn-success",
+                                callback: function() {
+                                    var csrftoken = $.cookie('csrftoken');
+                                    $.post('/centre/check_pass', 
+                                        //{"pass":1,"t_id":"{{ game.id }}", "csrfmiddlewaretoken": csrftoken, "cert":JSON.stringify(cert)},
+                                        {"pass":1, "t_id":"{{ game.id }}", "csrfmiddlewaretoken": csrftoken, "ids":JSON.stringify(ids)},
+                                        function(data){
+                                            if (data["success"]){ //提交成功后
+                                                //$.get('/centre/test_check', function(page){
+                                                    //  $('.page-content').html(page); //返回审核列表页面
+                                                    alert("已发布");
+                                                    window.location.href = window.location.href.replace('test_check','history_view');//跳转到历史页面
+
+                                    //});
+                                            }
+                                        });
+                                }
+                            }
+                        }
+                    });
+
+                });
+                $('#not-pass-btn').click(function(){
+                    bootbox.dialog({
+                        message: '<h3>是否确认？</h3>',
+                        buttons: {
+                            main: {
+                                label: "确认",
+                                className: "btn-primary",
+                                callback: function() {
+                                    var csrftoken = $.cookie('csrftoken');
+                                    $.post('/centre/check_pass', 
+                                        {"pass":0, "t_id":"{{ game.id }}", 'csrfmiddlewaretoken': csrftoken},
+                                        function(data){
+                                            if (data["success"]){ //提交成功后
+                                                    window.location.href = window.location.pathname;
+                                            }
+                                        });
+                                }
+                            },
+                            cancel: {
+                                label: "取消",
+                                className: "btn-default",
+                                callback: function() {
+                                }
+                            },
+                        }
+                    });
+
+                });
+
+            });
+        </script>
+        {% endblock %}
