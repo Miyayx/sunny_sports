@@ -1,5 +1,5 @@
 
-{% extends "./centre/base.html" %}
+{% extends base %}
 {% block content%}
 {{ block.super }}
 
@@ -16,7 +16,7 @@
   })
 </script>
 
-<div class="page-header"><h1>历史比赛查看</h1></div>
+<div class="page-header"><h1>历史比赛列表</h1></div>
 
 <div class="row">
   <div class="col-sm-1"></div>
@@ -37,7 +37,7 @@
           {% for g in games %}
           <tr>
             <td class="center">{{g.org.name}}</td>
-            <td class="center"><a href="/centre/history_game?g_id={{g.id}}">{{g.name}}</a></td>
+            <td class="center"><a href="/{{role}}/history_game?g_id={{g.id}}">{{g.name}}</a></td>
             <td class="center">{{g.game_stime|date:"Y-m-d"}}</td>
           </tr>
           {% endfor %}

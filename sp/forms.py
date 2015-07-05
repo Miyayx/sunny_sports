@@ -22,6 +22,7 @@ from captcha.helpers import captcha_image_url
 
 from sp.models.models import *
 from sp.models import *
+from game.models import *
 
 from utils import *
 
@@ -190,6 +191,36 @@ class TrainPublishForm(ModelForm):
 
     def save(self, commit=True):
         instance = super(TrainPublishForm, self).save(commit=False)
+        instance.reg_status = 1 if instance.reg_stime < timezone.now() and instance.pass_status else 0
+        if commit:
+            instance.save()
+        return instance
+
+class GamePublishForm(ModelForm):
+    class Meta:
+        model = Game
+        fields = ['org','name','description','sponsor','organizer','coorganizer', 'schedule', 'province', 'city', 'dist', 'address', 'events', 'limit','male_num','female_num', 'money','reg_place', 'reg_stime','reg_etime','game_stime','game_etime', 'contact_name', 'contact_phone', 'contact_email']
+
+    def is_valid(self):
+        if super(GamePublishForm, self).is_valid():
+            if self.cleaned_data['reg_stime'] > self.cleaned_data['reg_etime']:
+                self._errors['time_error'] = u"结束时间早于开始时间"
+                print self._errors['time_error']
+                return False
+            elif self.cleaned_data['reg_etime'] > self.cleaned_data['game_stime']:
+                self._errors['time_error'] = u"比赛时间早于报名时间"
+                print self._errors['time_error']
+                return False
+            elif self.cleaned_data['game_stime'] > self.cleaned_data['game_etime']:
+                self._errors['time_error'] = u"结束时间早于开始时间"
+                print self._errors['time_error']
+                return False
+            return True
+        else:
+            return False
+
+    def save(self, commit=True):
+        instance = super(GamePublishForm, self).save(commit=False)
         instance.reg_status = 1 if instance.reg_stime < timezone.now() and instance.pass_status else 0
         if commit:
             instance.save()

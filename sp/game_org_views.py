@@ -22,8 +22,6 @@ def game_org(req):
 @user_passes_test(lambda u: u.is_role(['game_org']))
 def home(req):
     uuid = req.user.id
-    # 用这个id查信息哦
-    print uuid
     gameorg = GameOrg.objects.get(user_id=uuid)
     opengames = Game.objects.filter(org=gameorg, pub_status=0).order_by('-game_stime')#按开始时间排序
     endgames = Game.objects.filter(org=gameorg, pub_status=1).order_by('-game_stime')#按开始时间排序
@@ -37,17 +35,18 @@ def game_history(req):
     """
     uuid = req.user.id
     if req.method == "GET":
-        game_id = req.GET.get("g_id",None)
-        if game_id and len(game_id) > 0: #有编号的话就返回对应比赛的人名单
-            ts = Team.objects.filter(game_id=game_id, game__pub_status=1)
-            if len(ts) > 0:
-                game = ts[0].game
-                return render_to_response('centre/history_view2.html',{"teams":ts, "game":game, "team":t, "base":"./game_org/base.html"}, RequestContext(req))
+        g_id = req.GET.get("g_id",None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
+            teams = Team.objects.filter(game_id=g_id, game__pub_status=1, pay_status__gt=0) #已提交但未发表
+            if len(teams) > 0:
+                t_e = [TeamEvent.objects.filter(team=t) for t in teams]
+                team_te = zip(teams, t_e)
+                return render_to_response('centre/history_game2.html',{"team_te":team_te, "game":game, "base":"./centre/base.html"})
             else:
                 return HttpResponse("<h2>没有该比赛的历史信息</h2>")
         else:#否则返回比赛列表
-            endgames = Game.objects.filter(org__user_id=uuid, pub_status=1).order_by('-game_stime')#按比赛开始时间排序
-            return render_to_response('game_org/game_history.html',{"games":endgames}, RequestContext(req))
+            games = Game.objects.filter(org__user_id=uuid, pub_status=1).order_by('-game_stime')#按比赛开始时间排序
+            return render_to_response('game/history_game.html',{"games":games, "base":"game_org/base.html", "role":"game_org"}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['game_org']))
@@ -63,52 +62,67 @@ def game_publish(req):
         data = req.POST.copy()
         uuid = req.user.id
         g_id = data.get('g_id',0)
+        save = data.get('save',0)
         if g_id: #update game
             game = Game.objects.get(id=t_id)
-            data['address'] = game.address
             data['org'] = game.org.id
             data.pop('g_id')
-            data['level'] = int(data['level'])
             data['money'] = int(data['money'])
             data['limit'] = int(data['limit'])
-            tform = GamePublishForm(data, instance=game)
+            data['male_num'] = int(data['male_num'])
+            data['female_num'] = int(data['female_num'])
+            gform = GamePublishForm(data, instance=game)
         else: # create new game
             org = GameOrg.objects.get(user_id=uuid)
             data['org'] = org.id
-            data['address'] = data.get('prov','')+data.get('city','')+data.get('dist','')+data.get('addr','')
-            data['level'] = int(data['level'])
             data['money'] = int(data['money'])
             data['limit'] = int(data['limit'])
-            tform = GamePublishForm(data)
+            data['male_num'] = int(data['male_num'])
+            data['female_num'] = int(data['female_num'])
+            gform = GamePublishForm(data)
         
-        if tform.is_valid():
-            t = tform.save()
-            #启动计时器
-            game_reg_start.apply_async((t.id,), eta=t.reg_stime+timedelta(seconds=3))
-            game_reg_end.apply_async((t.id,), eta=t.reg_etime+timedelta(seconds=3))
-            game_start.apply_async((t.id,), eta=t.game_stime+timedelta(seconds=3))
-            game_end.apply_async((t.id,), eta=t.game_etime+timedelta(seconds=3))
+        if gform.is_valid():
+            g = gform.save()
+            if not save: #如果是提交审核
+                pass
+                #启动计时器
+                #game_reg_start.apply_async((g.id,), eta=g.reg_stime+timedelta(seconds=3))
+                #game_reg_end.apply_async((g.id,), eta=g.reg_etime+timedelta(seconds=3))
+                #game_start.apply_async((g.id,), eta=g.game_stime+timedelta(seconds=3))
+                #game_end.apply_async((g.id,), eta=g.game_etime+timedelta(seconds=3))
             return JsonResponse({'success':True})
         else:
-            print tform.errors
+            print gform.errors
             return JsonResponse({'success':False })
         
     else:
-        t_id = req.GET.get('t_id',0)
-        t = None
-        if t_id :
-            t = Game.objects.get(id=t_id)
+        g_id = req.GET.get('g_id',0)
         uuid = req.user.id
         org = GameOrg.objects.get(user_id=uuid)
-        return render_to_response('game_org/game_publish.html',{'level':TRAIN_LEVEL,'org':org, 'game': t }, RequestContext(req))
+        print org
+        g = None
+        if g_id :
+            g = Game.objects.get(id=g_id)
+        else:
+            try:
+                g = Game.objects.filter(org=org, submit_status=0)[0]
+            except Exception,e:
+                print e
+                g = None
+        return render_to_response('game_org/game_publish.html',{'events':EVENTS,'org':org, 'game': g }, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['game_org']))
 def game_manage(req):
     uuid = req.user.id
-    opengames = Game.objects.filter(org__user_id=uuid, pub_status=0).order_by('-game_stime')#按比赛开始时间排序
-    gamegames = [GameGame.objects.filter(game=t, status__gt=-1) for t in opengames]
-    return render_to_response('game_org/game_manage.html',{"zipped":zip(opengames, gamegames)}, RequestContext(req))
+    games = Game.objects.filter(org__user_id=uuid, pub_status=0).order_by('-game_stime')#按比赛开始时间排序
+    for g in games:
+        teams = Team.objects.filter(game=g)
+        g.cur_num = len(teams)
+        g.teams = teams
+        for t in g.teams:
+            t.tes = TeamEvent.objects.filter(team=t)
+    return render_to_response('game_org/game_manage.html',{"games":games, "award":AWARD}, RequestContext(req))
 
 @login_required()
 @transaction.atomic

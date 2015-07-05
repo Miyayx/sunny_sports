@@ -18,115 +18,107 @@
             <li style="display:inline; margin-right:25px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
         </ul>
         <div class="space-8"></div>
-        {% if zipped|length %}
+        {% if games|length %}
         <div class="tabbable tabs-left">
-            <ul class="nav nav-tabs" id="train-tab">
-                {% for train, cts in zipped %}
+            <ul class="nav nav-tabs" id="game-tab">
+                {% for game in games %}
                 <li>
-                <a data-toggle="tab" href="#{{train.id}}">
-                    {% if train.pass_status == 0 %}
+                <a data-toggle="tab" href="#{{game.id}}">
+                    {% if game.pass_status == 0 %}
                     <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.reg_status == 0 %}
+                    {% elif game.reg_status == 0 %}
                     <i class="grey ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.reg_status == 1 %}
+                    {% elif game.reg_status == 1 %}
                     <i class="blue ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.reg_status == 2 and train.train_status == 0 %}
+                    {% elif game.reg_status == 2 and game.game_status == 0 %}
                     <i class="purple ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.train_status == 1 and train.sub_status == 0 %}
+                    {% elif game.game_status == 1 and game.sub_status == 0 %}
                     <i class="green ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.train_status == 2 and train.sub_status == 0 %}
+                    {% elif game.game_status == 2 and game.sub_status == 0 %}
                     <i class="pink ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.pass_status == 2 or train.sub_status == 2 %}
+                    {% elif game.pass_status == 2 or game.sub_status == 2 %}
                     <i class="red ace-icon fa fa-asterisk bigger-110"></i>
-                    {% elif train.pass_status == 0 or train.sub_status == 1 and train.pub_status == 0 %}
+                    {% elif game.pass_status == 0 or game.sub_status == 1 and game.pub_status == 0 %}
                     <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
                     {% endif %}
-                    {{train.name}}
+                    {{game.name}}
                 </a>
                 </li>
                 {% endfor %}
             </ul>
 
             <div class="tab-content">
-                {% for train, cts in zipped %}
-                <div id="{{train.id}}" class="tab-pane">
+                {% for game in games %}
+                <div id="{{game.id}}" class="tab-pane">
                     <div class="profile-user-info profile-user-info-striped">
                         <div >
                             <div class="profile-info-name">比赛编号</div>
-                            <div class="profile-info-value t_id" ><span>{{train.id}}</span>
-                                <a class="btn btn-minier btn-primary" style="margin-left:15px" href="/coach_org/train_edit?t_id={{train.id}}">编辑</a>
+                            <div class="profile-info-value t_id" ><span>{{game.id}}</span>
+                                <a class="btn btn-minier btn-primary" style="margin-left:15px" href="/game_org/game_edit?t_id={{game.id}}">编辑</a>
                             </div>
                         </div>
                         <div>
                             <div class="profile-info-name">比赛名称</div>
-                            <div class="profile-info-value">{{train.name}}</div>
-                        </div>
-                        <div>
-                            <div class="profile-info-name">比赛等级</div>
-                            <div class="profile-info-value">{{train.get_level_display}}</div>
-                        </div>
-                        <div>
-                            <div class="profile-info-name">报名开始时间</div>
-                            <div class="profile-info-value">{{train.reg_stime}}</div>
-                        </div>
-                        <div>
-                            <div class="profile-info-name">报名结束时间</div>
-                            <div class="profile-info-value">{{train.reg_etime}}</div>
-                        </div>
-                        <div>
-                            <div class="profile-info-name">开始时间</div>
-                            <div class="profile-info-value">{{train.train_stime|date:"Y-m-d"}}</div>
-                        </div>
-                        <div>
-                            <div class="profile-info-name">结束时间</div>
-                            <div class="profile-info-value">{{train.train_etime|date:"Y-m-d"}}</div>
+                            <div class="profile-info-value">{{game.name}}</div>
                         </div>
                         <div>
                             <div class="profile-info-name">比赛地点</div>
-                            <div class="profile-info-value">{{train.address}}</div>
+                            <div class="profile-info-value">{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</div>
                         </div>
                         <div>
-                            <div class="profile-info-name">报名人数</div>
-                            <div class="profile-info-value curnum">{{train.cur_num}}</div>
+                            <div class="profile-info-name">报名开始时间</div>
+                            <div class="profile-info-value">{{game.reg_stime|date:"Y-m-d H:i"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">报名结束时间</div>
+                            <div class="profile-info-value">{{game.reg_etime|date:"Y-m-d H:i"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">开始时间</div>
+                            <div class="profile-info-value">{{game.game_stime|date:"Y-m-d"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">结束时间</div>
+                            <div class="profile-info-value">{{game.game_etime|date:"Y-m-d"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">报名参赛队</div>
+                            <div class="profile-info-value curnum">{{game.cur_num}}</div>
                         </div>
                         <div>
                             <div class="profile-info-name">上限人数</div>
-                            <div class="profile-info-value">{{train.limit}}</div>
+                            <div class="profile-info-value">{{game.limit}}</div>
                         </div>
                         <div>
                             <div class="profile-info-name">当前状态</div>
                             <div class="profile-info-value">
-                    {% if train.pass_status == 0 %}
+                                {% if game.pass_status == 0 %}
                                 <span class="red">等待审核</span>
-                                {% elif train.reg_status == 0 %}
+                                {% elif game.reg_status == 0 %}
                                 <span class="red">报名未开始</span>
-                                {% elif train.reg_status == 1 %}
+                                {% elif game.reg_status == 1 %}
                                 <span class="red">报名中</span>
-                                {% elif train.reg_status == 2 and train.train_status == 0 %}
+                                {% elif game.reg_status == 2 and game.game == 0 %}
                                 <span class="red">报名结束</span>
-                                {% elif train.train_status == 1 and train.sub_status == 0 %}
+                                {% elif game.game == 1 and game.sub_status == 0 %}
                                 <span class="red">比赛中</span>
-                                {% elif train.train_status == 2 and train.sub_status == 0 %}
+                                {% elif game.game == 2 and game.sub_status == 0 %}
                                 <span class="red">比赛结束</span>
-                                {% elif train.pass_stauts == 2 or train.sub_status == 2 %}
+                                {% elif game.pass_stauts == 2 or game.sub_status == 2 %}
                                 <span class="red">审核未通过</span>
-                                {% elif train.pass_status == 0 or train.sub_status == 1 and train.pub_status == 0 %}
+                                {% elif game.pass_status == 0 or game.sub_status == 1 and game.pub_status == 0 %}
                                 <span class="red">等待结果审核</span>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
-                            {% if train.pass_status == 1 %}
+                    {% if game.pass_status == 1 %}
                     <div>
                         <div class="row">
-                            {% if train.train_status and not train.sub_status == 1 %}
+                            {% if game.game_status and not game.sub_status == 1 %}
                             <h3 class="col-sm-10">结果录入</h3>
                             {% else %}
-                            <h3 class="col-sm-10">班级信息</h3>
-                            {% endif %}
-
-                            {% if train.sub_status == 0 %}
-                            <a class="btn btn-success btn-sm add-member" style="bottom:-15px">添加学员</a>
+                            <h3 class="col-sm-10">参赛队信息</h3>
                             {% endif %}
                         </div>
                         <form>
@@ -134,220 +126,163 @@
                             <table id="checked-table" class="table table-striped table-bordered table-hover">
                                 <thead class="thin-border-bottom">
                                     <tr>
-                                        <th class="center">
-                                            <i class="ace-icon fa fa-user"></i>
-                                            学员 
-                                        </th>
-                                        {% if train.train_status == 0 %}
-                                        <th class="center">付费状态</th>
+                                        <th class="center"> 参赛队 </th>
+                                        <th class="center"> 参数机构 </th>
+                                        {% if game.game_status == 0 %}
+                                        <th class="center"> 付费状态 </th>
                                         {% endif %}
-                                        <!-- 报名期间不出现“是否通过”的列-->
-                                        {% if train.pass_status == 1 and train.train_status and not train.sub_status == 1 %}
+                                        <!-- 报名期间不出现“比赛结果”的列-->
+                                        {% if game.pass_status == 1 and game.game_status and not game.sub_status == 1 %}
                                         <!-- 报名截止, 成绩结果未提交或审核不通过-->
-                                        <th class="center">是否通过
-                                            <br/>
-                                            <input type="checkbox" class="ace check-all">
-                                            <span class="lbl"></span>
+                                        <th class="center">比赛结果
+                                         {% endif %}
                                         </th>
-                                        {% elif train.pass_status == 1 and train.train_status and train.sub_status == 1 %}
-                                        <!-- 报名截止, 且成绩结果已提交，等待中心审核-->
-                                        <th class="center">是否通过
-                                            <br/>
-                                            <input type="checkbox" class="ace check-all" disabled="true">
-                                            <span class="lbl"></span>
-                                        </th>
-                                        {% endif %}
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {% for ct in cts %}
+                                    {% for team in game.teams %}
                                     <tr>
-                                        <td class="center"><a href="/coach_info?c_id={{ct.coach.id}}">{{ ct.coach.property.name }}</a>
-                                            <p style="display:none">{{ ct.id }}</p>
+                                        <td class="center"><a href="/team_info?t_id={{team.id}}">{{ team.name }}</a>
+                                            <p style="display:none">{{ team.id }}</p>
                                             <button class="btn btn-minier btn-danger del-member pull-right"> 删除 </button>
                                         </td>
-                                        {% if train.train_status == 0 %}
-                                        <td class="center">已报名，{{ct.get_status_display}}</td>
+                                        {% if game.game_status == 0 %}
+                                        <td class="center">已报名，{{team.get_pay_status_display}}</td>
                                         {% endif %}
-                                        {% if train.pass_status and train.train_status and not train.sub_status == 1 %}
+                                        {% if game.pass_status and game.game_status and not game.sub_status == 1 %}
                                         <!-- 成绩结果未提交或审核不通过-->
                                         <td class="center">
-                                            {% if ct.status == 0%} <!-- 没付款不能录入成绩 -->
-                                            <input type="checkbox" disabled="true" class="ace" name="{{ct.id}}">
-                                            {% elif ct.pass_status %}
-                                            <input type="checkbox" checked="true" class="ace" name="{{ct.id}}">
-                                            {% else %}
-                                            <input type="checkbox" class="ace" name="{{ct.id}}">
+                                            {% for te in team.tes %}
+                                            <label class="col-sm-2">{{te.event.get_name_display}}</label>
+                                            {% if game.pass_status and game.game_status and game.sub_status == 1 or team.pay_status == 0 %}
+                                            <!-- 成绩结果已提交，等待中心审核--><!-- 没付款不能录入成绩 -->
+                                            <select class="form-control" disabled>
+                                                {%else%}
+                                                <select class="form-control">
+                                                    {% endif %}
+                                                    <option value="{{te.award}}">{{te.get_award_display}}</option> 
+                                                    {% for i, a in award %}
+                                                    <option value="{{i}}"> {{a}} </option>
+                                                    {% endfor %}
+                                                </select>
+                                                {% endfor %}
+                                            </td>
                                             {% endif %}
-                                            <span class="lbl"></span>
-                                        </td>
-                                        {% elif train.pass_status and train.train_status and train.sub_status == 1 %}
-                                        <!-- 成绩结果已提交，等待中心审核-->
-                                        <td class="center">
-                                            {% if ct.pass_status %}
-                                            <input type="checkbox" checked="true" class="ace" name="{{ct.id}}" disabled="true">
-                                            {% else %}
-                                            <input type="checkbox" class="ace" name="{{ct.id}}" disabled="true">
-                                            {% endif %}
-                                            <span class="lbl"></span>
-                                        </td>
-                                        {% endif %}
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <div class="row center">
-                                {% if train.cur_num > 0  %}
-                                <a class="btn btn-success download-btn" href="/download?t_id={{train.id}}" target="_blank">下载Excel</a>
-                                {% endif %}
-                                {% if train.pass_status and train.train_status and not train.sub_status == 1 %}
-                                <button class="btn btn-success save-btn">保存</button>
-                                <button class="btn btn-info submit-btn">提交</button>
-                                {% endif %}
-                            </div>
-                        </form>
-                    </div>
-                            {% endif %}
-                </div><!-- /.tab-pane -->
-                {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="row center">
+                                    {% if game.cur_num > 0 %}
+                                    <a class="btn btn-success download-btn" href="/download?g_id={{game.id}}" target="_blank">下载Excel</a>
+                                    {% endif %}
+                                    {% if game.pass_status and game.game_status and not game.sub_status == 1 %}
+                                    <button class="btn btn-success save-btn">保存</button>
+                                    <button class="btn btn-info submit-btn">提交</button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div><!-- /.tab-pane -->
+                    {% endfor %}
 
-            </div><!-- /.tab-content -->
-            {% else %}
-            <p class="alert alert-warning"> 当前没有可管理的比赛 </p>
-            {% endif %}
-        </div><!-- /.col-ms-10 -->
-    </div><!-- /.row -->
-    {% endblock %}
+                </div><!-- /.tab-content -->
+                {% else %}
+                <p class="alert alert-warning"> 当前没有可管理的比赛 </p>
+                {% endif %}
+            </div><!-- /.col-ms-10 -->
+        </div><!-- /.row -->
+        {% endblock %}
 
-    {% block script %}
-    <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
-    <script type="text/javascript">
-        window.onload = function() {
-            if(location.hash){//if the page's URL has an octothore part 
-                //有train编号的时候直接调转到该tab
-                t_id = location.hash.substr(1);
-                $('li a[href="#'+t_id+'"]').parent().addClass("active");
-                $('#'+t_id).addClass("active");
-            } else {
-                //make first tab active
-                $('#train-tab li:first').addClass("active");
-                $('.tab-pane').first().addClass("active");
-            }
-        };
-
-        $('.check-all').click(function () {    
-            $(this).closest('form').find('input:checkbox').prop('checked', this.checked);    
-        });
-
-        $('.save-btn').click(function(e){
-            e.preventDefault();
-            var d = {"submit":0, //false 
-                'csrfmiddlewaretoken': '{{csrf_token}}',
-                't_id':$(this).closest('.tab-pane').attr('id')};
-                $(this).closest('form').find('td input:checkbox').each(function(i,v){
-                    d[$(v).attr("name")] = $(v).prop('checked');
-                });
-                $.post('/coach_org/score_input', d, function(data){
-                    if(data['success']){
-                        alert("已保存");
-                    }else{
-                        alert("保存失败，请重试");
-                    }
-                });
-        });
-
-        $('.submit-btn').click(function(e){
-            e.preventDefault();
-            var $btn = $(this);
-            var d = {"submit":1, //true 
-                'csrfmiddlewaretoken': '{{csrf_token}}',
-                't_id':$(this).closest('.tab-pane').attr('id')};
-                $(this).closest('form').find('td input:checkbox').each(function(i,v){
-                    d[$(v).attr("name")] = $(v).prop('checked');
-                });
-                $.post('/coach_org/score_input', d, function(data){
-                    if(data['success']){
-                        alert("已提交");
-                        location.reload();
-                    }else{
-                        alert("提交失败，请重试");
-                    }
-                });
-        });
-
-        $("td a[href^='/coach_info']").click(function(e){
-            e.preventDefault();
-            var url = $(this).attr('href');
-            $.get(url, function(page){
-                bootbox.alert(page, function(){})
-            });
-        });
-
-        $('.del-member').click(function(e){
-            var $delbtn = $(this);
-            e.preventDefault();
-            var $info = '确定删除学员<b>'+ $.trim($delbtn.parent().find("a").html())+'</b>?';
-            bootbox.setDefaults({locale:'zh_CN'});
-            bootbox.confirm($info, function(result){
-                if(result){ //选择确认
-                    $.post("/coach_org/del_member",
-                        {
-                            'csrfmiddlewaretoken': '{{csrf_token}}',
-                            'ct_id':$.trim($delbtn.parents('td').find('p').html())
-                        }, function(res){
-                            if(res && res['success']){
-                                $curnum = $delbtn.parents('.tab-pane').find('.curnum')
-                                curnum = parseInt($.trim($curnum.html()));
-                                $curnum.html(curnum-1);
-                                $delbtn.parents('tr').remove();
-                            }
-                            else alert('删除失败');
-                        });
+        {% block script %}
+        <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+        <script type="text/javascript">
+            window.onload = function() {
+                if(location.hash){//if the page's URL has an octothore part 
+                    //有game编号的时候直接调转到该tab
+                    t_id = location.hash.substr(1);
+                    $('li a[href="#'+t_id+'"]').parent().addClass("active");
+                    $('#'+t_id).addClass("active");
+                } else {
+                    //make first tab active
+                    $('#game-tab li:first').addClass("active");
+                    $('.tab-pane').first().addClass("active");
                 }
-            });
-        });
+            };
 
-        $('.add-member').click(function(e){
-            var $addbtn = $(this);
-            e.preventDefault();
-            var $searchbox = '<div class="row">'
-            + '<div class="col-sm-6"><input type="text" placeholder="手机号码" id="member-phone"> </input>'
-            + '<button class="btn btn-success btn-sm" id="search-btn">搜索</button></div>'
-            + '<h4 class="col-sm-2">姓名:</h4>'
-            + '<h4 class="col-sm-2" id="member-name"></h4></div>'
-            + '<p class="red" id="error-msg"></p>';
-            bootbox.setDefaults({locale:'zh_CN'});
-            bootbox.confirm($searchbox, function(result){
-                if(result){
-                    $.post("/coach_org/add_member",
-                        {"phone":$.trim($('#member-phone').val()), 
-                            "name":$.trim($('#member-name').html()),
-                            "t_id":$.trim($addbtn.parents('.tab-pane').find('.t_id span').html()),
-                            'csrfmiddlewaretoken': '{{csrf_token}}'
-                        }, function(res){
-                            if(res && res.success)
-                                location.reload();
-                            else if(res)
-                                alert(res.msg);
-                            
-                        });
-                }
+            $('.check-all').click(function () {    
+                $(this).closest('form').find('input:checkbox').prop('checked', this.checked);    
             });
-            $('#search-btn').click(function(e){
-                var p = $('#member-phone').val();
-                if(p.length > 0){
-                    $.get("/coach_org/add_member?phone="+p, function(res){
-                        if(res["name"]){
-                            $('#error-msg').html("");
-                            $('#member-name').html(res["name"]);
-                        }else
-                            $('#error-msg').html("未找到");
 
+            $('.save-btn').click(function(e){
+                e.preventDefault();
+                var d = {"submit":0, //false 
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                    't_id':$(this).closest('.tab-pane').attr('id')};
+                    $(this).closest('form').find('td input:checkbox').each(function(i,v){
+                        d[$(v).attr("name")] = $(v).prop('checked');
                     });
-                }
+                    $.post('/game_org/result_input', d, function(data){
+                        if(data['success']){
+                            alert("已保存");
+                        }else{
+                            alert("保存失败，请重试");
+                        }
+                    });
             });
-        });
 
-    </script>
-    {% endblock %}
+            $('.submit-btn').click(function(e){
+                e.preventDefault();
+                var $btn = $(this);
+                var d = {"submit":1, //true 
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                    't_id':$(this).closest('.tab-pane').attr('id')};
+                    $(this).closest('form').find('td input:checkbox').each(function(i,v){
+                        d[$(v).attr("name")] = $(v).prop('checked');
+                    });
+                    $.post('/game_org/result_input', d, function(data){
+                        if(data['success']){
+                            alert("已提交");
+                            location.reload();
+                        }else{
+                            alert("提交失败，请重试");
+                        }
+                    });
+            });
+
+            $("td a[href^='/team_info']").click(function(e){
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function(page){
+                    bootbox.alert(page, function(){})
+                });
+            });
+
+            $('.del-member').click(function(e){
+                var $delbtn = $(this);
+                e.preventDefault();
+                var $info = '确定删除学员<b>'+ $.trim($delbtn.parent().find("a").html())+'</b>?';
+                bootbox.setDefaults({locale:'zh_CN'});
+                bootbox.confirm($info, function(result){
+                    if(result){ //选择确认
+                        $.post("/game_org/del_member",
+                            {
+                                'csrfmiddlewaretoken': '{{csrf_token}}',
+                                'ct_id':$.trim($delbtn.parents('td').find('p').html())
+                            }, function(res){
+                                if(res && res['success']){
+                                    $curnum = $delbtn.parents('.tab-pane').find('.curnum')
+                                    curnum = parseInt($.trim($curnum.html()));
+                                    $curnum.html(curnum-1);
+                                    $delbtn.parents('tr').remove();
+                                }
+                                else alert('删除失败');
+                            });
+                    }
+                });
+            });
+
+        </script>
+        {% endblock %}

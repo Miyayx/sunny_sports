@@ -235,10 +235,10 @@ def history_game(req):
                 team_te = zip(teams, t_e)
                 return render_to_response('centre/history_game2.html',{"team_te":team_te, "game":game, "base":"./centre/base.html"})
             else:
-                return HttpResponse("<h2>没有该培训的历史信息</h2>")
+                return HttpResponse("<h2>没有该比赛的历史信息</h2>")
         else:#否则返回列表
             games = Game.objects.filter(pub_status=1).order_by('-game_stime')
-            return render_to_response('centre/history_game.html',{"games":games})
+            return render_to_response('game/history_game.html',{"games":games, "base":"./centre/base.html", "role":"centre"})
 
 @login_required()
 @transaction.atomic
