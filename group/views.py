@@ -53,8 +53,31 @@ def center(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
-def current_game(req):
-    return render_to_response('game/new_game_info.html',{'base':'./group/base.html'}, RequestContext(req))
+def current_game(req, g_id=None):
+     if not g_id:
+         games = Game.objects.filter(pass_status=1, pub_status=0)
+         for g in games:
+             g.cur_num = len(Team.objects.filter(game=g))
+             try:
+                 ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+                 g.team = Team.objects.get(game=g, contestant=ur)
+             except:
+                 g.team = None
+             
+         return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games}, RequestContext(req))
+     else:
+         game = Game.objects.get(id=g_id)
+         try:
+             ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+             team = Team.objects.get(game=g, contestant=ur)
+             sts = StudentTeam.objects.filter(team=team)
+             tes = TeamEvent.objects.filter(team=team)
+         except:
+             team = None
+             sts = None
+             tes = None
+         
+         return render_to_response('game/new_game_info.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))

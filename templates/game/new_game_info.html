@@ -10,11 +10,10 @@
             <div class="timeline-items">
                 <div class="timeline-item clearfix">
                     <div class="timeline-info">
-                        <i class="timeline-indicator ace-icon fa fa-leaf btn btn-primary no-hover green"></i>
+                        <i class="timeline-indicator ace-icon fa fa-leaf btn btn-pink no-hover green"></i>
                     </div>
 
-                    <!-- /section:pages/timeline.info -->
-                    <div class="widget-box transparent">
+                    <div class="widget-box widget-color-pink">
                         <div class="widget-header widget-header-small">
                             <h5 class="widget-title smaller"> 比赛介绍 </h5>
 
@@ -27,13 +26,18 @@
 
                         <div class="widget-body">
                             <div class="widget-main">
-                                <p>比赛名称：game.name</p>
-                                <p>举办方：&nbsp;&nbsp; game.org.name</p>
-                                <p>主办单位：game.sponsor</p>
-                                <p>协办单位：game.organizer</p>
-                                <p>game.description</p>
+                                <p class="col-xs-6">比赛名称：{{game.name}}</p>
+                                <p class="col-xs-6">主办单位：{{game.sponsor}}</p>
+                                <p class="col-xs-6">比赛机构：&nbsp;&nbsp; {{game.org.name}}</p>
+                                <p class="col-xs-6">协办单位：{{game.organizer}}</p>
+                                <p class="col-xs-6">比赛地点：{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</p>
+                                <p class="col-xs-6">比赛项目：{{game.events}}</p>
+                                <p class="col-xs-6">比赛费用：{{game.money}}/人</p>
+                                <p class="col-xs-6">参赛队数量：{{game.limit}}</p>
+                                <p class="col-xs-12">队员数量：男：{{game.male_num}} 女：{{game.female_num}}</p>
+                                <p>联系人: </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：{{game.contact_name}}, 手机：{{game.contact_phone}}, 邮箱：{{game.contact_email}}</p>
+                                <p>{{game.description}}</p>
                                 <div class="space-6"></div>
-
                             </div>
                         </div>
                     </div>
@@ -44,7 +48,7 @@
         <div class="timeline-container">
             <div class="timeline-label">
                 <span class="label label-primary arrowed-in-right label-lg">
-                    <b>报名开始   2014年5月17日</b>
+                    <b>报名开始 {{game.reg_stime|date:"Y-m-d H:i"}}</b>
                 </span>
             </div>
             <div class="timeline-item clearfix">
@@ -53,7 +57,7 @@
                 </div>
                 <div class="widget-box widget-color-blue2">
                     <div class="widget-header widget-header-small">
-                        <h5 class="widget-title smaller">当前状态</h5>
+                        <h5 class="widget-title smaller">当前状态: &nbsp;&nbsp;<span class="badge badge-warning">未报名</span></h5>
                         <!-- 报名中， 报名结束，正在比赛， 比赛结束，-->
                         <span class="widget-toolbar">
                             <a href="#" data-action="collapse">
@@ -63,9 +67,10 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main">
-                            <span>未报名</span>
-                            <a href="#"><button id="enroll" class="btn btn-xs btn-primary join">报名</button></a>
+                            <a href="#"><button id="apply" class="btn btn-xs btn-primary join">报名</button></a>
                         </div>
+                        {% if st %}
+                        <button class="btn" id='ch-member'>更换队员</button>
                         <table id="" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -78,113 +83,105 @@
 
                             <tbody>
                                 <tr> 
-                                    <td> dddd </td> <td>男</td> 
-                                    <td> dddd </td> <td>男</td> 
+                                    {% for st in sts|slice:":2"%}
+                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    {% endfor %}
                                 </tr>
                                 <tr> 
-                                    <td> ddddd </td> <td>女</td> 
-                                    <td> ddddd </td> <td>女</td> 
+                                    {% for st in sts|slice:"2:4"%}
+                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    {% endfor %}
                                 </tr>
                                 <tr> 
-                                    <td> ddddd </td> <td>男</td> 
-                                    <td> ddddd </td> <td>男</td> 
+                                    {% for st in sts|slice:"4:6"%}
+                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    {% endfor %}
                                 </tr>
                                 <tr> 
-                                    <td> ddddd </td> <td>男</td> 
-                                    <td> ddddd </td> <td>男</td> 
+                                    {% for st in sts|slice:"6:8"%}
+                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    {% endfor %}
                                 </tr>
                             </tbody>
                         </table>
-
+                        {% endif %}
                     </div>
                 </div>
             </div>
-
             <div class="timeline-label">
                 <span class="label label-primary arrowed-in-right label-lg">
-                    <b>比赛开始   2014年6月17日</b>
+                    <b>报名结束: {{game.reg_etime|date:"Y-m-d H:i"}}</b>
                 </span>
             </div>
+            </div>
 
-            <div class="timeline-items">
-                <div class="timeline-item clearfix">
-                    <div class="timeline-info">
-                        <i class="timeline-indicator ace-icon fa fa-trophy btn btn-pink no-hover green"></i>
-                    </div>
-
-                    <div class="widget-box transparent">
-                        <div class="widget-header widget-header-small">
-                            <h5 class="widget-title smaller">比赛项目</h5>
-                            <span class="widget-toolbar">
-                                <a href="#" data-action="collapse">
-                                    <i class="ace-icon fa fa-chevron-up"></i>
-                                </a>
-                            </span>
-                        </div>
-
-                        <div class="widget-body">
-                            <div class="widget-main">
-                                <table id="sample-table-1" class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>项目名称</th>
-                                            <th class="hidden-480">成绩</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="#page/student/event">ace.com</a>
-                                            </td>
-                                            <td>95</td>
-                                        </tr>
-
-                                        <tr>                          
-                                            <td>
-                                                <a href="#page/student/event">ace.com</a>
-                                            </td>
-                                            <td>未发布</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <a href="#page/student/event">ace.com</a>
-                                            </td>
-                                            <td>未发布</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="timeline-container">
                 <div class="timeline-label">
                     <span class="label label-success arrowed-in-right label-lg">
-                        <b>比赛结束  2014年10月24日</b>
+                        <b>比赛开始: {{game.game_stime|date:"Y-m-d"}}</b>
                     </span>
                 </div>
 
+                <div class="timeline-items">
+                    <div class="timeline-item clearfix">
+                        <div class="timeline-info">
+                            <i class="timeline-indicator ace-icon fa fa-trophy btn btn-success no-hover green"></i>
+                        </div>
+
+                        <div class="widget-box widget-color-green">
+                            <div class="widget-header widget-header-small">
+                                <h5 class="widget-title smaller">比赛结果</h5>
+                                <span class="widget-toolbar">
+                                    <a href="#" data-action="collapse">
+                                        <i class="ace-icon fa fa-chevron-up"></i>
+                                    </a>
+                                </span>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <table class="table table-striped table-bordered table-hover green">
+                                        <thead>
+                                            <tr>
+                                                <th>项目</th>
+                                                <th class="hidden-480">奖项</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for te in tes %}
+                                            <tr>
+                                                <td> {{te.event.get_name_display}} </td>
+                                                <td>{{te.get_award_display}}<a style="margin-left:15px" type="button" class="btn btn-danger" href=""></a></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-label">
+                        <span class="label label-success arrowed-in-right label-lg">
+                            <b>比赛结束: {{game.game_etime|date:"Y-m-d"}}</b>
+                        </span>
+                    </div>
+
+                </div>
             </div>
         </div>
-        <!-- /.timeline-items -->
     </div><!-- /.timeline-container -->
-
-
-
-    <!-- /section:pages/timeline -->
-</div>
 </div>
 {% endblock %}
 
 {% block script %}
-
+<script type="text/javascript" src="/static/js/bootbox.min.js"></script>
 <script type="text/javascript">
 
-    $('#enroll').click(function(){
+    $('#apply').click(function(){
 
-        $.get('/group/join',function(data) {
+        $.get('/{{role}}/game_apply',function(data) {
             bootbox.dialog({
                 message: data,
                 title: "请确认参赛信息",
@@ -222,25 +219,6 @@
         });
     });
 
-    $('#select-e').click(function(){
-
-        $.get('/group/choose_event',function(data) {
-            bootbox.dialog({
-                message: data,
-                title: "请确定项目以及参赛人员",
-                buttons: {
-                    save: {
-                        label: '<i class="ace-icon fa fa-save"></i>保存',
-                        className: "btn btn-success btn-sm",
-                    },
-                    success: {
-                        label: '<i class="ace-icon fa fa-check"></i>提交',
-                        className: "btn btn-info btn-sm",
-                    },
-                }
-            });
-        });
-    });
 </script>
 
 {% endblock %}

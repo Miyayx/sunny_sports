@@ -102,11 +102,9 @@ class Team(models.Model):
     class Meta:
         app_label='sp'
 
-
 class StudentTeam(models.Model):
     team = models.ForeignKey(Team)
     student = models.ForeignKey(Student)
-    stu_number = models.CharField(max_length=20)
     class Meta:
         app_label='sp'
 
