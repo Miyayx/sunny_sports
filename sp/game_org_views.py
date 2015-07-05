@@ -23,7 +23,7 @@ def game_org(req):
 def home(req):
     uuid = req.user.id
     gameorg = GameOrg.objects.get(user_id=uuid)
-    opengames = Game.objects.filter(org=gameorg, pub_status=0).order_by('-game_stime')#按开始时间排序
+    opengames = Game.objects.filter(org=gameorg, submit_status=1, pub_status=0).order_by('-game_stime')#按开始时间排序
     endgames = Game.objects.filter(org=gameorg, pub_status=1).order_by('-game_stime')#按开始时间排序
     return render_to_response('game_org/home.html',{"gameorg":gameorg,"opengames":opengames, "endgames":endgames[:5]} ,RequestContext(req))
 
@@ -84,7 +84,8 @@ def game_publish(req):
         if gform.is_valid():
             g = gform.save()
             if not save: #如果是提交审核
-                pass
+                g.submit_status=1
+                g.save()
                 #启动计时器
                 #game_reg_start.apply_async((g.id,), eta=g.reg_stime+timedelta(seconds=3))
                 #game_reg_end.apply_async((g.id,), eta=g.reg_etime+timedelta(seconds=3))
@@ -115,7 +116,7 @@ def game_publish(req):
 @user_passes_test(lambda u: u.is_role(['game_org']))
 def game_manage(req):
     uuid = req.user.id
-    games = Game.objects.filter(org__user_id=uuid, pub_status=0).order_by('-game_stime')#按比赛开始时间排序
+    games = Game.objects.filter(org__user_id=uuid, submit_status=1, pub_status=0).order_by('-game_stime')#按比赛开始时间排序
     for g in games:
         teams = Team.objects.filter(game=g)
         g.cur_num = len(teams)

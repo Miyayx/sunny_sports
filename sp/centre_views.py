@@ -162,7 +162,7 @@ def game_check(req, game_id=None):
             except:
                 return HttpResponse("<h2>没有该比赛的审核请求</h2>")
         else:#否则返回待审核列表
-            glist = Game.objects.filter(pass_status=0).order_by('reg_stime')
+            glist = Game.objects.filter(submit_status=1, pass_status=0).order_by('reg_stime')
             return render_to_response('centre/game_check.html',{"glist":glist})
     else:
         g_id = req.POST.get("g_id")
@@ -251,7 +251,7 @@ def current_game(req):
             game = teams[0].game if len(teams) > 0 else None
             return render_to_response('centre/current_game2.html',{"game":game, "teams":teams, "base":"./centre/base.html"}, RequestContext(req))
         else:
-            games = Game.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('game_stime') #未提交审核的，未成历史的
+            games = Game.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('game_stime') #未提交审核的，未成历史的
             for g in games:
                 g.cur_num = len(Team.objects.filter(game=g))
             return render_to_response('centre/current_game.html',{"games":games}, RequestContext(req))

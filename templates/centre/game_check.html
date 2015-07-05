@@ -16,10 +16,10 @@
         <th class="center">比赛开始时间</th>
       </thead>
       <tbody>
-        {% for g in games %}
+        {% for g in glist %}
         <tr>
           <td class="center">{{g.org.name}}</td>
-          <td class="center"><a href="/centre/game_check?t_id={{g.id}}">{{g.name}}</a></td>
+          <td class="center"><a href="/centre/game_check?g_id={{g.id}}">{{g.name}}</a></td>
           <td class="center">{{g.reg_stime}}</td>
           <td class="center">{{g.game_stime}}</td>
         </tr>

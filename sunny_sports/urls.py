@@ -66,6 +66,12 @@ urlpatterns += patterns('sp.centre_views',
         url(r'^centre/check_pass$','check_pass'),
         url(r'^centre/current_view$','current_view'),
         url(r'^centre/history_view$','history_view'),
+
+        url(r'^centre/game_check$','game_check'),
+        url(r'^centre/game_val$','game_val'),
+        url(r'^centre/current_game$','current_game'),
+        url(r'^centre/history_game$','history_game'),
+
         url(r'^centre/msg_publish$','msg_publish'),
         url(r'^centre/coach_org_manage$', 'coach_org_manage'),
         url(r'^centre/game_org_manage$', 'game_org_manage'),
