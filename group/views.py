@@ -71,10 +71,11 @@ def current_game(req, g_id=None):
          game = Game.objects.get(id=g_id)
          try:
              ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-             team = Team.objects.get(game=g, contestant=ur)
+             team = Team.objects.get(game=game, contestant=ur)
              sts = StudentTeam.objects.filter(team=team)
              tes = TeamEvent.objects.filter(team=team)
-         except:
+         except Exception,e:
+             print e
              team = None
              sts = None
              tes = None
@@ -103,6 +104,12 @@ def game_apply(req, g_id=None):
             for s in stus:
                 sts.append(StudentTeam(student=s, team=t))
             StudentTeam.objects.bulk_create(sts)
+
+            tes = []
+            for e in Events.objects.all():
+                tes.append(TeamEvent(event=e, team=t))
+            TeamEvent.objects.bulk_create(tes)
+
 
             return JsonResponse({'success':True})
         else:

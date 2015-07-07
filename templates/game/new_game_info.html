@@ -57,8 +57,23 @@
                 </div>
                 <div class="widget-box widget-color-blue2">
                     <div class="widget-header widget-header-small">
-                        <h5 class="widget-title smaller">当前状态: &nbsp;&nbsp;<span class="badge badge-warning">未报名</span></h5>
-                        <!-- 报名中， 报名结束，正在比赛， 比赛结束，-->
+                        <h5 class="widget-title smaller">当前状态: &nbsp;&nbsp;
+                            {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
+                            <span class="badge badge-warning">比赛结束</span>
+                            {% elif team and team.pay_status > 0 and game.game_status == 1 %}
+                            <span class="badge badge-warning">比赛进行中</span>
+                            {% elif team and team.pay_status == 0 %}
+                            <span class="badge badge-warning">已报名，未付款</span>
+                            {% elif team and team.pay_status == 1 and game.reg_status == 1 %}
+                            <span class="badge badge-warning">已付款</span>
+                            {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
+                            <span class="badge badge-warning">报名结束</span>
+                            {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
+                            <span class="badge badge-warning">比赛结束</span>
+                            {% elif not team %}
+                            <span class="badge badge-warning">报名进行中</span>
+                            {% endif %}
+                        </h5>
                         <span class="widget-toolbar">
                             <a href="#" data-action="collapse">
                                 <i class="ace-icon fa fa-chevron-up"></i>
@@ -67,10 +82,27 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main">
-                            <a href="/{{role}}/game_apply/{{game.id}}" id="apply" type="button" class="btn btn-xs btn-primary">报名</a>
-                        </div>
-                        {% if st %}
-                        <button class="btn" id='ch-member'>更换队员</button>
+                            {% if team.pay_status == 0 or team.game.reg_status == 1%}
+                            {% if team.pay_status == 0 %}
+                            <a class="btn btn-xs btn-primary" href="/game/pay/{{team.id}}">去付款</a>
+                            {% if team.game.reg_status == 1 %}
+                            <a class="btn btn-xs btn-danger">取消报名</a>
+                            {% endif %}
+                            {% else %}
+                            <span>退出请联系举办方<br/>
+                                电话：{{game.org.contact_phone}}</span>
+                            {% endif %}
+                            {% else %}
+                            {% if game.cur_num < game.limit %}
+                            <a class="btn btn-xs btn-primary" href="/{{role}}/game_apply/{{game.id}}">报名</a>
+                            {% else %}
+                            <a class="btn btn-xs btn-success">名额已满</a>
+                            {% endif %}
+                            {% endif %}
+
+                            {% if sts %}
+                        <hr/>
+                        <button class="btn btn-xs btn-inverse" id='ch-member'>更换队员</button>
                         <table id="" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -84,27 +116,28 @@
                             <tbody>
                                 <tr> 
                                     {% for st in sts|slice:":2"%}
-                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
                                     {% endfor %}
                                 </tr>
                                 <tr> 
                                     {% for st in sts|slice:"2:4"%}
-                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
                                     {% endfor %}
                                 </tr>
                                 <tr> 
                                     {% for st in sts|slice:"4:6"%}
-                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
                                     {% endfor %}
                                 </tr>
                                 <tr> 
                                     {% for st in sts|slice:"6:8"%}
-                                    <td> {{st.student.name}} </td> <td>{{st.student.get_sex_display}}</td> 
+                                    <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
                                     {% endfor %}
                                 </tr>
                             </tbody>
                         </table>
                         {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,65 +146,69 @@
                     <b>报名结束: {{game.reg_etime|date:"Y-m-d H:i"}}</b>
                 </span>
             </div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-label">
+                <span class="label label-success arrowed-in-right label-lg">
+                    <b>比赛开始: {{game.game_stime|date:"Y-m-d"}}</b>
+                </span>
             </div>
 
-            <div class="timeline-container">
+            <div class="timeline-items">
+                <div class="timeline-item clearfix">
+                    <div class="timeline-info">
+                        <i class="timeline-indicator ace-icon fa fa-trophy btn btn-success no-hover green"></i>
+                    </div>
+
+                    <div class="widget-box widget-color-green">
+                        <div class="widget-header widget-header-small">
+                            <h5 class="widget-title smaller">比赛结果</h5>
+                            <span class="widget-toolbar">
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            </span>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <table class="table table-striped table-bordered table-hover green">
+                                    <thead>
+                                        <tr>
+                                            <th>项目</th>
+                                            <th class="hidden-480">奖项</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for te in tes %}
+                                        <tr>
+                                            <td>{{te.event.get_name_display}} </td>
+                                            <td>{{te.get_award_display}}
+                                                {% if not te.award == 0 and not te.award == 4%}
+                                                <a style="margin-left:15px" type="button" class="btn btn-success" href="">下载证书</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="timeline-label">
                     <span class="label label-success arrowed-in-right label-lg">
-                        <b>比赛开始: {{game.game_stime|date:"Y-m-d"}}</b>
+                        <b>比赛结束: {{game.game_etime|date:"Y-m-d"}}</b>
                     </span>
                 </div>
 
-                <div class="timeline-items">
-                    <div class="timeline-item clearfix">
-                        <div class="timeline-info">
-                            <i class="timeline-indicator ace-icon fa fa-trophy btn btn-success no-hover green"></i>
-                        </div>
-
-                        <div class="widget-box widget-color-green">
-                            <div class="widget-header widget-header-small">
-                                <h5 class="widget-title smaller">比赛结果</h5>
-                                <span class="widget-toolbar">
-                                    <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-up"></i>
-                                    </a>
-                                </span>
-                            </div>
-
-                            <div class="widget-body">
-                                <div class="widget-main">
-                                    <table class="table table-striped table-bordered table-hover green">
-                                        <thead>
-                                            <tr>
-                                                <th>项目</th>
-                                                <th class="hidden-480">奖项</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            {% for te in tes %}
-                                            <tr>
-                                                <td> {{te.event.get_name_display}} </td>
-                                                <td>{{te.get_award_display}}<a style="margin-left:15px" type="button" class="btn btn-danger" href=""></a></td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="timeline-label">
-                        <span class="label label-success arrowed-in-right label-lg">
-                            <b>比赛结束: {{game.game_etime|date:"Y-m-d"}}</b>
-                        </span>
-                    </div>
-
-                </div>
             </div>
         </div>
-    </div><!-- /.timeline-container -->
+    </div>
+</div><!-- /.timeline-container -->
 </div>
 {% endblock %}
 
