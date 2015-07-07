@@ -77,7 +77,28 @@ def current_game(req, g_id=None):
              sts = None
              tes = None
          
-         return render_to_response('game/new_game_info.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes}, RequestContext(req))
+         return render_to_response('game/new_game_info.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['group']))
+def game_apply(req, g_id=None):
+    """
+    报名，创建参赛队
+    """
+    if not g_id:
+        return HttpResponse('比赛信息错误')
+    if req.method == "POST":
+        pass
+    else:
+        game = Game.objects.get(id=g_id)
+        group = Group.objects.get(user=req.user)
+        #try:
+        #    team = Team.objects.get(game=game,)
+        #except:
+        #    team = None
+        return render_to_response('game/game_apply.html',{'group':group, 'game':game, 'base':'./group/base.html', 'role':'group'},RequestContext(req))
+
+
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
@@ -118,8 +139,7 @@ def update_info(req):
 
         g = Group.objects.get(user=req.user)
         g.name = data.get("name","")
-        if data.has_key("company"):
-            g.company = data["company"]
+        g.org_num = data.get("org_num","")
         if data.has_key("province"):
             g.province = data.get("province","")
         if data.has_key("city"):

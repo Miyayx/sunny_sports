@@ -129,49 +129,31 @@
                                                 for="form-field-place">地点</label>
                                             <div class="col-sm-2">
                                                 <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{student.property.province}}</span>
+                                                    <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{group.province}}</span>
                                                     省
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{student.property.city}}</span>
+                                                    <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{group.city}}</span>
                                                     市
                                                 </div>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{student.property.dist}}</span>
+                                                    <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{group.dist}}</span>
                                                     区/县
                                                 </div>
                                             </div>
                                             <div class="col-sm-2">
                                                 <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="address">{{student.property.address}}</span>
+                                                    <span class="myeditable editable editable-click" id="address">{{group.address}}</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="space"></div>
                                     </div>
-                                    <!--
-                                    <h4 class="header blue bolder smaller col-sm-12">级别</h4>
-                                    <div class="row">
-                                        <div class="form-group col-sm-6">
-                                            <label class="col-sm-3 control-label no-padding-right"
-                                                for="form-field-rank"> 等级 </label>
-                                            <div class="col-sm-8">
-                                                <div class="profile-info-value">
-                                                    {% if student.level %}
-                                                    <span id="level">{{student.get_level_display}}</span>
-                                                    {% else %}
-                                                    <span id="level">无等级</span>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    -->
 
                                     <div class="space"></div>
                                     <div class="row">
@@ -210,10 +192,6 @@
 <!--[if lte IE 8]>
 <script src="../../static/js/excanvas.min.js"></script>
 <![endif]-->
-<script src="../../static/js/ace/elements.fileinput.js"></script>
-<script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
-<script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
-<script src="../../static/js/date-time/moment.min.js"></script>
 <script src="../../static/js/select2.min.js"></script>
 <script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
 <script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
@@ -227,16 +205,6 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-		$('#headImg').ace_file_input({
-            no_file:'更换头像',
-            btn_choose:'选择文件',
-            btn_change:'更改文件',
-            droppable:false,
-            onchange:null,
-            thumbnail:false
-        });
-        $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
-
         $('#token').editable({
             type: 'text',
             name: 'csrfmiddlewaretoken'
@@ -245,6 +213,11 @@
         $('#org_num').editable({
             type: 'text',
             name: 'org_num'
+        });
+
+        $('#name').editable({
+            type: 'text',
+            name: 'name'
         });
 
         $('#nickname')
@@ -261,7 +234,7 @@
         // click save btn
         $('#save-btn').click(function() {
             $('.myeditable').editable('submit', { 
-                url: '/student/up_info', 
+                url: '/group/up_info', 
                 ajaxOptions: {
                     dataType: 'json' //assuming json response
                 },           
