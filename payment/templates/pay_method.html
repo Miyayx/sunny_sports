@@ -91,7 +91,7 @@
 
   </head>
   <body>
-    <div id="trade-info" class="col-xs-8 col-sm-8 pricing-box">
+    <div id="trade-info" class=" col-xs-offset-2 col-xs-8 col-sm-8 pricing-box">
       <div class="widget-box widget-color-green">
         <div class="widget-header">
           <h3 class="widget-title bigger lighter">{{bill.subject}}</h3>
@@ -121,7 +121,7 @@
               <form id='choose-meth' method='POST' action='/coach/train/pay'>
                 {% endif %}
                 {% if bill.bill_type == 1%}
-                <form id='choose-meth' method='POST' action='/team/pay'>
+                <form id='choose-meth' method='POST' action='/game/pay'>
                   {% endif %}
                   <input type="hidden" value="{{bill.order_num}}" name="order_num"></input>
                   <div class="col-xs-11 col-ms-11 label label-lg label-success">

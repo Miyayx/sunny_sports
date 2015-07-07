@@ -48,7 +48,7 @@
               {% if team %}
               <td>
                 {% if team.pay_status == 0 %}
-                <a class="btn btn-minier btn-primary" href="/{{role}}/cur_game/pay?t_id={{team.id}}">去付款</a>
+                <a class="btn btn-minier btn-primary" href="/game/pay/{{team.id}}">去付款</a>
                 {% if team.pay_status == 1 %}
                 <a class="btn btn-minier btn-danger">取消报名</a>
                 {% endif %}
@@ -66,17 +66,17 @@
               {% endif %}
               <!-- 状态列 -->
               <td class="center">
-                {% if team and team.status < 3 and team.status > 0 and not game.sub_status == 0 %}
+                {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
                 <span class="label label-primary">比赛结束</span>
-                {% elif team and team.status < 3 and team.status > 0 and game.game_status == 1 %}
+                {% elif team and team.pay_status > 0 and game.game_status == 1 %}
                 <span class="label label-primary">比赛进行中</span>
-                {% elif team and team.status == 0 %}
+                {% elif team and team.pay_status == 0 %}
                 <span class="label label-primary">已报名，未付款</span>
-                {% elif team and team.status == 1 and game.reg_status == 1 %}
+                {% elif team and team.pay_status == 1 and game.reg_status == 1 %}
                 <span class="label label-primary">已付款</span>
-                {% elif team and team.status < 3 and team.status > 0 and game.reg_status == 2 and game.game_status == 0 %}
+                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
                 <span class="label label-primary">等待比赛开始</span>
-                {% elif team and team.status < 3 and team.status > 0 and game.reg_status == 2 and game.game_status == 2 %}
+                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
                 <span class="label label-primary">比赛结束</span>
                 {% elif not team %}
                 <span class="label label-primary">报名进行中</span>
@@ -116,7 +116,7 @@
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+<script type="text/javascript" src="/static/js/bootbox.min.js"></script>
 <script type="text/javascript">
 
   $("td a[href^='/game_info']").click(function(e){

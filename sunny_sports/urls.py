@@ -162,3 +162,8 @@ urlpatterns += patterns('group.views',
         url(r'^group/center$', 'center'),
         url(r'^group/up_info$', 'update_info'),
         )
+#game
+urlpatterns += patterns('game.views',
+        url(r'^game/pay/(?P<t_id>\w+)$','pay'),
+        url(r'^game/pay$','pay'),
+        )
