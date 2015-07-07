@@ -56,6 +56,7 @@ def center(req):
     return render_to_response('game_org/center.html',{"gameorg":game_org[0]},RequestContext(req))
 
 @login_required()
+@transaction.atomic
 @user_passes_test(lambda u: u.is_role(['game_org']))
 def game_publish(req):
     if req.method == "POST":

@@ -6,6 +6,8 @@ from sp.utils import *
 
 from group.models import *
 from game.models import *
+from game.forms import *
+from sp.models.role import *
 
 from django.contrib import messages
 
@@ -81,15 +83,34 @@ def current_game(req, g_id=None):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
+@transaction.atomic
 def game_apply(req, g_id=None):
     """
     报名，创建参赛队
     """
-    if not g_id:
-        return HttpResponse('比赛信息错误')
     if req.method == "POST":
-        pass
+        data = req.POST.copy()
+        uuid = req.user.id
+        # create new team
+        members = data.pop('member')[0]
+        data['contestant'] = UserRole.objects.get(user=req.user, role_id=ROLE_ID).id
+        tform = TeamForm(data)
+        if tform.is_valid():
+            t = tform.save()
+            ms = members.strip().split(',')
+            stus = Student.objects.filter(property__user__id__in=ms)
+            sts = []
+            for s in stus:
+                sts.append(StudentTeam(student=s, team=t))
+            StudentTeam.objects.bulk_create(sts)
+
+            return JsonResponse({'success':True})
+        else:
+            print tform.errors
+            return JsonResponse({'success':False })
     else:
+        if not g_id:
+            return HttpResponse('比赛信息错误')
         game = Game.objects.get(id=g_id)
         group = Group.objects.get(user=req.user)
         #try:
@@ -97,7 +118,6 @@ def game_apply(req, g_id=None):
         #except:
         #    team = None
         return render_to_response('game/game_apply.html',{'group':group, 'game':game, 'base':'./group/base.html', 'role':'group'},RequestContext(req))
-
 
 
 @login_required()

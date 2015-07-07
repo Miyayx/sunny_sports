@@ -14,7 +14,7 @@
         border-radius:0px;
         line-height:26px;
     }
-    </style>
+</style>
 {% endblock %}
 <!--
 重载页面部分
@@ -53,19 +53,27 @@
             -->
             <form class="form-horizontal" role="form" id='team-form' >
                 <input type="hidden" name="csrfmiddlewaretoken" id="token" style="display:none" value="{{csrf_token}}">
-                <input type="hidden" name="g_id" id="game_id" style="display:none"/ value="{{game.id}}">
+                <input type="hidden" name="game" id="game_id" style="display:none"/ value="{{game.id}}">
 
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-right" >机构编号</label>
                         <div class="col-sm-4">
                             <span>
+                                {% if group.org_num|length == 0 %}
+                                <input type="text" id="group-id" name="group_id" value="{{group.org_num}}" required="required">
+                                {% else %}
                                 <input type="text" id="group-id" name="group_id" value="{{group.org_num}}" required="required" disabled="disabled">
+                                {% endif %}
                             </span>
                         </div>
                         <label class="col-sm-2 control-label no-padding-right" >机构名称</label>
                         <div class="col-sm-4">
+                            {% if group.name|length == 0 %}
+                            <input type="text" id="group-name" name="group_name" value="{{group.name}}" required="required">
+                            {% else %}
                             <input type="text" id="group-name" name="group_name" value="{{group.name}}" required="required" disabled="disabled">
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -77,7 +85,7 @@
                         <label class="col-sm-2 control-label no-padding-right" >参赛队名</label>
                         <div class="col-sm-9">
                             <span>
-                                <input type="text" id="team-name" name="team_name" value="{{team.name}}" required="required" >
+                                <input type="text" id="team-name" name="name" value="{{team.name}}" required="required" >
                             </span>报名后不可更改
                         </div>
                     </div>
@@ -85,7 +93,8 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-tags">添加队员</label>
                         <div class="col-sm-9">
-                            <input type="text" name="member" id="mem-tags" data-role="tagsinput" placeholder="输入手机号查找队员">
+                            <input type="text" name="member" id="mem-tags" data-role="tagsinput" placeholder="输入手机号并回车">
+                            <p class="blue">参赛费用总金额以队员数量为准</p>
                             <p id='not-find-alert' class="red">没有对应学员</p>
                             <!--
                             <input type="text" placeholder="输入手机号查找队员"></div>
@@ -112,7 +121,7 @@
                     <label class="col-sm-2 control-label no-padding-right" >联系人手机</label>
                     <div class="col-sm-4">
                         <span>
-                            <input type="text" id="c-phone" name="contact-phone" value="{{team.contact_phone}}" required="required" >
+                            <input type="text" id="c-phone" name="contact_phone" value="{{team.contact_phone}}" required="required" >
                         </span>
                     </div>
                     <label class="col-sm-2 control-label no-padding-right" >联系人邮箱</label>
@@ -173,6 +182,7 @@
 <script src="/static/js/bootbox.min.js"></script>
 <script src="/static/js/bootstrap-tagsinput.js"></script>
 <script src="/static/js/typeahead.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 <!-- page specific plugin scripts -->
 
 <!--[if lte IE 8]>
@@ -206,7 +216,7 @@
                     $elt.val('');
                     $elt.attr('size',20);
                     //if ($('.bootstrap-tagsinput span.tag').length > 2)
-                    //    $elt.attr('disabled','disabled');
+                        //    $elt.attr('disabled','disabled');
 
                 }else{
                     $('#not-find-alert').show();
@@ -226,46 +236,42 @@
                     //        $tags.tagsinput('add', '<p>'+d.uuid+'</p>'+d.name);
                     //        $tags.tagsinput('remove', e.item);
                     //    }
-    //    });
-    //});
+            //    });
+        //});
 
 
 
-    $('#save-btn').click(function(e){
-        e.preventDefault();
-        $('#team-form').removeAttr('novalidate');
-        $('#team-form').validate();
-        var data = $('#team-form').serialize();
-        $.post('/game_org/game_apply/{{game.id}}',data,function(data){
-            if(data['success']){
-                bootbox.dialog({
-                    message: "<h4>报名成功，请在<b>24小时</b>之内付款</h4>",
-                    buttons: {
-                        success: {
-                            label: "马上付款",
-                            className: "btn-success",
-                            callback: function() {
-                                //$.ajax({
-                                    //    url:"/coach/train/pay?ct_id="+data.ct_id,
-                                    //    dataType:"jsonp"
-                //});
-                window.location.href="/coach/train/pay?ct_id="+data.ct_id;
-                            }
-                        },
-                        main: {
-                            label: "稍后付款",
-                            className: "btn-primary",
-                            callback: function() {
-                                window.location.href="/coach/train";
+        $('#save-btn').click(function(e){
+            e.preventDefault();
+            $('#team-form').removeAttr('novalidate');
+            $('#team-form').validate();
+            var data = $('#team-form').serialize();
+            $.post('/{{role}}/game_apply',data,function(data){
+                if(data['success']){
+                    bootbox.dialog({
+                        message: '<h4>报名成功，请在<b>24小时</b>之内付款</h4> <p class="red">付款后队员数量不可更改</p>',
+                        buttons: {
+                            success: {
+                                label: "马上付款",
+                                className: "btn-success",
+                                callback: function() {
+                                    window.location.href="/game/pay?t_id="+data.t_id;
+                                }
+                            },
+                            main: {
+                                label: "稍后付款",
+                                className: "btn-primary",
+                                callback: function() {
+                                    window.location.href="/{{role}}/cur_game/{{game.id}}";
+                                }
                             }
                         }
-                    }
-                });
-            }else{
-                alert(data.msg);
-            }
+                    });
+                }else{
+                    alert(data.msg);
+                }
+            });
         });
-    });
     });
 
 </script>
