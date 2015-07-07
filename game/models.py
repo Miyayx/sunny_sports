@@ -3,8 +3,6 @@
 
 from django.db import models
 
-# Create your models here.
-
 from student.models import *
 from sp.models.status import *
 from payment.models import *
@@ -92,7 +90,7 @@ class Team(models.Model):
     contact_phone = models.CharField(max_length=20, null=True)
     contact_email = models.EmailField(max_length=20, null=True)
     contact_qq = models.CharField(max_length=20, null=True)
-    contact_weixin = models.CharField(max_length=20, null=True)#微信
+    contact_wx = models.CharField(max_length=20, null=True)#微信
     address = models.CharField(max_length=100,null=True)
     postno = models.CharField(max_length=10, null=True)#邮编
     reg_time = models.DateTimeField(default=datetime.datetime.now) #报名时间

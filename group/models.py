@@ -8,7 +8,7 @@ from sp.models.models import *
 
 class Group(models.Model):
     user = models.ForeignKey(MyUser)
-    fullname = models.CharField(max_length=200, blank=True)
+    name = models.CharField(max_length=200, blank=True)
     org_num  = models.CharField(max_length=20, blank=True)
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
