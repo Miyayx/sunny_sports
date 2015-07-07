@@ -30,17 +30,18 @@ def group(req):
 def home(req):
     uuid = req.user.id
     g = Group.objects.get(user_id=uuid)
-    ur = UserRole.objects.get(user = req.user, role_id=ROLE_ID)
+    ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
 
-    game = None
+    teams = None
+    old_teams = None
     try:
-        cur_game = Team.objects.get(contestant=ur, game__pub_status = 0)
+        teams = Team.objects.filter(contestant=ur, game__pub_status = 0)
     except:
-        cur_game = None
+        teams = None
 
-    games = Team.objects.filter(contestant=ur, game__pub_status=1)[:3]
+    old_teams = Team.objects.filter(contestant=ur, game__pub_status=1)[:5]
     
-    return render_to_response('group/home.html',{"group":g, "cur_game":cur_game, "games":games}, RequestContext(req))
+    return render_to_response('group/home.html',{"group":g, "teams":teams, "old_teams":old_teams}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
