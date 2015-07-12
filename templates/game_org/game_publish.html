@@ -5,7 +5,7 @@
 -->
 {% block head %}
 {{ block.super }}
-<link rel="stylesheet" href="../../static/css/date-time/jquery.datetimepicker.css">
+<link rel="stylesheet" href="/static/css/date-time/jquery.datetimepicker.css">
 {% endblock %}
 
 {% block content %}
@@ -31,7 +31,7 @@
             </div>
 
             {% if game %}
-            <input type="hidden" id="t-id" name="t_id" value="{{game.id}}" required="required">
+            <input type="hidden" id="g-id" name="g_id" value="{{game.id}}" required="required">
             {% endif %}
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛名称</label>
@@ -272,14 +272,14 @@
 <!--[if lte IE 8]>
 <script src="../../assets/js/excanvas.min.js"></script>
 <![endif]-->
-<script src="../../static/js/date-time/jquery.datetimepicker.js"></script>
-<script src="../../static/js/date-time/moment.min.js"></script>
-<script src="../../static/custom/jquery.cityselect.js"></script>
+<script src="/static/js/date-time/jquery.datetimepicker.js"></script>
+<script src="/static/js/date-time/moment.min.js"></script>
+<script src="/static/custom/jquery.cityselect.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 <script type="text/javascript">
     jQuery(function($) {
 
-        $('#position').citySelect();
+        $('#position').citySelect({prov:"{{game.province}}", city:"{{game.city}}", dist:"{{game.dist}}"});
 
         //datetimepicker plugin
 

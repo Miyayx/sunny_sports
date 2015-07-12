@@ -76,13 +76,18 @@ def game_publish(req):
         g_id = data.get('g_id',0)
         save = data.get('save',0)
         if g_id: #update game
-            game = Game.objects.get(id=t_id)
+            game = Game.objects.get(id=g_id)
             data['org'] = game.org.id
             data.pop('g_id')
             data['money'] = int(data['money'])
             data['limit'] = int(data['limit'])
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
+            data['sponsor'] = data['sponsor'].strip()
+            data['organizer'] = data['organizer'].strip()
+            data['coorganizer'] = data['coorganizer'].strip()
+            data['schedule'] = data['schedule'].strip()
+            data['description'] = data['description'].strip()
             gform = GamePublishForm(data, instance=game)
         else: # create new game
             org = GameOrg.objects.get(user_id=uuid)
@@ -91,6 +96,11 @@ def game_publish(req):
             data['limit'] = int(data['limit'])
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
+            data['sponsor'] = data['sponsor'].strip()
+            data['organizer'] = data['organizer'].strip()
+            data['coorganizer'] = data['coorganizer'].strip()
+            data['schedule'] = data['schedule'].strip()
+            data['description'] = data['description'].strip()
             gform = GamePublishForm(data)
         
         if gform.is_valid():
@@ -112,7 +122,6 @@ def game_publish(req):
         g_id = req.GET.get('g_id',0)
         uuid = req.user.id
         org = GameOrg.objects.get(user_id=uuid)
-        print org
         g = None
         if g_id :
             g = Game.objects.get(id=g_id)
