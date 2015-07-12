@@ -262,8 +262,12 @@ def current_game(req):
     if req.method == "GET":
         g_id = req.GET.get("g_id", None)
         if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
-            teams = Team.objects.filter(game_id=g_id)
-            game = teams[0].game if len(teams) > 0 else None
+            game = Game.objects.get(id=g_id)
+            teams = Team.objects.filter(game=game)
+            game.cur_num = len(teams)
+            for t in teams:
+                sts = StudentTeam.objects.filter(team=t)
+                t.sts = sts
             return render_to_response('centre/current_game2.html',{"game":game, "teams":teams, "base":"./centre/base.html"}, RequestContext(req))
         else:
             games = Game.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('game_stime') #未提交审核的，未成历史的
