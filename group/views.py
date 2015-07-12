@@ -132,20 +132,25 @@ def game_apply(req, g_id=None):
 @user_passes_test(lambda u: u.is_role(['group']))
 def history_game(req):
     if req.method == "GET":
-        game_id = req.GET.get("g_id",None)
-        if game_id and len(game_id) > 0: #有编号的话就返回对应比赛信息
-            sts = StudentTeam.objects.filter(team__game_id=game_id)
-            if len(sts) > 0:
-                st = sts[0]
-                tes = TeamEvent.objects.filter(team=st.team)
-                return render_to_response('game/history_game2.html',{"st":st, "tes":tes, "base":"./group/base.html"})
-            else:
-                return HttpResponse("<h2>没有该比赛的历史信息</h2>")
+        g_id = req.GET.get("g_id",None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛信息
+            game = Game.objects.get(id=g_id)
+            try:
+                ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+                team = Team.objects.get(game=game, contestant=ur)
+                sts = StudentTeam.objects.filter(team=team)
+                tes = TeamEvent.objects.filter(team=team)
+            except Exception,e:
+                print e
+                team = None
+                sts = None
+                tes = None
+            
+            return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
         else:#否则返回历史比赛列表
             uuid = req.user.id
-            ur = UserRole(user=req.user, role_id=ROLE_ID)
-            teams = Team.objects.filter(contestant=ur, game__pub_status=1)
-            return render_to_response('game/history_game.html', {"teams":teams, "base":"./group/base.html"}, RequestContext(req))
+            teams = Team.objects.filter(contestant__user=req.user, contestant__role_id=ROLE_ID, game__pub_status=1)
+            return render_to_response('game/history_team.html', {"teams":teams, "base":"./group/base.html", "role":"group"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
