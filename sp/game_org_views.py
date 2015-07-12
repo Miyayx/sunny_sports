@@ -37,14 +37,24 @@ def game_history(req):
     uuid = req.user.id
     if req.method == "GET":
         g_id = req.GET.get("g_id",None)
-        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
-            teams = Team.objects.filter(game_id=g_id, game__pub_status=1, pay_status__gt=0) #已提交但未发表
-            if len(teams) > 0:
-                t_e = [TeamEvent.objects.filter(team=t) for t in teams]
-                team_te = zip(teams, t_e)
-                return render_to_response('centre/history_game2.html',{"team_te":team_te, "game":game, "base":"./centre/base.html"})
-            else:
+        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单 
+            try:
+                game = Game.objects.get(id=g_id, pub_status=1)
+            except:
                 return HttpResponse("<h2>没有该比赛的历史信息</h2>")
+            teams = Team.objects.filter(game=game)
+            game.cur_num = len(teams)
+            for t in teams:
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
+                t_e = TeamEvent.objects.filter(team=t) #已提交但未发表
+                s_t = StudentTeam.objects.filter(team=t) #队员
+                t.tes = t_e
+                t.sts = s_t
+            if len(t_e) > 0:
+                return render_to_response('game/history_game2.html',{"teams":teams, "game":game, "base":"./game_org/base.html", "role":"game_org"})
         else:#否则返回比赛列表
             games = Game.objects.filter(org__user_id=uuid, pub_status=1).order_by('-game_stime')#按比赛开始时间排序
             return render_to_response('game/history_game.html',{"games":games, "base":"game_org/base.html", "role":"game_org"}, RequestContext(req))

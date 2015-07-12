@@ -44,6 +44,7 @@
                     <tr>
                         <th class="center" rowspan="2"> 参赛队 </th>
                         <th class="center" rowspan="2"> 参赛机构 </th>
+                        <th class="center" rowspan="2">参赛队员</th>
                         <th class="center" colspan="{{teams.0.tes|length}}">比赛结果</th>
                     </tr>
                     <tr>
@@ -58,6 +59,16 @@
                     <tr>
                         <td class="center"><a>{{team.name}}</a></td>
                         <td class="center">{{team.Contestant.name}}</td>
+                        <td class="center">
+                        {% for st in team.sts|slice:":4" %}
+                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {% endfor %}
+                        </br>
+                        {% for st in team.sts|slice:"4:" %}
+                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {% endfor %}
+                        </td>
                         {% for te in team.tes %}
                         <td class="center">
                             {{te.get_award_display}}

@@ -81,7 +81,7 @@ def current_game(req, g_id=None):
              sts = None
              tes = None
          
-         return render_to_response('game/new_game_info.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
+         return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))

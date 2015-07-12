@@ -245,7 +245,9 @@ def history_game(req):
                 elif role == 'club':
                     t.Contestant = Club.objects.get(user=t.contestant.user)
                 t_e = TeamEvent.objects.filter(team=t) #已提交但未发表
+                s_t = StudentTeam.objects.filter(team=t) #队员
                 t.tes = t_e
+                t.sts = s_t
             if len(t_e) > 0:
                 return render_to_response('game/history_game2.html',{"teams":teams, "game":game, "base":"./centre/base.html", "role":"centre"})
 

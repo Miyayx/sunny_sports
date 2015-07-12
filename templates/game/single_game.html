@@ -70,6 +70,8 @@
                             <span class="badge badge-warning">报名结束</span>
                             {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
                             <span class="badge badge-warning">比赛结束</span>
+                            {% elif game.pub_status == 1 %}
+                            <span class="badge badge-warning">比赛结束</span>
                             {% elif not team %}
                             <span class="badge badge-warning">报名进行中</span>
                             {% endif %}
@@ -102,7 +104,9 @@
 
                             {% if sts %}
                         <hr/>
+                        {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 %}
                         <button class="btn btn-xs btn-inverse" id='ch-member'>更换队员</button>
+                        {% endif %}
                         <table id="" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
