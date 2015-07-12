@@ -268,6 +268,10 @@ def current_game(req):
             for t in teams:
                 sts = StudentTeam.objects.filter(team=t)
                 t.sts = sts
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
             return render_to_response('centre/current_game2.html',{"game":game, "teams":teams, "base":"./centre/base.html"}, RequestContext(req))
         else:
             games = Game.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('game_stime') #未提交审核的，未成历史的

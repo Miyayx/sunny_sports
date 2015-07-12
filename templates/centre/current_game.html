@@ -17,7 +17,7 @@
             <th class="center">比赛名称</th>
             <th class="center">报名开始时间</th>
             <th class="center">开始时间</th>
-            <th class="center">报名人数/上限人数</th>
+            <th class="center">报名/上限数量</th>
             <th class="center">状态</th>
             <th class="center">下载名单</th>
         </thead>
@@ -28,7 +28,7 @@
             <td class="center">{{g.org.name}}</td>
             <td class="center">{{g.id}}</td>
             <td class="center"><a href="/centre/current_game?g_id={{g.id}}">{{g.name}}</a></td>
-            <td class="center">{{g.reg_stime|date:"Y-m-d"}}</td>
+            <td class="center">{{g.reg_stime|date:"Y-m-d H:i"}}</td>
             <td class="center">{{g.game_stime|date:"Y-m-d"}}</td>
             <td class="center">{{g.cur_num}}/{{g.limit}}</td>
             <td class="center">
