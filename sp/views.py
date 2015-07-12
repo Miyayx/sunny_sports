@@ -338,9 +338,10 @@ def password(req):
         return render_to_response('password.html', {"phone":u.phone}, RequestContext(req))
 
 @login_required()
-@user_passes_test(lambda u: u.is_role(['coach_org','centre']))
+@user_passes_test(lambda u: u.is_role(['coach_org','centre','game_org']))
 def download_excel(req):
     t_id = req.GET.get("t_id",0)
+    g_id = req.GET.get("g_id",0)
     if t_id:
         coachtrains = CoachTrain.objects.filter(train_id=t_id)
         if not len(coachtrains):
@@ -353,6 +354,33 @@ def download_excel(req):
             fields = [u"学员姓名",  u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"付费状态"]
             rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.get_status_display()) for ct in coachtrains]
         return export_xls(req, "%s-%s"%(train.id,train.name), fields, rows)
+    elif g_id:
+        try:
+            game = Game.objects.get(id=g_id)
+        except:
+            return HttpResponse(u"无该比赛记录")
+        teams = Team.objects.filter(game=game)
+        for t in teams:
+            role = str(t.contestant.role)
+            if role == 'group':
+                t.Contestant = Group.objects.get(user=t.contestant.user)
+            elif role == 'club':
+                t.Contestant = Club.objects.get(user=t.contestant.user)
+            sts = StudentTeam.objects.filter(team=t)
+            t.student = ",".join([st.student.property.name for st in sts])
+        if not len(teams):
+            return HttpResponse(u"该比赛暂无参赛队报名，不提供名单")
+        if not game.pub_status: 
+            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员"]
+            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.student) for t in teams]
+        else:#如果已经发布，包括是否通过，证书号
+            for t in teams:
+                tes = TeamEvent.objects.filter(team=t)
+                awards = ["%s:%s"%(te.event.get_name_display(), te.get_award_display()) for te in tes]
+                t.result = "\n".join(awards)
+            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员", u"比赛结果"]
+            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.student, t.result) for t in teams]
+        return export_xls(req, "%s-%s"%(game.id,game.name), fields, rows)
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach','coach_org','centre']))
