@@ -60,7 +60,18 @@ def center(req):
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
 def current_game(req):
-    return render_to_response('student/cur_game.html', RequestContext(req))
+    st = StudentTeam.objects.filter(team__game__pub_status=0, student__property__user_id=req.user.id)
+    if len(st) == 1:
+        team = st[0].team
+        game = team.game
+        sts = StudentTeam.objects.filter(team=team)
+        tes = TeamEvent.objects.filter(team=team)
+
+        return render_to_response('game/single_game.html',{'base':'./student/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'student'}, RequestContext(req))
+    elif len(st) == 0:
+        return render_to_response('game/no_game.html',{'base':'./student/base.html', 'role':'student'}, RequestContext(req))
+    else:
+       return HttpResponse("<h2>比赛信息错误</h2>")
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))

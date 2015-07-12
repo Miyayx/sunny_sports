@@ -84,6 +84,7 @@
                     </div>
                     <div class="widget-body">
                         <div class="widget-main">
+                            {% if not role == 'student'%}
                             {% if game.sub_status == 0 and game.pub_status == 0%}
                             {% if team.pay_status == 0 or team.game.reg_status == 1%}
                             {% if team.pay_status == 0 %}
@@ -104,12 +105,13 @@
                             {% endif %}
 
                             {% endif %}
+                            {% endif %} <!-- not student -->
                             {% if team %}
                             <h4>队名：<span class="label label-xlg label-primary arrowed arrowed-right"> {{team.name}}</span></h4>
                             <hr/>
-                            {% endif %}
+                            {% endif %} <!-- team -->
                             {% if sts %}
-                            {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 %}
+                            {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
                             <button class="btn btn-xs btn-inverse" id='ch-member'>更换队员</button>
                             {% endif %}
                             <table id="" class="table table-striped table-bordered table-hover">
@@ -145,7 +147,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            {% endif %}
+                            {% endif %} <!-- sts -->
                         </div>
                     </div>
                 </div>

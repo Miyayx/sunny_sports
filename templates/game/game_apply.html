@@ -95,7 +95,7 @@
                         <div class="col-sm-9">
                             <input type="text" name="member" id="mem-tags" data-role="tagsinput" placeholder="输入手机号并回车">
                             <p class="blue">参赛费用总金额以队员数量为准</p>
-                            <p id='not-find-alert' class="red">没有对应学员</p>
+                            <p id='wrong-alert' class="red"></p>
                             <!--
                             <input type="text" placeholder="输入手机号查找队员"></div>
                         -->
@@ -191,7 +191,7 @@
 
 <script type="text/javascript">
 
-    $('#not-find-alert').hide();
+    $('#wrong-alert').hide();
 
     $('#mem-tags').tagsinput({
         itemText: 'name',
@@ -210,7 +210,7 @@
             var phone = $elt.val();
             $.get('/find_stu/'+phone, function(d){
                 if(d.name && d.name.length > 0){
-                    $('#not-find-alert').hide();
+                    $('#wrong-alert').hide();
                     console.log(d.name)
                     $tags.tagsinput('add', d);
                     $elt.val('');
@@ -219,7 +219,13 @@
                         //    $elt.attr('disabled','disabled');
 
                 }else{
-                    $('#not-find-alert').show();
+                    if(d.success == false){
+                        $('#wrong-alert').text('该学员已报名其他比赛');
+                        $('#wrong-alert').show();
+                    }else{
+                        $('#wrong-alert').text('未找到相应学员');
+                        $('#wrong-alert').show();
+                    }
                 }
             });
         }
@@ -227,19 +233,6 @@
 
 
     jQuery(function($) {
-        //var $tags = $('#mem-tags');
-        //$tags.on('beforeItemAdd', function(e){
-            //        console.log(d.name)
-            //    $.get('/find_stu/'+e.item, function(d){
-                //        if(d.name){
-                    //        console.log(d.name)
-                    //        $tags.tagsinput('add', '<p>'+d.uuid+'</p>'+d.name);
-                    //        $tags.tagsinput('remove', e.item);
-                    //    }
-            //    });
-        //});
-
-
 
         $('#save-btn').click(function(e){
             e.preventDefault();
