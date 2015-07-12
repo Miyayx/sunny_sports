@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from convert import *
 
 from game.models import *
+from group.models import *
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['game_org']))
@@ -123,27 +124,36 @@ def game_manage(req):
         g.cur_num = len(teams)
         g.teams = teams
         for t in g.teams:
+            role = str(t.contestant.role)
+            if role == 'group':
+                t.Contestant = Group.objects.get(user=t.contestant.user)
+            elif role == 'club':
+                t.Contestant = Club.objects.get(user=t.contestant.user)
+
             t.tes = TeamEvent.objects.filter(team=t)
     return render_to_response('game_org/game_manage.html',{"games":games, "award":AWARD}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['game_org']))
-def score_input(req):
+def result_input(req):
     if req.method == "POST":
         data = req.POST.copy()
         print data
         submit = int(data.pop("submit")[0])
-        t_id = data.pop("t_id")[0]
-        cts = GameGame.objects.filter(game_id=t_id, status__gt=0)
-        for ct in cts:
-            #print data[str(int(ct.id))]
-            #print "status",str2bool(data[str(int(ct.id))])
-            ct.pass_status = str2bool(data[str(int(ct.id))])
-            ct.save()
+        g_id = data.pop("g_id")[0]
+        teams = Team.objects.filter(game_id=g_id, pay_status=1)
+        result = json.loads(data.pop('res')[0])
+        print result
+        for t in teams:
+            tes = TeamEvent.objects.filter(team=t)
+            for te in tes:
+                te.award = int(result[t.id][str(te.event.id)])
+                te.save()
+            #TeamEvent.objects.filter(team=t).update(award=int(result[t.id][str(F('event_id'))]))
         if submit:
-            cts[0].game.sub_status=1
-            cts[0].game.save()
+            teams[0].game.sub_status=1
+            teams[0].game.save()
         return JsonResponse({"success":True})
         
 @login_required()

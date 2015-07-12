@@ -4,6 +4,8 @@ from django.core.context_processors import csrf
 from django.utils.encoding import smart_text
 import datetime
 
+from group.models import *
+
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
@@ -188,9 +190,17 @@ def game_val(req, g_id=None):
         g_id = req.GET.get("g_id",None)
         print "game_val, game id %s"%g_id
         if g_id and len(g_id) > 0: #有编号的话就返回对应比赛参赛队名单
-            t_e = TeamEvent.objects.filter(team__game_id=g_id, team__game_pub_status=0, team__game_sub_status=1, team__pay_status__gt=0) #已提交但未发表
+            game = Game.objects.get(id=g_id, pub_status=0, sub_status=1)
+            teams = Team.objects.filter(game=game)
+            for t in teams:
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
+                t_e = TeamEvent.objects.filter(team=t) #已提交但未发表
+                t.tes = t_e
             if len(t_e) > 0:
-                return render_to_response('centre/game_val2.html',{"t_e", t_e})
+                return render_to_response('centre/game_val2.html',{"teams":teams, "game":game, "award":AWARD})
             else:
                 return HttpResponse("<h2>没有该队的审核请求</h2>")
         else:#否则返回待审核列表
@@ -203,20 +213,14 @@ def game_val(req, g_id=None):
             game = Game.objects.filter(id=g_id)
             game.update(pub_status=1, sub_status=1)
             # generate certificate
-            ids = json.loads(req.POST.get("ids","")) #get number list获得审核通过的学号列表 
-            #not_pass_c_t = CoachTrain.objects.filter(train_id=t_id).exclude(number__in=ns)
-            pass_c_t = CoachTrain.objects.filter(id__in=ids, train_id=t_id, status__gt=0)            
-            if len(pass_c_t):
-                #pass_c_t.update(get_time=datetime.datetime.now(), pass_status=1)
-                cur = CoachTrain.objects.exclude(certificate__isnull=True).exclude(certificate__exact='').filter(train__level=train[0].level).count()
-                #cur = CoachTrain.objects.filter(pass_status=1, train__level=train[0].level).count()
-                for i in range(len(pass_c_t)):
-                    pass_c_t[i].check_pass(num=cur+i+1) #编号从1开始计数
-                    coach = pass_c_t[i].coach
-                    coach.t_level = train[0].level
-                    coach.save()
+            tes = TeamEvent.objects.filter(team__game=game)
+            if len(tes):
+                cur = TeamEvent.objects.exclude(certificate__isnull=True).exclude(certificate__exact='').count()
+                for i in range(len(tes)):
+                    tes[i].check_pass(num=cur+i+1) #编号从1开始计数
 
         else: #审核不通过
+            print g_id
             Game.objects.filter(id=g_id).update(sub_status=2, pub_status=0)
         return JsonResponse({"success":True})
     else:
@@ -229,13 +233,22 @@ def history_game(req):
     if req.method == "GET":
         g_id = req.GET.get("g_id",None)
         if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
-            teams = Team.objects.filter(game_id=g_id, game__pub_status=1, pay_status__gt=0) #已提交但未发表
-            if len(teams) > 0:
-                t_e = [TeamEvent.objects.filter(team=t) for t in teams]
-                team_te = zip(teams, t_e)
-                return render_to_response('centre/history_game2.html',{"team_te":team_te, "game":game, "base":"./centre/base.html"})
-            else:
+            try:
+                game = Game.objects.get(id=g_id, pub_status=1)
+            except:
                 return HttpResponse("<h2>没有该比赛的历史信息</h2>")
+            teams = Team.objects.filter(game=game)
+            game.cur_num = len(teams)
+            for t in teams:
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
+                t_e = TeamEvent.objects.filter(team=t) #已提交但未发表
+                t.tes = t_e
+            if len(t_e) > 0:
+                return render_to_response('game/history_game2.html',{"teams":teams, "game":game, "base":"./centre/base.html", "role":"centre"})
+
         else:#否则返回列表
             games = Game.objects.filter(pub_status=1).order_by('-game_stime')
             return render_to_response('game/history_game.html',{"games":games, "base":"./centre/base.html", "role":"centre"})

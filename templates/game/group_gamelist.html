@@ -36,17 +36,17 @@
             {% for game in games %}
             {% with game.team as team %}
             <tr>
-                <td><a href="/{{role}}/cur_game/{{game.id}}">{{game.name}}</a>
+                <td class="center"><a href="/{{role}}/cur_game/{{game.id}}">{{game.name}}</a>
                   <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
-              <td>{{game.org.name}}</td>
-              <td>{{game.reg_stime}}</td>
-              <td>{{game.reg_etime}}</td>
-              <td>{{game.game_stime|date:"Y-m-d"}}</td>
-              <td>{{game.money}}</td>
-              <td class="hidden-480">{{game.cur_num}}/{{game.limit}}</td>
+              <td class="center">{{game.org.name}}</td>
+              <td class="center">{{game.reg_stime}}</td>
+              <td class="center">{{game.reg_etime}}</td>
+              <td class="center">{{game.game_stime|date:"Y-m-d"}}</td>
+              <td class="center">{{game.money}}</td>
+              <td class="center">{{game.cur_num}}/{{game.limit}}</td>
               <!-- 报名列 -->
               {% if team %}
-              <td>
+              <td class="center">
                 {% if team.pay_status == 0 %}
                 <a class="btn btn-minier btn-primary" href="/game/pay/{{team.id}}">去付款</a>
                 {% if team.pay_status == 1 %}

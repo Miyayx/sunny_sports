@@ -11,13 +11,13 @@
                 <div class="profile-info-name">比赛编号</div>
                 <div class="profile-info-value">{{game.id}}</div>
             </div>
-            <div class="profile-info-row">
-                <div class="profile-info-name">比赛机构</div>
-                <div class="profile-info-value">{{game.org.name}}</div>
-            </div>
             <div>
                 <div class="profile-info-name">比赛名称</div>
                 <div class="profile-info-value">{{game.name}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">比赛机构</div>
+                <div class="profile-info-value">{{game.org.name}}</div>
             </div>
             <div>
                 <div class="profile-info-name">开始时间</div>
@@ -33,28 +33,39 @@
             <table id="check-table" class="table table-striped table-bordered table-hover">
                 <thead class="thin-border-bottom">
                     <tr>
-                        <th class="center" style="display:none">
-                            ct id 
+                        <th class="center" rowspan="2" style="display:none">
+                            team id 
                         </th>
-                        <th class="center"> 参赛队 </th>
-                        <th class="center"> 参赛机构 </th>
-                        <th class="center"> 比赛结果 </th>
+                        <th class="center" rowspan="2"> 参赛队 </th>
+                        <th class="center" rowspan="2"> 参赛机构 </th>
+                        <th class="center" colspan="{{teams.0.tes|length}}">比赛结果</th>
+                    </tr>
+                    <tr>
+                        {% for te in teams.0.tes %}
+                        <th class="center">{{te.event.get_name_display}}</th>
+                        {% endfor %}
                     </tr>
                 </thead>
 
                 <tbody>
-                    {% for team, t_e in team_te %}
+                    {% for team in teams %}
                     <tr>
                         <td class="center" style="display:none">{{team.id}}</td>
                         <td class="center"><a>{{team.name}}</a></td>
-                        <td class="center">{{i.contestant.name}}</td>
+                        <td class="center">{{team.Contestant.name}}</td>
+                        {% for te in team.tes %}
                         <td class="center">
-                            <div class="row">
-                                {% for te in t_e %}
-                                <div class="col-xs-2">{{te.event.display_name}}:{{te.display_award}} </div>
+                            <select class="col-sm-8 form-control" disabled data="{{te.event.id}}">
+                                {% for i, a in award %}
+                                {% if te.award == i %}
+                                <option value="{{i}}" selected> {{a}} </option>
+                                {% else %}
+                                <option value="{{i}}"> {{a}} </option>
+                                {% endif %}
                                 {% endfor %}
-                            </div>
+                            </select>
                         </td>
+                        {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -69,57 +80,31 @@
 
         {% block script %}
         {{ block.super }}
-        <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
-        <script type="text/javascript" src="../../static/js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/static/js/bootbox.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
                 var cert = {};
                 var ids = []
                 $('#pass-btn').click(function(){
-                    //生成编号
-                    var t_id = '{{ game.id }}';
-                    var c_t = '{{ c_t }}';
-                    var $m = '';
-                    $m += '<table class="table table-striped table-bordered table-hover">';
-                    $m += '<thead class="thin-border-bottom">';
-                    $m += '<tr> <th class="center"> <i class="ace-icon fa fa-user"></i>姓名</th>';
-                    //$m += '<th class="center">证书编号</th>';
-                    $m += '</tr> </thead>';
-                    $m += '<tbody><tr>';
-                    
-                    $("#check-table tbody tr").each(function(i, e){
-                        if ($(e).find("input[type=checkbox]").attr('checked')){ //通过的才有证书编号
-                            $m += '<tr><td class="center">';
-                            $m += $(e).find('td:eq(1)').html();
-                            $m += '</td>';
-                            var id = $(e).find("td:eq(0)").html().trim();//获取ct id
-                            ids.push(id);
-                        }
-                    });
-                    
-                    $m += '</tr></tbody>';
+                    var g_id = '{{ game.id }}';
 
                     bootbox.dialog({
-                        message: $m,
+                        message: "<h3>是否确认？</h3>",
                         //title: "证书编号生成",
-                        title: "通过学员名单",
                         buttons: {
                             success: {
                                 label: "确认并发布",
                                 className: "btn-success",
                                 callback: function() {
                                     var csrftoken = $.cookie('csrftoken');
-                                    $.post('/centre/check_pass', 
-                                        //{"pass":1,"t_id":"{{ game.id }}", "csrfmiddlewaretoken": csrftoken, "cert":JSON.stringify(cert)},
-                                        {"pass":1, "t_id":"{{ game.id }}", "csrfmiddlewaretoken": csrftoken, "ids":JSON.stringify(ids)},
+                                    $.post('/centre/game_val', 
+                                        {"pass":1, "g_id":"{{ game.id }}", "csrfmiddlewaretoken": csrftoken},
                                         function(data){
                                             if (data["success"]){ //提交成功后
-                                                //$.get('/centre/test_check', function(page){
-                                                    //  $('.page-content').html(page); //返回审核列表页面
-                                                    alert("已发布");
-                                                    window.location.href = window.location.href.replace('test_check','history_view');//跳转到历史页面
+                                                alert("已发布");
+                                                window.location.href = window.location.href.replace('game_val','history_game');//跳转到历史页面
 
-                                    //});
                                             }
                                         });
                                 }
@@ -137,11 +122,11 @@
                                 className: "btn-primary",
                                 callback: function() {
                                     var csrftoken = $.cookie('csrftoken');
-                                    $.post('/centre/check_pass', 
-                                        {"pass":0, "t_id":"{{ game.id }}", 'csrfmiddlewaretoken': csrftoken},
+                                    $.post('/centre/game_val', 
+                                        {"pass":0, "g_id":"{{ game.id }}", 'csrfmiddlewaretoken': csrftoken},
                                         function(data){
                                             if (data["success"]){ //提交成功后
-                                                    window.location.href = window.location.pathname;
+                                                window.location.href = window.location.pathname;
                                             }
                                         });
                                 }

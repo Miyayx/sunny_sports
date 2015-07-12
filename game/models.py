@@ -10,7 +10,7 @@ from payment.models import *
 import datetime
 
 AWARD = (
-        (0, '无记录'),
+        (0, '暂无结果'),
         (1, '一等奖'),
         (2, '二等奖'),
         (3, '三等奖'),
@@ -124,4 +124,13 @@ class TeamEvent(models.Model):
     get_time = models.DateTimeField(null=True) #通过时间
     class Meta:
         app_label='sp'
+
+    def check_pass(self, num):
+        """
+        num:当前的证书数量
+        """
+        self.certificate = "{0}{1:0>6d}".format(self.event.id, num)
+        self.get_time=datetime.datetime.now()
+        self.pass_status=1
+        self.save()
 
