@@ -54,9 +54,6 @@ urlpatterns += patterns('sp.validate',
             url(r'^validate/shortname', 'is_orgshortname_exists'),
             url(r'^validate/email', 'is_email_exists'),
             )
-urlpatterns += patterns('sp.query',
-            url(r'^find_stu/(?P<phone>\w+)', 'find_stu'),
-            )
 
 # centre
 urlpatterns += patterns('sp.centre_views',
@@ -166,4 +163,5 @@ urlpatterns += patterns('group.views',
 urlpatterns += patterns('game.views',
         url(r'^game/pay/(?P<t_id>\w+)$','pay'),
         url(r'^game/pay$','pay'),
+        url(r'^find_stu/(?P<phone>\w+)', 'find_stu'),
         )
