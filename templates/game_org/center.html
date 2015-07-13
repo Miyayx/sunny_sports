@@ -1,0 +1,277 @@
+{% extends "./game_org/base.html" %}
+
+<!--
+重载head部分，主要是添加meta，css，js一类
+-->
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+{% endblock %}
+
+<!--
+重载页面部分
+-->
+{% block content %}
+{{ block.super }}
+<div class="page-header">
+    <h1>
+        个人中心 <small> <i class="ace-icon fa "></i>
+            <span>注册时间：{{gameorg.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
+            <span>上次登录时间：{{gameorg.user.last_login}}</span>
+        </small>
+    </h1>
+</div>
+<!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12">
+        <div>
+            <div id="user-profile-3" class="user-profile row">
+                <div class="col-sm-offset-1 col-sm-10">
+
+                    <div class="space"></div>
+
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs padding-16">
+                            <li class="active"><a data-toggle="tab"
+                                href="#edit-basic"> <i
+                                    class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
+                                个人信息
+                            </a></li>
+
+                            <li><a data-toggle="tab" href="#edit-password"> <i
+                                    class="blue ace-icon fa fa-key bigger-125"></i> 密码修改
+                            </a></li>
+                        </ul>
+
+                        <div class="tab-content profile-edit-tab-content">
+                            <div id="edit-basic" class="tab-pane in active">
+                                <h4 class="header blue bolder smaller">基本信息</h4>
+                                <form class="form-horizontal">
+                                    <div class="row">
+                                        <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
+                                        <div class="vspace-12-sm"></div>
+                                        <div class="col-xs-12 col-sm-8">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-orgnum">编号</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="" id="orgnum">
+                                                            {{gameorg.org_num}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-orgname">字母缩写</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="" id="orgshortname">{{gameorg.shortname}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-orgname">名称</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="orgname">{{gameorg.name}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-phone">电话</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="phone">
+                                                            {{gameorg.user.phone}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-place">地址</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value" id="position">
+                                                        <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{gameorg.province}}</span>
+                                                        省
+                                                    </div>
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{gameorg.city}}</span>
+                                                        市
+                                                    </div>
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{gameorg.dist}}</span>
+                                                        区/县
+                                                    </div>
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="address">{{gameorg.address}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-email">邮箱</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="email">{{gameorg.user.email|default_if_none:""}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-email">支付宝帐号(邮箱)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="ali-email">{{gameorg.ali_email|default_if_none:""}}</span>
+                                                        <p class="red">请确保邮箱填写正确，以保证汇款顺利</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="space"></div>
+                                            <div class="row">
+                                                <div class="col-md-offset-4 col-md-8">
+                                                    <button class="btn btn-info" type="button" id="save-btn">
+                                                        <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                                                    </button>
+                                                </div>
+                                                <p id="save-msg" class="col-md-offset-5"></p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                </form>
+                            </div>
+                            <div id="edit-password" class="tab-pane">
+                                <h4 class="header blue bolder smaller">密码修改</h4>
+                                <div class="space-10"></div>
+
+                                {% include "password.html" with csrf_token=csrf_token %}
+                            </div> <!-- #edit-password -->
+                        </div> <!-- tab-content -->
+                    </div> <!-- tab-babble -->
+                </div>
+                <!-- /.span -->
+            </div>
+            <!-- /.user-profile -->
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="../../static/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="../../static/js/x-editable/ace-editable.min.js"></script>
+
+<script src="../../static/custom/myaddress.js"></script>
+<script src="../../static/custom/validate.js"></script>
+
+
+<!-- ace scripts -->
+<script type="text/javascript">
+    jQuery(function($) {
+
+        //editables on first profile page
+        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
+            '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
+
+        //editables 
+
+        //text editable
+        $('#token')
+        .editable({
+            type: 'text',
+            name: 'csrfmiddlewaretoken'
+        });
+        $('#orgname')
+        .editable({
+            type: 'text',
+            name: 'orgname'
+        });        
+        $('#email').editable({
+            type: 'text',
+            name: 'email',
+            validate: function(v) {
+                v = $.trim(v);
+                if (!isEmail($.trim(v))) return '请输入正确的邮件地址';
+                if (! ($(this).text() == $.trim(v) || $(this)[0].value == v)) {
+                    if (emailExists($.trim(v))) return '邮箱地址已注册';
+                }
+            }
+        });
+
+        $('#ali-email').editable({
+            type: 'text',
+            name: 'ali_email',
+            validate: function(v) {
+                v = $.trim(v);
+                if (!isEmail($.trim(v))) return '请输入正确的邮件地址';
+            }
+    });
+
+    $('#phone').editable({
+        type: 'text',
+        name: 'phone',
+        validate: function(v) {
+            v = $.trim(v);
+            if (v == '') {
+                return '必填项';
+            }
+            if (!isPhoneNum(v)) {
+                return '请输入正确的手机号码';
+            }
+            if (! ($(this).text() == v || $(this)[0].value == v)) {
+                if (phoneExists($.trim(v))) return '手机号码已注册';
+            }
+        }
+    });
+
+    // click save btn
+    $('#save-btn').click(function() {
+        $('.myeditable').editable('submit', { 
+            url: '/game_org/up_info', 
+            ajaxOptions: {
+                dataType: 'json' //assuming json response
+            },           
+            success: function(data) {
+                if(data && data.success)
+                    alert("已保存");
+                location.reload();
+            },
+            error: function(errors) {
+                var info = "";
+                for(var k in errors){
+                    info += (k+":  "+errors[k]+"\n");
+                }
+                alert(info);
+            } 
+        });
+    });
+
+        });
+
+    </script>
+    <!-- basic scripts -->
+
+    {% endblock %}

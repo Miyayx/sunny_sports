@@ -1,0 +1,90 @@
+
+{% extends base %} 
+{% block content %}
+{{ block.super }}
+
+<div class="page-header"><h1>比赛历史信息</h1></div>
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <div>
+            <div >
+                <div class="profile-info-name">比赛编号</div>
+                <div class="profile-info-value">{{game.id}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">比赛名称</div>
+                <div class="profile-info-value">{{game.name}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">报名时间</div>
+                <div class="profile-info-value">{{game.reg_stime}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">开始时间</div>
+                <div class="profile-info-value">{{game.game_stime|date:"Y-m-d"}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">比赛地点</div>
+                <div class="profile-info-value">{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">报名/上限</div>
+                <div class="profile-info-value">{{game.cur_num}}/{{game.limit}}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name">比赛机构</div>
+                <div class="profile-info-value">{{game.org.name}}</div>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <table id="checked-table" class="table table-striped table-bordered table-hover">
+                <thead class="thin-border-bottom">
+                    <tr>
+                        <th class="center" rowspan="2"> 参赛队 </th>
+                        <th class="center" rowspan="2"> 参赛机构 </th>
+                        <th class="center" rowspan="2">参赛队员</th>
+                        <th class="center" colspan="{{teams.0.tes|length}}">比赛结果</th>
+                    </tr>
+                    <tr>
+                        {% for te in teams.0.tes %}
+                        <th class="center">{{te.event.get_name_display}}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for team in teams %}
+                    <tr>
+                        <td class="center"><a>{{team.name}}</a></td>
+                        <td class="center">{{team.Contestant.name}}</td>
+                        <td class="center">
+                        {% for st in team.sts|slice:":4" %}
+                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {% endfor %}
+                        </br>
+                        {% for st in team.sts|slice:"4:" %}
+                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {% endfor %}
+                        </td>
+                        {% for te in team.tes %}
+                        <td class="center">
+                            {{te.get_award_display}}
+                            {% if te.award > 0 and te.award < 4 %}
+                            <a href="/dl_qual?cert={{te.certificate}}" target="_blank" class="btn btn-minier btn-success" style="margin-left:10px"> 下载 </a>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row center">
+            <a class="btn btn-success download-btn" href="/download?g_id={{game.id}}">下载Excel</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

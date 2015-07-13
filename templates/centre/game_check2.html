@@ -1,0 +1,66 @@
+{% extends "./centre/base.html" %}
+{% block content%}
+{{ block.super }}
+<div class="page-header"><h1>比赛信息审核</h1></div>
+<div class="row">
+  <div class="col-xs-2"></div>
+  <div class="col-xs-8">
+    {% include "./common/game_info.html" with game=game %}
+    <div class="space-16"> </div>
+    <div class="row center">
+      <button class="btn btn-success" id="pass-btn">通过</button>
+      <button class="btn btn-info" id="not-pass-btn">不通过</button>
+    </div>
+    <div class="col-xs-1"></div>
+  </div>
+  {% endblock %}
+
+  {% block script %}
+  {{ block.super }}
+  <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+  <script type="text/javascript" src="../../static/js/jquery.cookie.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#pass-btn').click(function(){
+         var csrftoken = $.cookie('csrftoken');
+        $.post('/centre/game_check', 
+          {"pass":1,"g_id":"{{ game.id }}", "csrfmiddlewaretoken": csrftoken},
+          function(data){
+            if (data["success"]){ //提交成功后
+              window.location.href = window.location.pathname;
+            }
+          });
+
+      });
+      $('#not-pass-btn').click(function(){
+        bootbox.dialog({
+          message: '<h3>是否确认？</h3>',
+          buttons: {
+            main: {
+              label: "确认",
+              className: "btn-primary",
+              callback: function() {
+                var csrftoken = $.cookie('csrftoken');
+                $.post('/centre/game_pass', 
+                  {"pass":0, "g_id":"{{ game.id }}", 'csrfmiddlewaretoken': csrftoken},
+                  function(data){
+                    if (data["success"]){ //提交成功后
+                      window.location.href = window.location.pathname;
+                    }
+                  });
+              }
+            },
+            cancel: {
+              label: "取消",
+              className: "btn-default",
+              callback: function() {
+              }
+            },
+          }
+        });
+
+      });
+
+    });
+  </script>
+  {% endblock %}

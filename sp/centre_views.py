@@ -1,7 +1,10 @@
 # -*- coding:utf-8 -*-
 from g_import import *
 from django.core.context_processors import csrf
+from django.utils.encoding import smart_text
 import datetime
+
+from group.models import *
 
 @login_required()
 @transaction.atomic
@@ -147,6 +150,138 @@ def current_view(req):
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
+def game_check(req, game_id=None):
+    """
+    发布比赛待审核页面
+    """
+    if req.method == "GET":
+        game_id = req.GET.get("g_id", None)
+        print "game_check, id %s"%game_id
+        if game_id and len(game_id) > 0: #有编号的话就返回对应比赛页面
+            try:
+                game = Game.objects.get(id=game_id)
+                return render_to_response('centre/game_check2.html',{"game":game})
+            except:
+                return HttpResponse("<h2>没有该比赛的审核请求</h2>")
+        else:#否则返回待审核列表
+            glist = Game.objects.filter(submit_status=1, pass_status=0).order_by('reg_stime')
+            return render_to_response('centre/game_check.html',{"glist":glist})
+    else:
+        g_id = req.POST.get("g_id")
+        if int(req.POST.get("pass", 0)): #审核通过
+            g = Game.objects.get(id=g_id)
+            g.pass_status = 1
+            if g.reg_stime < timezone.now():
+                g.reg_status = 1
+            g.save()
+        else: #审核不通过,该比赛直接删除
+            Game.objects.filter(id=g_id).delete()
+        return JsonResponse({"success":True})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def game_val(req, g_id=None):
+    """
+    比赛结果待审核页面
+    g_id: game id
+    """
+    if req.method == "GET":
+        g_id = req.GET.get("g_id",None)
+        print "game_val, game id %s"%g_id
+        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛参赛队名单
+            game = Game.objects.get(id=g_id, pub_status=0, sub_status=1)
+            teams = Team.objects.filter(game=game)
+            for t in teams:
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
+                t_e = TeamEvent.objects.filter(team=t) #已提交但未发表
+                t.tes = t_e
+            if len(t_e) > 0:
+                return render_to_response('centre/game_val2.html',{"teams":teams, "game":game, "award":AWARD})
+            else:
+                return HttpResponse("<h2>没有该队的审核请求</h2>")
+        else:#否则返回待审核列表
+            games = Game.objects.filter(pub_status=0, sub_status=1).order_by('game_stime') 
+            return render_to_response('centre/game_val.html',{"games":games})
+
+    if req.method == "POST":# 审核批准后
+        g_id = req.POST.get("g_id")
+        if int(req.POST.get("pass", 0)): #审核通过
+            game = Game.objects.filter(id=g_id)
+            game.update(pub_status=1, sub_status=1)
+            # generate certificate
+            tes = TeamEvent.objects.filter(team__game=game)
+            if len(tes):
+                cur = TeamEvent.objects.exclude(certificate__isnull=True).exclude(certificate__exact='').count()
+                for i in range(len(tes)):
+                    tes[i].check_pass(num=cur+i+1) #编号从1开始计数
+
+        else: #审核不通过
+            print g_id
+            Game.objects.filter(id=g_id).update(sub_status=2, pub_status=0)
+        return JsonResponse({"success":True})
+    else:
+        return JsonResponse({"success":False})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def history_game(req):
+    if req.method == "GET":
+        g_id = req.GET.get("g_id",None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
+            try:
+                game = Game.objects.get(id=g_id, pub_status=1)
+            except:
+                return HttpResponse("<h2>没有该比赛的历史信息</h2>")
+            teams = Team.objects.filter(game=game)
+            game.cur_num = len(teams)
+            for t in teams:
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
+                t_e = TeamEvent.objects.filter(team=t) #已提交但未发表
+                s_t = StudentTeam.objects.filter(team=t) #队员
+                t.tes = t_e
+                t.sts = s_t
+            if len(t_e) > 0:
+                return render_to_response('game/history_game2.html',{"teams":teams, "game":game, "base":"./centre/base.html", "role":"centre"})
+
+        else:#否则返回列表
+            games = Game.objects.filter(pub_status=1).order_by('-game_stime')
+            return render_to_response('game/history_game.html',{"games":games, "base":"./centre/base.html", "role":"centre"})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def current_game(req):
+    if req.method == "GET":
+        g_id = req.GET.get("g_id", None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应培训的人名单
+            game = Game.objects.get(id=g_id)
+            teams = Team.objects.filter(game=game)
+            game.cur_num = len(teams)
+            for t in teams:
+                sts = StudentTeam.objects.filter(team=t)
+                t.sts = sts
+                if str(t.contestant.role) == 'group':
+                    t.Contestant = Group.objects.get(user=t.contestant.user)
+                elif role == 'club':
+                    t.Contestant = Club.objects.get(user=t.contestant.user)
+            return render_to_response('centre/current_game2.html',{"game":game, "teams":teams, "base":"./centre/base.html"}, RequestContext(req))
+        else:
+            games = Game.objects.filter(pass_status=1, pub_status=0).exclude(sub_status=1).order_by('game_stime') #未提交审核的，未成历史的
+            for g in games:
+                g.cur_num = len(Team.objects.filter(game=g))
+            return render_to_response('centre/current_game.html',{"games":games}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
 def change_payment_status(req):
     if req.method == "POST":
         ct_id = req.POST.get('ct_id', None)
@@ -198,39 +333,58 @@ def password_page(req):
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
-def org_manage(req):
+def coach_org_manage(req):
     if req.method == "GET":
         orgs = CoachOrg.objects.all()
-        return render_to_response('centre/org_manage.html', {"orgs":orgs}, RequestContext(req))
+        return render_to_response('centre/org_manage.html', {"orgs":orgs,"orgtype":"coach"}, RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def game_org_manage(req):
+    if req.method == "GET":
+        orgs = GameOrg.objects.all()
+        return render_to_response('centre/org_manage.html', {"orgs":orgs,"orgtype":"game"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
 def org_info(req):
+    Org = CoachOrg
+    orgtype = 'coach'
+     
+    if req.method == "GET" and req.GET.get('orgtype', 'coach') == 'game':
+        Org = GameOrg
+        orgtype = 'game'
+    if req.method == "POST" and req.POST.get('orgtype','coach') == 'game':
+        Org = GameOrg
+        orgtype = 'game'
+
     if req.method == "GET":
         num = req.GET.get("orgnum")
+        print num
         co = None
         if num:
-            co = CoachOrg.objects.filter(org_num=num)
+            co = Org.objects.filter(org_num=num)
         if num and len(co) > 0:
-            return render_to_response('centre/org_info.html', {"coachorg":co[0]}, RequestContext(req))
+            return render_to_response('centre/org_info.html', {"org":co[0], "orgtype":req.GET.get('orgtype')}, RequestContext(req))
         else:
-            return render_to_response('centre/org_info.html', {}, RequestContext(req))
+            return render_to_response('centre/org_info.html', {"orgtype":req.GET.get('orgtype')}, RequestContext(req))
     else:
         data = req.POST.copy()
         orgnum = data.get("orgnum")
         for k in ["orgnum",'phone','orgname']:
             if not data.has_key(k) or len(data[k].strip()) == 0:
                 return JsonResponse({},status=400)
-        co = CoachOrg.objects.filter(org_num=orgnum) | CoachOrg.objects.filter(user__phone=data.get('phone'))
+        co = Org.objects.filter(org_num=orgnum) | Org.objects.filter(user__phone=data.get('phone'))
         #如果数据库里没有记录，证明是添加新组织
         if len(co) == 0:
             print "add coachorg"
             phone = data.get('phone')
             email = data.get('email',None)
-            r_id = 1
+            r_id = 1 if not orgtype=='game' else 7
             user = MyUser.objects.create_user(phone = phone, nickname=orgnum, email=email if email and len(email.strip()) > 0 else None, role=r_id, password = orgnum)
-            co = CoachOrg(user=user)
+            co = Org(user=user)
         else:
             co = co[0]
             co.user.phone = data["phone"]
@@ -254,7 +408,8 @@ def org_info(req):
         try:
             co.user.save()
             co.save()
-        except:
+        except Exception,e:
+            print e
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
@@ -262,10 +417,12 @@ def org_info(req):
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['centre']))
 def org_del(req):
-
+    Org = CoachOrg
+    if req.method == "POST" and req.POST.get('orgtype') == 'game':
+        Org = GameOrg
     if req.method == "POST":
         orgnum = req.POST.get("orgnum")
-        co = CoachOrg.objects.get(org_num=orgnum)
+        co = Org.objects.get(org_num=orgnum)
         co.is_active = False if co.is_active else True
         co.save()
         return JsonResponse({'success':True})

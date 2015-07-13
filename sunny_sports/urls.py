@@ -66,8 +66,15 @@ urlpatterns += patterns('sp.centre_views',
         url(r'^centre/check_pass$','check_pass'),
         url(r'^centre/current_view$','current_view'),
         url(r'^centre/history_view$','history_view'),
+
+        url(r'^centre/game_check$','game_check'),
+        url(r'^centre/game_val$','game_val'),
+        url(r'^centre/current_game$','current_game'),
+        url(r'^centre/history_game$','history_game'),
+
         url(r'^centre/msg_publish$','msg_publish'),
-        url(r'^centre/org_manage$', 'org_manage'),
+        url(r'^centre/coach_org_manage$', 'coach_org_manage'),
+        url(r'^centre/game_org_manage$', 'game_org_manage'),
         url(r'^centre/org_del$', 'org_del'),
         url(r'^centre/org_info$', 'org_info'),
         url(r'^centre/password$','password_page'),
@@ -87,6 +94,21 @@ urlpatterns += patterns('sp.coach_org_views',
         url(r'^coach_org/up_info$', 'update_info'),
         url(r'^coach_org/add_member$', 'add_member'),
         url(r'^coach_org/del_member$', 'del_member'),
+        )
+
+# game_org
+urlpatterns += patterns('sp.game_org_views',
+        url(r'^game_org$', 'game_org'),
+        url(r'^game_org/home$', 'home'),
+        url(r'^game_org/center$', 'center'),
+        url(r'^game_org/history_game$', 'game_history'),
+        url(r'^game_org/game_publish$', 'game_publish'),
+        url(r'^game_org/game_edit$', 'game_publish'),
+        url(r'^game_org/game_manage$', 'game_manage'),
+        url(r'^game_org/result_input$', 'result_input'),
+        url(r'^game_org/up_info$', 'update_info'),
+        #url(r'^game_org/add_member$', 'add_member'),
+        #url(r'^game_org/del_member$', 'del_member'),
         )
 
 # coach
@@ -113,4 +135,34 @@ urlpatterns += patterns('student.views',
         url(r'^student/center$', 'center'),
         url(r'^student/up_info$', 'update_info'),
         url(r'^student/up_img$', 'update_img'),
+        )
+
+# club
+#urlpatterns += patterns('club.views',
+#        url(r'^club$', 'club'),
+#        url(r'^club/home$', 'home'),
+#        url(r'^club/cur_game$', 'current_game'),
+#        url(r'^club/history_game$', 'history_game'),
+#        url(r'^club/center$', 'center'),
+#        url(r'^club/up_info$', 'update_info'),
+#        )
+
+# group
+urlpatterns += patterns('group.views',
+        url(r'^group$', 'group'),
+        url(r'^group/home$', 'home'),
+        url(r'^group/cur_game$', 'current_game'),
+        url(r'^group/cur_game/(?P<g_id>\w+)$','current_game'),
+        url(r'^group/game_apply/(?P<g_id>\w+)$','game_apply'),
+        url(r'^group/game_apply$','game_apply'),
+        url(r'^group/game/reg_cancel$','reg_cancel'),
+        url(r'^group/history_game$', 'history_game'),
+        url(r'^group/center$', 'center'),
+        url(r'^group/up_info$', 'update_info'),
+        )
+#game
+urlpatterns += patterns('game.views',
+        url(r'^game/pay/(?P<t_id>\w+)$','pay'),
+        url(r'^game/pay$','pay'),
+        url(r'^find_stu/(?P<phone>\w+)', 'find_stu'),
         )

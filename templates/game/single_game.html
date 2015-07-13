@@ -1,0 +1,298 @@
+{% extends base %} 
+{% block content %}
+{{ block.super }}
+
+<div class="page-header"> <h1> 比赛详细信息 </h1> </div><!-- /.page-header -->
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <div class="timeline-container">
+            <div class="timeline-items">
+                <div class="timeline-item clearfix">
+                    <div class="timeline-info">
+                        <i class="timeline-indicator ace-icon fa fa-leaf btn btn-pink no-hover green"></i>
+                    </div>
+
+                    <div class="widget-box widget-color-pink">
+                        <div class="widget-header widget-header-small">
+                            <h5 class="widget-title smaller"> 比赛介绍 </h5>
+
+                            <span class="widget-toolbar">
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            </span>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <p class="col-xs-6">比赛名称：{{game.name}}</p>
+                                <p class="col-xs-6">主办单位：{{game.sponsor}}</p>
+                                <p class="col-xs-6">比赛机构：&nbsp;&nbsp; {{game.org.name}}</p>
+                                <p class="col-xs-6">协办单位：{{game.organizer}}</p>
+                                <p class="col-xs-6">比赛地点：{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</p>
+                                <p class="col-xs-6">比赛项目：{{game.events}}</p>
+                                <p class="col-xs-6">比赛费用：{{game.money}}/人</p>
+                                <p class="col-xs-6">参赛队数量：{{game.limit}}</p>
+                                <p class="col-xs-12">队员数量：男：{{game.male_num}} 女：{{game.female_num}}</p>
+                                <p>联系人: </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：{{game.contact_name}}, 手机：{{game.contact_phone}}, 邮箱：{{game.contact_email}}</p>
+                                <p>{{game.description}}</p>
+                                <div class="space-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.timeline-items -->
+        </div><!-- /.timeline-container -->
+
+        <div class="timeline-container">
+            <div class="timeline-label">
+                <span class="label label-primary arrowed-in-right label-lg">
+                    <b>报名开始 {{game.reg_stime|date:"Y-m-d H:i"}}</b>
+                </span>
+            </div>
+            <div class="timeline-item clearfix">
+                <div class="timeline-info">
+                    <i class="timeline-indicator ace-icon fa fa-bug btn btn-primary no-hover"></i>
+                </div>
+                <div class="widget-box widget-color-blue2">
+                    <div class="widget-header widget-header-small">
+                        <h5 class="widget-title smaller">当前状态: &nbsp;&nbsp;
+                            {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
+                            <span class="badge badge-warning">比赛结束</span>
+                            {% elif team and team.pay_status > 0 and game.game_status == 1 %}
+                            <span class="badge badge-warning">比赛进行中</span>
+                            {% elif team and team.pay_status == 0 %}
+                            <span class="badge badge-warning">已报名，未付款</span>
+                            {% elif team and team.pay_status == 1 and game.reg_status == 1 %}
+                            <span class="badge badge-warning">已付款</span>
+                            {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
+                            <span class="badge badge-warning">报名结束</span>
+                            {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
+                            <span class="badge badge-warning">比赛结束</span>
+                            {% elif game.pub_status == 1 %}
+                            <span class="badge badge-warning">比赛结束</span>
+                            {% elif not team %}
+                            <span class="badge badge-warning">报名进行中</span>
+                            {% endif %}
+                        </h5>
+                        <span class="widget-toolbar">
+                            <a href="#" data-action="collapse">
+                                <i class="ace-icon fa fa-chevron-up"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            {% if not role == 'student'%}
+                            {% if game.game_status == 0 and game.sub_status == 0 and game.pub_status == 0%}
+                            {% if team.pay_status == 0 or team.game.reg_status == 1%}
+                            {% if team.pay_status == 0 %}
+                            <a class="btn btn-xs btn-primary" href="/game/pay/{{team.id}}">去付款</a>
+                            {% if team.game.reg_status == 1 %}
+                            <a class="btn btn-xs btn-danger" id="reg-cancel">取消报名</a>
+                            {% endif %}
+                            {% else %}
+                            <span>退出请联系举办方<br/>
+                                电话：{{game.org.contact_phone}}</span>
+                            {% endif %}
+                            {% else %}
+                            {% if game.cur_num < game.limit %}
+                            <a class="btn btn-xs btn-primary" href="/{{role}}/game_apply/{{game.id}}">报名</a>
+                            {% else %}
+                            <a class="btn btn-xs btn-success">名额已满</a>
+                            {% endif %}
+                            {% endif %}
+
+                            {% endif %}
+                            {% endif %} <!-- not student -->
+                            {% if team %}
+                            <h4>队名：<span class="label label-xlg label-primary arrowed arrowed-right"> {{team.name}}</span></h4>
+                            <hr/>
+                            {% endif %} <!-- team -->
+                            {% if sts %}
+                            {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
+                            <button class="btn btn-xs btn-inverse" id='ch-member'>更换队员</button>
+                            {% endif %}
+                            <table id="" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>参赛队员</th>
+                                        <th class="hidden-480">性别</th>
+                                        <th>参赛队员</th>
+                                        <th class="hidden-480">性别</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr> 
+                                        {% for st in sts|slice:":2"%}
+                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
+                                        {% endfor %}
+                                    </tr>
+                                    <tr> 
+                                        {% for st in sts|slice:"2:4"%}
+                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
+                                        {% endfor %}
+                                    </tr>
+                                    <tr> 
+                                        {% for st in sts|slice:"4:6"%}
+                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
+                                        {% endfor %}
+                                    </tr>
+                                    <tr> 
+                                        {% for st in sts|slice:"6:8"%}
+                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {% endif %} <!-- sts -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-label">
+                <span class="label label-primary arrowed-in-right label-lg">
+                    <b>报名结束: {{game.reg_etime|date:"Y-m-d H:i"}}</b>
+                </span>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-label">
+                <span class="label label-success arrowed-in-right label-lg">
+                    <b>比赛开始: {{game.game_stime|date:"Y-m-d"}}</b>
+                </span>
+            </div>
+
+            <div class="timeline-items">
+                <div class="timeline-item clearfix">
+                    <div class="timeline-info">
+                        <i class="timeline-indicator ace-icon fa fa-trophy btn btn-success no-hover green"></i>
+                    </div>
+
+                    <div class="widget-box widget-color-green">
+                        <div class="widget-header widget-header-small">
+                            <h5 class="widget-title smaller">比赛结果</h5>
+                            <span class="widget-toolbar">
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa fa-chevron-up"></i>
+                                </a>
+                            </span>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <table class="table table-striped table-bordered table-hover green">
+                                    <thead>
+                                        <tr>
+                                            <th>项目</th>
+                                            <th class="hidden-480">奖项</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for te in tes %}
+                                        <tr>
+                                            <td>{{te.event.get_name_display}}</td>
+                                            <td>{{te.get_award_display}}
+                                                {% if not te.award == 0 and not te.award == 4%}
+                                                <a style="margin-left:15px" type="button" class="btn btn-white btn-success btn-xs" href="/dl_qual?cert={{te.certificate}}">下载证书</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-label">
+                    <span class="label label-success arrowed-in-right label-lg">
+                        <b>比赛结束: {{game.game_etime|date:"Y-m-d"}}</b>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!-- /.timeline-container -->
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+
+    $('#apply').click(function(){
+
+        $.get('/{{role}}/game_apply',function(data) {
+            bootbox.dialog({
+                message: data,
+                title: "请确认参赛信息",
+                buttons: {
+                    success: {
+                        label: '<i class="ace-icon fa fa-check"></i>确认',
+                        className: "btn btn-info btn-sm",
+                    },
+                    reset: {
+                        label: '<i class="ace-icon fa fa-undo"></i>重置',
+                        className: "btn btn-sm",
+                    },
+                }
+            });
+        });
+    });
+
+    $('#team-up').click(function(){
+
+        $.get('/group/member',function(data) {
+            bootbox.dialog({
+                message: data,
+                title: "请选择队员",
+                buttons: {
+                    save: {
+                        label: '<i class="ace-icon fa fa-save"></i>保存',
+                        className: "btn btn-success btn-sm",
+                    },
+                    success: {
+                        label: '<i class="ace-icon fa fa-check"></i>提交',
+                        className: "btn btn-info btn-sm",
+                    },
+                }
+            });
+        });
+    });
+
+    $("#reg-cancel").click(function(){
+        bootbox.dialog({
+            message: "<h3>确定取消报名？</h3>",
+            buttons: {
+                cancel: {
+                    label: "取消",
+                    className: "btn-default",
+                    callback: function() {
+                    }
+                },
+                main: {
+                    label: "确定",
+                    className: "btn-primary",
+                    callback: function() {
+                        $.post("/group/game/reg_cancel", 
+                            {"t_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+                            function(data){
+                                if(data["success"])
+                                    location.reload();
+                            });
+                    }
+                }
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}

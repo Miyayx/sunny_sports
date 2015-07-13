@@ -1,0 +1,313 @@
+
+{% extends "./game_org/base.html" %}
+{% block content %}
+{{ block.super }}
+<div class="page-header"><h1>比赛信息管理</h1></div>
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <ul>
+            <li style="display:inline; margin-right:40px; color:grey"> <i class="light ace-icon fa fa-bell bigger-110"></i> 按时间排序 </li>
+            <li style="display:inline; margin-right:25px"> <i class="grey ace-icon fa fa-asterisk bigger-110"></i> 报名未开始 </li>
+            <li style="display:inline; margin-right:25px"> <i class="blue ace-icon fa fa-asterisk bigger-110"></i> 报名中 </li>
+            <li style="display:inline; margin-right:25px"> <i class="purple ace-icon fa fa-asterisk bigger-110"></i> 报名结束 </li>
+            <li style="display:inline; margin-right:25px"> <i class="green ace-icon fa fa-asterisk bigger-110"></i> 比赛中 </li>
+            <li style="display:inline; margin-right:25px"> <i class="pink ace-icon fa fa-asterisk bigger-110"></i> 比赛结束 </li>
+            <li style="display:inline; margin-right:25px"> <i class="orange ace-icon fa fa-asterisk bigger-110"></i> 等待审核 </li>
+            <li style="display:inline; margin-right:25px"> <i class="red ace-icon fa fa-asterisk bigger-110"></i>审核未通过  </li>
+        </ul>
+        <div class="space-8"></div>
+        {% if games|length %}
+        <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs" id="game-tab">
+                {% for game in games %}
+                <li>
+                <a data-toggle="tab" href="#{{game.id}}">
+                    {% if game.pass_status == 0 %}
+                    <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.reg_status == 0 %}
+                    <i class="grey ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.reg_status == 1 %}
+                    <i class="blue ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.reg_status == 2 and game.game_status == 0 %}
+                    <i class="purple ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.game_status == 1 and game.sub_status == 0 %}
+                    <i class="green ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.game_status == 2 and game.sub_status == 0 %}
+                    <i class="pink ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.pass_status == 2 or game.sub_status == 2 %}
+                    <i class="red ace-icon fa fa-asterisk bigger-110"></i>
+                    {% elif game.pass_status == 0 or game.sub_status == 1 and game.pub_status == 0 %}
+                    <i class="orange ace-icon fa fa-asterisk bigger-110"></i>
+                    {% endif %}
+                    {{game.name}}
+                </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content">
+                {% for game in games %}
+                <div id="{{game.id}}" class="tab-pane">
+                    <div class="profile-user-info profile-user-info-striped">
+                        <div >
+                            <div class="profile-info-name">比赛编号</div>
+                            <div class="profile-info-value t_id" ><span>{{game.id}}</span>
+                                <a class="btn btn-minier btn-primary" style="margin-left:15px" href="/game_org/game_edit?g_id={{game.id}}">编辑</a>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">比赛名称</div>
+                            <div class="profile-info-value">{{game.name}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">比赛地点</div>
+                            <div class="profile-info-value">{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">报名开始时间</div>
+                            <div class="profile-info-value">{{game.reg_stime|date:"Y-m-d H:i"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">报名结束时间</div>
+                            <div class="profile-info-value">{{game.reg_etime|date:"Y-m-d H:i"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">开始时间</div>
+                            <div class="profile-info-value">{{game.game_stime|date:"Y-m-d"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">结束时间</div>
+                            <div class="profile-info-value">{{game.game_etime|date:"Y-m-d"}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">报名参赛队</div>
+                            <div class="profile-info-value curnum">{{game.cur_num}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">上限人数</div>
+                            <div class="profile-info-value">{{game.limit}}</div>
+                        </div>
+                        <div>
+                            <div class="profile-info-name">当前状态</div>
+                            <div class="profile-info-value">
+                                {% if game.pass_status == 0 %}
+                                <span class="red">等待审核</span>
+                                {% elif game.reg_status == 0 %}
+                                <span class="red">报名未开始</span>
+                                {% elif game.reg_status == 1 %}
+                                <span class="red">报名中</span>
+                                {% elif game.reg_status == 2 and game.game_status == 0 %}
+                                <span class="red">报名结束</span>
+                                {% elif game.game_status == 1 and game.sub_status == 0 %}
+                                <span class="red">比赛中</span>
+                                {% elif game.game_status == 2 and game.sub_status == 0 %}
+                                <span class="red">比赛结束</span>
+                                {% elif game.pass_stauts == 2 or game.sub_status == 2 %}
+                                <span class="red">审核未通过</span>
+                                {% elif game.pass_status == 0 or game.sub_status == 1 and game.pub_status == 0 %}
+                                <span class="red">等待结果审核</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% if game.pass_status == 1 %}
+                    <div>
+                        <div class="row">
+                            {% if game.game_status and not game.sub_status == 1 %}
+                            <h3 class="col-sm-10">结果录入</h3>
+                            {% else %}
+                            <h3 class="col-sm-10">参赛队信息</h3>
+                            {% endif %}
+                        </div>
+                        <form>
+                            {% csrf_token %}
+                            <table id="checked-table" class="table table-striped table-bordered table-hover">
+                                <thead class="thin-border-bottom">
+                                    {% if game.game_status == 0 %}
+                                    <!-- 报名期间不出现“比赛结果”的列-->
+                                    <tr>
+                                        <th class="center"> 参赛队 </th>
+                                        <th class="center"> 参赛机构 </th>
+                                        <th class="center"> 付费状态 </th>
+                                    </tr>
+                                    {% endif %}
+                                    {% if game.pass_status == 1 and game.game_status %}
+                                    <!-- 报名截止, 成绩结果未提交或审核不通过-->
+                                    {% with game.teams.0 as team %}
+                                    <tr>
+                                        <th class="center" rowspan="2"> 参赛队 </th>
+                                        <th class="center" rowspan="2"> 参赛机构 </th>
+                                        <th class="center" colspan="{{team.tes|length}}">比赛结果</th>
+                                    </tr>
+                                    <tr>
+                                        {% for te in team.tes %}
+                                        <th class="center">{{te.event.get_name_display}}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endwith %}
+                                    {% endif %}
+                                </thead>
+
+                                <tbody>
+                                    {% for team in game.teams %}
+                                    <tr>
+                                        <td class="center"><a href="/team_info?t_id={{team.id}}">{{ team.name }}</a>
+                                            <p style="display:none" class="team-id">{{ team.id }}</p>
+                                            <button class="btn btn-minier btn-danger del-team pull-right"> 删除 </button>
+                                        </td>
+                                        <td class="center">{{team.Contestant.name}}</td>
+                                        {% if game.game_status == 0 %}
+                                        <td class="center">已报名，{{team.get_pay_status_display}}</td>
+                                        {% endif %}
+                                        {% if game.pass_status and game.game_status %}
+                                        <!-- 成绩结果未提交或审核不通过-->
+                                        {% for te in team.tes %}
+                                        <td class="center">
+                                            {% if game.pass_status and game.game_status and game.sub_status == 1 or team.pay_status == 0 %}
+                                            <!-- 成绩结果已提交，等待中心审核--><!-- 没付款不能录入成绩 -->
+                                            <select class="col-sm-8 form-control" disabled data="{{te.event.id}}">
+                                                {%else%}
+                                                <select class="col-sm-8 form-control" data="{{te.event.id}}">
+                                                    {% endif %}
+                                                    {% for i, a in award %}
+                                                    {% if te.award == i %}
+                                                    <option value="{{i}}" selected> {{a}} </option>
+                                                    {% else %}
+                                                    <option value="{{i}}"> {{a}} </option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="row center">
+                                    {% if game.cur_num > 0 %}
+                                    <a class="btn btn-success download-btn" href="/download?g_id={{game.id}}" target="_blank">下载Excel</a>
+                                    {% endif %}
+                                    {% if game.pass_status and game.game_status and not game.sub_status == 1 %}
+                                    <button class="btn btn-success save-btn">保存</button>
+                                    <button class="btn btn-info submit-btn">提交</button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div><!-- /.tab-pane -->
+                    {% endfor %}
+
+                </div><!-- /.tab-content -->
+                {% else %}
+                <p class="alert alert-warning"> 当前没有可管理的比赛 </p>
+                {% endif %}
+            </div><!-- /.col-ms-10 -->
+        </div><!-- /.row -->
+        {% endblock %}
+
+        {% block script %}
+        <script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+        <script type="text/javascript">
+            window.onload = function() {
+                if(location.hash){//if the page's URL has an octothore part 
+                    //有game编号的时候直接调转到该tab
+                    t_id = location.hash.substr(1);
+                    $('li a[href="#'+t_id+'"]').parent().addClass("active");
+                    $('#'+t_id).addClass("active");
+                } else {
+                    //make first tab active
+                    $('#game-tab li:first').addClass("active");
+                    $('.tab-pane').first().addClass("active");
+                }
+            };
+
+            $('.check-all').click(function () {    
+                $(this).closest('form').find('input:checkbox').prop('checked', this.checked);    
+            });
+
+            var getResult = function($form){
+                d = {};
+                $form.find('tbody tr').each(function(i, tr){ //遍历tr，即没个队
+                    var t_id = $(tr).find('.team-id').text(); //队编号
+                    d[t_id] = {};
+                    $(tr).find('select').each(function(j, s){
+                        d[t_id][$(s).attr('data')] = $(s).val(); //每个event的结果值，{event.id: seleted award id}
+                    });
+                });
+                return d;
+            }
+
+            $('.save-btn').click(function(e){
+                e.preventDefault();
+                var d = {
+                    "submit":0, //false 
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                    'g_id':$(this).closest('.tab-pane').attr('id'),
+                    'res':JSON.stringify(getResult($(this.closest('form'))))
+                };
+                $.post('/game_org/result_input', d, function(data){
+                    if(data['success']){
+                        alert("已保存");
+                    }else{
+                        alert("保存失败，请重试");
+                    }
+                });
+            });
+
+            $('.submit-btn').click(function(e){
+                e.preventDefault();
+                var $btn = $(this);
+                var d = {
+                    "submit":1, //true 
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                    'g_id':$(this).closest('.tab-pane').attr('id'),
+                    'res':JSON.stringify(getResult($(this.closest('form'))))
+                };
+                $.post('/game_org/result_input', d, function(data){
+                    if(data['success']){
+                        alert("已提交");
+                        location.reload();
+                    }else{
+                        alert("提交失败，请重试");
+                    }
+                });
+            });
+
+            $("td a[href^='/team_info']").click(function(e){
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function(page){
+                    bootbox.alert(page, function(){})
+                });
+            });
+
+            $('.del-team').click(function(e){
+                var $delbtn = $(this);
+                e.preventDefault();
+                var $info = '确定删除此参赛队<b>'+ $.trim($delbtn.parent().find("a").html())+'</b>?';
+                bootbox.setDefaults({locale:'zh_CN'});
+                bootbox.confirm($info, function(result){
+                    if(result){ //选择确认
+                        $.post("/game_org/del_team",
+                            {
+                                'csrfmiddlewaretoken': '{{csrf_token}}',
+                                'ct_id':$.trim($delbtn.parents('td').find('p').html())
+                            }, function(res){
+                                if(res && res['success']){
+                                    $curnum = $delbtn.parents('.tab-pane').find('.curnum')
+                                    curnum = parseInt($.trim($curnum.html()));
+                                    $curnum.html(curnum-1);
+                                    $delbtn.parents('tr').remove();
+                                }
+                                else alert('删除失败');
+                            });
+                    }
+                });
+            });
+
+        </script>
+        {% endblock %}

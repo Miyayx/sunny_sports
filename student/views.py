@@ -13,8 +13,7 @@ from photo.views import update_photo_in_qiniu
 
 from django.contrib import messages
 
-
-# Create your views here.
+ROLE_ID=2
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
@@ -42,7 +41,8 @@ def home(req):
     except:
         cur_game = None
 
-    games = StudentTeam.objects.filter(student=stu, team__game__pub_status=1)[:3]
+    sts = StudentTeam.objects.filter(student=stu, team__game__pub_status=1)[:3]
+    games = [st.team.game for st in sts]
     
     return render_to_response('student/home.html',{"student":stu, "cur_game":cur_game, "games":games, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
@@ -60,25 +60,39 @@ def center(req):
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
 def current_game(req):
-    return render_to_response('student/cur_game.html', RequestContext(req))
+    st = StudentTeam.objects.filter(team__game__pub_status=0, student__property__user_id=req.user.id)
+    if len(st) == 1:
+        team = st[0].team
+        game = team.game
+        sts = StudentTeam.objects.filter(team=team)
+        tes = TeamEvent.objects.filter(team=team)
+
+        return render_to_response('game/single_game.html',{'base':'./student/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'student'}, RequestContext(req))
+    elif len(st) == 0:
+        return render_to_response('game/no_game.html',{'base':'./student/base.html', 'role':'student'}, RequestContext(req))
+    else:
+       return HttpResponse("<h2>比赛信息错误</h2>")
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
 def history_game(req):
     if req.method == "GET":
-        game_id = req.GET.get("g_id",None)
-        if game_id and len(game_id) > 0: #有编号的话就返回对应比赛信息
-            sts = StudentTeam.objects.filter(team__game_id=game_id)
-            if len(st) > 0:
-                st = sts[0]
-                tes = TeamEvent.objects.filter(team=st.team)
-                return render_to_response('student/history_game2.html',{"st":st, "tes":tes})
-            else:
+        g_id = req.GET.get("g_id",None)
+        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛信息
+            try:
+                game = Game.objects.get(id=g_id, pub_status=1)
+                team = StudentTeam.objects.filter(team__game=game, student__property__user_id=req.user.id)[0].team
+                sts = StudentTeam.objects.filter(team=team)
+                tes = TeamEvent.objects.filter(team=team)
+            except:
                 return HttpResponse("<h2>没有该比赛的历史信息</h2>")
+
+            return render_to_response('game/single_game.html',{'base':'./student/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'student'}, RequestContext(req))
         else:#否则返回历史比赛列表
             uuid = req.user.id
-            sts = StudentTeam.objects.filter(student__property__user_id=uuid)
-            return render_to_response('student/history_game.html', {"sts":sts}, RequestContext(req))
+            sts = StudentTeam.objects.filter(student__property__user_id=uuid, team__game__pub_status=1)
+            teams = [st.team for st in sts] 
+            return render_to_response('game/history_team.html', {"teams":teams, "base":"./student/base.html", "role":"student"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic

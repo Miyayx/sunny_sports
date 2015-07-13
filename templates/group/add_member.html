@@ -1,0 +1,47 @@
+
+{% block script %}
+<script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+  $('.add-member').click(function(e){
+    var $addbtn = $(this);
+    e.preventDefault();
+    var $searchbox = '<div class="row">'
+    + '<div class="col-sm-6"><input type="text" placeholder="手机号码" id="member-phone"> </input>'
+    + '<button class="btn btn-success btn-sm" id="search-btn">搜索</button></div>'
+    + '<h4 class="col-sm-2">姓名:</h4>'
+    + '<h4 class="col-sm-2" id="member-name"></h4></div>'
+    + '<p class="red" id="error-msg"></p>';
+    bootbox.setDefaults({locale:'zh_CN'});
+    bootbox.confirm($searchbox, function(result){
+      if(result){
+        $.post("/coach_org/add_member",
+          {"phone":$.trim($('#member-phone').val()), 
+            "name":$.trim($('#member-name').html()),
+            "t_id":$.trim($addbtn.parents('.tab-pane').find('.t_id span').html()),
+            'csrfmiddlewaretoken': '{{csrf_token}}'
+          }, function(res){
+            if(res && res.success)
+              location.reload();
+            else if(res)
+              alert(res.msg);
+
+          });
+      }
+    });
+    $('#search-btn').click(function(e){
+      var p = $('#member-phone').val();
+      if(p.length > 0){
+        $.get("/coach_org/add_member?phone="+p, function(res){
+          if(res["name"]){
+            $('#error-msg').html("");
+            $('#member-name').html(res["name"]);
+          }else
+            $('#error-msg').html("未找到");
+
+        });
+      }
+    });
+  });
+
+</script>
+{% endblock %}

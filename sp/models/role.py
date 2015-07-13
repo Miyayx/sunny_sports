@@ -5,6 +5,8 @@ from django.db import models
 from models import *
 from status import *
 
+from club.models import *
+
 class PersonProperty(models.Model):
     """
     这是一个父类,所有个人角色继承于它
@@ -35,19 +37,6 @@ class CoachProperty(PersonProperty):
     class Meta:
         app_label='sp'
 
-class Club(models.Model):
-    user = models.ForeignKey(MyUser, unique=True, db_index=True)
-    province = models.CharField(max_length=20, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-    county = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=100,blank=True)
-    level = models.IntegerField(default=0)
-    class Meta:
-        app_label='sp'
-
-    def __str__(self):
-        return self.user.nickname
-
     
 class Coach(models.Model):
     property = models.ForeignKey(CoachProperty)
@@ -64,6 +53,25 @@ class Coach(models.Model):
 
 
 class CoachOrg(models.Model):
+    user = models.ForeignKey(MyUser)
+    org_num  = models.CharField(max_length=20)
+    name = models.CharField(max_length=256)
+    shortname = models.CharField(max_length=10)
+    director = models.CharField(max_length=256, blank=True, default="")
+    province = models.CharField(max_length=20, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+    dist = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=100, blank=True)
+    is_active = models.BooleanField(default=True) 
+    ali_email = models.EmailField(null=True)
+    
+    class Meta:
+        app_label='sp'
+
+    def __str__(self):
+        return "num:%s, name:%s"%(self.org_num,self.name)
+
+class GameOrg(models.Model):
     user = models.ForeignKey(MyUser)
     org_num  = models.CharField(max_length=20)
     name = models.CharField(max_length=256)

@@ -84,6 +84,13 @@ function isHKIdCardNo(num) {
 	return regex.test(num);
 }
 
+function isHKIdCardNo(num) {
+     if (num.length == 0)
+         return true;
+     var regex = /^[A-Z]?[A-Z]{1}\d{6}\([0-9A]{1}\)$/;
+     return regex.test(num);
+ }
+
 function isDate6(sDate) {
 	if (!/^[0-9]{6}$/.test(sDate)) {
 		return false;

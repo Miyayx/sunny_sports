@@ -1,0 +1,129 @@
+{% extends "./group/base.html" %}
+{% block content %}
+{{ block.super }}
+<div class="page-header"><h1>首页</h1></div>
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-xs-10 col-sm-3 center">
+        <div>
+
+            <!-- /section:pages/profile.picture -->
+            <div class="space-4"></div>
+
+            <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+                <div class="inline position-relative">
+                    <span class="white">{{group.user.nickname|default_if_none:""}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-6"></div>
+
+        <!-- #section:pages/profile.contact -->
+        <div class="profile-contact-info">
+            <div class="profile-contact-links align-left">
+                <a class="btn btn-link" style="text-decoration:none;cursor:default">
+                    <i class="ace-icon fa fa-phone bigger-120 green"></i>
+                    {{group.user.phone}}
+                </a>
+
+                <a class="btn btn-link" style="text-decoration:none;cursor:default">
+                    <i class="ace-icon fa fa-comment bigger-125 blue"></i>
+                    {{group.user.email|default_if_none:""}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-1"></div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="space-10"></div>
+        <div class="col-sm-11">
+        <div class="profile-user-info">
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 名称 </div>
+
+                <div class="profile-info-value">
+                    <span>{{group.name}}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 单位编号 </div>
+
+                <div class="profile-info-value">
+                    <span>{{group.org_num}}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> 地点 </div>
+
+                <div class="profile-info-value">
+                    <i class="fa fa-map-marker light-orange bigger-110"></i>
+                    <span>{{group.province}}</span>
+                    <span>{{group.city}}</span>
+                    <span>{{group.dist}}</span>
+                    <span>{{group.address}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+<div class="space-20"></div>
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-xs-12 col-sm-5">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-small header-color-blue2">
+                <h4 class="widget-title smaller">
+                    <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
+                    进行中比赛
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    {% if teams|length > 0 %}
+                    {% for t in teams %}
+                    <div class="profile-activity clearfix">
+                        <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
+                        <a href="/group/cur_game">{{t.game.name}}</a>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    无
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-small header-color-blue2">
+                <h4 class="widget-title smaller">
+                    <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
+                    历史比赛
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    {% if old_teams|length > 0 %}
+                    {% for t in old_teams %}
+                    <div class="profile-activity clearfix">
+                        <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
+                        <a href="/group/history_game?g_id={{t.game.id}}">{{t.game.name}}</a>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    无
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

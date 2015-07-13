@@ -1,33 +1,58 @@
 {% extends "./base/base.html" %}
 
-{% block title %} 俱乐部页面 {% endblock %}
+{% block title %} 俱乐部 {% endblock %}
 
 {% block menu %}
 <ul class="nav nav-list">
     <li class="active">
-    <a data-url="club/home" href="#page/club/home">
+    <a data-url="club/home" href="/club/home">
         <i class="menu-icon fa fa-dashboard"></i> <span class="menu-text"> 首页 </span>
     </a>
     <b class="arrow"></b>
     </li>
 
     <li class="">
-    <a data-url="club/evaluate" href="#page/club/evaluate">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 资格评定 </span>
+    <a class="dropdown-toggle" href="#">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 比赛列表 </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+        <a data-url="club/cur_game" href="/club/cur_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            当前比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+
+        <li class="">
+        <a data-url="club/history_game" href="/club/history_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            历史比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+    </ul>
+    </li>
+
+    <li class="">
+    <a data-url="club/evaluate" href="#">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 资格评定(暂未开通) </span>
     </a>
     <b class="arrow"></b>
     </li>
 
     <li class="">
-    <a data-url="club/annual_check" href="#page/club/annual_check">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 年审 </span>
+    <a data-url="club/annual_check" href="#">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 年审(暂未开通)</span>
     </a>
     <b class="arrow"></b>
     </li>
 
     <li class="">
-    <a data-url="club/add_course" href="#page/club/add_course">
-        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 课程发布 </span>
+    <a data-url="club/add_course" href="#">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 课程发布(暂未开通) </span>
     </a>
     <b class="arrow"></b>
     </li>
@@ -41,13 +66,14 @@
     <b class="arrow"></b>
     <ul class="submenu">
         <li class="">
-        <a data-url="club/center" href="#page/club/center">
+        <a data-url="club/center" href="/club/center">
             <i class="menu-icon fa fa-caret-right"></i>
             基本信息
         </a>
         <b class="arrow"></b>
         </li>
 
+    <!--
         <li class="">
         <a data-url="club/member_admin" href="#page/club/member_admin">
             <i class="menu-icon fa fa-caret-right"></i>
@@ -55,19 +81,9 @@
         </a>
         <b class="arrow"></b>
         </li>
+    -->
     </ul>
     </li>
 
 </ul><!-- /.nav-list -->
-{% endblock %}
-
-{% block script %}
-<script>
-    $(function(){
-        if(window.location.search.length > 0 || !window.location.href.match(/page/)){
-            window.location.href=window.location.origin+window.location.pathname+"#page/club/home";
-        }
-    });
-
-</script>
 {% endblock %}

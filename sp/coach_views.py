@@ -252,7 +252,7 @@ def pay_notify(req):
                 ct.save()
                 print '付款成功！'
             except:
-                pass
+                return HttpResponse("fail")
             return HttpResponse("success")
         else:
             return HttpResponse("success")

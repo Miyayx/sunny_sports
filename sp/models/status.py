@@ -6,8 +6,9 @@ ROLE_LIST = (
         (2, 'student'),
         (3, 'coach'),
         (4, 'club'),
-        (5, 'team'),
+        (5, 'group'),
         (6, 'committee'),
+        (7, 'game_org'),
         )
 
 def get_role_id(r_str):
@@ -18,6 +19,12 @@ def get_role_id(r_str):
 SEX = (
         (0,'男'),
         (1,'女'),
+        )
+
+#提交状态
+SUBMIT_STATUS = (
+        (0,"未提交"),
+        (1,"已提交"),
         )
 
 #审核状态
