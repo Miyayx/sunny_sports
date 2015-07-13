@@ -90,7 +90,7 @@ def history_game(req):
             return render_to_response('game/single_game.html',{'base':'./student/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'student'}, RequestContext(req))
         else:#否则返回历史比赛列表
             uuid = req.user.id
-            sts = StudentTeam.objects.filter(student__property__user_id=uuid)
+            sts = StudentTeam.objects.filter(student__property__user_id=uuid, team__game__pub_status=1)
             teams = [st.team for st in sts] 
             return render_to_response('game/history_team.html', {"teams":teams, "base":"./student/base.html", "role":"student"}, RequestContext(req))
 

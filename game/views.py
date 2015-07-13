@@ -25,9 +25,9 @@ def find_stu(req, phone):
     print "phone-->"+phone
     try:
         s = Student.objects.get(property__user__phone=phone)
-        if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0) > 0):
-            return JsonResponse({'sucess':False})
-        return JsonResponse({'uuid':st.property.user.id, 'name':st.property.name, 'success':True})
+        if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0:
+            return JsonResponse({'success':False})
+        return JsonResponse({'uuid':s.property.user.id, 'name':s.property.name, 'success':True})
     except Exception,e:
         print e
         return JsonResponse({})

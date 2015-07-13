@@ -42,7 +42,7 @@
                 </li>
                 <li><i class="ace-icon fa fa-circle green"></i>
                 <font size="3px"><b>费用：</b></font>
-                &nbsp;{{game.money}}/人<p/>
+                &nbsp;{{game.money}}元/人<p/>
                 </li>
             </ul>
         </div>
@@ -84,9 +84,10 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label no-padding-right" >参赛队名</label>
                         <div class="col-sm-9">
-                            <span>
+                            <span >
                                 <input type="text" id="team-name" name="name" value="{{team.name}}" required="required" >
-                            </span>报名后不可更改
+                            <p class="red">报名后不可更改</p>
+                            </span>
                         </div>
                     </div>
 
@@ -94,7 +95,7 @@
                         <label class="col-sm-2 control-label no-padding-right" for="form-field-tags">添加队员</label>
                         <div class="col-sm-9">
                             <input type="text" name="member" id="mem-tags" data-role="tagsinput" placeholder="输入手机号并回车">
-                            <p class="blue">参赛费用总金额以队员数量为准</p>
+                            <p class="blue">付款前可更改数量，比赛前可更改名单，参赛费用总金额以队员数量为准</p>
                             <p id='wrong-alert' class="red"></p>
                             <!--
                             <input type="text" placeholder="输入手机号查找队员"></div>
