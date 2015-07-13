@@ -107,10 +107,9 @@ def game_apply(req, g_id=None):
             StudentTeam.objects.bulk_create(sts)
 
             tes = []
-            for e in Events.objects.all():
+            for e in Event.objects.all():
                 tes.append(TeamEvent(event=e, team=t))
             TeamEvent.objects.bulk_create(tes)
-
 
             return JsonResponse({'success':True})
         else:
@@ -126,6 +125,20 @@ def game_apply(req, g_id=None):
         #except:
         #    team = None
         return render_to_response('game/game_apply.html',{'group':group, 'game':game, 'base':'./group/base.html', 'role':'group'},RequestContext(req))
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['group']))
+def reg_cancel(req):
+    """
+    取消报名
+    """
+    if req.method == "POST":
+        t_id = req.POST.get("t_id")
+        t = Team.objects.get(id=t_id)
+        t.delete()
+        return JsonResponse({'success':True})
+    return JsonResponse({'success':False})
 
 
 @login_required()

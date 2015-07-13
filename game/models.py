@@ -110,6 +110,12 @@ class Team(models.Model):
 
         super(Team, self).save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        print "delete team", self.id
+        StudentTeam.objects.filter(team_id=self.id).delete()
+        TeamEvent.objects.filter(team_id=self.id).delete()
+        super(Team, self).delete(*args, **kwargs)
+
 class StudentTeam(models.Model):
     team = models.ForeignKey(Team)
     student = models.ForeignKey(Student)

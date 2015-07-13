@@ -155,7 +155,7 @@
                                     <tr>
                                         <td class="center"><a href="/team_info?t_id={{team.id}}">{{ team.name }}</a>
                                             <p style="display:none" class="team-id">{{ team.id }}</p>
-                                            <button class="btn btn-minier btn-danger del-member pull-right"> 删除 </button>
+                                            <button class="btn btn-minier btn-danger del-team pull-right"> 删除 </button>
                                         </td>
                                         <td class="center">{{team.Contestant.name}}</td>
                                         {% if game.game_status == 0 %}
@@ -285,14 +285,14 @@
                 });
             });
 
-            $('.del-member').click(function(e){
+            $('.del-team').click(function(e){
                 var $delbtn = $(this);
                 e.preventDefault();
-                var $info = '确定删除学员<b>'+ $.trim($delbtn.parent().find("a").html())+'</b>?';
+                var $info = '确定删除此参赛队<b>'+ $.trim($delbtn.parent().find("a").html())+'</b>?';
                 bootbox.setDefaults({locale:'zh_CN'});
                 bootbox.confirm($info, function(result){
                     if(result){ //选择确认
-                        $.post("/game_org/del_member",
+                        $.post("/game_org/del_team",
                             {
                                 'csrfmiddlewaretoken': '{{csrf_token}}',
                                 'ct_id':$.trim($delbtn.parents('td').find('p').html())

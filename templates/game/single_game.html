@@ -85,12 +85,12 @@
                     <div class="widget-body">
                         <div class="widget-main">
                             {% if not role == 'student'%}
-                            {% if game.sub_status == 0 and game.pub_status == 0%}
+                            {% if game.game_status == 0 and game.sub_status == 0 and game.pub_status == 0%}
                             {% if team.pay_status == 0 or team.game.reg_status == 1%}
                             {% if team.pay_status == 0 %}
                             <a class="btn btn-xs btn-primary" href="/game/pay/{{team.id}}">去付款</a>
                             {% if team.game.reg_status == 1 %}
-                            <a class="btn btn-xs btn-danger">取消报名</a>
+                            <a class="btn btn-xs btn-danger" id="reg-cancel">取消报名</a>
                             {% endif %}
                             {% else %}
                             <span>退出请联系举办方<br/>
@@ -264,6 +264,32 @@
                     },
                 }
             });
+        });
+    });
+
+    $("#reg-cancel").click(function(){
+        bootbox.dialog({
+            message: "<h3>确定取消报名？</h3>",
+            buttons: {
+                cancel: {
+                    label: "取消",
+                    className: "btn-default",
+                    callback: function() {
+                    }
+                },
+                main: {
+                    label: "确定",
+                    className: "btn-primary",
+                    callback: function() {
+                        $.post("/group/game/reg_cancel", 
+                            {"t_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+                            function(data){
+                                if(data["success"])
+                                    location.reload();
+                            });
+                    }
+                }
+            }
         });
     });
 

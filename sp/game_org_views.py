@@ -205,3 +205,13 @@ def update_info(req):
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['game_org']))
+def del_team(req):
+    if req.method == "POST":
+        t_id = req.POST.get("t_id")
+        Team.objects.get(id=t_id).delete() #这里studentteam, teamevent的删除写在了team的重载delete里
+        return JsonResponse({'success':True})
+    else:
+        return JsonResponse({'success':False})
