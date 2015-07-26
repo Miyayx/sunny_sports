@@ -1,0 +1,262 @@
+{% extends "./club/base.html" %}
+
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+{% endblock %}
+
+<!--
+重载页面部分
+-->
+{% block content%}
+{{ block.super }}
+			<div class="page-content-area">
+				<div class="page-header">
+					<h1> 个人中心 <small> <i class="ace-icon fa "></i>
+              <span>注册时间：{{club.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
+              <span>上次登录时间：{{club.user.last_login}}</span>
+						</small>
+					</h1>
+				</div><!-- /.page-header -->
+
+    {% if messages %}
+    <div class="alert alert-danger">
+        {% for m in messages %}
+        {% if forloop.first %}
+        {{ m }}
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="user-profile-3" class="user-profile row">
+                <div class="col-sm-offset-1 col-sm-10">
+                    <div class="space"></div>
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs padding-16">
+                            <li class="active"><a data-toggle="tab"
+                                href="#edit-basic"> <i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
+                                个人信息
+                            </a></li>
+
+                            <li><a data-toggle="tab" href="#edit-password"> <i
+                                    class="blue ace-icon fa fa-key bigger-125"></i> 密码修改
+                            </a></li>
+                        </ul>
+
+                        <div class="tab-content profile-edit-tab-content">
+                            <div id="edit-basic" class="tab-pane in active">
+                                <h4 class="header blue bolder smaller">基本信息</h4>
+                                <div class="row">
+                                    <!--
+                                    <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
+                                        <span class="profile-picture">
+                                            <img src="{{PHOTO_ROOT}}{{student.property.avatar}}" id="avatar" />
+                                        </span>
+                                        <div class="space-4"></div>
+                                        <form action="/student/up_img" method="post" enctype="multipart/form-data" >
+											{% csrf_token %}
+											<div class="col-sm-9">
+												<input type="file" id="headImg" name="headImg"/>
+											</div>
+											<button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                           		上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                       		</button>
+										</form>
+                                    </div>
+                                    -->
+                                    <form class="form-horizontal">
+                                        <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
+
+                                        <div class="vspace-12-sm"></div>
+                                        <div class="col-xs-12 col-sm-7">
+                                            <div class="form-club">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">单位名称</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="name">{{club.name}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-club">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">单位编号</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="org_num">{{club.org_num}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-club">
+                                                <label class="col-sm-4 control-label no-padding-right" for="form-field-nickname"> 昵称 </label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="nickname">{{club.user.nickname|default_if_none:""}}</span>
+                                                <label class="control-label no-padding-right"> (登录用) </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-club">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-phone">电话</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="phone">{{club.user.phone}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-club">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-email">邮箱</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="email">{{club.user.email|default_if_none:""}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- ./row -->
+                                    <hr />
+                                    <div class="row">
+                                        <div class="form-club col-sm-7">
+                                            <label class="col-sm-2 control-label no-padding-right"
+                                                for="form-field-place">地点</label>
+                                            <div class="col-sm-2">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{club.province}}</span>
+                                                    省
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{club.city}}</span>
+                                                    市
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{club.dist}}</span>
+                                                    区/县
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="address">{{club.address}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="space"></div>
+                                    </div>
+
+                                    <div class="space"></div>
+                                    <div class="row">
+                                        <div class="col-md-offset-4 col-md-8">
+                                            <button class="btn btn-info" type="button" id="save-btn">
+                                                <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                                            </button>
+                                        </div>
+                                        <p id="save-msg" class="col-md-offset-5"></p>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="edit-password" class="tab-pane row">
+                                <h4 class="header blue bolder smaller">密码修改</h4>
+                                <div class="space-10"></div>
+                                {% include "password.html" with csrf_token=csrf_token %}
+                            </div> <!-- #edit-password -->
+                        </div> <!-- tab-content -->
+                    </div> <!-- tab-babble -->
+
+                </div>
+                <!-- /.span -->
+            </div>
+            <!-- /.user-profile -->
+        </div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<script src="../../static/js/bootstrap.min.js"></script>
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="../../static/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="../../static/js/select2.min.js"></script>
+<script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="../../static/js/x-editable/ace-editable.min.js"></script>
+
+<script src="../../static/custom/myaddress.js"></script>
+<script src="../../static/custom/validate.js"></script>
+<script src="../../static/custom/person-info-val.js"></script>
+<!-- <script src="../../static/custom/avatar.js"></script> -->
+
+<script type="text/javascript">
+    jQuery(function($) {
+
+        $('#token').editable({
+            type: 'text',
+            name: 'csrfmiddlewaretoken'
+        });
+
+        $('#org_num').editable({
+            type: 'text',
+            name: 'org_num'
+        });
+
+        $('#name').editable({
+            type: 'text',
+            name: 'name'
+        });
+
+        $('#nickname')
+        .editable({
+            type: 'text',
+            name: 'nickname',
+            validate: function(v) {
+                v = $.trim(v);
+                if(!($(this).text() == v || $(this)[0].value == v  ))
+                    if (nicknameExists($.trim(v))) return '昵称已注册';
+            }
+        });	
+
+        // click save btn
+        $('#save-btn').click(function() {
+            $('.myeditable').editable('submit', { 
+                url: '/club/up_info', 
+                ajaxOptions: {
+                    dataType: 'json' //assuming json response
+                },           
+                success: function(data) {
+                    if(data && data.success){
+                        alert("已保存");
+                        location.reload();
+                    }
+                },
+                error: function(errors) {
+                    var info = "";
+                    for(var k in errors){
+                        info += (k+":  "+errors[k]+"\n");
+                    }
+                    alert(info);
+                } 
+            });
+        });
+
+    });
+
+</script>
+<!-- basic scripts -->
+
+{% endblock %}
