@@ -37,7 +37,7 @@
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛名称</label>
                 <div class="col-sm-9">
                     <span>
-                        <input type="text" id="g-name" name="name" value="{{game.name}}" style="width:260px" required="required">
+                        <input type="text" id="g-name" name="name" value="{{game.name}}" style="width:260px" required="required" >
                     </span>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">协办单位(;分割)</label>
                 <div class="col-sm-9">
                     <textarea id="g-coorganizer" name="coorganizer" rows="2" cols="60">
-                         {{game.coorganizer}}
+                        {{game.coorganizer}}
                     </textarea>
                 </div>
             </div>
@@ -71,7 +71,6 @@
                     {% for i,e in events %}
                     <label><input name="events" type="checkbox" disabled="true" checked value="{{i}}" />{{e}}</label> 
                     <input type="hidden" id="event{{i}}" name="events" value="{{i}}" />
-
                     {%endfor%}
                 </div>
             </div>
@@ -80,16 +79,13 @@
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 比赛地点 </label>
                 <div class="col-sm-9" id="position">
                     <span>
-                        <select class="prov" name="prov" value="{{game.province}}"></select>
-                        省
+                        <select class="prov" name="prov" value="{{game.province}}"></select> 省
                     </span>
                     <span>
-                        <select class="city" disabled="disabled" name="city" value="{{game.city}}"></select>
-                        市
+                        <select class="city" disabled="disabled" name="city" value="{{game.city}}"></select> 市
                     </span>
                     <span>
-                        <select class="dist" disabled="disabled" name="dist" value="{{game.dist}}"></select>
-                        区
+                        <select class="dist" disabled="disabled" name="dist" value="{{game.dist}}"></select> 区
                     </span>
                     <span>
                         <input type="text" id="address" name="address" value="{{game.address}}">
@@ -103,7 +99,6 @@
                     <!-- #section:elements.form.input-icon -->
                     <span>
                         <input class="col-xs-1" type="text" id="limit" name="limit" value="{{game.limit}}" required="required" >
-                        填写整数
                     </span>
                     <!-- /section:elements.form.input-icon -->
                 </div>
@@ -113,7 +108,6 @@
                 <div class="col-sm-9">
                     <span>
                         <input class="col-xs-1" type="text" id="male_num" name="male_num" value="{{game.male_num}}" required="required" >
-                        填写整数
                     </span>
                 </div>
             </div>
@@ -122,7 +116,6 @@
                 <div class="col-sm-9">
                     <span>
                         <input class="col-xs-1" type="text" id="female_num" name="female_num" value="{{game.female_num}}" required="required" >
-                        填写整数
                     </span>
                 </div>
             </div>
@@ -132,7 +125,6 @@
                     <!-- #section:elements.form.input-icon -->
                     <span>
                         <input class="col-xs-1" type="text" id="t-payment" name="money" value="{{game.money}}" required="required" >
-                        填写整数
                     </span>
                     <!-- /section:elements.form.input-icon -->
                 </div>
@@ -238,7 +230,7 @@
                 </div>
             </div>
             <div class="col-md-offset-3 col-md-9">
-                <button class="btn btn-info" type="button" id="submit">
+                <button class="btn btn-info" type="submit" id="submit">
                     <i class="ace-icon fa fa-check bigger-110"></i>
                     {% if game and game.submit_status == 1 %}
                     确定
@@ -250,7 +242,7 @@
                 {% if not game or game.submit_status == 0 %}
                 <button class="btn btn-success" type="button" id="save">
                     <i class="ace-icon fa fa-save bigger-110"></i>
-                   保存 
+                    保存 
                 </button>
                 &nbsp; &nbsp; &nbsp;
                 {% endif %}
@@ -276,6 +268,7 @@
 <script src="/static/js/date-time/moment.min.js"></script>
 <script src="/static/custom/jquery.cityselect.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script src="/static/js/jquery.validate.messages_cn.js"></script>
 <script type="text/javascript">
     jQuery(function($) {
 
@@ -287,7 +280,6 @@
             lang:'zh',
             format:'Y-m-d H:i',
             defaultTime:'00:00'
-
         }).next().on(ace.click_event, function(){
             $(this).prev().focus();
         });
@@ -323,51 +315,75 @@
             return moment($('#game-end').val()) > moment($('#game-start').val());//要用moment转换一下
         }, "<p class='red'>开始时间晚大于结束时间</p>");
 
-        $('#g-pub-form').validate({
-            rules: {
-                name:{
-                    required:true,
+        var form_val = function($form){
+            $($form).removeAttr('novalidate');
+            $($form).validate({
+                rules: {
+                    name:"required",
+                    limit:{
+                        required: true,
+                        digits:true,
+                    },
+                    male_num:{
+                        required: true,
+                        digits:true,
+                    },
+                    female_num:{
+                        required: true,
+                        digits:true,
+                    },
+                    money:{
+                        required: true,
+                        digits:true,
+                    },
+                    reg_etime: {
+                        required: true,
+                    },
+                    game_stime: {
+                        required: true,
+                    },
+                    game_etime: {
+                        required: true,
+                    },
+                    contact_name: {
+                        required: true,
+                    },
+                    contact_phone: {
+                        required: true,
+                    },
+                    contact_email: {
+                        required: true,
+                        email:true
+                    }
                 },
-                reg_etime: {
-                    required: true,
-                    reg_etime: true,
+
+                highlight: function (e) {
+                    $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
                 },
-                game_stime: {
-                    required: true,
-                    game_stime: true
+
+                success: function (e) {
+                    $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                    $(e).remove();
                 },
-                game_etime: {
-                    required: true,
-                    game_etime: true
+
+                errorPlacement: function (error, element) {
+                    error.appendTo(element.closest('.form-group span'));
+                },
+
+                submitHandler: function (form) {
+                },
+                invalidHandler: function (form) {
                 }
-            },
+            });
+        }
 
-            highlight: function (e) {
-                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-            },
-
-            success: function (e) {
-                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
-                $(e).remove();
-            },
-
-            errorPlacement: function (error, element) {
-                error.appendTo(element.closest('.form-group span'));
-            },
-
-            submitHandler: function (form) {
-            },
-            invalidHandler: function (form) {
-            }
-        });
-
+        form_val('#g-pub-form');
 
         $('#submit').click(function(e){
             e.preventDefault();
-            $('#g-pub-form').removeAttr('novalidate');
-            $('#g-pub-form').validate();
             var data = $('#g-pub-form').serialize();
-            $.post('/game_org/game_publish',data,function(data){
+            $.post('/game_org/game_publish',data)
+            .done(function(data){
                 if(data['success']){
                     alert("已提交");
                     {% if game %}
@@ -376,24 +392,29 @@
                     $('#g-pub-form').trigger('reset');
                     {% endif %}
                 }else{
-                    alert("失败，请检查发布信息并重试");
+                    alert(data["msg"]);
                 }
 
+            }).fail(function(){
+                alert("失败，请检查信息完整性并重试");
             });
         });
 
         $('#save').click(function(e){
             e.preventDefault();
             //$('#g-pub-form').removeAttr('novalidate');
-            //$('#g-pub-form').validate();
+            $('#g-pub-form').validate();
             var data = $('#g-pub-form').serializeArray();
             data.push({name:'save', value:1});
-            $.post('/game_org/game_publish',$.param(data),function(data){
+            $.post('/game_org/game_publish',$.param(data))
+            .done(function(data){
                 if(data['success']){
                     alert("已保存");
                 }else{
-                    alert("失败，请检查发布信息并重试");
+                    alert(data["msg"]);
                 }
+            }).fail(function(){
+                alert("失败，请检查信息完整性并重试");
             });
         });
     });

@@ -39,9 +39,9 @@
               {% elif g.reg_status == 2 and g.game_status == 0 %}
               报名结束
               {% elif g.game_status == 1 and g.sub_status == 0 %}
-              培训中
+              比赛中
               {% elif g.game_status == 2 and g.sub_status == 0 %}
-              培训结束
+              比赛结束
               {% elif g.sub_status == 2 %}
               审核未通过
               {% endif %}

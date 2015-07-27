@@ -80,7 +80,7 @@
                             <tr>
                                 <td class="hidden-480">{{game.id}}</td>
                                 <td><a href="/game_org/game_manage#{{game.id}}">{{game.name}}</a></td>
-                                <td>{{game.province}}</td>
+                                <td>{{game.province}}{{game.city}}</td>
                                 {% if game.pass_status == 0 %}
                                 <td>等待审核</td>
                                 {% elif game.reg_status == 0 %}
