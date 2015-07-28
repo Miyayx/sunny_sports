@@ -74,6 +74,7 @@ def current_game(req, g_id=None):
              ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
              team = Team.objects.get(game=game, contestant=ur)
              sts = StudentTeam.objects.filter(team=team)
+             print "sts len:",len(sts)
              tes = TeamEvent.objects.filter(team=team)
          except Exception,e:
              print e
@@ -100,21 +101,28 @@ def game_apply(req, g_id=None):
         if tform.is_valid():
             t = tform.save()
             ms = members.strip().split(',')
+            print len(ms)
+            print len(set(ms))
+            if not len(ms) == len(set(ms)):
+                return JsonResponse({'success':False, 'msg':'队员有重复' })
             stus = Student.objects.filter(property__user__id__in=ms)
             sts = []
             for s in stus:
-                sts.append(StudentTeam(student=s, team=t))
-            StudentTeam.objects.bulk_create(sts)
+                StudentTeam.objects.get_or_create(student=s, team=t)
+
+                #sts.append(StudentTeam(student=s, team=t))
+            #StudentTeam.objects.bulk_create(sts)
 
             tes = []
             for e in Event.objects.all():
-                tes.append(TeamEvent(event=e, team=t))
-            TeamEvent.objects.bulk_create(tes)
+                TeamEvent.objects.get_or_create(event=e, team=t)
+                #tes.append(TeamEvent(event=e, team=t))
+            #TeamEvent.objects.bulk_create(tes)
 
-            return JsonResponse({'success':True})
+            return JsonResponse({'success':True, 't_id':t.id})
         else:
             print tform.errors
-            return JsonResponse({'success':False })
+            return JsonResponse({'success':False, 'msg':str(tform.errors) })
     else:
         if not g_id:
             return HttpResponse('比赛信息错误')
