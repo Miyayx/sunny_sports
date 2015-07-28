@@ -14,6 +14,7 @@
         <div class="row">
             <div class="col-sm-12">
                 {% if games|length %} <!-- 如果当前有比赛 -->
+                <h4 class="pink">可报名比赛</h4>
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
@@ -23,7 +24,7 @@
                             <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>截止时间</th>
                             <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>比赛时间</th>
                             <th class="center">费用(元/人)</th>
-                            <th class="center">名额</th>
+                            <th class="center">队数</th>
                             {% if not team or team.pay_status == 0 or game.reg_status == 1 %}
                             <th class="center">报名</th>
                             {% endif %}
@@ -33,7 +34,6 @@
 
                     <tbody>
                         {% for game in games %}
-                        {% with game.team as team %}
                         <tr>
                             <td class="center"><a href="/{{role}}/cur_game/{{game.id}}">{{game.name}}</a>
                                 <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
@@ -44,11 +44,54 @@
                             <td class="center">{{game.money}}</td>
                             <td class="center">{{game.cur_num}}/{{game.limit}}</td>
                             <!-- 报名列 -->
-                            {% if team %}
+                            {% if game.cur_num < game.limit %}
+                            <td class="center"><a class="btn btn-minier btn-info" href="/{{role}}/game_apply/{{game.id}}">报名</a></td>
+                            {% else %}
+                            <td class="center"><a class="btn btn-minier btn-success">名额已满</a></td>
+                            {% endif %}
+                            <!-- 状态列 -->
+                            <td class="center">
+                                <span class="label label-primary">报名进行中</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %} <!-- 若当前没有可报名比赛 -->
+                <h4 class="pink">当前没有可报名比赛</h4>
+                {% endif %} <!-- 可报名比赛 -->
+
+                {% if teams|length %} <!-- 如果当前有已报名比赛 -->
+                <div class="hr hr-18 dotted hr-double"></div>
+                <h4 class="pink">已报名比赛</h4>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="center">参赛队</th>
+                            <th class="center">比赛名称</th>
+                            <th class="center">发布机构</th>
+                            <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>报名时间</th>
+                            <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>比赛时间</th>
+                            <th class="center">报名</th>
+                            <th class="center">当前状态</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for team in teams %}
+                        {% with team.game as game %}
+                        <tr>
+                            <td class="center"><a href="/{{role}}/cur_game/{{game.id}}">{{team.name}}</a>
+                                <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
+                            <td class="center">{{game.name}}</td>
+                            <td class="center">{{game.org.name}}</td>
+                            <td class="center">{{game.reg_stime}}</td>
+                            <td class="center">{{game.game_stime|date:"Y-m-d"}}</td>
+                            <!-- 报名列 -->
                             <td class="center">
                                 {% if team.pay_status == 0 %}
                                 <a class="btn btn-minier btn-primary" href="/game/pay/{{team.id}}">去付款</a>
-                                {% if team.pay_status == 1 %}
+                                {% if game.game_status == 0 %}
                                 <a class="btn btn-minier btn-danger">取消报名</a>
                                 {% endif %}
                                 {% else %}
@@ -56,13 +99,6 @@
                                     电话：{{game.org.contact_phone}}</span>
                                 {% endif %}
                             </td>
-                            {% else %}
-                            {% if game.cur_num < game.limit %}
-                            <td class="center"><a class="btn btn-minier btn-info" href="/{{role}}/game_apply/{{game.id}}">报名</a></td>
-                            {% else %}
-                            <td class="center"><a class="btn btn-minier btn-success">名额已满</a></td>
-                            {% endif %}
-                            {% endif %}
                             <!-- 状态列 -->
                             <td class="center">
                                 {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
@@ -87,8 +123,6 @@
                     </tbody>
                 </table>
                 <p>若付款遇到问题，请联系网络平台负责人：13488875566</p>
-                {% else %} <!-- 若当前没有可报名比赛 -->
-                <p>当前没有比赛</p>
                 {% endif %}
             </div>
         </div>

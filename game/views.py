@@ -84,16 +84,15 @@ def del_member(req):
 @user_passes_test(lambda u: u.is_role(['group','club']))
 def current_game(req, g_id, ROLE_ID):
     if not g_id: #显示game list
-        games = Game.objects.filter(pass_status=1, pub_status=0) #报名的比赛
+        games = Game.objects.filter(pass_status=1, reg_status__lt=2, game_status=0, pub_status=0) #报名的比赛
         for g in games: #报名的比赛
             g.cur_num = len(Team.objects.filter(game=g))
-            try:
-                ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-                g.team = Team.objects.get(contestant=ur, game=g)
-            except:
-                g.team = None
 
-        return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games}, RequestContext(req))
+        #与自己相关的进行中比赛
+        ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+        teams = Team.objects.filter(contestant=ur, game__pub_status=0)
+
+        return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games, "teams":teams}, RequestContext(req))
     else: #显示单个game状况
         game = Game.objects.get(id=g_id)
         time_remain = 0
