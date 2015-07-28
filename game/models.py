@@ -106,7 +106,8 @@ class Team(models.Model):
         编号生成规则：game_id+contestant_id
         """
         if len(self.id) == 0:
-            self.id = "{0}{1}".format(self.game.id, self.contestant.id)
+            now = datetime.datetime.now()
+            self.id = "{0}{1}{2}".format(self.game.id, self.contestant.id, str(now.minute)+str(now.second))
             print self.id
 
         super(Team, self).save(*args, **kwargs)

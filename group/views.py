@@ -60,8 +60,8 @@ def center(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
-def current_game(req, g_id=None):
-    return gv.current_game(req, g_id, ROLE_ID)
+def current_game(req, g_id=None, t_id=None):
+    return gv.current_game(req, g_id, t_id, ROLE_ID)
 
 
 @login_required()

@@ -96,7 +96,6 @@
                             <a class="btn btn-xs btn-danger" id="reg-cancel">取消报名</a>
                             {% endif %}
 
-
                             {% else %}
                             <span>退赛请联系举办方 &nbsp;&nbsp;&nbsp;&nbsp; 电话：{{game.contact_phone}}</span>
                             {% endif %}
@@ -113,7 +112,6 @@
                             {% if team %}
                             <h4>队名：<span class="label label-xlg label-primary arrowed arrowed-right"> {{team.name}}</span></h4>
                             <hr/>
-                            {% endif %} <!-- team -->
                             <!--
                             {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
                             <a type="button" class="btn btn-xs btn-inverse" id='ch-member' href="/game/ch_mem/{{team.id}}">更换队员</a>
@@ -164,11 +162,12 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            {% if team.pay_status == 0 and sts and sts|length < game.total_num and not role == 'student' %}
+                            {% if team.pay_status == 0 and sts.count < game.total_num and not role == 'student' %}
                             <span id="mem-add"><input placeholder="输入学员手机号"/> <button class="btn btn-xs btn-info"> 添加队员</button><span id='wrong-alert' class="red"></span></span>
                             {% else %}
                             <span id="mem-add" style="display:none"><input placeholder="输入学员手机号并回车"/> <button class="btn btn-xs btn-info"> 添加队员</button> <span id='wrong-alert' class="red"></span></span>
-                            {% endif %} <!-- sts -->
+                            {% endif %} <!-- if sts -->
+                            {% endif %} <!-- if team -->
                         </div>
                     </div>
                 </div>
@@ -205,6 +204,7 @@
 
                         <div class="widget-body">
                             <div class="widget-main">
+                                {% if team %}
                                 <table class="table table-striped table-bordered table-hover green">
                                     <thead>
                                         <tr>
@@ -230,6 +230,16 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                {% else %}
+                                <table class="table table-striped table-bordered table-hover green">
+                                    <thead> <tr> <th>项目</th> </tr> </thead>
+                                    <tbody>
+                                        {% for e in events %}
+                                        <tr> <td>{{e.get_name_display}}</td> </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

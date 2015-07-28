@@ -81,7 +81,7 @@
                         {% for team in teams %}
                         {% with team.game as game %}
                         <tr>
-                            <td class="center"><a href="/{{role}}/cur_game/{{game.id}}">{{team.name}}</a>
+                            <td class="center"><a href="/{{role}}/cur_game/{{game.id}}/{{team.id}}">{{team.name}}</a>
                                 <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
                             <td class="center">{{game.name}}</td>
                             <td class="center">{{game.org.name}}</td>

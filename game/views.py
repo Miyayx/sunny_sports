@@ -14,6 +14,7 @@ from sunny_sports.settings import HOST
 from sunny_sports.settings import PAYMENT_LIMIT
 
 from sp.g_import import *
+from sp.models.status import get_role
 from game.models import *
 from student.models import *
 
@@ -82,37 +83,33 @@ def del_member(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
-def current_game(req, g_id, ROLE_ID):
+def current_game(req, g_id, t_id, ROLE_ID):
+    role = get_role(ROLE_ID)
     if not g_id: #显示game list
         games = Game.objects.filter(pass_status=1, reg_status__lt=2, game_status=0, pub_status=0) #报名的比赛
         for g in games: #报名的比赛
             g.cur_num = len(Team.objects.filter(game=g))
-
         #与自己相关的进行中比赛
         ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
         teams = Team.objects.filter(contestant=ur, game__pub_status=0)
-
-        return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games, "teams":teams}, RequestContext(req))
-    else: #显示单个game状况
+        return render_to_response('game/group_gamelist.html',{'base':'./%s/base.html'%role, 'role':role,  "games":games, "teams":teams}, RequestContext(req))
+    elif g_id and not t_id: #显示单个game状况
         game = Game.objects.get(id=g_id)
+        game.cur_num = len(Team.objects.filter(game=game))
+        #events = Event.objects.filter(id__in=game.events.split(','))#项目列表
+        events = Event.objects.all()
+        return render_to_response('game/single_game.html',{'base':'./%s/base.html'%role, 'role':role, 'game':game, 'events':events}, RequestContext(req))
+    else:
         time_remain = 0
-        try:
-            ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-            team = Team.objects.get(game=game, contestant=ur)
-            sts = StudentTeam.objects.filter(team=team)
-            print "sts len:",len(sts)
-            tes = TeamEvent.objects.filter(team=team)
-            if team.pay_status == 0:
-                time_remain = team.reg_time+PAYMENT_LIMIT-timezone.now()
-                print 'time_remain',time_remain
-                time_remain = int(time_remain.total_seconds())
-        except Exception,e:
-            print e
-            team = None
-            sts = None
-            tes = None
-
-        return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'time_remain':time_remain, 'role':'group'}, RequestContext(req))
+        team = Team.objects.get(id=t_id)
+        sts = StudentTeam.objects.filter(team=team)
+        print "sts len:",len(sts)
+        tes = TeamEvent.objects.filter(team=team)
+        if team.pay_status == 0:
+            time_remain = team.reg_time+PAYMENT_LIMIT-timezone.now()
+            print 'time_remain',time_remain
+            time_remain = int(time_remain.total_seconds())
+        return render_to_response('game/single_game.html',{'base':'./%s/base.html'%role, 'game':team.game, 'team':team, 'sts':sts, 'tes':tes, 'time_remain':time_remain, 'role':role}, RequestContext(req))
 
 @login_required()
 @transaction.atomic

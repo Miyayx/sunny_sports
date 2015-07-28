@@ -16,6 +16,9 @@ def get_role_id(r_str):
         if r == r_str:
             return i
 
+def get_role(_id):
+    return ROLE_LIST[_id][1]
+
 SEX = (
         (0,'男'),
         (1,'女'),
