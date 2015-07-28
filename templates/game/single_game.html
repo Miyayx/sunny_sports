@@ -159,7 +159,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            {% if team.pay_status == 0 and sts and sts|length < game.limit and not role == 'student' %}
+                            {% if team.pay_status == 0 and sts and sts|length < game.total_num and not role == 'student' %}
                             <span id="mem-add"><input placeholder="输入学员手机号"/> <button class="btn btn-xs btn-info"> 添加队员</button><span id='wrong-alert' class="red"></span></span>
                             {% else %}
                             <span id="mem-add" style="display:none"><input placeholder="输入学员手机号并回车"/> <button class="btn btn-xs btn-info"> 添加队员</button> <span id='wrong-alert' class="red"></span></span>
@@ -312,7 +312,11 @@
     {% if game.game_status == 0 and not role == 'student'%}
 
     $(".mem-edit").click(function(){
-        $(this).next('input').show();
+        $input = $(this).next('input');
+        if($input.is(":visible"))
+            $input.hide();
+        else
+            $input.show();
     });
     $(".edit-input").keydown(function(e){
         if (e.keyCode == 13 || e.keyCode == 44){

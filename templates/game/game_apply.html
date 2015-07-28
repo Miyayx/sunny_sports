@@ -100,7 +100,7 @@
                         <div class="col-sm-9">
                             <input type="text" name="member" id="mem-tags" data-role="tagsinput" placeholder="输入手机号并回车">
                             <p class="blue">付款前可更改数量，比赛前可更改名单，参赛费用总金额以队员数量为准</p>
-                            <p class="red">要求：队员总数:{{game.limit}}人, 男生:{{game.male_num}}名, 女生:{{game.female_num}}名</p>
+                            <p class="red">要求：队员总数:{{game.total_num}}人, 男生:{{game.male_num}}名, 女生:{{game.female_num}}名</p>
                             <p id='wrong-alert' class="red"></p>
                             <!--
                             <input type="text" placeholder="输入手机号查找队员"></div>
@@ -211,7 +211,7 @@
 
     var $tags = $('#mem-tags');
     $tags.on('itemRemoved', function(event) { //删除一个tag
-                    if ($('.bootstrap-tagsinput span.tag').length < {{game.limit}})
+                    if ($('.bootstrap-tagsinput span.tag').length < {{game.total_num}})
                         $('.bootstrap-tagsinput input').show(); //数量少于限制可再输入
           });
     var $elt = $tags.tagsinput('input');
@@ -226,7 +226,7 @@
                     $tags.tagsinput('add', d);
                     $elt.val('');
                     $elt.attr('size',20);
-                    if ($('.bootstrap-tagsinput span.tag').length >= {{game.limit}})
+                    if ($('.bootstrap-tagsinput span.tag').length >= {{game.total_num}})
                         $('.bootstrap-tagsinput input').hide(); //数量超过限制不再输入
 
                 }else{

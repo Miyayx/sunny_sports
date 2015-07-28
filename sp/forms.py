@@ -199,7 +199,7 @@ class TrainPublishForm(ModelForm):
 class GamePublishForm(ModelForm):
     class Meta:
         model = Game
-        fields = ['org','name','description','sponsor','organizer','coorganizer', 'schedule', 'province', 'city', 'dist', 'address', 'events', 'limit','male_num','female_num', 'money','reg_place', 'reg_stime','reg_etime','game_stime','game_etime', 'contact_name', 'contact_phone', 'contact_email']
+        fields = ['org','name','description','sponsor','organizer','coorganizer', 'schedule', 'province', 'city', 'dist', 'address', 'events', 'limit','male_num','female_num', 'total_num', 'money','reg_place', 'reg_stime','reg_etime','game_stime','game_etime', 'contact_name', 'contact_phone', 'contact_email']
 
     def is_valid(self):
         if super(GamePublishForm, self).is_valid():

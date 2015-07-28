@@ -86,6 +86,7 @@ def game_publish(req):
             data['limit'] = int(data['limit'])
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
+            data['total_num'] = data['male_num']+data['female_num']
             data['sponsor'] = data['sponsor'].strip()
             data['organizer'] = data['organizer'].strip()
             data['coorganizer'] = data['coorganizer'].strip()
@@ -100,6 +101,7 @@ def game_publish(req):
             data['limit'] = int(data['limit'])
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
+            data['total_num'] = data['male_num']+data['female_num']
             data['sponsor'] = data['sponsor'].strip()
             data['organizer'] = data['organizer'].strip()
             data['coorganizer'] = data['coorganizer'].strip()

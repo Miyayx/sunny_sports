@@ -106,8 +106,7 @@ urlpatterns += patterns('sp.game_org_views',
         url(r'^game_org/game_manage$', 'game_manage'),
         url(r'^game_org/result_input$', 'result_input'),
         url(r'^game_org/up_info$', 'update_info'),
-        #url(r'^game_org/add_member$', 'add_member'),
-        #url(r'^game_org/del_member$', 'del_member'),
+        url(r'^game_org/del_team$', 'del_team'),
         )
 
 # coach
