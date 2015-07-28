@@ -6,112 +6,111 @@
 {% load template_tags%}
 
 <div class="page-header">
-  <h1>当前比赛</h1>
+    <h1>当前比赛</h1>
 </div>
 <div class="row">
-  <div class="col-sm-1"></div>
-  <div class="col-sm-10">
-    <div class="row">
-      <div class="col-sm-12">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-12">
+                {% if games|length %} <!-- 如果当前有比赛 -->
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="center">比赛名称</th>
+                            <th class="center">发布机构</th>
+                            <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>报名时间</th>
+                            <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>截止时间</th>
+                            <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>比赛时间</th>
+                            <th class="center">费用(元/人)</th>
+                            <th class="center">名额</th>
+                            {% if not team or team.pay_status == 0 or game.reg_status == 1 %}
+                            <th class="center">报名</th>
+                            {% endif %}
+                            <th class="center">当前状态</th>
+                        </tr>
+                    </thead>
 
-        {% if games|length %} <!-- 如果当前有比赛 -->
-        <table class="table table-striped table-bordered table-hover">
-          <thead>
-            <tr>
-              <th class="center">比赛名称</th>
-              <th class="center">发布机构</th>
-              <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>报名时间</th>
-              <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>截止时间</th>
-              <th class="center"><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>比赛时间</th>
-              <th class="center">费用(元/人)</th>
-              <th class="center">名额</th>
-              {% if not team or team.pay_status == 0 or game.reg_status == 1 %}
-              <th class="center">报名</th>
-              {% endif %}
-              <th class="center">当前状态</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for game in games %}
-            {% with game.team as team %}
-            <tr>
-                <td class="center"><a href="/{{role}}/cur_game/{{game.id}}">{{game.name}}</a>
-                  <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
-              <td class="center">{{game.org.name}}</td>
-              <td class="center">{{game.reg_stime}}</td>
-              <td class="center">{{game.reg_etime}}</td>
-              <td class="center">{{game.game_stime|date:"Y-m-d"}}</td>
-              <td class="center">{{game.money}}</td>
-              <td class="center">{{game.cur_num}}/{{game.limit}}</td>
-              <!-- 报名列 -->
-              {% if team %}
-              <td class="center">
-                {% if team.pay_status == 0 %}
-                <a class="btn btn-minier btn-primary" href="/game/pay/{{team.id}}">去付款</a>
-                {% if team.pay_status == 1 %}
-                <a class="btn btn-minier btn-danger">取消报名</a>
+                    <tbody>
+                        {% for game in games %}
+                        {% with game.team as team %}
+                        <tr>
+                            <td class="center"><a href="/{{role}}/cur_game/{{game.id}}">{{game.name}}</a>
+                                <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
+                            <td class="center">{{game.org.name}}</td>
+                            <td class="center">{{game.reg_stime}}</td>
+                            <td class="center">{{game.reg_etime}}</td>
+                            <td class="center">{{game.game_stime|date:"Y-m-d"}}</td>
+                            <td class="center">{{game.money}}</td>
+                            <td class="center">{{game.cur_num}}/{{game.limit}}</td>
+                            <!-- 报名列 -->
+                            {% if team %}
+                            <td class="center">
+                                {% if team.pay_status == 0 %}
+                                <a class="btn btn-minier btn-primary" href="/game/pay/{{team.id}}">去付款</a>
+                                {% if team.pay_status == 1 %}
+                                <a class="btn btn-minier btn-danger">取消报名</a>
+                                {% endif %}
+                                {% else %}
+                                <span>退出请联系举办方<br/>
+                                    电话：{{game.org.contact_phone}}</span>
+                                {% endif %}
+                            </td>
+                            {% else %}
+                            {% if game.cur_num < game.limit %}
+                            <td class="center"><a class="btn btn-minier btn-info" href="/{{role}}/game_apply/{{game.id}}">报名</a></td>
+                            {% else %}
+                            <td class="center"><a class="btn btn-minier btn-success">名额已满</a></td>
+                            {% endif %}
+                            {% endif %}
+                            <!-- 状态列 -->
+                            <td class="center">
+                                {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
+                                <span class="label label-primary">比赛结束</span>
+                                {% elif team and team.pay_status > 0 and game.game_status == 1 %}
+                                <span class="label label-primary">比赛进行中</span>
+                                {% elif team and team.pay_status == 0 %}
+                                <span class="label label-primary">已报名，未付款</span>
+                                {% elif team and team.pay_status == 1 and game.reg_status == 1 %}
+                                <span class="label label-primary">已付款</span>
+                                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
+                                <span class="label label-primary">等待比赛开始</span>
+                                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
+                                <span class="label label-primary">比赛结束</span>
+                                {% elif not team %}
+                                <span class="label label-primary">报名进行中</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endwith %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p>若付款遇到问题，请联系网络平台负责人：13488875566</p>
+                {% else %} <!-- 若当前没有可报名比赛 -->
+                <p>当前没有比赛</p>
                 {% endif %}
-                {% else %}
-                <span>退出请联系举办方<br/>
-                  电话：{{game.org.contact_phone}}</span>
-                {% endif %}
-              </td>
-              {% else %}
-              {% if game.cur_num < game.limit %}
-              <td class="center"><a class="btn btn-minier btn-info" href="/{{role}}/game_apply/{{game.id}}">报名</a></td>
-              {% else %}
-              <td class="center"><a class="btn btn-minier btn-success">名额已满</a></td>
-              {% endif %}
-              {% endif %}
-              <!-- 状态列 -->
-              <td class="center">
-                {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
-                <span class="label label-primary">比赛结束</span>
-                {% elif team and team.pay_status > 0 and game.game_status == 1 %}
-                <span class="label label-primary">比赛进行中</span>
-                {% elif team and team.pay_status == 0 %}
-                <span class="label label-primary">已报名，未付款</span>
-                {% elif team and team.pay_status == 1 and game.reg_status == 1 %}
-                <span class="label label-primary">已付款</span>
-                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
-                <span class="label label-primary">等待比赛开始</span>
-                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
-                <span class="label label-primary">比赛结束</span>
-                {% elif not team %}
-                <span class="label label-primary">报名进行中</span>
-                {% endif %}
-              </td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-          </tbody>
-        </table>
-        <p>若付款遇到问题，请联系网络平台负责人：13488875566</p>
-        {% else %} <!-- 若当前没有可报名比赛 -->
-        <p>当前没有比赛</p>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-
-  <div class="ace-settings-container onpage-help-toggle-container">
-    <a data-toggle="dropdown" class="btn btn-app btn-xs btn-info ace-setting-btn onpage-help-toggle-btn" href="#">
-      <i class="ace-icon fa fa-question bigger-150"></i>
-    </a>
-
-    <ul class="dropdown-menu-right dropdown-navbar navbar-blue dropdown-menu dropdown-caret dropdown-close">
-      <li class="dropdown-header">
-      <i class="ace-icon fa fa-download"></i>
-      下载说明文档
-      </li>
-      <li> <a href="/tutorial/team">
-        <div class="clearfix">
-          参赛队报名与付款教程
+            </div>
         </div>
-      </a> </li>
-    </ul>
-  </div>
+    </div>
+
+    <div class="ace-settings-container onpage-help-toggle-container">
+        <a data-toggle="dropdown" class="btn btn-app btn-xs btn-info ace-setting-btn onpage-help-toggle-btn" href="#">
+            <i class="ace-icon fa fa-question bigger-150"></i>
+        </a>
+
+        <ul class="dropdown-menu-right dropdown-navbar navbar-blue dropdown-menu dropdown-caret dropdown-close">
+            <li class="dropdown-header">
+            <i class="ace-icon fa fa-download"></i>
+            下载说明文档
+            </li>
+            <li> <a href="/tutorial/team">
+                <div class="clearfix">
+                    参赛队报名与付款教程
+                </div>
+            </a> </li>
+        </ul>
+    </div>
 </div>
 {% endblock %}
 
@@ -119,39 +118,39 @@
 <script type="text/javascript" src="/static/js/bootbox.min.js"></script>
 <script type="text/javascript">
 
-  $("td a[href^='/game_info']").click(function(e){
-    e.preventDefault();
-    var url = $(this).attr('href');
-    $.get(url, function(page){
-      bootbox.alert(page, function(){})
+    $("td a[href^='/game_info']").click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function(page){
+            bootbox.alert(page, function(){})
+        });
     });
-  });
 
-  $("td a.btn-danger").click(function(){
-    bootbox.dialog({
-      message: "<h3>确定取消报名？</h3>",
-      buttons: {
-        cancel: {
-          label: "取消",
-          className: "btn-default",
-          callback: function() {
-          }
-        },
-        main: {
-          label: "确定",
-          className: "btn-primary",
-          callback: function() {
-            $.post("/{{role}}/cur_game/reg_cancel", 
-              {"team_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
-              function(data){
-                if(data["success"])
-                  location.reload();
-              });
-          }
-        }
-      }
+    $("td a.btn-danger").click(function(){
+        bootbox.dialog({
+            message: "<h3>确定取消报名？</h3>",
+            buttons: {
+                cancel: {
+                    label: "取消",
+                    className: "btn-default",
+                    callback: function() {
+                    }
+                },
+                main: {
+                    label: "确定",
+                    className: "btn-primary",
+                    callback: function() {
+                        $.post("/{{role}}/cur_game/reg_cancel", 
+                            {"team_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+                            function(data){
+                                if(data["success"])
+                                    location.reload();
+                            });
+                    }
+                }
+            }
+        });
     });
-  });
 
 </script>
 {% endblock %}

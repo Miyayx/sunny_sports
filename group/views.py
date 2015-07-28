@@ -1,15 +1,19 @@
 #-*- coding:utf-8 -*-
 from django.shortcuts import render
 
+from datetime import datetime, timedelta
+
 from sp.g_import import *
 from sp.utils import *
 
 from group.models import *
 from game.models import *
 from game.forms import *
+from game import views as gv
 from sp.models.role import *
 
 from django.contrib import messages
+
 
 ROLE_ID = 5
 
@@ -40,7 +44,7 @@ def home(req):
         teams = None
 
     old_teams = Team.objects.filter(contestant=ur, game__pub_status=1)[:5]
-    
+
     return render_to_response('group/home.html',{"group":g, "teams":teams, "old_teams":old_teams}, RequestContext(req))
 
 @login_required()
@@ -55,34 +59,10 @@ def center(req):
     return render_to_response('group/center.html',{"group":g[0]}, RequestContext(req))
 
 @login_required()
-@user_passes_test(lambda u: u.is_role(['group']))
+@user_passes_test(lambda u: u.is_role(['group','club']))
 def current_game(req, g_id=None):
-     if not g_id:
-         games = Game.objects.filter(pass_status=1, pub_status=0)
-         for g in games:
-             g.cur_num = len(Team.objects.filter(game=g))
-             try:
-                 ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-                 g.team = Team.objects.get(game=g, contestant=ur)
-             except:
-                 g.team = None
-             
-         return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games}, RequestContext(req))
-     else:
-         game = Game.objects.get(id=g_id)
-         try:
-             ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-             team = Team.objects.get(game=game, contestant=ur)
-             sts = StudentTeam.objects.filter(team=team)
-             print "sts len:",len(sts)
-             tes = TeamEvent.objects.filter(team=team)
-         except Exception,e:
-             print e
-             team = None
-             sts = None
-             tes = None
-         
-         return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
+    return gv.current_game(req, g_id, ROLE_ID)
+
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
@@ -166,7 +146,7 @@ def history_game(req):
                 team = None
                 sts = None
                 tes = None
-            
+
             return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
         else:#否则返回历史比赛列表
             uuid = req.user.id

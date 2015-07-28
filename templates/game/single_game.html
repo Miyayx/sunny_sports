@@ -88,10 +88,15 @@
                             {% if game.game_status == 0 and game.sub_status == 0 and game.pub_status == 0%}
                             {% if team.pay_status == 0 or team.game.reg_status == 1%}
                             {% if team.pay_status == 0 %}
+                            {% if team and time_remain %}
+                            {% include "pay_timer.html" with time_remain=time_remain%}
+                            {% endif %}
                             <a class="btn btn-xs btn-primary" href="/game/pay/{{team.id}}">去付款</a>
                             {% if team.game.reg_status == 1 %}
                             <a class="btn btn-xs btn-danger" id="reg-cancel">取消报名</a>
                             {% endif %}
+
+
                             {% else %}
                             <span>退赛请联系举办方 &nbsp;&nbsp;&nbsp;&nbsp; 电话：{{game.contact_phone}}</span>
                             {% endif %}
@@ -212,11 +217,15 @@
                                         {% for te in tes %}
                                         <tr>
                                             <td>{{te.event.get_name_display}}</td>
+                                            {% if game.pub_status == 1 %}
                                             <td>{{te.get_award_display}}
-                                                {% if not te.award == 0 and not te.award == 4%}
+                                                {% if game.pub_status == 1 and not te.award == 0 and not te.award == 4%}
                                                 <a style="margin-left:15px" type="button" class="btn btn-white btn-success btn-xs" href="/dl_qual?cert={{te.certificate}}">下载证书</a>
                                                 {% endif %}
                                             </td>
+                                            {%else%}
+                                            <td>暂无结果</td>
+                                            {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -362,8 +371,8 @@
             }else{
                 $('#wrong-alert').text(d.msg);
                 $('#wrong-alert').show();
-        }
-    });
+            }
+        });
     });
     {% endif %}
 

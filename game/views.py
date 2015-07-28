@@ -81,6 +81,41 @@ def del_member(req):
             return JsonResponse({})
 
 @login_required()
+@user_passes_test(lambda u: u.is_role(['group','club']))
+def current_game(req, g_id, ROLE_ID):
+    if not g_id: #显示game list
+        games = Game.objects.filter(pass_status=1, pub_status=0) #报名的比赛
+        for g in games: #报名的比赛
+            g.cur_num = len(Team.objects.filter(game=g))
+            try:
+                ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+                g.team = Team.objects.get(contestant=ur, game=g)
+            except:
+                g.team = None
+
+        return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games}, RequestContext(req))
+    else: #显示单个game状况
+        game = Game.objects.get(id=g_id)
+        time_remain = 0
+        try:
+            ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+            team = Team.objects.get(game=game, contestant=ur)
+            sts = StudentTeam.objects.filter(team=team)
+            print "sts len:",len(sts)
+            tes = TeamEvent.objects.filter(team=team)
+            if team.pay_status == 0:
+                time_remain = team.reg_time+PAYMENT_LIMIT-timezone.now()
+                print 'time_remain',time_remain
+                time_remain = int(time_remain.total_seconds())
+        except Exception,e:
+            print e
+            team = None
+            sts = None
+            tes = None
+
+        return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'time_remain':time_remain, 'role':'group'}, RequestContext(req))
+
+@login_required()
 @transaction.atomic
 @csrf_exempt
 @user_passes_test(lambda u: u.is_role(['group','club']))
