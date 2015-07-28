@@ -5,8 +5,6 @@ from django.contrib.auth.decorators import user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
 
-from sp.g_import import *
-
 from payment.models import Bill
 from payment.views import pay as ali_pay
 from payment.views import pay_method 
@@ -25,12 +23,62 @@ def find_stu(req, phone):
     print "phone-->"+phone
     try:
         s = Student.objects.get(property__user__phone=phone)
-        if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0:
+        if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0: #该学生已报名其他队
             return JsonResponse({'success':False})
-        return JsonResponse({'uuid':s.property.user.id, 'name':s.property.name, 'success':True})
+        return JsonResponse({'uuid':s.property.user.id, 'name':s.property.name, 'gender':s.property.get_sex_display(), 'success':True})
     except Exception,e:
         print e
         return JsonResponse({})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['group','club']))
+def edit_member(req):
+    if req.method == "POST":
+        st_id = req.POST['st_id'].strip()
+        phone = req.POST['phone'].strip()
+        try:
+            s = Student.objects.get(property__user__phone=phone)
+            if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0: 
+                return JsonResponse({'success':False})
+            else:
+                StudentTeam.objects.filter(id=st_id).update(student=s)
+                return JsonResponse({'st_id':st_id, 'name':s.property.name, 'gender':s.property.get_sex_display(), 'success':True})
+        except Exception,e:
+            print e
+            return JsonResponse({})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['group','club']))
+def add_member(req):
+    if req.method == "POST":
+        phone = req.POST['phone'].strip()
+        t_id = req.POST['team'].strip()
+        try:
+            s = Student.objects.get(property__user__phone=phone)
+            if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0: 
+                return JsonResponse({'success':False, 'msg':'该学员已报名比赛'})
+            else:
+                t = Team.objects.get(id=t_id)
+                StudentTeam.objects.create(student=s, team=t )
+                return JsonResponse({'success':True})
+        except Exception,e:
+            print e 
+            return JsonResponse({'success':False, 'msg':'未找到相应学员'})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['group','club']))
+def del_member(req):
+    if req.method == "POST":
+        st_id = req.POST['st_id'].strip()
+        try:
+            StudentTeam.objects.filter(id=st_id).delete() 
+            return JsonResponse({'success':True})
+        except Exception,e:
+            print e
+            return JsonResponse({})
 
 @login_required()
 @transaction.atomic
@@ -46,7 +94,7 @@ def pay(req, t_id=None):
                 'subject'     :u"%s报名费用"%(team.game.name),  
                 'body'        :u"%s报名费用 参赛队:%s 参赛人数:%d"%(team.game.name, team.name, mem),
                 'total_fee'   :team.game.money*mem,
-                'return_url'  :"http://%s/game/pay_return"%HOST,
+                'return_url'  :"http://%s/game/pay_return"%req.META['HTTP_HOST'],
                 'notify_url'  :"http://%s/game/pay_notify"%HOST,
                 'order_num'   :t_id,#用来生成账单编号
                 'org_email'   :team.game.org.ali_email,#分润给组织机构
@@ -88,7 +136,7 @@ def pay_notify(req):
             print ('TRADE SUCCESS, so upgrade bill')
             try:
                 #ct = CoachTrain.objects.get(bill_id=tn)
-                t = Team.objects.get(id=int(tn[14:]))
+                t = Team.objects.get(id=tn[14:])
                 t.pay_status = 1
                 t.save()
                 print '付款成功！'
@@ -115,14 +163,14 @@ def pay_return(req):
             t = None
             try:
                 #ct = CoachTrain.objects.get(bill_id=tn)
-                t = Team.objects.get(id=int(tn[14:]))
+                t = Team.objects.get(id=tn[14:])
                 t.pay_status = 1
                 t.save()
                 print '付款成功！'
             except:
             #return HttpResponse(u'付款成功！')
                 return HttpResponse(u'找不到报名信息！若已付款，请联系网络平台负责人')
-            return HttpResponseRedirect('/%s/cur_game'%t.contestant.get_role_display())
+            return HttpResponseRedirect('/%s/cur_game'%t.contestant.role.get_role_display())
         else:
             return HttpResponse(u'付款失败')
     else:
