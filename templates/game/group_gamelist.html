@@ -82,7 +82,9 @@
                         {% with team.game as game %}
                         <tr>
                             <td class="center"><a href="/{{role}}/cur_game/{{game.id}}/{{team.id}}">{{team.name}}</a>
-                                <i class="ace-icon fa fa-arrow-right icon-on-right"></i></td>
+                                <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+                                <p style="display:none">{{team.id}}</p>
+                            </td>
                             <td class="center">{{game.name}}</td>
                             <td class="center">{{game.org.name}}</td>
                             <td class="center">{{game.reg_stime}}</td>
@@ -161,6 +163,7 @@
     });
 
     $("td a.btn-danger").click(function(){
+        $btn = $(this);
         bootbox.dialog({
             message: "<h3>确定取消报名？</h3>",
             buttons: {
@@ -174,8 +177,9 @@
                     label: "确定",
                     className: "btn-primary",
                     callback: function() {
-                        $.post("/{{role}}/cur_game/reg_cancel", 
-                            {"team_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
+                        var t_id = $btn.parent().parent().find('p').text().trim();
+                        $.post("/game/reg_cancel", 
+                            {"t_id":t_id,"csrfmiddlewaretoken":"{{csrf_token}}"}, 
                             function(data){
                                 if(data["success"])
                                     location.reload();

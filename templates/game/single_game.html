@@ -316,7 +316,7 @@
                     label: "确定",
                     className: "btn-primary",
                     callback: function() {
-                        $.post("/group/game/reg_cancel", 
+                        $.post("/game/reg_cancel", 
                             {"t_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
                             function(data){
                                 if(data["success"])

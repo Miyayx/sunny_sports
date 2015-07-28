@@ -82,6 +82,21 @@ def del_member(req):
             return JsonResponse({})
 
 @login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['group','club','game_org']))
+def reg_cancel(req):
+    """
+    取消报名
+    """
+    if req.method == "POST":
+        t_id = req.POST.get("t_id")
+        t = Team.objects.get(id=t_id)
+        t.delete()
+        return JsonResponse({'success':True})
+    return JsonResponse({'success':False})
+
+
+@login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
 def current_game(req, g_id, t_id, ROLE_ID):
     role = get_role(ROLE_ID)
