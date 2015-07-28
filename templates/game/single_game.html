@@ -320,7 +320,7 @@
                             {"t_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
                             function(data){
                                 if(data["success"])
-                                    location.reload();
+                                    window.location.href="/{{role}}/cur_game/{{game.id}}";
                             });
                     }
                 }

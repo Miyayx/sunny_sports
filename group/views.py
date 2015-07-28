@@ -72,37 +72,7 @@ def game_apply(req, g_id=None):
     报名，创建参赛队
     """
     if req.method == "POST":
-        data = req.POST.copy()
-        uuid = req.user.id
-        # create new team
-        members = data.pop('member')[0]
-        data['contestant'] = UserRole.objects.get(user=req.user, role_id=ROLE_ID).id
-        tform = TeamForm(data)
-        if tform.is_valid():
-            t = tform.save()
-            ms = members.strip().split(',')
-            print len(ms)
-            print len(set(ms))
-            if not len(ms) == len(set(ms)):
-                return JsonResponse({'success':False, 'msg':'队员有重复' })
-            stus = Student.objects.filter(property__user__id__in=ms)
-            sts = []
-            for s in stus:
-                StudentTeam.objects.get_or_create(student=s, team=t)
-
-                #sts.append(StudentTeam(student=s, team=t))
-            #StudentTeam.objects.bulk_create(sts)
-
-            tes = []
-            for e in Event.objects.all():
-                TeamEvent.objects.get_or_create(event=e, team=t)
-                #tes.append(TeamEvent(event=e, team=t))
-            #TeamEvent.objects.bulk_create(tes)
-
-            return JsonResponse({'success':True, 't_id':t.id})
-        else:
-            print tform.errors
-            return JsonResponse({'success':False, 'msg':str(tform.errors) })
+        return gv.game_apply(req, g_id, ROLE_ID)
     else:
         if not g_id:
             return HttpResponse('比赛信息错误')
