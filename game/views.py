@@ -167,6 +167,11 @@ def game_apply(req, g_id, ROLE_ID):
         # create new team
         members = data.pop('member')[0]
         data['contestant'] = UserRole.objects.get(user=req.user, role_id=ROLE_ID).id
+        if len(Team.objects.filter(game_id=data['game'], contestant_id=data['contestant'])):
+            return JsonResponse({'success':False, 'msg':'您已报名该比赛' })
+        if len(Team.objects.filter(game_id=data['game'])) >= Game.objects.get(id=data['game']):
+            return JsonResponse({'success':False, 'msg':'参赛队已报满' })
+
         tform = TeamForm(data)
         if tform.is_valid():
             t = tform.save()

@@ -2,7 +2,7 @@
 
 {% block head %}
 {{ block.super }}
-<link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+<link rel="stylesheet" href="/static/css/bootstrap-editable.css">
 {% endblock %}
 
 <!--
@@ -10,14 +10,14 @@
 -->
 {% block content%}
 {{ block.super }}
-			<div class="page-content-area">
-				<div class="page-header">
-					<h1> 个人中心 <small> <i class="ace-icon fa "></i>
-              <span>注册时间：{{club.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
-              <span>上次登录时间：{{club.user.last_login}}</span>
-						</small>
-					</h1>
-				</div><!-- /.page-header -->
+<div class="page-content-area">
+    <div class="page-header">
+        <h1> 个人中心 <small> <i class="ace-icon fa "></i>
+                <span>注册时间：{{club.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
+                <span>上次登录时间：{{club.user.last_login}}</span>
+            </small>
+        </h1>
+    </div><!-- /.page-header -->
 
     {% if messages %}
     <div class="alert alert-danger">
@@ -57,14 +57,14 @@
                                         </span>
                                         <div class="space-4"></div>
                                         <form action="/student/up_img" method="post" enctype="multipart/form-data" >
-											{% csrf_token %}
-											<div class="col-sm-9">
-												<input type="file" id="headImg" name="headImg"/>
-											</div>
-											<button type="submit" style="height:28px" class="btn btn-info btn-xs">
-                                           		上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
-                                       		</button>
-										</form>
+                                            {% csrf_token %}
+                                            <div class="col-sm-9">
+                                                <input type="file" id="headImg" name="headImg"/>
+                                            </div>
+                                            <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                     -->
                                     <form class="form-horizontal">
@@ -96,7 +96,7 @@
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="nickname">{{club.user.nickname|default_if_none:""}}</span>
-                                                <label class="control-label no-padding-right"> (登录用) </label>
+                                                        <label class="control-label no-padding-right"> (登录用) </label>
                                                     </div>
                                                 </div>
                                             </div>
