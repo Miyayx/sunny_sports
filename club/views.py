@@ -94,30 +94,13 @@ def reg_cancel(req):
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
-
 @login_required()
 @user_passes_test(lambda u: u.is_role(['club']))
 def history_game(req):
     if req.method == "GET":
         g_id = req.GET.get("g_id",None)
-        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛信息
-            game = Game.objects.get(id=g_id)
-            try:
-                ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-                team = Team.objects.get(game=game, contestant=ur)
-                sts = StudentTeam.objects.filter(team=team)
-                tes = TeamEvent.objects.filter(team=team)
-            except Exception,e:
-                print e
-                team = None
-                sts = None
-                tes = None
-            
-            return render_to_response('game/single_game.html',{'base':'./club/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'club'}, RequestContext(req))
-        else:#否则返回历史比赛列表
-            uuid = req.user.id
-            teams = Team.objects.filter(contestant__user=req.user, contestant__role_id=ROLE_ID, game__pub_status=1)
-            return render_to_response('game/history_team.html', {"teams":teams, "base":"./club/base.html", "role":"club"}, RequestContext(req))
+        return gv.history_game(req, g_id, ROLE_ID)
+
 
 @login_required()
 @transaction.atomic

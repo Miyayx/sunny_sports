@@ -102,12 +102,15 @@ def reg_cancel(req):
 def current_game(req, g_id, t_id, ROLE_ID):
     role = get_role(ROLE_ID)
     if not g_id: #显示game list
-        games = Game.objects.filter(pass_status=1, reg_status__lt=2, game_status=0, pub_status=0) #报名的比赛
+        games = Game.objects.filter(pass_status=1, reg_status__lt=2, game_status=0, pub_status=0) #可报名的比赛
         for g in games: #报名的比赛
             g.cur_num = len(Team.objects.filter(game=g))
         #与自己相关的进行中比赛
         ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
         teams = Team.objects.filter(contestant=ur, game__pub_status=0)
+        games = list(games)
+        for t in teams: #剔除已报名的
+            games.remove(t.game)
         return render_to_response('game/group_gamelist.html',{'base':'./%s/base.html'%role, 'role':role,  "games":games, "teams":teams}, RequestContext(req))
     elif g_id and not t_id: #显示单个game状况
         game = Game.objects.get(id=g_id)
@@ -126,6 +129,30 @@ def current_game(req, g_id, t_id, ROLE_ID):
             print 'time_remain',time_remain
             time_remain = int(time_remain.total_seconds())
         return render_to_response('game/single_game.html',{'base':'./%s/base.html'%role, 'game':team.game, 'team':team, 'sts':sts, 'tes':tes, 'time_remain':time_remain, 'role':role}, RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['group', 'club']))
+def history_game(req, g_id, ROLE_ID):
+    role = get_role(ROLE_ID)
+    if req.method == "GET":
+        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛信息
+            game = Game.objects.get(id=g_id)
+            try:
+                ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
+                team = Team.objects.get(game=game, contestant=ur)
+                sts = StudentTeam.objects.filter(team=team)
+                tes = TeamEvent.objects.filter(team=team)
+            except Exception,e:
+                print e
+                team = None
+                sts = None
+                tes = None
+
+            return render_to_response('game/single_game.html',{'base':'./%s/base.html'%role, 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':role}, RequestContext(req))
+        else:#否则返回历史比赛列表
+            uuid = req.user.id
+            teams = Team.objects.filter(contestant__user=req.user, contestant__role_id=ROLE_ID, game__pub_status=1)
+            return render_to_response('game/history_team.html', {"teams":teams, "base":"./%s/base.html"%role, "role":role}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
