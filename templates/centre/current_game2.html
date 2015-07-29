@@ -26,7 +26,7 @@
             </div>
             <div>
                 <div class="profile-info-name">比赛地点</div>
-                <div class="profile-info-value">{{game.address}}</div>
+                <div class="profile-info-value">{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</div>
             </div>
             <div>
                 <div class="profile-info-name">报名/上限</div>
@@ -55,11 +55,11 @@
                         <td class="center">{{team.contestant.name}}</td>
                         <td class="center">
                             {% for st in team.sts|slice:":4" %}
-                            {{st.student.property.name}} 
+                            {{st.student.property.name}},
                             {% endfor %}
                             </br>
                             {% for st in team.sts|slice:"4:" %}
-                            {{st.student.property.name}} 
+                            {{st.student.property.name}},
                             {% endfor %}
                         </td>
                     </tr>
