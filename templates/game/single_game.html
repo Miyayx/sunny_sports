@@ -109,9 +109,24 @@
 
                             {% endif %}
                             {% endif %} <!-- not student -->
+
                             {% if team %}
                             <h4>队名：<span class="label label-xlg label-primary arrowed arrowed-right"> {{team.name}}</span></h4>
                             <hr/>
+                            <ul>
+                                <li class="col-xs-6"> <label >领队:</label> {{team.leader}} </li>
+                                <li class="col-xs-6"> <label >联系人:</label> {{team.contact_name}} </li>
+                                <li class="col-xs-6"> <label >联系手机:</label> {{team.contact_phone}} </li>
+                                <li class="col-xs-6"> <label >联系邮箱:</label> {{team.contact_email}} </li>
+                                <li class="col-xs-6"> <label >联系QQ:</label> {{team.contact_qq}} </li>
+                                <li class="col-xs-6"> <label >联系微信:</label> {{team.contact_wx}} </li>
+                                <li class="col-xs-12"> <label >邮寄地址:</label> {{team.address}},{{team.postno}} </li>
+                            </ul>
+                            {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
+                            <a type="button" class="btn btn-xs btn-inverse" id='ch-contact' href="/game/ch_contact/{{team.id}}">更改信息</a>
+                            {% endif %}
+                            <div class="hr hr-18 dotted hr-double"></div>
+
                             <!--
                             {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
                             <a type="button" class="btn btn-xs btn-inverse" id='ch-member' href="/game/ch_mem/{{team.id}}">更换队员</a>

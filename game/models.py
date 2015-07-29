@@ -103,7 +103,7 @@ class Team(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        编号生成规则：game_id+contestant_id
+        编号生成规则：game_id+contestant_id+当前分钟与秒数
         """
         if len(self.id) == 0:
             now = datetime.datetime.now()

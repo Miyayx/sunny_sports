@@ -92,7 +92,7 @@
                     {% for t in teams %}
                     <div class="profile-activity clearfix">
                         <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
-                        <a href="/club/cur_game">{{t.game.name}}</a>
+                        <a href="/club/cur_game/{{t.game.id}}/{{t.id}}">{{t.game.name}}</a>
                     </div>
                     {% endfor %}
                     {% else %}
