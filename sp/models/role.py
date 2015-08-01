@@ -63,7 +63,8 @@ class CoachOrg(models.Model):
     dist = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=True) 
-    ali_email = models.EmailField(null=True)
+    ali_email = models.EmailField(null=True) #支付宝账户
+    profit_ratio = models.FloatField(default=0.95) #分润比例
     
     class Meta:
         app_label='sp'
@@ -82,7 +83,8 @@ class GameOrg(models.Model):
     dist = models.CharField(max_length=50, blank=True)
     address = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=True) 
-    ali_email = models.EmailField(null=True)
+    ali_email = models.EmailField(null=True) #支付宝账户
+    profit_ratio = models.FloatField(default=0.95) #分润比例
     
     class Meta:
         app_label='sp'

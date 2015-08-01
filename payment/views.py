@@ -44,6 +44,8 @@ def pay(request, b_type, params, b_no=None ):
   ratio = 1 - settings.ALIPAY_RATIO
   our_ratio = 0.05
   org_ratio = 1-our_ratio
+  if 'profit_ratio' in params: #分润比例
+      org_ratio = params['profit_ratio']
 
   alipayTool=alipay.Alipay(  
             pid=settings.ALIPAY_PARTNER,  
