@@ -101,6 +101,7 @@ def update_info(req):
     """
     if req.method == "POST":
         data = req.POST.copy()
+        print data
 
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=ROLE_ID)
@@ -111,8 +112,11 @@ def update_info(req):
             MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
 
         g = Group.objects.get(user=req.user)
-        g.name = data.get("name","")
-        g.org_num = data.get("org_num","")
+        g.name = data["name"]
+        g.shortname = data["shortname"]
+        g.corporator = data["corporator"]
+        if data.has_key("org_num"):
+            g.org_num = data.get("org_num","")
         if data.has_key("province"):
             g.province = data.get("province","")
         if data.has_key("city"):
@@ -121,6 +125,8 @@ def update_info(req):
             g.dist = data.get("dist","")
         if data.has_key("address"):
             g.address = data.get("address","")
+        if data.has_key("office_num"):
+            g.office_num = data.get("office_num","")
         try:
             g.save()
             ur.save()
