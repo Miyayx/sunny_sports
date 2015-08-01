@@ -22,8 +22,6 @@ from club.models import *
 
 from utils import *
 
-# Create your views here.
-
 #客户端提交的post如果不加这段，会出现403error  
 @csrf_exempt  
 def vcode(req):
