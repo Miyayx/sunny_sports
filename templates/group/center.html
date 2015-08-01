@@ -2,7 +2,7 @@
 
 {% block head %}
 {{ block.super }}
-<link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+<link rel="stylesheet" href="/static/css/bootstrap-editable.css">
 {% endblock %}
 
 <!--
@@ -10,14 +10,14 @@
 -->
 {% block content%}
 {{ block.super }}
-			<div class="page-content-area">
-				<div class="page-header">
-					<h1> 个人中心 <small> <i class="ace-icon fa "></i>
-              <span>注册时间：{{group.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
-              <span>上次登录时间：{{group.user.last_login}}</span>
-						</small>
-					</h1>
-				</div><!-- /.page-header -->
+<div class="page-content-area">
+    <div class="page-header">
+        <h1> 机构信息 <small> <i class="ace-icon fa "></i>
+                <span>注册时间：{{group.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
+                <span>上次登录时间：{{group.user.last_login}}</span>
+            </small>
+        </h1>
+    </div><!-- /.page-header -->
 
     {% if messages %}
     <div class="alert alert-danger">
@@ -38,7 +38,7 @@
                         <ul class="nav nav-tabs padding-16">
                             <li class="active"><a data-toggle="tab"
                                 href="#edit-basic"> <i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
-                                个人信息
+                                机构信息
                             </a></li>
 
                             <li><a data-toggle="tab" href="#edit-password"> <i
@@ -48,62 +48,26 @@
 
                         <div class="tab-content profile-edit-tab-content">
                             <div id="edit-basic" class="tab-pane in active">
-                                <h4 class="header blue bolder smaller">基本信息</h4>
-                                <div class="row">
-                                    <!--
-                                    <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
-                                        <span class="profile-picture">
-                                            <img src="{{PHOTO_ROOT}}{{student.property.avatar}}" id="avatar" />
-                                        </span>
-                                        <div class="space-4"></div>
-                                        <form action="/student/up_img" method="post" enctype="multipart/form-data" >
-											{% csrf_token %}
-											<div class="col-sm-9">
-												<input type="file" id="headImg" name="headImg"/>
-											</div>
-											<button type="submit" style="height:28px" class="btn btn-info btn-xs">
-                                           		上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
-                                       		</button>
-										</form>
-                                    </div>
-                                    -->
-                                    <form class="form-horizontal">
+                                <form class="form-horizontal">
+                                    <h4 class="header blue bolder smaller">注册信息</h4>
+                                    <div class="row">
                                         <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
 
                                         <div class="vspace-12-sm"></div>
                                         <div class="col-xs-12 col-sm-7">
                                             <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-username">单位名称</label>
-                                                <div class="col-sm-8">
-                                                    <div class="profile-info-value">
-                                                        <span class="myeditable editable editable-click" id="name">{{group.name}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-username">单位编号</label>
-                                                <div class="col-sm-8">
-                                                    <div class="profile-info-value">
-                                                        <span class="myeditable editable editable-click" id="org_num">{{group.org_num}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right" for="form-field-nickname"> 昵称 </label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="nickname">{{group.user.nickname|default_if_none:""}}</span>
-                                                <label class="control-label no-padding-right"> (登录用) </label>
+                                                        <label class="control-label no-padding-right"> (登录用) </label>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-phone">电话</label>
+                                                    for="form-field-phone">注册手机</label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="phone">{{group.user.phone}}</span>
@@ -121,40 +85,125 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> <!-- ./row -->
-                                    <hr />
+                                    </div>
+                                    <h4 class="header blue bolder smaller">基本信息</h4>
                                     <div class="row">
-                                        <div class="form-group col-sm-7">
-                                            <label class="col-sm-2 control-label no-padding-right"
-                                                for="form-field-place">地点</label>
-                                            <div class="col-sm-2">
-                                                <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{group.province}}</span>
-                                                    省
+                                        <div class="col-xs-12 col-sm-9">
+                                            <div class="form-group ">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">机构全称(必填)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="name">{{group.name}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{group.city}}</span>
-                                                    市
+                                            <div class="form-group ">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">机构缩写(必填)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="shortname">{{group.shortname}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{group.dist}}</span>
-                                                    区/县
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">工商执照注册号(可选)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="org_num">{{group.org_num}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <div class="profile-info-value">
-                                                    <span class="myeditable editable editable-click" id="address">{{group.address}}</span>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">法人姓名(必填)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="corporator">{{group.corporator}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">办公电话(必填)</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="office_num">{{group.office_num}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label no-padding-right"
+                                                    for="form-field-place">地点</label>
+                                                <div class="col-sm-2">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{group.province}}</span>
+                                                        省
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{group.city}}</span>
+                                                        市
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{group.dist}}</span>
+                                                        区/县
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="address">{{group.address}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="space"></div>
                                     </div>
 
+                                    <hr />
+
+                                    <!--
+                                    <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
+                                        <span class="profile-picture">
+                                            <img src="{{PHOTO_ROOT}}{{student.property.avatar}}" id="avatar" />
+                                        </span>
+                                        <div class="space-4"></div>
+                                        <form action="/student/up_img" method="post" enctype="multipart/form-data" >
+                                            {% csrf_token %}
+                                            <div class="col-sm-9">
+                                                <input type="file" id="headImg" name="headImg"/>
+                                            </div>
+                                            <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    -->
+
+                                    <!--
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
+                                            <form action="/group/upload" method="post" enctype="multipart/form-data" >
+                                                {% csrf_token %}
+                                                <div class="col-sm-5">
+                                                    <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                        上传工商执照<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <input type="file" id="upload" name="upload"/>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    -->
+
+                                    <hr />
                                     <div class="space"></div>
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
@@ -231,6 +280,35 @@
             }
         });	
 
+        $('#shortname').editable({
+            type: 'text',
+            name: 'shortname',
+            validate: function(v) {
+                if ($.trim(v) == '') {
+                    return '机构缩写必填项';
+                }
+            }
+        });
+
+        $('#office_num').editable({
+            type: 'text',
+            name: 'office_num',
+            validate: function(v) {
+                if ($.trim(v) == '') {
+                    return '办公电话必填项';
+                }
+            }
+        });
+        $('#corporator').editable({
+            type: 'text',
+            name: 'corporator',
+            validate: function(v) {
+                if ($.trim(v) == '') {
+                    return '法人姓名必填项';
+                }
+            }
+        });
+
         // click save btn
         $('#save-btn').click(function() {
             $('.myeditable').editable('submit', { 
@@ -242,7 +320,9 @@
                     if(data && data.success){
                         alert("已保存");
                         location.reload();
-                    }
+                }else{
+                    alert("保存失败!")
+                }
                 },
                 error: function(errors) {
                     var info = "";

@@ -41,7 +41,7 @@
               className: "btn-primary",
               callback: function() {
                 var csrftoken = $.cookie('csrftoken');
-                $.post('/centre/game_pass', 
+                $.post('/centre/game_check', 
                   {"pass":0, "g_id":"{{ game.id }}", 'csrfmiddlewaretoken': csrftoken},
                   function(data){
                     if (data["success"]){ //提交成功后

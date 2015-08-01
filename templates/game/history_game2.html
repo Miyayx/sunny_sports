@@ -61,12 +61,11 @@
                         <td class="center">{{team.Contestant.name}}</td>
                         <td class="center">
                         {% for st in team.sts|slice:":4" %}
-                        {{st.student.property.name}} &nbsp;&nbsp;
-                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {{st.student.property.name}},
                         {% endfor %}
                         </br>
                         {% for st in team.sts|slice:"4:" %}
-                        {{st.student.property.name}} &nbsp;&nbsp;
+                        {{st.student.property.name}},
                         {% endfor %}
                         </td>
                         {% for te in team.tes %}

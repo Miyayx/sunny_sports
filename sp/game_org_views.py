@@ -13,10 +13,12 @@ from convert import *
 from game.models import *
 from group.models import *
 
+ROLE_ID = 7
+
 @login_required()
 @user_passes_test(lambda u: u.is_role(['game_org']))
 def game_org(req):
-    req.session['role'] = 7
+    req.session['role'] = ROLE_ID
     return HttpResponseRedirect("game_org/home")
 
 @login_required()
@@ -76,6 +78,7 @@ def game_publish(req):
         g_id = data.get('g_id',0)
         save = data.get('save',0)
         if g_id: #update game
+            print "Update game%s"%g_id
             game = Game.objects.get(id=g_id)
             data['org'] = game.org.id
             data.pop('g_id')
@@ -83,11 +86,13 @@ def game_publish(req):
             data['limit'] = int(data['limit'])
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
+            data['total_num'] = data['male_num']+data['female_num']
             data['sponsor'] = data['sponsor'].strip()
             data['organizer'] = data['organizer'].strip()
             data['coorganizer'] = data['coorganizer'].strip()
             data['schedule'] = data['schedule'].strip()
             data['description'] = data['description'].strip()
+            data['province'] = data['prov'].strip()
             gform = GamePublishForm(data, instance=game)
         else: # create new game
             org = GameOrg.objects.get(user_id=uuid)
@@ -96,11 +101,13 @@ def game_publish(req):
             data['limit'] = int(data['limit'])
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
+            data['total_num'] = data['male_num']+data['female_num']
             data['sponsor'] = data['sponsor'].strip()
             data['organizer'] = data['organizer'].strip()
             data['coorganizer'] = data['coorganizer'].strip()
             data['schedule'] = data['schedule'].strip()
             data['description'] = data['description'].strip()
+            data['province'] = data['prov'].strip()
             gform = GamePublishForm(data)
         
         if gform.is_valid():
@@ -116,7 +123,7 @@ def game_publish(req):
             return JsonResponse({'success':True})
         else:
             print gform.errors
-            return JsonResponse({'success':False })
+            return JsonResponse({'success':False, 'msg':str(gform.errors['error']) })
         
     else:
         g_id = req.GET.get('g_id',0)

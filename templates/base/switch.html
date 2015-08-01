@@ -28,13 +28,23 @@
       </li>
     {% endif %}
 
-    {% if r.role_id == 5%}
+    {% if r.role_id == 4%}
       <li class="dropdown-footer">
-        <a href="/team">
-          切换到参赛队
+        <a href="/club">
+          切换到俱乐部
           <i class="ace-icon fa fa-arrow-right"></i>
         </a>
       </li>
     {% endif %}
+
+    {% if r.role_id == 5%}
+      <li class="dropdown-footer">
+        <a href="/group">
+          切换到社会团体
+          <i class="ace-icon fa fa-arrow-right"></i>
+        </a>
+      </li>
+    {% endif %}
+
   {% endfor %}
 </ul>

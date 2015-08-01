@@ -12,7 +12,7 @@ jQuery(function($) {
 		name: 'name',
 		validate: function(v) {
 			if ($.trim(v) == '') {
-				return '必填项';
+				return '姓名为必填项';
 			}
 		}
 	});
@@ -50,7 +50,7 @@ jQuery(function($) {
 		validate: function(v) {
                 v = $.trim(v);
 			if ($.trim(v) == '') {
-				return '必填项';
+				return '邮箱为必填项';
 			}
 			if (!isEmail($.trim(v))) return '请输入正确的邮件地址';
 			if (! ($(this).text() == $.trim(v) || $(this)[0].value == v)) {
@@ -66,7 +66,7 @@ jQuery(function($) {
 		validate: function(v) {
                 v = $.trim(v);
 			if (v == '') {
-				return '必填项';
+				return '手机号码为必填项';
 			}
 			if (!isPhoneNum(v)) {
 				return '请输入正确的手机号码';
@@ -85,7 +85,7 @@ jQuery(function($) {
             $(this).html(v.replace(v.substring(3,15), "**********"));
         },
 		validate: function(v) {
-			if ($.trim(v) == '') return '必填项';
+			if ($.trim(v) == '') return '身份证号为必填项';
 			if (!(isIdCardNo($.trim(v)) || isHKIdCardNo($.trim(v)))) return '请正确输入您的身份证号码';
 			if (! ($(this).text() == v || $(this)[0].value == v || isHKIdCardNo($.trim(v)))) {
             var b = v.substring(6,10)+"-"+v.substring(10,12)+"-"+v.substring(12,14);

@@ -199,22 +199,38 @@ class TrainPublishForm(ModelForm):
 class GamePublishForm(ModelForm):
     class Meta:
         model = Game
-        fields = ['org','name','description','sponsor','organizer','coorganizer', 'schedule', 'province', 'city', 'dist', 'address', 'events', 'limit','male_num','female_num', 'money','reg_place', 'reg_stime','reg_etime','game_stime','game_etime', 'contact_name', 'contact_phone', 'contact_email']
+        fields = ['org','name','description','sponsor','organizer','coorganizer', 'schedule', 'province', 'city', 'dist', 'address', 'events', 'limit','male_num','female_num', 'total_num', 'money','reg_place', 'reg_stime','reg_etime','game_stime','game_etime', 'contact_name', 'contact_phone', 'contact_email']
 
     def is_valid(self):
         if super(GamePublishForm, self).is_valid():
             if self.cleaned_data['reg_stime'] > self.cleaned_data['reg_etime']:
-                self._errors['time_error'] = u"结束时间早于开始时间"
-                print self._errors['time_error']
+                self._errors['error'] = u"结束时间早于开始时间"
+                print self._errors['error']
                 return False
             elif self.cleaned_data['reg_etime'] > self.cleaned_data['game_stime']:
-                self._errors['time_error'] = u"比赛时间早于报名时间"
-                print self._errors['time_error']
+                self._errors['error'] = u"比赛时间早于报名时间"
+                print self._errors['error']
                 return False
             elif self.cleaned_data['game_stime'] > self.cleaned_data['game_etime']:
-                self._errors['time_error'] = u"结束时间早于开始时间"
-                print self._errors['time_error']
+                self._errors['error'] = u"结束时间早于开始时间"
+                print self._errors['error']
                 return False
+            if len(self.cleaned_data['contact_name'].strip()) == 0:
+                self._errors['error'] = u"联系人必填"
+                return False
+            if len(self.cleaned_data['contact_phone'].strip()) == 0:
+                self._errors['error'] = u"联系方式必填"
+                return False
+            if len(self.cleaned_data['province'].strip()) == 0:
+                self._errors['error'] = u"地址必填"
+                return False
+            if len(self.cleaned_data['city'].strip()) == 0:
+                self._errors['error'] = u"地址必填"
+                return False
+            if len(self.cleaned_data['dist'].strip()) == 0:
+                self._errors['error'] = u"地址必填"
+                return False
+
             return True
         else:
             return False

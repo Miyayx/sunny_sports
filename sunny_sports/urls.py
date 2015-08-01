@@ -27,7 +27,6 @@ urlpatterns = patterns('',
         url(r'^inbox$', 'sp.views.inbox'),
 
         #url(r'^student/', include('student.urls')),
-        url(r'^club/', TemplateView.as_view(template_name='club/empty.html')),
         url(r'^team/', TemplateView.as_view(template_name='team/empty.html')),
         url(r'^committee/', TemplateView.as_view(template_name='committee/empty.html')),
 
@@ -107,8 +106,7 @@ urlpatterns += patterns('sp.game_org_views',
         url(r'^game_org/game_manage$', 'game_manage'),
         url(r'^game_org/result_input$', 'result_input'),
         url(r'^game_org/up_info$', 'update_info'),
-        #url(r'^game_org/add_member$', 'add_member'),
-        #url(r'^game_org/del_member$', 'del_member'),
+        url(r'^game_org/del_team$', 'del_team'),
         )
 
 # coach
@@ -138,14 +136,18 @@ urlpatterns += patterns('student.views',
         )
 
 # club
-#urlpatterns += patterns('club.views',
-#        url(r'^club$', 'club'),
-#        url(r'^club/home$', 'home'),
-#        url(r'^club/cur_game$', 'current_game'),
-#        url(r'^club/history_game$', 'history_game'),
-#        url(r'^club/center$', 'center'),
-#        url(r'^club/up_info$', 'update_info'),
-#        )
+urlpatterns += patterns('club.views',
+        url(r'^club$', 'club'),
+        url(r'^club/home$', 'home'),
+        url(r'^club/cur_game$', 'current_game'),
+        url(r'^club/cur_game/(?P<g_id>\w+)$','current_game'),
+        url(r'^club/cur_game/(?P<g_id>\w+)/(?P<t_id>\w+)$','current_game'),
+        url(r'^club/game_apply/(?P<g_id>\w+)$','game_apply'),
+        url(r'^club/game_apply$','game_apply'),
+        url(r'^club/history_game$', 'history_game'),
+        url(r'^club/center$', 'center'),
+        url(r'^club/up_info$', 'update_info'),
+        )
 
 # group
 urlpatterns += patterns('group.views',
@@ -153,9 +155,9 @@ urlpatterns += patterns('group.views',
         url(r'^group/home$', 'home'),
         url(r'^group/cur_game$', 'current_game'),
         url(r'^group/cur_game/(?P<g_id>\w+)$','current_game'),
+        url(r'^group/cur_game/(?P<g_id>\w+)/(?P<t_id>\w+)$','current_game'),
         url(r'^group/game_apply/(?P<g_id>\w+)$','game_apply'),
         url(r'^group/game_apply$','game_apply'),
-        url(r'^group/game/reg_cancel$','reg_cancel'),
         url(r'^group/history_game$', 'history_game'),
         url(r'^group/center$', 'center'),
         url(r'^group/up_info$', 'update_info'),
@@ -164,5 +166,11 @@ urlpatterns += patterns('group.views',
 urlpatterns += patterns('game.views',
         url(r'^game/pay/(?P<t_id>\w+)$','pay'),
         url(r'^game/pay$','pay'),
+        url(r'^game/pay_notify$', 'pay_notify'),
+        url(r'^game/pay_return$', 'pay_return'),
         url(r'^find_stu/(?P<phone>\w+)', 'find_stu'),
+        url(r'^game/add_stu$','add_member'),
+        url(r'^game/del_stu$','del_member'),
+        url(r'^game/edit_stu$','edit_member'),
+        url(r'^game/reg_cancel$','reg_cancel'),
         )

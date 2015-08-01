@@ -405,6 +405,13 @@ def org_info(req):
             co.dist = data.get("dist","")
         if data.has_key("address"):
             co.address = data.get("address","")
+        if data.has_key("ratio"):
+            try:
+                co.profit_ratio = float(data.get("ratio",0.95))
+                if co.profit_ratio >=1 or co.profit_ratio <=0:
+                    return JsonResponse({'success':False, 'msg':'分润比例不正确'})
+            except:
+                return JsonResponse({'success':False, 'msg':'分润比例不正确'})
         try:
             co.user.save()
             co.save()

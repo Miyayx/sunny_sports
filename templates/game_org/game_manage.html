@@ -295,7 +295,7 @@
                         $.post("/game_org/del_team",
                             {
                                 'csrfmiddlewaretoken': '{{csrf_token}}',
-                                'ct_id':$.trim($delbtn.parents('td').find('p').html())
+                                't_id':$.trim($delbtn.parents('td').find('p').html())
                             }, function(res){
                                 if(res && res['success']){
                                     $curnum = $delbtn.parents('.tab-pane').find('.curnum')

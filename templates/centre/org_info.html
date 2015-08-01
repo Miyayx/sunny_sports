@@ -18,7 +18,7 @@
       <input class="myeditable" name="orgtype" id="orgtype" type="hidden" value="{{orgtype}}"/>
       <div class="row">
         <div class="vspace-12-sm"></div>
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-12 col-sm-12">
           <div class="form-group">
             <label class="col-sm-4 control-label no-padding-right"
               for="form-field-orgnum">编号</label>
@@ -40,7 +40,7 @@
           </div>
           <div class="form-group">
             <label class="col-sm-4 control-label no-padding-right"
-              for="form-field-orgname">字母缩写(用于生成培训id与检索等)</label>
+              for="form-field-orgname">首字母缩写</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
                 <span class="myeditable editable editable-click" id="orgshortname">{{org.shortname}}</span>
@@ -103,10 +103,11 @@
 
           <div class="form-group">
             <label class="col-sm-4 control-label no-padding-right"
-              for="form-field-email">角色权限</label>
+              for="form-field-email">分润比例</label>
             <div class="col-sm-8">
               <div class="profile-info-value">
-                <span class="myeditable editable editable-click" id="permission" data-type="checklist"></span>
+                <span class="myeditable editable editable-click" id="ratio">{{org.profit_ratio}}</span>
+(小数，0到1之间)
               </div>
             </div>
           </div>
@@ -191,6 +192,12 @@
           type: 'text',
           name: 'phone'
         });	
+        $('#ratio')
+        .editable({
+          type: 'text',
+          name: 'ratio'
+        });	
+        /*
         $('#permission').editable({
           type:'checklist',
           //value:[{{org.permission}}],
@@ -202,6 +209,7 @@
             {value: 4, text: '比赛发起'}
           ]
         });
+        */
         $('.myeditable').editable({
           validate: {
             orgnum: function(v) {
@@ -217,7 +225,12 @@
             },
             email: function(v) {if(v == '') return 'Required field!'},
             director: function(v) {if(v == '') return 'Required field!'},
-            phone: function(v) {if(v == '') return 'Required field!'}
+            phone: function(v) {if(v == '') return 'Required field!'},
+            ratio: function(v) {
+              if(v == '') return 'Required field!';
+              var f = parseFloat(v);
+              if(f > 1 || f < 0) return '请填入0到1之间的小数';
+            }
           } 
         });
 
@@ -242,7 +255,9 @@
                 else
                   alert("添加成功。用户名为组织编号，默认密码为组织编号");
                 location.reload();
-              }
+            }else{
+                  alert(res.msg);
+            }
             }).error(function(errors){
               $("#save-msg").removeClass("text-success").addClass("text-error").html("请确保信息填写完整并重试")
             });

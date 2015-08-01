@@ -41,6 +41,10 @@
                 &nbsp;{{game.org.name}}<p/>
                 </li>
                 <li><i class="ace-icon fa fa-circle green"></i>
+                <font size="3px"><b>联系人：</b></font>
+                &nbsp;{{game.contact_name}}, {{game.contact_phone}}, {{game.contact_email}}<p/>
+                </li>
+                <li><i class="ace-icon fa fa-circle green"></i>
                 <font size="3px"><b>费用：</b></font>
                 &nbsp;{{game.money}}元/人<p/>
                 </li>
@@ -96,6 +100,7 @@
                         <div class="col-sm-9">
                             <input type="text" name="member" id="mem-tags" data-role="tagsinput" placeholder="输入手机号并回车">
                             <p class="blue">付款前可更改数量，比赛前可更改名单，参赛费用总金额以队员数量为准</p>
+                            <p class="red">要求：队员总数:{{game.total_num}}人, 男生:{{game.male_num}}名, 女生:{{game.female_num}}名</p>
                             <p id='wrong-alert' class="red"></p>
                             <!--
                             <input type="text" placeholder="输入手机号查找队员"></div>
@@ -205,19 +210,24 @@
     });
 
     var $tags = $('#mem-tags');
+    $tags.on('itemRemoved', function(event) { //删除一个tag
+                    if ($('.bootstrap-tagsinput span.tag').length < {{game.total_num}})
+                        $('.bootstrap-tagsinput input').show(); //数量少于限制可再输入
+          });
     var $elt = $tags.tagsinput('input');
     $elt.keydown(function(e){
         if (e.keyCode == 13 || e.keyCode == 44){
             var phone = $elt.val();
             $.get('/find_stu/'+phone, function(d){
-                if(d.name && d.name.length > 0){
+                if(d.name && d.gender && d.name.length > 0 && d.gender.length > 0){
                     $('#wrong-alert').hide();
+                    d.name = d.name +","+d.gender;
                     console.log(d.name)
                     $tags.tagsinput('add', d);
                     $elt.val('');
                     $elt.attr('size',20);
-                    //if ($('.bootstrap-tagsinput span.tag').length > 2)
-                        //    $elt.attr('disabled','disabled');
+                    if ($('.bootstrap-tagsinput span.tag').length >= {{game.total_num}})
+                        $('.bootstrap-tagsinput input').hide(); //数量超过限制不再输入
 
                 }else{
                     if(d.success == false){
@@ -241,7 +251,7 @@
             $('#team-form').validate();
             var data = $('#team-form').serialize();
             $.post('/{{role}}/game_apply',data,function(data){
-                if(data['success']){
+                if(data && data['success']){
                     bootbox.dialog({
                         message: '<h4>报名成功，请在<b>24小时</b>之内付款</h4> <p class="red">付款后队员数量不可更改</p>',
                         buttons: {
@@ -249,14 +259,14 @@
                                 label: "马上付款",
                                 className: "btn-success",
                                 callback: function() {
-                                    window.location.href="/game/pay?t_id="+data.t_id;
+                                    window.location.href="/game/pay/"+data.t_id;
                                 }
                             },
                             main: {
                                 label: "稍后付款",
                                 className: "btn-primary",
                                 callback: function() {
-                                    window.location.href="/{{role}}/cur_game/{{game.id}}";
+                                    window.location.href="/{{role}}/cur_game/{{game.id}}/"+data.t_id;
                                 }
                             }
                         }

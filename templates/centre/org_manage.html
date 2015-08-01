@@ -10,7 +10,7 @@
     jQuery(function($) {
         var oTable1 = $('#org-table').dataTable({
             bAutoWidth : false,
-            "aoColumns" : [ null, null, null, null, null, null ],
+            "aoColumns" : [ null, null, null, null, null, null,null ],
             "aaSorting" : [],
         });
     })
@@ -29,6 +29,7 @@
                     <tr>
                         <th class="center">组织机构名称</th>
                         <th class="center">组织机构编号</th>
+                        <th class="center">邮箱</th>
                         <th class="center">地点</th>
                         <th class="center">负责人</th>
                         <th class="center">联系电话</th>
@@ -39,8 +40,14 @@
                 <tbody>
                     {% for o in orgs %}
                     <tr>
-                        <td class="center">{{o.name}}</td>
+                        <td class="center">
+                            {% if not o.is_active %}
+                            <span class="badge">已禁用</span>
+                            {% endif %}
+                            {{o.name}}
+                        </td>
                         <td class="center orgnum">{{o.org_num}}</td>
+                        <th class="center">{{o.user.email}}</th>
                         <td class="center">{{o.province}},{{o.city}},{{o.dist}},{{o.address}}</td>
                         <td class="center">{{o.director}}</td>
                         <td class="center">{{o.user.phone}}</td>

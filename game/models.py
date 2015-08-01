@@ -47,6 +47,7 @@ class Game(models.Model):
     limit = models.IntegerField(default=0) #参赛队数
     male_num = models.IntegerField(default=0) #每队男生人数
     female_num = models.IntegerField(default=0) #每队女生人数
+    total_num = models.IntegerField(default=0) #每队总人数
     money = models.IntegerField(default=0) #每人参赛费用
     reg_place = models.CharField(max_length=300, blank=True) #报名地点
     reg_stime = models.DateTimeField(null=True) #报名开始时间
@@ -102,10 +103,11 @@ class Team(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        编号生成规则：game_id+contestant_id
+        编号生成规则：game_id+contestant_id+当前分钟与秒数
         """
         if len(self.id) == 0:
-            self.id = "{0}{1}".format(self.game.id, self.contestant.id)
+            now = datetime.datetime.now()
+            self.id = "{0}{1}{2}".format(self.game.id, self.contestant.id, str(now.minute)+str(now.second))
             print self.id
 
         super(Team, self).save(*args, **kwargs)

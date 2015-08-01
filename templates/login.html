@@ -9,29 +9,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
 
     <!-- text fonts -->
-    <link rel="stylesheet" href="../../static/css/ace-fonts.css" />
+    <link rel="stylesheet" href="/static/css/ace-fonts.css" />
 
     <!-- ace styles -->
-    <link rel="stylesheet" href="../../static/css/ace.min.css" />
-    <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/static/css/ace.min.css" />
+    <link rel="stylesheet" href="/static/css/ace-rtl.min.css" />
 
     <!-- page specific plugin styles -->
-    <link rel="stylesheet" href="../../static/css/jquery-ui.custom.min.css" />
-    <link rel="stylesheet" href="../../static/css/jquery.gritter.css" />
+    <link rel="stylesheet" href="/static/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="/static/css/jquery.gritter.css" />
 
     <!-- basic scripts -->
     <script>
       if (!document.addEventListener) {
         // IE6~IE8
-        //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
-          //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+        //document.write('<script src="/static/js/ieBetter.js"><\/script>'); 
+          //document.write('<script src="/static/js/jquery1x.min.js"><\/script>'); 
             document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
               }else{
-              document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+              document.write('<script src="/static/js/jquery.min.js"><\/script>'); 
               }
             </script>
 
@@ -39,7 +39,7 @@
             <!--[if lte IE 9]>
             <link rel="stylesheet" href="../assets/css/ace-part2.min.css" />
             <![endif]-->
-            <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+            <link rel="stylesheet" href="/static/css/ace-rtl.min.css" />
 
             <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -50,7 +50,7 @@
 
 
             <script type="text/javascript">
-              if('ontouchstart' in document.documentElement) document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+              if('ontouchstart' in document.documentElement) document.write("<script src='/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
               </script>
 
             </head>
@@ -280,9 +280,11 @@
                     <div class="footer-content" style="border-top: 0px">
                       <h4 class="light-blue" id="id-company-text">
                         &copy;北京快乐童年阳光体操文化有限责任公司</h4>
+                      <!--
                       <span class="bigger-110">
                         <span class="blue bolder">Created by Queendorm</span>
                       </span>
+                      -->
                     </div>
                   </div>
                 </div>
@@ -334,14 +336,6 @@
                     // (string | mandatory) the text inside the notification
                     text: '请尽量选择Chrome，Firefox以及IE10以上版本进行操作'
                   });
-
-                  $.gritter.add({
-                    // (string | mandatory) the heading of the notification
-                    title: '参赛报名系统将于8月1日开放',
-                    sticky:true,
-                    text: ''
-                  });
-
                 });
               </script>
             </body>

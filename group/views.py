@@ -1,15 +1,19 @@
 #-*- coding:utf-8 -*-
 from django.shortcuts import render
 
+from datetime import datetime, timedelta
+
 from sp.g_import import *
 from sp.utils import *
 
 from group.models import *
 from game.models import *
 from game.forms import *
+from game import views as gv
 from sp.models.role import *
 
 from django.contrib import messages
+
 
 ROLE_ID = 5
 
@@ -40,7 +44,7 @@ def home(req):
         teams = None
 
     old_teams = Team.objects.filter(contestant=ur, game__pub_status=1)[:5]
-    
+
     return render_to_response('group/home.html',{"group":g, "teams":teams, "old_teams":old_teams}, RequestContext(req))
 
 @login_required()
@@ -55,33 +59,10 @@ def center(req):
     return render_to_response('group/center.html',{"group":g[0]}, RequestContext(req))
 
 @login_required()
-@user_passes_test(lambda u: u.is_role(['group']))
-def current_game(req, g_id=None):
-     if not g_id:
-         games = Game.objects.filter(pass_status=1, pub_status=0)
-         for g in games:
-             g.cur_num = len(Team.objects.filter(game=g))
-             try:
-                 ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-                 g.team = Team.objects.get(game=g, contestant=ur)
-             except:
-                 g.team = None
-             
-         return render_to_response('game/group_gamelist.html',{'base':'./group/base.html', 'role':'group', "games":games}, RequestContext(req))
-     else:
-         game = Game.objects.get(id=g_id)
-         try:
-             ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-             team = Team.objects.get(game=game, contestant=ur)
-             sts = StudentTeam.objects.filter(team=team)
-             tes = TeamEvent.objects.filter(team=team)
-         except Exception,e:
-             print e
-             team = None
-             sts = None
-             tes = None
-         
-         return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
+@user_passes_test(lambda u: u.is_role(['group','club']))
+def current_game(req, g_id=None, t_id=None):
+    return gv.current_game(req, g_id, t_id, ROLE_ID)
+
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
@@ -91,30 +72,7 @@ def game_apply(req, g_id=None):
     报名，创建参赛队
     """
     if req.method == "POST":
-        data = req.POST.copy()
-        uuid = req.user.id
-        # create new team
-        members = data.pop('member')[0]
-        data['contestant'] = UserRole.objects.get(user=req.user, role_id=ROLE_ID).id
-        tform = TeamForm(data)
-        if tform.is_valid():
-            t = tform.save()
-            ms = members.strip().split(',')
-            stus = Student.objects.filter(property__user__id__in=ms)
-            sts = []
-            for s in stus:
-                sts.append(StudentTeam(student=s, team=t))
-            StudentTeam.objects.bulk_create(sts)
-
-            tes = []
-            for e in Event.objects.all():
-                tes.append(TeamEvent(event=e, team=t))
-            TeamEvent.objects.bulk_create(tes)
-
-            return JsonResponse({'success':True})
-        else:
-            print tform.errors
-            return JsonResponse({'success':False })
+        return gv.game_apply(req, g_id, ROLE_ID)
     else:
         if not g_id:
             return HttpResponse('比赛信息错误')
@@ -126,44 +84,13 @@ def game_apply(req, g_id=None):
         #    team = None
         return render_to_response('game/game_apply.html',{'group':group, 'game':game, 'base':'./group/base.html', 'role':'group'},RequestContext(req))
 
-@login_required()
-@transaction.atomic
-@user_passes_test(lambda u: u.is_role(['group']))
-def reg_cancel(req):
-    """
-    取消报名
-    """
-    if req.method == "POST":
-        t_id = req.POST.get("t_id")
-        t = Team.objects.get(id=t_id)
-        t.delete()
-        return JsonResponse({'success':True})
-    return JsonResponse({'success':False})
-
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group']))
 def history_game(req):
     if req.method == "GET":
         g_id = req.GET.get("g_id",None)
-        if g_id and len(g_id) > 0: #有编号的话就返回对应比赛信息
-            game = Game.objects.get(id=g_id)
-            try:
-                ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
-                team = Team.objects.get(game=game, contestant=ur)
-                sts = StudentTeam.objects.filter(team=team)
-                tes = TeamEvent.objects.filter(team=team)
-            except Exception,e:
-                print e
-                team = None
-                sts = None
-                tes = None
-            
-            return render_to_response('game/single_game.html',{'base':'./group/base.html', 'game':game, 'team':team, 'sts':sts, 'tes':tes, 'role':'group'}, RequestContext(req))
-        else:#否则返回历史比赛列表
-            uuid = req.user.id
-            teams = Team.objects.filter(contestant__user=req.user, contestant__role_id=ROLE_ID, game__pub_status=1)
-            return render_to_response('game/history_team.html', {"teams":teams, "base":"./group/base.html", "role":"group"}, RequestContext(req))
+        return gv.history_game(req, g_id, ROLE_ID)
 
 @login_required()
 @transaction.atomic
@@ -174,6 +101,7 @@ def update_info(req):
     """
     if req.method == "POST":
         data = req.POST.copy()
+        print data
 
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=ROLE_ID)
@@ -184,8 +112,11 @@ def update_info(req):
             MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
 
         g = Group.objects.get(user=req.user)
-        g.name = data.get("name","")
-        g.org_num = data.get("org_num","")
+        g.name = data["name"]
+        g.shortname = data["shortname"]
+        g.corporator = data["corporator"]
+        if data.has_key("org_num"):
+            g.org_num = data.get("org_num","")
         if data.has_key("province"):
             g.province = data.get("province","")
         if data.has_key("city"):
@@ -194,6 +125,8 @@ def update_info(req):
             g.dist = data.get("dist","")
         if data.has_key("address"):
             g.address = data.get("address","")
+        if data.has_key("office_num"):
+            g.office_num = data.get("office_num","")
         try:
             g.save()
             ur.save()

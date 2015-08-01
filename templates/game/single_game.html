@@ -88,13 +88,16 @@
                             {% if game.game_status == 0 and game.sub_status == 0 and game.pub_status == 0%}
                             {% if team.pay_status == 0 or team.game.reg_status == 1%}
                             {% if team.pay_status == 0 %}
+                            {% if team and time_remain %}
+                            {% include "pay_timer.html" with time_remain=time_remain%}
+                            {% endif %}
                             <a class="btn btn-xs btn-primary" href="/game/pay/{{team.id}}">去付款</a>
                             {% if team.game.reg_status == 1 %}
                             <a class="btn btn-xs btn-danger" id="reg-cancel">取消报名</a>
                             {% endif %}
+
                             {% else %}
-                            <span>退出请联系举办方<br/>
-                                电话：{{game.org.contact_phone}}</span>
+                            <span>退赛请联系举办方 &nbsp;&nbsp;&nbsp;&nbsp; 电话：{{game.contact_phone}}</span>
                             {% endif %}
                             {% else %}
                             {% if game.cur_num < game.limit %}
@@ -106,48 +109,80 @@
 
                             {% endif %}
                             {% endif %} <!-- not student -->
+
                             {% if team %}
                             <h4>队名：<span class="label label-xlg label-primary arrowed arrowed-right"> {{team.name}}</span></h4>
                             <hr/>
-                            {% endif %} <!-- team -->
-                            {% if sts %}
+                            <ul>
+                                <li class="col-xs-6"> <label >领队:</label> {{team.leader}} </li>
+                                <li class="col-xs-6"> <label >联系人:</label> {{team.contact_name}} </li>
+                                <li class="col-xs-6"> <label >联系手机:</label> {{team.contact_phone}} </li>
+                                <li class="col-xs-6"> <label >联系邮箱:</label> {{team.contact_email}} </li>
+                                <li class="col-xs-6"> <label >联系QQ:</label> {{team.contact_qq}} </li>
+                                <li class="col-xs-6"> <label >联系微信:</label> {{team.contact_wx}} </li>
+                                <li class="col-xs-12"> <label >邮寄地址:</label> {{team.address}},{{team.postno}} </li>
+                            </ul>
                             {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
-                            <button class="btn btn-xs btn-inverse" id='ch-member'>更换队员</button>
+                            <a type="button" class="btn btn-xs btn-inverse" id='ch-contact' href="/game/ch_contact/{{team.id}}">更改信息</a>
                             {% endif %}
+                            <div class="hr hr-18 dotted hr-double"></div>
+
+                            <!--
+                            {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
+                            <a type="button" class="btn btn-xs btn-inverse" id='ch-member' href="/game/ch_mem/{{team.id}}">更换队员</a>
+                            <h5 class="pink">
+                                <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+                                <a href="/game/ch_mem/{{team.id}}" role="button" class="dark-blue" data-toggle="modal"> 更换队员 </a>
+                            </h5>
+                            {% endif %}
+                            -->
                             <table id="" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>参赛队员</th>
-                                        <th class="hidden-480">性别</th>
+                                        <th>性别</th>
+                                        {% if game.game_status == 0 and not role == 'student' %}
+                                        <th>操作</th>
+                                        {% endif %}
+
                                         <th>参赛队员</th>
-                                        <th class="hidden-480">性别</th>
+                                        <th>性别</th>
+                                        {% if game.game_status == 0 and not role == 'student' %}
+                                        <th>操作</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     <tr> 
-                                        {% for st in sts|slice:":2"%}
+                                        {% for st in sts%}
                                         <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
-                                        {% endfor %}
+                                        {% if game.game_status == 0 and not role == 'student' %}
+                                        <td>
+                                            <button class="btn btn-minier btn-info mem-edit"><i class="ace-icon fa fa-pencil bigger-120"></i></button> 
+                                            <input class="edit-input" style="display:none" placeholder="输入学员手机号"/>
+                                            <p style="display:none" class="stid">{{st.id}}</p>
+                                            {% if team.pay_status == 0 %}
+                                            <button class="btn btn-minier btn-danger mem-del"> <i class="ace-icon fa fa-trash-o bigger-120"></i></button>
+                                            {% endif %}
+                                        </td>
+                                        {% endif %}
+
+                                        {# if the the forloop counter is divisible by 4, close the <li> tag and open a new one #}
+                                        {% if forloop.counter|divisibleby:2 %}
                                     </tr>
-                                    <tr> 
-                                        {% for st in sts|slice:"2:4"%}
-                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
-                                        {% endfor %}
-                                    </tr>
-                                    <tr> 
-                                        {% for st in sts|slice:"4:6"%}
-                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
-                                        {% endfor %}
-                                    </tr>
-                                    <tr> 
-                                        {% for st in sts|slice:"6:8"%}
-                                        <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
+                                    <tr>
+                                        {% endif %}
                                         {% endfor %}
                                     </tr>
                                 </tbody>
                             </table>
-                            {% endif %} <!-- sts -->
+                            {% if team.pay_status == 0 and sts.count < game.total_num and not role == 'student' %}
+                            <span id="mem-add"><input placeholder="输入学员手机号"/> <button class="btn btn-xs btn-info"> 添加队员</button><span id='wrong-alert' class="red"></span></span>
+                            {% else %}
+                            <span id="mem-add" style="display:none"><input placeholder="输入学员手机号并回车"/> <button class="btn btn-xs btn-info"> 添加队员</button> <span id='wrong-alert' class="red"></span></span>
+                            {% endif %} <!-- if sts -->
+                            {% endif %} <!-- if team -->
                         </div>
                     </div>
                 </div>
@@ -184,6 +219,7 @@
 
                         <div class="widget-body">
                             <div class="widget-main">
+                                {% if team %}
                                 <table class="table table-striped table-bordered table-hover green">
                                     <thead>
                                         <tr>
@@ -196,15 +232,29 @@
                                         {% for te in tes %}
                                         <tr>
                                             <td>{{te.event.get_name_display}}</td>
+                                            {% if game.pub_status == 1 %}
                                             <td>{{te.get_award_display}}
-                                                {% if not te.award == 0 and not te.award == 4%}
+                                                {% if game.pub_status == 1 and not te.award == 0 and not te.award == 4%}
                                                 <a style="margin-left:15px" type="button" class="btn btn-white btn-success btn-xs" href="/dl_qual?cert={{te.certificate}}">下载证书</a>
                                                 {% endif %}
                                             </td>
+                                            {%else%}
+                                            <td>暂无结果</td>
+                                            {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                {% else %}
+                                <table class="table table-striped table-bordered table-hover green">
+                                    <thead> <tr> <th>项目</th> </tr> </thead>
+                                    <tbody>
+                                        {% for e in events %}
+                                        <tr> <td>{{e.get_name_display}}</td> </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -281,17 +331,75 @@
                     label: "确定",
                     className: "btn-primary",
                     callback: function() {
-                        $.post("/group/game/reg_cancel", 
+                        $.post("/game/reg_cancel", 
                             {"t_id":"{{team.id}}","csrfmiddlewaretoken":"{{csrf_token}}"}, 
                             function(data){
                                 if(data["success"])
-                                    location.reload();
+                                    window.location.href="/{{role}}/cur_game/{{game.id}}";
                             });
                     }
                 }
             }
         });
     });
+
+    {% if game.game_status == 0 and not role == 'student'%}
+
+    $(".mem-edit").click(function(){
+        $input = $(this).next('input');
+        if($input.is(":visible"))
+            $input.hide();
+        else
+            $input.show();
+    });
+    $(".edit-input").keydown(function(e){
+        if (e.keyCode == 13 || e.keyCode == 44){
+            var $input = $(this);
+            var $st_id = $input.next('.stid');
+            var st_id = $st_id.text().trim();
+            var phone = $input.val().trim();
+            $.post('/game/edit_stu', {'phone':phone, 'st_id':st_id, "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
+                if(d.name && d.name.length > 0){
+                    $input.parent().prev('td').html(d.gender);
+                    $input.parent().prev('td').prev('td').html(d.name);
+                    $input.hide();
+                }else{
+                    if(d.success == false){
+                        alert('该学员已报名其他比赛');
+                    }else{
+                        alert('未找到相应学员');
+                    }
+                }
+
+            });
+        }
+    });
+    {% endif %}
+
+    {% if game.game_status == 0 and team.pay_status == 0 and not role == 'student'%}
+
+    $(".mem-del").click(function(){
+        var st_id = $(this).prev('.stid').text().trim();
+        $.post('/game/del_stu', {'st_id':st_id, "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
+            if(d.success)
+                location.reload();
+            else{
+                alert('删除失败');
+            }
+        });
+    });
+    $("#mem-add button").click(function(){
+        var phone = $("#mem-add input").val().trim();
+        $.post('/game/add_stu', {'phone':phone, 'team':"{{team.id}}", "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
+            if(d.success){
+                location.reload();
+            }else{
+                $('#wrong-alert').text(d.msg);
+                $('#wrong-alert').show();
+            }
+        });
+    });
+    {% endif %}
 
 </script>
 

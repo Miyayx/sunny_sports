@@ -78,7 +78,12 @@ class MyUserManager(BaseUserManager):
             student.Student(property=sp).save()
         elif r.get_role_display() == "club":
             print "Create Club"
-            pass
+            from club.models import Club
+            Club.objects.create(user=user)
+        elif r.get_role_display() == "group":
+            print "Create Group"
+            from group.models import Group
+            Group.objects.create(user=user)
 
         return user
 
