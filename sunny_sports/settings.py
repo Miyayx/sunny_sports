@@ -109,6 +109,14 @@ DATABASES = {
         #'HOST': '104.236.146.204',
         'HOST': '121.52.209.117',
         'PORT': '3306',
+        'OPTIONS': {
+            'use_unicode': True, 
+            'charset': 'utf8',
+            'init_command': 'SET '
+                 'storage_engine=INNODB,'
+                 'character_set_connection=utf8,'
+                 'collation_connection=utf8_bin'
+            },
     }
 }
 
