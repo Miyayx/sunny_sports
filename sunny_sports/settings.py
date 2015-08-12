@@ -185,6 +185,7 @@ USER_ROLES = (
 
 CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_dots',)
 MSG_CODE = True if OS == 'centos' else False
+IGNORE_PHONE=["13812345678","13712345678","15110099952"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
