@@ -71,14 +71,17 @@ MIDDLEWARE_CLASSES = (
 
 import djcelery
 djcelery.setup_loader()
-BROKER_URL = 'django://'
-#CELERY_IMPORTS=("sp.tasks",)
-BROKER_HOST = "localhost"
-BROKER_PORT = 5672
-BROKER_USER = "celery_user"
-BROKER_PASSWORD = "celery_password"
-BROKER_VHOST = "celery"
-CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
+#BROKER_URL = 'django://'
+#BROKER_URL = 'amqp://'
+#BROKER_HOST = "localhost"
+#BROKER_HOST = "121.52.209.117"
+#BROKER_PORT = 5672
+#BROKER_USER = "kltc"
+#BROKER_PASSWORD = "queen-dorm"
+#BROKER_VHOST = "/"
+BROKER_URL = 'amqp://kltc:queen-dorm@121.52.209.117:5672/kltc'
+#CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
+CELERY_RESULT_BACKEND='amqp://'
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
@@ -101,6 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         #'ENGINE': 'mysql.connector.django',
         'NAME': 'sunny_sports' if DEBUG else 'kuaileticao',
+        #'NAME': 'kuaileticao',
         #'USER': 'root',
         #'PASSWORD': '123',
         #'HOST': '127.0.0.1',
