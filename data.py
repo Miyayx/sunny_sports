@@ -47,10 +47,14 @@ def init():
     #c_t = association.CoachTrain(coach=c1, train=train1)
     #c_t.save()
 
-    Event(name=0).save()
-    Event(name=1).save()
-    Event(name=2).save()
-    Event(name=3).save()
+    #Event(name=0).save()
+    #Event(name=1).save()
+    #Event(name=2).save()
+    #Event(name=3).save()
+
+    u0 = MyUser.objects.get(phone="00000")
+    u0.set_password("kuaileticaocentre")
+    u0.save()
     
 def new_data():
     #pass #新数据的添加写在这里，把pass删掉

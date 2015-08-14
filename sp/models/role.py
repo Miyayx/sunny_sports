@@ -54,9 +54,9 @@ class Coach(models.Model):
 
 class CoachOrg(models.Model):
     user = models.ForeignKey(MyUser)
-    org_num  = models.CharField(max_length=20)
+    org_num  = models.CharField(max_length=50)
     name = models.CharField(max_length=256)
-    shortname = models.CharField(max_length=10)
+    shortname = models.CharField(max_length=30)
     director = models.CharField(max_length=256, blank=True, default="")
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
@@ -74,9 +74,9 @@ class CoachOrg(models.Model):
 
 class GameOrg(models.Model):
     user = models.ForeignKey(MyUser)
-    org_num  = models.CharField(max_length=20)
+    org_num  = models.CharField(max_length=50)
     name = models.CharField(max_length=256)
-    shortname = models.CharField(max_length=10)
+    shortname = models.CharField(max_length=30)
     director = models.CharField(max_length=256, blank=True, default="")
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
