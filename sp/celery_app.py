@@ -18,7 +18,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 app.conf.update(
         CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend',
-        CELERY_RESULT_BACKEND='djcelery.backends.cache:CacheBackend',
+        #CELERY_RESULT_BACKEND='djcelery.backends.cache:CacheBackend',
         )
 #CELERY_IMPORTS=("sp.tasks",)
 

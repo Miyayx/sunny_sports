@@ -2,7 +2,8 @@
 # http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html#available-options
 
 #CELERY_APP="sunny_sports.sp" #sp app 中的celery_app.py, 最好写到.py文件，不然默认找这个app中的celery.py
-CELERYD_NODES="worker"
+APP="sp"
+CELERYD_NODES="worker_kltc"
 CELERYD_OPTS=""
 #CELERY_BIN="/usr/bin/python -m celery"
 CELERY_BIN=/usr/bin/celery

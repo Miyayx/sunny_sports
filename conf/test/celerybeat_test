@@ -1,8 +1,8 @@
 # See
 # http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html#available-options
 
-CELERY_APP="sp.celery_app"
-CELERYD_NODES="beat"
+APP="sp"
+CELERYD_NODES="beat_test"
 CELERYD_OPTS=""
 #CELERY_BIN="/usr/bin/python -m celery"
 CELERY_BIN=/usr/bin/celery
