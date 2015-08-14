@@ -4,14 +4,13 @@ from g_import import *
 
 from django.core.context_processors import csrf
 
-from sp.tasks import *
-
 from datetime import datetime, timedelta
 
 from convert import *
 
 from game.models import *
 from group.models import *
+from game.tasks import *
 
 ROLE_ID = 7
 
@@ -116,10 +115,10 @@ def game_publish(req):
                 g.submit_status=1
                 g.save()
                 #启动计时器
-                #game_reg_start.apply_async((g.id,), eta=g.reg_stime+timedelta(seconds=3))
-                #game_reg_end.apply_async((g.id,), eta=g.reg_etime+timedelta(seconds=3))
-                #game_start.apply_async((g.id,), eta=g.game_stime+timedelta(seconds=3))
-                #game_end.apply_async((g.id,), eta=g.game_etime+timedelta(seconds=3))
+                game_reg_start.apply_async((g.id,), eta=g.reg_stime+timedelta(seconds=1))
+                game_reg_end.apply_async((g.id,), eta=g.reg_etime+timedelta(seconds=1))
+                game_start.apply_async((g.id,), eta=g.game_stime+timedelta(seconds=1))
+                game_end.apply_async((g.id,), eta=g.game_etime+timedelta(seconds=1))
             return JsonResponse({'success':True})
         else:
             print gform.errors

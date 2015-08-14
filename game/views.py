@@ -18,6 +18,7 @@ from sp.models.status import get_role
 from game.models import *
 from student.models import *
 from forms import *
+from game.tasks import *
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
@@ -102,7 +103,7 @@ def reg_cancel(req):
 def current_game(req, g_id, t_id, ROLE_ID):
     role = get_role(ROLE_ID)
     if not g_id: #显示game list
-        games = Game.objects.filter(pass_status=1, reg_status__lt=2, game_status=0, pub_status=0) #可报名的比赛
+        games = Game.objects.filter(pass_status=1, reg_status=1, game_status=0, pub_status=0) #可报名的比赛
         for g in games: #报名的比赛
             g.cur_num = len(Team.objects.filter(game=g))
         #与自己相关的进行中比赛
@@ -193,6 +194,9 @@ def game_apply(req, g_id, ROLE_ID):
                 TeamEvent.objects.get_or_create(event=e, team=t)
                 #tes.append(TeamEvent(event=e, team=t))
             #TeamEvent.objects.bulk_create(tes)
+
+            check_time = datetime.utcnow() + PAYMENT_LIMIT
+            payment_check.apply_async((t.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
 
             return JsonResponse({'success':True, 't_id':t.id})
         else:
