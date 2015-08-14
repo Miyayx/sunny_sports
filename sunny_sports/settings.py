@@ -80,8 +80,7 @@ djcelery.setup_loader()
 #BROKER_PASSWORD = "queen-dorm"
 #BROKER_VHOST = "/"
 BROKER_URL = 'amqp://kltc:queen-dorm@121.52.209.117:5672/kltc'
-#CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
-CELERY_RESULT_BACKEND='amqp://'
+CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
