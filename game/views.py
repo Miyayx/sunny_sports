@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
+from django.utils import timezone
 
 from payment.models import Bill
 from payment.views import pay as ali_pay
@@ -22,10 +23,17 @@ from game.tasks import *
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
-def find_stu(req, phone):
+def find_stu(req, phone, gender=None):
     print "phone-->"+phone
     try:
-        s = Student.objects.get(property__user__phone=phone)
+        s = None
+        if gender == None:
+            s = Student.objects.get(property__user__phone=phone)
+        elif int(gender) == 0:
+            s = Student.objects.get(property__user__phone=phone, property__sex=0)
+        elif int(gender) == 1:
+            s = Student.objects.get(property__user__phone=phone, property__sex=1)
+
         if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0: #该学生已报名其他队
             return JsonResponse({'success':False})
         return JsonResponse({'uuid':s.property.user.id, 'name':s.property.name, 'gender':s.property.get_sex_display(), 'success':True})
@@ -181,7 +189,19 @@ def game_apply(req, g_id, ROLE_ID):
             print len(set(ms))
             if not len(ms) == len(set(ms)):
                 return JsonResponse({'success':False, 'msg':'队员有重复' })
-            stus = Student.objects.filter(property__user__id__in=ms)
+            #stus = Student.objects.filter(property__user__id__in=ms)
+            stus = Student.objects.filter(property__user__phone__in=ms)
+            boys = 0
+            girls = 0
+            game = Game.objects.get(id=g_id)
+            for s in stus:
+                if s.property.sex == 0:
+                    boys += 1
+                else:
+                    girls += 1
+            if not boys == game.male_num or not girls == game.female_num:
+                return JsonResponse({'success':False, 'msg':'队员数量不符'})
+
             sts = []
             for s in stus:
                 StudentTeam.objects.get_or_create(student=s, team=t)
@@ -195,7 +215,7 @@ def game_apply(req, g_id, ROLE_ID):
                 #tes.append(TeamEvent(event=e, team=t))
             #TeamEvent.objects.bulk_create(tes)
 
-            check_time = datetime.utcnow() + PAYMENT_LIMIT
+            check_time = timezone.now() + PAYMENT_LIMIT
             payment_check.apply_async((t.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
 
             return JsonResponse({'success':True, 't_id':t.id})

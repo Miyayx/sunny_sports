@@ -7,7 +7,7 @@ from game.models import *
 class TeamForm(ModelForm):
     class Meta:
         model = Team
-        fields = ['game','contestant','name','leader','contact_name','contact_phone','contact_email','contact_qq','contact_wx','address','postno']
+        fields = ['game','contestant','name','leader','contact_name','contact_phone','contact_email','contact_qq','contact_wx','address','postno', 'other_info']
 
     def is_valid(self):
         if super(TeamForm, self).is_valid():

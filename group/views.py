@@ -77,11 +77,11 @@ def game_apply(req, g_id=None):
         if not g_id:
             return HttpResponse('比赛信息错误')
         game = Game.objects.get(id=g_id)
+
+        if len(Team.objects.filter(game=game, contestant=UserRole.objects.get(role_id=ROLE_ID, user=req.user))):
+            return render_to_response('game/game_already_apply.html',{'base':'./group/base.html', 'role':'group'},RequestContext(req))
+
         group = Group.objects.get(user=req.user)
-        #try:
-        #    team = Team.objects.get(game=game,)
-        #except:
-        #    team = None
         return render_to_response('game/game_apply.html',{'group':group, 'game':game, 'base':'./group/base.html', 'role':'group'},RequestContext(req))
 
 
