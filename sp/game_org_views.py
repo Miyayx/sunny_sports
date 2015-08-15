@@ -9,8 +9,9 @@ from datetime import datetime, timedelta
 from convert import *
 
 from game.models import *
-from group.models import *
 from game.tasks import *
+from game.utils import wrap_schedule
+from group.models import *
 
 ROLE_ID = 7
 
@@ -126,10 +127,6 @@ def game_publish(req):
             return JsonResponse({'success':False, 'msg':str(gform.errors['error']) })
         
     else:
-
-        def wrap_schedule(s):
-            #把字符串格式的schedule形式化
-            return [i.split('#;;') for i in s.split('#;;;;')]
 
         g_id = req.GET.get('g_id',0)
         uuid = req.user.id

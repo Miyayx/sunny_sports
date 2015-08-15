@@ -5,6 +5,7 @@ from django.utils.encoding import smart_text
 import datetime
 
 from group.models import *
+from game.utils import wrap_schedule
 
 @login_required()
 @transaction.atomic
@@ -160,6 +161,7 @@ def game_check(req, game_id=None):
         if game_id and len(game_id) > 0: #有编号的话就返回对应比赛页面
             try:
                 game = Game.objects.get(id=game_id)
+                game.schedule = wrap_schedule(game.schedule)
                 return render_to_response('centre/game_check2.html',{"game":game})
             except:
                 return HttpResponse("<h2>没有该比赛的审核请求</h2>")
