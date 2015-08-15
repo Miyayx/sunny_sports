@@ -71,6 +71,7 @@ def center(req):
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['game_org']))
 def game_publish(req):
+
     if req.method == "POST":
         data = req.POST.copy()
         uuid = req.user.id
@@ -89,7 +90,7 @@ def game_publish(req):
             data['sponsor'] = data['sponsor'].strip()
             data['organizer'] = data['organizer'].strip()
             data['coorganizer'] = data['coorganizer'].strip()
-            data['schedule'] = data['schedule'].strip()
+            data['schedule'] = data['schedule'].strip().strip('#;;;;')
             data['description'] = data['description'].strip()
             data['province'] = data['prov'].strip()
             gform = GamePublishForm(data, instance=game)
@@ -104,7 +105,7 @@ def game_publish(req):
             data['sponsor'] = data['sponsor'].strip()
             data['organizer'] = data['organizer'].strip()
             data['coorganizer'] = data['coorganizer'].strip()
-            data['schedule'] = data['schedule'].strip()
+            data['schedule'] = data['schedule'].strip().strip('#;;;;')
             data['description'] = data['description'].strip()
             data['province'] = data['prov'].strip()
             gform = GamePublishForm(data)
@@ -125,6 +126,11 @@ def game_publish(req):
             return JsonResponse({'success':False, 'msg':str(gform.errors['error']) })
         
     else:
+
+        def wrap_schedule(s):
+            #把字符串格式的schedule形式化
+            return [i.split('#;;') for i in s.split('#;;;;')]
+
         g_id = req.GET.get('g_id',0)
         uuid = req.user.id
         org = GameOrg.objects.get(user_id=uuid)
@@ -134,6 +140,7 @@ def game_publish(req):
         else:
             try:
                 g = Game.objects.filter(org=org, submit_status=0)[0]
+                g.schedule = wrap_schedule(g.schedule)
             except Exception,e:
                 print e
                 g = None
