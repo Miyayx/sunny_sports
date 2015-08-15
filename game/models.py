@@ -97,6 +97,7 @@ class Team(models.Model):
     reg_time = models.DateTimeField(default=datetime.datetime.now) #报名时间
     pay_status = models.IntegerField(choices=PAY_STATUS, default=0) #是否付款
     bill = models.OneToOneField(Bill, null=True) #账单编号
+    other_info = models.CharField(max_length=1000, null=True) #备注，其他成员信息
 
     class Meta:
         app_label='sp'

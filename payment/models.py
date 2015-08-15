@@ -35,7 +35,7 @@ class Bill (models.Model):
   # status will be 'INIT'.
     trade_status = models.CharField(max_length=50, default='INIT')
     total_fee = models.FloatField(default=0.0)
-    start_date = models.DateTimeField(default=datetime.datetime.now())
+    start_date = models.DateTimeField(default=datetime.datetime.now)
     body = models.CharField(max_length=1000, null=True)
     
     class Meta:
