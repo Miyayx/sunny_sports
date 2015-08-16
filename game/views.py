@@ -153,6 +153,7 @@ def history_game(req, g_id, ROLE_ID):
     if req.method == "GET":
         if g_id and len(g_id) > 0: #有编号的话就返回对应比赛信息
             game = Game.objects.get(id=g_id)
+            game.schedule = wrap_schedule(game.schedule)
             try:
                 ur = UserRole.objects.get(user=req.user, role_id=ROLE_ID)
                 team = Team.objects.get(game=game, contestant=ur)
