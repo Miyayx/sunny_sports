@@ -187,28 +187,30 @@ def game_apply(req, g_id, ROLE_ID):
         if len(Team.objects.filter(game_id=data['game'])) >= Game.objects.get(id=data['game']).limit:
             return JsonResponse({'success':False, 'msg':'参赛队已报满' })
 
+        ms = members.strip().split(',')
+        print len(ms)
+        print len(set(ms))
+        if not len(ms) == len(set(ms)):
+            return JsonResponse({'success':False, 'msg':'队员有重复' })
+
+        #stus = Student.objects.filter(property__user__id__in=ms)
+        stus = Student.objects.filter(property__user__phone__in=ms)
+        boys = 0
+        girls = 0
+        game = Game.objects.get(id=g_id)
+        for s in stus:
+            if StudentTeam.objects.filter(student=s, team__game__pub_status=0).count() > 0:
+                return JsonResponse({'success':False, 'msg':'队员 %s 已报名其他比赛'%s.property.name })
+            if s.property.sex == 0:
+                boys += 1
+            else:
+                girls += 1
+        if not boys == game.male_num or not girls == game.female_num:
+            return JsonResponse({'success':False, 'msg':'队员数量不符'})
+
         tform = TeamForm(data)
         if tform.is_valid():
             t = tform.save()
-            ms = members.strip().split(',')
-            print len(ms)
-            print len(set(ms))
-            if not len(ms) == len(set(ms)):
-                return JsonResponse({'success':False, 'msg':'队员有重复' })
-            #stus = Student.objects.filter(property__user__id__in=ms)
-            stus = Student.objects.filter(property__user__phone__in=ms)
-            boys = 0
-            girls = 0
-            game = Game.objects.get(id=g_id)
-            for s in stus:
-                if StudentTeam.objects.filter(student=s, team__game__game_status__lt=2).count():
-                    return JsonResponse({'success':False, 'msg':'队员 %s 已报名其他比赛'%s.property.name })
-                if s.property.sex == 0:
-                    boys += 1
-                else:
-                    girls += 1
-            if not boys == game.male_num or not girls == game.female_num:
-                return JsonResponse({'success':False, 'msg':'队员数量不符'})
 
             sts = []
             for s in stus:

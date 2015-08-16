@@ -80,7 +80,7 @@ def game_apply(req, g_id=None):
         #    team = Team.objects.get(game=game,)
         #except:
         #    team = None
-        return render_to_response('game/game_apply.html',{'club':club, 'game':game, 'base':'./club/base.html', 'role':'club'},RequestContext(req))
+        return render_to_response('game/game_apply.html',{'group':club, 'game':game, 'base':'./club/base.html', 'role':'club'},RequestContext(req))
 
 @login_required()
 @transaction.atomic
