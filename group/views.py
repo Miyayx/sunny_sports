@@ -26,7 +26,7 @@ def group(req):
     u=UserRole.objects.get(user_id=uuid, role_id=ROLE_ID)
     req.session['role'] = ROLE_ID
     if u.is_first:
-        messages.error(req, u"请补全个人信息")
+        messages.error(req, u"请补全机构信息")
         return HttpResponseRedirect("group/center")
     else:
         return HttpResponseRedirect("group/home")
