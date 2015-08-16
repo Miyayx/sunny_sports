@@ -312,7 +312,7 @@
             $input.keydown(function(e){
                 if (e.keyCode == 13 || e.keyCode == 44){
                     $al = $input.parent().find('.wrong-alert');
-                    var phone = $input.val().trim();
+                    var phone = $.trim($input.val());
                     $.get('/find_stu/'+phone+'/'+g, function(d){
                         if(d.name && d.gender && d.name.length > 0 && d.gender.length > 0){
                             $input.val("");

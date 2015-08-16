@@ -266,7 +266,7 @@
                     "submit":1, //true 
                     'csrfmiddlewaretoken': '{{csrf_token}}',
                     'g_id':$(this).closest('.tab-pane').attr('id'),
-                    'res':JSON.stringify(getResult($(this.closest('form'))))
+                    'res':JSON.stringify(getResult($(this).closest('form')))
                 };
                 $.post('/game_org/result_input', d, function(data){
                     if(data['success']){

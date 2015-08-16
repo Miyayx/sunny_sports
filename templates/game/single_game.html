@@ -382,8 +382,8 @@
         if (e.keyCode == 13 || e.keyCode == 44){
             var $input = $(this);
             var $st_id = $input.next('.stid');
-            var st_id = $st_id.text().trim();
-            var phone = $input.val().trim();
+            var st_id = $.trim($st_id.text());
+            var phone = $.trim($input.val());
             $.post('/game/edit_stu', {'phone':phone, 'st_id':st_id, "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
                 if(d.name && d.name.length > 0){
                     $input.parent().prev('td').html(d.gender);
@@ -405,7 +405,7 @@
     {% if game.game_status == 0 and team.pay_status == 0 and not role == 'student'%}
 
     $(".mem-del").click(function(){
-        var st_id = $(this).prev('.stid').text().trim();
+        var st_id = $.trim($(this).prev('.stid').text());
         $.post('/game/del_stu', {'st_id':st_id, "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
             if(d.success)
                 location.reload();
@@ -415,7 +415,7 @@
         });
     });
     //$("#mem-add button").click(function(){
-        //    var phone = $("#mem-add input").val().trim();
+        //    var phone = $.trim($("#mem-add input").val());
         //    $.post('/game/add_stu', {'phone':phone, 'team':"{{team.id}}", "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
             //        if(d.success){
                 //            location.reload();

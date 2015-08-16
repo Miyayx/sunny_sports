@@ -33,7 +33,7 @@
     $("input[type=phone]").blur(function () {
       var $c = $(this);
       var $form = $c.closest("form");
-      var phone = $(this).val().trim();
+      var phone = $.trim($(this).val());
       var flag = true;
 
       var num= /^[0-9]+.?[0-9]*$/;

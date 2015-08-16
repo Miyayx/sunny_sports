@@ -181,7 +181,7 @@
                     label: "确定",
                     className: "btn-primary",
                     callback: function() {
-                        var t_id = $btn.parent().parent().find('p').text().trim();
+                        var t_id = $.trim($btn.parent().parent().find('p').text());
                         $.post("/game/reg_cancel", 
                             {"t_id":t_id,"csrfmiddlewaretoken":"{{csrf_token}}"}, 
                             function(data){
