@@ -248,7 +248,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right">其他说明</label>
                 <div class="col-sm-9">
-                    <textarea id="decription" name="description" class="autosize-transition form-control" style="width:100%;horizontal;" rows="5">
+                    <textarea id="decription" name="description" style="width:100%;" rows="5">
                         {{game.description}}
                     </textarea>
                 </div>
@@ -379,7 +379,7 @@
         }, "<p class='red'>开始时间晚大于结束时间</p>");
         jQuery.validator.addMethod('minStrict', function (value, el, param) {
                 return value > param;
-    }, "<p class='red'>整数大于0</p>");
+    }, "<p class='red'>请填写大于0的整数</p>");
 
         var form_val = function($form){
             $($form).removeAttr('novalidate');
@@ -394,12 +394,12 @@
                     male_num:{
                         required: true,
                         digits:true,
-                        minStrict:0
+                        minStrict:-1
                     },
                     female_num:{
                         required: true,
                         digits:true,
-                        minStrict:0
+                        minStrict:-1
                     },
                     reg_etime:{
                         reg_etime:true

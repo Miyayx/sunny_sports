@@ -41,8 +41,10 @@
         <li class="purple" id="switch-box" style="display:none">
         </li>
 
+        <!--
         <li class="green" id="msg-box">
         </li>
+        -->
 
         <!-- #section:basics/navbar.logout -->
         <li class="grey">
@@ -63,13 +65,13 @@
 <script type="text/javascript">
 
   jQuery(function(){
-    $.ajax({
-      type: "GET",
-      url: "/msg", 
-      success : function(data) {
-        $('#msg-box').html(data);
-      }
-    });
+    //$.ajax({
+    //  type: "GET",
+    //  url: "/msg", 
+    //  success : function(data) {
+    //    $('#msg-box').html(data);
+    //  }
+    //});
 
     $.ajax({
       type: "GET",

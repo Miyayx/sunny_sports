@@ -18,7 +18,11 @@
       </div>
       <div class="profile-info-row">
         <div class="profile-info-name">工商执照</div>
+        {% if group.license|length == 0 %}
+        <div class="profile-info-value">未上传</div>
+        {% else %}
         <div class="profile-info-value"><a href="{{PHOTO_ROOT}}{{group.license}}" target="_blank">点击查看</a></div>
+        {% endif %}
       </div>
     </div>
   </div>
