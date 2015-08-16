@@ -365,23 +365,24 @@ def download_excel(req):
             elif role == 'club':
                 t.Contestant = Club.objects.get(user=t.contestant.user)
             sts = StudentTeam.objects.filter(team=t)
-            t.student = ",".join([st.student.property.name for st in sts])
+            t.girls = ",".join([st.student.property.name for st in sts if st.student.property.sex == 1])
+            t.boys = ",".join([st.student.property.name for st in sts if st.student.property.sex == 0])
         if not len(teams):
             return HttpResponse(u"该比赛暂无参赛队报名，不提供名单")
         if not game.pub_status: 
-            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员"]
-            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.student) for t in teams]
+            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员(男)", u"参赛队员(女)"]
+            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.boys, t.girls) for t in teams]
         else:#如果已经发布，包括是否通过，证书号
             for t in teams:
                 tes = TeamEvent.objects.filter(team=t)
                 awards = ["%s:%s"%(te.event.get_name_display(), te.get_award_display()) for te in tes]
                 t.result = "\n".join(awards)
-            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员", u"比赛结果"]
-            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.student, t.result) for t in teams]
+            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员(男)",u"参赛队员(女)", u"比赛结果"]
+            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.boys, t.girls, t.result) for t in teams]
         return export_xls(req, "%s-%s"%(game.id,game.name), fields, rows)
 
 @login_required()
-@user_passes_test(lambda u: u.is_role(['coach','coach_org','centre']))
+@user_passes_test(lambda u: u.is_role(['coach','coach_org','centre','student','club','group','game_org']))
 def download_qualification(req):
     #证书下载
     from sp.tools import cufon
