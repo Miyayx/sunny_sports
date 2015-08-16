@@ -136,6 +136,7 @@ def current_game(req, g_id, t_id, ROLE_ID):
     else:
         time_remain = 0
         team = Team.objects.get(id=t_id)
+        team.game.schedule = wrap_schedule(team.game.schedule)
         sts = StudentTeam.objects.filter(team=team)
         print "sts len:",len(sts)
         tes = TeamEvent.objects.filter(team=team)

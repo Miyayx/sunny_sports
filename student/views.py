@@ -36,7 +36,7 @@ def home(req):
 
     game = None
     try:
-        st = StudentTeam.objects.get(student=stu, team__game__pub_status = 0)
+        st = StudentTeam.objects.get(student=stu, team__pay_status=1, team__game__pub_status = 0)
         cur_game = st.team.game
     except:
         cur_game = None
