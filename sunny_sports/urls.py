@@ -24,6 +24,7 @@ urlpatterns = patterns('',
         url(r'^dl_qual$', 'sp.views.download_qualification'),
         url(r'^train_info$', 'sp.views.train_info'),
         url(r'^coach_info$', 'sp.views.coach_info'),
+        url(r'^team_info/(?P<t_id>\w+)$', 'game.views.team_info'),
         url(r'^inbox$', 'sp.views.inbox'),
 
         #url(r'^student/', include('student.urls')),

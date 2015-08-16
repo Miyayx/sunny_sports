@@ -57,16 +57,16 @@
                 <tbody>
                     {% for team in teams %}
                     <tr>
-                        <td class="center"><a>{{team.name}}</a></td>
+                        <td class="center"><a href="/team_info/{{team.id}}">{{team.name}}</a></td>
                         <td class="center">{{team.Contestant.name}}</td>
                         <td class="center">
-                        {% for st in team.sts|slice:":4" %}
-                        {{st.student.property.name}},
-                        {% endfor %}
-                        </br>
-                        {% for st in team.sts|slice:"4:" %}
-                        {{st.student.property.name}},
-                        {% endfor %}
+                            {% for st in team.sts|slice:":4" %}
+                            {{st.student.property.name}},
+                            {% endfor %}
+                            </br>
+                            {% for st in team.sts|slice:"4:" %}
+                            {{st.student.property.name}},
+                            {% endfor %}
                         </td>
                         {% for te in team.tes %}
                         <td class="center">
@@ -86,4 +86,16 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="/static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+    $("a[href^='/team_info']").click(function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, function(page){
+            bootbox.alert(page, function(){})
+        });
+    });
+</script>
 {% endblock %}

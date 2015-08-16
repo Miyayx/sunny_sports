@@ -13,6 +13,7 @@ from payment.alipay_python.alipay import *
 
 from sunny_sports.settings import HOST
 from sunny_sports.settings import PAYMENT_LIMIT
+from sunny_sports.settings import PHOTO_ROOT
 
 from sp.g_import import *
 from sp.models.status import get_role
@@ -20,6 +21,8 @@ from game.models import *
 from student.models import *
 from forms import *
 from game.tasks import *
+from group.models import *
+from club.models import *
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
@@ -318,6 +321,23 @@ def pay_return(req):
             return HttpResponse(u'付款失败')
     else:
         return HttpResponse(u'信息验证错误')
+
+@login_required()
+def team_info(req, t_id):
+    if t_id and len(t_id) > 0: #有编号的话就返回对应比赛信息
+        try:
+            team = Team.objects.get(id=t_id)
+            group = None
+            if team.contestant.role.get_role_display() == "group":
+                group = Group.objects.get(user=team.contestant.user)
+            elif team.contestant.role.get_role_display() == "club":
+                group = Club.objects.get(user=team.contestant.user)
+
+            return render_to_response('common/team_info.html', {"team":team, "group": group, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
+        except Exception,e:
+            print e
+            return HttpResponse(u"该参赛队不存在")
+    return HttpResponse(u"该参赛队不存在")
 
 
 
