@@ -34,7 +34,7 @@
             <input type="hidden" id="g-id" name="g_id" value="{{game.id}}" required="required">
             {% endif %}
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛名称</label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛名称<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <span>
                         <input type="text" id="g-name" name="name" value="{{game.name}}" style="width:260px" required="required" >
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" >比赛项目</label>
+                <label class="col-sm-3 control-label no-padding-right" >比赛项目<label class="red">*</label></label>
                 <div class="col-sm-9">
                     {% for i,e in events %}
                     <label><input name="events" type="checkbox" disabled="true" checked value="{{i}}" />{{e}}</label> 
@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 比赛地点 </label>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 比赛地点<label class="red">*</label> </label>
                 <div class="col-sm-9" id="position">
                     <span>
                         <select class="prov" name="prov" value="{{game.province}}"></select> 省
@@ -94,7 +94,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">参赛队数量</label>
+                <label class="col-sm-3 control-label no-padding-right">参赛队数量<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <!-- #section:elements.form.input-icon -->
                     <span>
@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">每队男生数量</label>
+                <label class="col-sm-3 control-label no-padding-right">每队男生数量<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <span>
                         <input class="col-xs-1" type="text" id="male_num" name="male_num" value="{{game.male_num}}" required="required" >
@@ -112,7 +112,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">每队女生数量</label>
+                <label class="col-sm-3 control-label no-padding-right">每队女生数量<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <span>
                         <input class="col-xs-1" type="text" id="female_num" name="female_num" value="{{game.female_num}}" required="required" >
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">参赛费(元/人)</label>
+                <label class="col-sm-3 control-label no-padding-right">报名费(元/人)<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <!-- #section:elements.form.input-icon -->
                     <span>
@@ -131,7 +131,7 @@
             </div>
             <div class="form-group">
                 <span id="time_list">
-                    <label class="col-sm-3 control-label no-padding-right" for="reg-start"> 报名开始时间</label>
+                    <label class="col-sm-3 control-label no-padding-right" for="reg-start"> 报名开始时间<label class="red">*</label></label>
                     <div class="col-sm-9">
                         <span class="col-sm-5" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
@@ -146,7 +146,7 @@
             </div>
             <div class="form-group">
                 <span id="time_list">
-                    <label class="col-sm-3 control-label no-padding-right"> 报名结束时间</label>
+                    <label class="col-sm-3 control-label no-padding-right"> 报名结束时间<label class="red">*</label></label>
                     <div class="col-sm-9">
                         <span class="col-sm-5" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
@@ -161,7 +161,7 @@
             </div>
             <div class="form-group">
                 <span id="time_list">
-                    <label class="col-sm-3 control-label no-padding-right"> 比赛开始时间</label>
+                    <label class="col-sm-3 control-label no-padding-right"> 比赛开始时间<label class="red">*</label></label>
                     <div class="col-sm-9">
                         <span class="col-sm-5" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
@@ -176,7 +176,7 @@
             </div>
             <div class="form-group">
                 <span>
-                    <label class="col-sm-3 control-label no-padding-right"> 比赛结束时间</label>
+                    <label class="col-sm-3 control-label no-padding-right"> 比赛结束时间<label class="red">*</label></label>
                     <div class="col-sm-9">
                         <span class="col-sm-5" style="padding-left:1px">
                             <div class="input-group" style="on-padding-left">
@@ -190,26 +190,26 @@
                 </span>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">联系人姓名</label>
+                <label class="col-sm-3 control-label no-padding-right">联系人姓名<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <span>
-                        <input type="text" id="contact-name" name="contact_name" value="{{game.contact_name}}">
+                        <input type="text" required="required" id="contact-name" name="contact_name" value="{{game.contact_name}}">
                     </span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">联系人手机</label>
+                <label class="col-sm-3 control-label no-padding-right">联系人手机<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <span>
-                        <input type="text" id="contact-phone" name="contact_phone" value="{{game.contact_phone}}">
+                        <input type="text" id="contact-phone" name="contact_phone" value="{{game.contact_phone}}" required="required">
                     </span>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right">联系人E-mail</label>
+                <label class="col-sm-3 control-label no-padding-right">联系人E-mail<label class="red">*</label></label>
                 <div class="col-sm-9">
                     <span>
-                        <input type="text" id="contact-email" name="contact_email" value="{{game.contact_email}}" >
+                        <input type="text" required="required" id="contact-email" name="contact_email" value="{{game.contact_email}}" >
                     </span>
                 </div>
             </div>
@@ -253,6 +253,7 @@
                     </textarea>
                 </div>
             </div>
+            <p class="col-sm-10 col-sm-offset-3">带<label class="red">*</label>为必填项</p>
             <div class="col-md-offset-3 col-md-9">
                 <button class="btn btn-info" type="submit" id="submit">
                     <i class="ace-icon fa fa-check bigger-110"></i>
@@ -376,6 +377,9 @@
         jQuery.validator.addMethod("game_etime", function (value, element) {
             return moment($('#game-end').val()) > moment($('#game-start').val());//要用moment转换一下
         }, "<p class='red'>开始时间晚大于结束时间</p>");
+        jQuery.validator.addMethod('minStrict', function (value, el, param) {
+                return value > param;
+    }, "<p class='red'>整数大于0</p>");
 
         var form_val = function($form){
             $($form).removeAttr('novalidate');
@@ -385,33 +389,31 @@
                     limit:{
                         required: true,
                         digits:true,
+                        minStrict:0
                     },
                     male_num:{
                         required: true,
                         digits:true,
+                        minStrict:0
                     },
                     female_num:{
                         required: true,
                         digits:true,
+                        minStrict:0
+                    },
+                    reg_etime:{
+                        reg_etime:true
+                    },
+                    game_etime:{
+                        game_etime:true
+                    },
+                    game_stime:{
+                        game_stime:true
                     },
                     money:{
                         required: true,
                         digits:true,
-                    },
-                    reg_etime: {
-                        required: true,
-                    },
-                    game_stime: {
-                        required: true,
-                    },
-                    game_etime: {
-                        required: true,
-                    },
-                    contact_name: {
-                        required: true,
-                    },
-                    contact_phone: {
-                        required: true,
+                        minStrict:0
                     },
                     contact_email: {
                         required: true,

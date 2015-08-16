@@ -358,6 +358,23 @@
                     required: true,
                     email: true
                 }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                error.appendTo(element.closest('.form-group span'));
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
             }
         });
 
