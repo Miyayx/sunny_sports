@@ -147,6 +147,7 @@ urlpatterns += patterns('club.views',
         url(r'^club/history_game$', 'history_game'),
         url(r'^club/center$', 'center'),
         url(r'^club/up_info$', 'update_info'),
+        url(r'^club/up_lic$', 'upload_license'),
         )
 
 # group
@@ -161,6 +162,7 @@ urlpatterns += patterns('group.views',
         url(r'^group/history_game$', 'history_game'),
         url(r'^group/center$', 'center'),
         url(r'^group/up_info$', 'update_info'),
+        url(r'^group/up_lic$', 'upload_license'),
         )
 #game
 urlpatterns += patterns('game.views',

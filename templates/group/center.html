@@ -166,54 +166,43 @@
                                     </div>
 
                                     <hr />
-
-                                    <!--
-                                    <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
-                                        <span class="profile-picture">
-                                            <img src="{{PHOTO_ROOT}}{{student.property.avatar}}" id="avatar" />
-                                        </span>
-                                        <div class="space-4"></div>
-                                        <form action="/student/up_img" method="post" enctype="multipart/form-data" >
-                                            {% csrf_token %}
-                                            <div class="col-sm-9">
-                                                <input type="file" id="headImg" name="headImg"/>
-                                            </div>
-                                            <button type="submit" style="height:28px" class="btn btn-info btn-xs">
-                                                上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    -->
-
-                                    <!--
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
-                                            <form action="/group/upload" method="post" enctype="multipart/form-data" >
-                                                {% csrf_token %}
-                                                <div class="col-sm-5">
-                                                    <button type="submit" style="height:28px" class="btn btn-info btn-xs">
-                                                        上传工商执照<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="col-sm-5">
-                                                    <input type="file" id="upload" name="upload"/>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    -->
-
-                                    <hr />
                                     <div class="space"></div>
                                     <div class="row">
                                         <div class="col-md-offset-4 col-md-8">
                                             <button class="btn btn-info" type="button" id="save-btn">
-                                                <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                                                <i class="ace-icon fa fa-check bigger-110"></i> 保存信息
                                             </button>
                                         </div>
                                         <p id="save-msg" class="col-md-offset-5"></p>
                                     </div>
                                 </form>
+
+                                <hr />
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-offset-1 col-sm-8 center">
+                                        <form action="/group/up_lic" method="POST" enctype="multipart/form-data" >
+                                            {% csrf_token %}
+                                            <div class="col-sm-3">
+                                                <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                    {% if group.license|length == 0 %}
+                                                    上传工商执照
+                                                    {% else %}
+                                                    更新工商执照
+                                                    {% endif %}
+                                                    <i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                                </button>
+                                                {% if not group.license|length == 0 %}
+                                                <a href="{{PHOTO_ROOT}}{{group.license}}" target="_blank">点击查看</a>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="file" id="upload" name="license"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
                             </div>
 
                             <div id="edit-password" class="tab-pane row">
@@ -253,6 +242,16 @@
 
 <script type="text/javascript">
     jQuery(function($) {
+
+        $('#upload').ace_file_input({
+            no_file:'',
+            btn_choose:'选择文件',
+            btn_change:'更改文件',
+            droppable:false,
+            onchange:null,
+            thumbnail:false
+        });
+        $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
 
         $('#token').editable({
             type: 'text',
@@ -320,9 +319,9 @@
                     if(data && data.success){
                         alert("已保存");
                         location.reload();
-                }else{
-                    alert("保存失败!")
-                }
+                    }else{
+                        alert("保存失败!")
+                    }
                 },
                 error: function(errors) {
                     var info = "";

@@ -9,6 +9,8 @@ from game.models import *
 from game.forms import *
 from game import views as gv
 from sp.models.role import *
+from photo.views import *
+from sunny_sports.settings import PHOTO_ROOT
 
 from django.contrib import messages
 
@@ -53,7 +55,7 @@ def center(req):
     if ur.is_first:
         messages.error(req, u"请补全个人信息")
     c = Club.objects.filter(user_id=uuid)
-    return render_to_response('club/center.html',{"club":c[0]}, RequestContext(req))
+    return render_to_response('club/center.html',{"club":c[0], "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['club']))
@@ -143,4 +145,13 @@ def update_info(req):
             print e
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
+
+@login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['club']))
+def upload_license(req):
+    c = Club.objects.get(user=req.user)
+    #update_photo(req, coach.property)
+    upload_license_to_qiniu(req, c)
+    return HttpResponseRedirect('/club/center')
 

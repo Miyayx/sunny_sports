@@ -5,3 +5,7 @@ from django import forms
 class UserForm(forms.Form):
     headImg = forms.FileField()
 
+#工商执照上传
+class LicenseForm(forms.Form):
+    license = forms.FileField()
+

@@ -15,8 +15,6 @@ from sunny_sports.settings import DEFAULT_PHOTO
 from forms import *
 from config import *
 
-
-# Create your views here.
 def update_photo(request, obj):
     if request.method == "POST":
         uf = UserForm(request.POST,request.FILES)
@@ -63,6 +61,33 @@ def update_photo_in_qiniu(request, obj):
                     obj.save() #保存到数据库
                 else:
                     obj.avatar = old
+                    obj.save()
+                if os.path.isfile(imgpath):
+                    os.remove(imgpath) #删除头像
+
+def upload_license_to_qiniu(request, obj):
+    if request.method == "POST":
+        print request.POST
+        lf = LicenseForm(request.POST,request.FILES)
+        if lf.is_valid():
+            img = lf.cleaned_data['license']
+            suffix = img.name.split('.')[-1]; #check if it's an image
+            if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
+                old = obj.license
+                print "old-->"+old.name
+                obj.license = img
+                obj.license.name = obj.license.name.rsplit('.',1)[0]+'_'+gen_random_str(10)+'.'+suffix
+                obj.save() 
+                path = obj.license.name
+                imgpath = os.path.join(MEDIA_ROOT, path) #图片真实路径
+                print "imgpath-->"+imgpath
+                im = Image.open(imgpath)
+                buf = StringIO.StringIO()
+                im.save(buf, format=suffix)
+                if(update_to_qiniu(buf.getvalue(), path, old.name)):
+                    obj.save() #保存到数据库
+                else:
+                    obj.license = old
                     obj.save()
                 if os.path.isfile(imgpath):
                     os.remove(imgpath) #删除头像
