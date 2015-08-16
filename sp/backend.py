@@ -14,6 +14,8 @@ class MyBackend:
             user = (MyUser.objects.filter(phone=username) | MyUser.objects.filter(nickname=username) | MyUser.objects.filter(email=username))
             if user and len(user) > 0:
                 user = user[0]
+                user.last_login = timezone.now()
+                user.save()
             else:
                 return None
 

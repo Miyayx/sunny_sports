@@ -120,9 +120,9 @@
                         <div class="col-sm-4">
                             <span>
                                 {% if group.license|length == 0 %}
-                                <input type="text" id="license" name="license" value="{{group.license}}">
+                                <input type="text" id="license" name="license" value="{{group.org_num}}">
                                 {% else %}
-                                <input type="text" id="license" name="license" value="{{group.license}}" disabled="disabled">
+                                <input type="text" id="license" name="license" value="{{group.org_num}}" disabled="disabled">
                                 {% endif %}
                             </span>
                         </div>
