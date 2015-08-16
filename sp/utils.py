@@ -80,11 +80,11 @@ def export_xls(req, name, fields, rows):
 
     code="utf-8"
     if req.META.has_key('HTTP_USER_AGENT'):
-        user_agent = request.META['HTTP_USER_AGENT'].lower()
+        user_agent = req.META['HTTP_USER_AGENT'].lower()
+        print user_agent
         if 'trident' in user_agent or 'msie' in user_agent: #如果是IE浏览器发来的请求
             code="gb2312"
-            
-    code=sys.getdefaultencoding()
+
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=%s.xls'%urllib.unquote(urllib.quote(name.encode(code)))
     wb = xlwt.Workbook(encoding='utf-8')
