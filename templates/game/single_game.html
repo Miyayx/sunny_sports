@@ -177,11 +177,13 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <!--
                             {% if team.pay_status == 0 and sts.count < game.total_num and not role == 'student' %}
                             <span id="mem-add"><input placeholder="输入学员手机号"/> <button class="btn btn-xs btn-info"> 添加队员</button><span id='wrong-alert' class="red"></span></span>
                             {% else %}
                             <span id="mem-add" style="display:none"><input placeholder="输入学员手机号并回车"/> <button class="btn btn-xs btn-info"> 添加队员</button> <span id='wrong-alert' class="red"></span></span>
                             {% endif %} <!-- if sts -->
+                            -->
                             {% endif %} <!-- if team -->
                         </div>
                     </div>
@@ -388,17 +390,17 @@
             }
         });
     });
-    $("#mem-add button").click(function(){
-        var phone = $("#mem-add input").val().trim();
-        $.post('/game/add_stu', {'phone':phone, 'team':"{{team.id}}", "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
-            if(d.success){
-                location.reload();
-            }else{
-                $('#wrong-alert').text(d.msg);
-                $('#wrong-alert').show();
-            }
-        });
-    });
+    //$("#mem-add button").click(function(){
+    //    var phone = $("#mem-add input").val().trim();
+    //    $.post('/game/add_stu', {'phone':phone, 'team':"{{team.id}}", "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
+    //        if(d.success){
+    //            location.reload();
+    //        }else{
+    //            $('#wrong-alert').text(d.msg);
+    //            $('#wrong-alert').show();
+    //        }
+    //    });
+    //});
     {% endif %}
 
 </script>
