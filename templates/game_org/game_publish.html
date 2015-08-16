@@ -44,25 +44,19 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">主办单位(;分割)</label>
                 <div class="col-sm-9">
-                    <textarea id="g-sponsor" name="sponsor" rows="2" cols="60">
-                        {{game.sponsor}}
-                    </textarea>
+                    <textarea id="g-sponsor" name="sponsor" rows="2" cols="60">{{game.sponsor}}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">承办单位(;分割)</label>
                 <div class="col-sm-9">
-                    <textarea id="g-organizer" name="organizer" rows="2" cols="60">
-                        {{game.organizer}}
-                    </textarea>
+                    <textarea id="g-organizer" name="organizer" rows="2" cols="60">{{game.organizer}}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">协办单位(;分割)</label>
                 <div class="col-sm-9">
-                    <textarea id="g-coorganizer" name="coorganizer" rows="2" cols="60">
-                        {{game.coorganizer}}
-                    </textarea>
+                    <textarea id="g-coorganizer" name="coorganizer" rows="2" cols="60">{{game.coorganizer}}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -248,9 +242,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right">其他说明</label>
                 <div class="col-sm-9">
-                    <textarea id="decription" name="description" style="width:100%;" rows="5">
-                        {{game.description}}
-                    </textarea>
+                    <textarea id="decription" name="description" style="width:100%;" rows="5">{{game.description}}</textarea>
                 </div>
             </div>
             <p class="col-sm-10 col-sm-offset-3">带<label class="red">*</label>为必填项</p>
@@ -451,10 +443,11 @@
             $.post('/game_org/game_publish',$.param(data))
             .done(function(data){
                 if(data['success']){
-                    alert("已提交");
                     {% if game %}
+                    alert("已修改");
                     window.location.href = '/game_org/game_manage#{{game.id}}'
                     {% else %}
+                    alert("已提交");
                     $('#g-pub-form').trigger('reset');
                     {% endif %}
                 }else{

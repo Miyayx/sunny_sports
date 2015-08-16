@@ -88,11 +88,11 @@ def game_publish(req):
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
             data['total_num'] = data['male_num']+data['female_num']
-            data['sponsor'] = data['sponsor'].strip()
-            data['organizer'] = data['organizer'].strip()
-            data['coorganizer'] = data['coorganizer'].strip()
-            data['schedule'] = data['schedule'].strip().strip('#;;;;')
-            data['description'] = data['description'].strip()
+            data['sponsor'] = data['sponsor']
+            data['organizer'] = data['organizer']
+            data['coorganizer'] = data['coorganizer']
+            data['schedule'] = data['schedule'].strip('#;;;;')
+            data['description'] = data['description']
             data['province'] = data['prov'].strip()
             gform = GamePublishForm(data, instance=game)
         else: # create new game
@@ -103,11 +103,11 @@ def game_publish(req):
             data['male_num'] = int(data['male_num'])
             data['female_num'] = int(data['female_num'])
             data['total_num'] = data['male_num']+data['female_num']
-            data['sponsor'] = data['sponsor'].strip()
-            data['organizer'] = data['organizer'].strip()
-            data['coorganizer'] = data['coorganizer'].strip()
+            data['sponsor'] = data['sponsor']
+            data['organizer'] = data['organizer']
+            data['coorganizer'] = data['coorganizer']
             data['schedule'] = data['schedule'].strip().strip('#;;;;')
-            data['description'] = data['description'].strip()
+            data['description'] = data['description']
             data['province'] = data['prov'].strip()
             gform = GamePublishForm(data)
         
