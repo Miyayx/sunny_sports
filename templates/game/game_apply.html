@@ -70,7 +70,7 @@
                             <input type="text" id="group-name" name="group_name" value="{{group.name}}" required="required" disabled="disabled">
                             {% endif %}
                         </div>
-                        <label class="col-sm-2 control-label no-padding-right" >机构编号</label>
+                        <label class="col-sm-2 control-label no-padding-right" >工商执照注册号</label>
                         <div class="col-sm-4">
                             <span>
                                 {% if group.org_num|length == 0 %}
@@ -115,16 +115,6 @@
                             {% else %}
                             <input type="text" id="shortname" name="shortname" value="{{group.shortname}}" required="required" disabled="disabled">
                             {% endif %}
-                        </div>
-                        <label class="col-sm-2 control-label no-padding-right" >工商执照注册号</label>
-                        <div class="col-sm-4">
-                            <span>
-                                {% if group.license|length == 0 %}
-                                <input type="text" id="license" name="license" value="{{group.org_num}}">
-                                {% else %}
-                                <input type="text" id="license" name="license" value="{{group.org_num}}" disabled="disabled">
-                                {% endif %}
-                            </span>
                         </div>
                     </div>
                 </div>

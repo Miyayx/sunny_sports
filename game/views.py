@@ -21,6 +21,7 @@ from game.models import *
 from student.models import *
 from forms import *
 from game.tasks import *
+from game.utils import *
 from group.models import *
 from club.models import *
 
@@ -122,11 +123,13 @@ def current_game(req, g_id, t_id, ROLE_ID):
         teams = Team.objects.filter(contestant=ur, game__pub_status=0)
         games = list(games)
         for t in teams: #剔除已报名的
-            games.remove(t.game)
+            if t.game in games:
+                games.remove(t.game)
         return render_to_response('game/group_gamelist.html',{'base':'./%s/base.html'%role, 'role':role,  "games":games, "teams":teams}, RequestContext(req))
     elif g_id and not t_id: #显示单个game状况
         game = Game.objects.get(id=g_id)
         game.cur_num = len(Team.objects.filter(game=game))
+        game.schedule = wrap_schedule(game.schedule)
         #events = Event.objects.filter(id__in=game.events.split(','))#项目列表
         events = Event.objects.all()
         return render_to_response('game/single_game.html',{'base':'./%s/base.html'%role, 'role':role, 'game':game, 'events':events}, RequestContext(req))
@@ -181,7 +184,7 @@ def game_apply(req, g_id, ROLE_ID):
         data['contestant'] = UserRole.objects.get(user=req.user, role_id=ROLE_ID).id
         if len(Team.objects.filter(game_id=data['game'], contestant_id=data['contestant'])):
             return JsonResponse({'success':False, 'msg':'您已报名该比赛' })
-        if len(Team.objects.filter(game_id=data['game'])) >= Game.objects.get(id=data['game']):
+        if len(Team.objects.filter(game_id=data['game'])) >= Game.objects.get(id=data['game']).limit:
             return JsonResponse({'success':False, 'msg':'参赛队已报满' })
 
         tform = TeamForm(data)
@@ -198,6 +201,8 @@ def game_apply(req, g_id, ROLE_ID):
             girls = 0
             game = Game.objects.get(id=g_id)
             for s in stus:
+                if StudentTeam.objects.filter(student=s, team__game__game_status__lt=2).count():
+                    return JsonResponse({'success':False, 'msg':'队员 %s 已报名其他比赛'%s.property.name })
                 if s.property.sex == 0:
                     boys += 1
                 else:

@@ -31,13 +31,33 @@
                                 <p class="col-xs-6">比赛机构：&nbsp;&nbsp; {{game.org.name}}</p>
                                 <p class="col-xs-6">协办单位：{{game.organizer}}</p>
                                 <p class="col-xs-6">比赛地点：{{game.province}},{{game.city}},{{game.dist}},{{game.address}}</p>
-                                <p class="col-xs-6">比赛项目：{{game.events}}</p>
-                                <p class="col-xs-6">比赛费用：{{game.money}}/人</p>
-                                <p class="col-xs-6">参赛队数量：{{game.limit}}</p>
+                                <p class="col-xs-6">比赛费用：{{game.money}}元/人</p>
                                 <p class="col-xs-12">队员数量：男：{{game.male_num}} 女：{{game.female_num}}</p>
-                                <p>联系人: </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：{{game.contact_name}}, 手机：{{game.contact_phone}}, 邮箱：{{game.contact_email}}</p>
-                                <p>{{game.description}}</p>
+                                <p class="col-xs-12">联系人: </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：{{game.contact_name}}, 手机：{{game.contact_phone}}, 邮箱：{{game.contact_email}}</p>
+                                <p class="col-xs-12">描述：{{game.description}}</p>
+                                {% if game.schedule|length > 0 %}
+                                <p class="col-xs-12">日程安排：
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="center">日期</th>
+                                            <th class="center">时间</th>
+                                            <th class="center">内容</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for d, t, c in game.schedule %}
+                                        <tr>
+                                            <td class="center">{{d}}</td>
+                                            <td class="center">{{t}}</td>
+                                            <td class="center">{{c}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                </p>
                                 <div class="space-6"></div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -66,9 +86,9 @@
                             <span class="badge badge-warning">已报名，未付款</span>
                             {% elif team and team.pay_status == 1 and game.reg_status == 1 %}
                             <span class="badge badge-warning">已付款</span>
-                            {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
+                            {% elif game.reg_status == 2 and game.game_status == 0 %}
                             <span class="badge badge-warning">报名结束</span>
-                            {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
+                            {% elif game.game_status == 2 %}
                             <span class="badge badge-warning">比赛结束</span>
                             {% elif game.pub_status == 1 %}
                             <span class="badge badge-warning">比赛结束</span>
@@ -391,14 +411,14 @@
         });
     });
     //$("#mem-add button").click(function(){
-    //    var phone = $("#mem-add input").val().trim();
-    //    $.post('/game/add_stu', {'phone':phone, 'team':"{{team.id}}", "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
-    //        if(d.success){
-    //            location.reload();
-    //        }else{
-    //            $('#wrong-alert').text(d.msg);
-    //            $('#wrong-alert').show();
-    //        }
+        //    var phone = $("#mem-add input").val().trim();
+        //    $.post('/game/add_stu', {'phone':phone, 'team':"{{team.id}}", "csrfmiddlewaretoken":"{{csrf_token}}"}, function(d){
+            //        if(d.success){
+                //            location.reload();
+                //        }else{
+                    //            $('#wrong-alert').text(d.msg);
+                    //            $('#wrong-alert').show();
+                    //        }
     //    });
     //});
     {% endif %}

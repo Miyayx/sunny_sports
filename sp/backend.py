@@ -1,6 +1,7 @@
 # import the User object
 from models.models import MyUser
 from django.contrib.auth.models import check_password
+from django.utils import timezone
 
 class MyBackend:
 

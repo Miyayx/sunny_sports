@@ -60,7 +60,7 @@ def center(req):
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
 def current_game(req):
-    st = StudentTeam.objects.filter(team__game__pub_status=0, student__property__user_id=req.user.id)
+    st = StudentTeam.objects.filter(team__pay_status=1, team__game__pub_status=0, student__property__user_id=req.user.id)#已付款的未发布的比赛
     if len(st) == 1:
         team = st[0].team
         game = team.game
@@ -71,7 +71,7 @@ def current_game(req):
     elif len(st) == 0:
         return render_to_response('game/no_game.html',{'base':'./student/base.html', 'role':'student'}, RequestContext(req))
     else:
-       return HttpResponse("<h2>比赛信息错误</h2>")
+       return HttpResponse("<h2>同一时间只允许报名一场比赛</h2>")
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
