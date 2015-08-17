@@ -138,7 +138,7 @@ def current_game(req, g_id, t_id, ROLE_ID):
         try:
             team = Team.objects.get(id=t_id)
         except:
-            HttpResponseRedirect('%s/cur_game/%s'%(role,g_id))
+            HttpResponseRedirect('/%s/cur_game/%s'%(role,g_id))
         team.game.schedule = wrap_schedule(team.game.schedule)
         sts = StudentTeam.objects.filter(team=team)
         print "sts len:",len(sts)
