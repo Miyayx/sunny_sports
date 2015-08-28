@@ -18,3 +18,12 @@ def coach_help(req):
 # It's usually a good idea to set the 'Content-Length' header too.
 # You can also set any other required headers: Cache-Control, etc.
     return response
+
+@csrf_exempt  
+def game_group_help(req):
+    f = open('media/game_group_help.pdf')
+    response = HttpResponse(f.read())
+    f.close()
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str('快乐体操参赛队报名与付款教程.pdf')
+    response['Content-Type'] = 'application/pdf'
+    return response
