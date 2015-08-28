@@ -36,7 +36,7 @@ urlpatterns = patterns('',
         url(r'^get_captcha$','sp.views.get_captcha'),
 
         url(r'^tutorial/coach$', 'sp.help_views.coach_help'),
-        url(r'^tutorial/game/group$', 'sp.help_views.game_group_help'),
+        url(r'^tutorial/team', 'sp.help_views.game_group_help'),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
         #url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
