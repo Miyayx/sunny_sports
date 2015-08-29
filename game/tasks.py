@@ -39,6 +39,7 @@ def payment_check(t_id):
     print("payment check")
     try:
         t = Team.objects.get(id=t_id, pay_status=0)
+        print "delete team:", t.id
         t.delete()
     except:
         print "t_id:",t_id,"has paid or doesn't exist"

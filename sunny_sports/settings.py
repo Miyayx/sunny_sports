@@ -196,6 +196,6 @@ HOST = 'kuaileticao.miyayx.me' if DEBUG else 'kuaileticao.com'
 print 'HOST:',HOST
 
 import datetime
-PAYMENT_LIMIT=datetime.timedelta(days=1)
-#PAYMENT_LIMIT=datetime.timedelta(minutes=1)
+#PAYMENT_LIMIT=datetime.timedelta(days=1)
+PAYMENT_LIMIT=datetime.timedelta(minutes=1)
 
