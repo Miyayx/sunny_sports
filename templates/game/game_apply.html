@@ -395,7 +395,8 @@
                 $.post('/{{role}}/game_apply/{{game.id}}',$.param(data),function(data){
                     if(data && data['success']){
                         bootbox.dialog({
-                            message: '<h4>报名成功，请在<b>24小时</b>之内付款</h4>',
+                            //message: '<h4>报名成功，请在<b>24小时</b>之内付款</h4>',
+                            message: '<h4>报名成功，别忘了付款哦～',
                             buttons: {
                                 success: {
                                     label: "马上付款",
