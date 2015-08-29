@@ -83,22 +83,22 @@ class Game(models.Model):
         super(Game, self).save(*args, **kwargs)
 
 class Team(models.Model):
-    id = models.CharField(max_length=20, primary_key=True)
+    id = models.CharField(max_length=50, primary_key=True)
     contestant = models.ForeignKey(UserRole) #所属参赛单位
     game = models.ForeignKey(Game)
-    name = models.CharField(max_length=30, null=True) #队名
-    leader = models.CharField(max_length=20, null=True, blank=True)# 领队
-    contact_name = models.CharField(max_length=20, null=True, blank=True) #联系人
-    contact_phone = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=50, null=True) #队名
+    leader = models.CharField(max_length=50, null=True, blank=True)# 领队
+    contact_name = models.CharField(max_length=50, null=True, blank=True) #联系人
+    contact_phone = models.CharField(max_length=100, null=True, blank=True)
     contact_email = models.EmailField(max_length=100, null=True, blank=True)
-    contact_qq = models.CharField(max_length=50, null=True, blank=True)
+    contact_qq = models.CharField(max_length=100, null=True, blank=True)
     contact_wx = models.CharField(max_length=100, null=True, blank=True)#微信
-    address = models.CharField(max_length=200,null=True, blank=True)
-    postno = models.CharField(max_length=16, null=True, blank=True)#邮编
+    address = models.CharField(max_length=500,null=True, blank=True)
+    postno = models.CharField(max_length=80, null=True, blank=True)#邮编
     reg_time = models.DateTimeField(default=datetime.datetime.now) #报名时间
     pay_status = models.IntegerField(choices=PAY_STATUS, default=0) #是否付款
     bill = models.OneToOneField(Bill, null=True) #账单编号
-    other_info = models.CharField(max_length=1000, null=True, blank=True) #备注，其他成员信息
+    other_info = models.CharField(max_length=5000, null=True, blank=True) #备注，其他成员信息
 
     class Meta:
         app_label='sp'
