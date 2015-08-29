@@ -28,7 +28,7 @@ from club.models import *
 @login_required()
 @user_passes_test(lambda u: u.is_role(['group','club']))
 def find_stu(req, phone, gender=None):
-    print "phone-->"+phone
+    print "find stu: phone-->"+phone
     try:
         s = None
         if gender == None:
@@ -49,9 +49,11 @@ def find_stu(req, phone, gender=None):
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['group','club']))
 def edit_member(req):
+    print "edit_member"
     if req.method == "POST":
         st_id = req.POST['st_id'].strip()
         phone = req.POST['phone'].strip()
+        print "search stu:",phone
         try:
             s = Student.objects.get(property__user__phone=phone)
             if len(StudentTeam.objects.filter(student=s, team__game__pub_status=0)) > 0: 
