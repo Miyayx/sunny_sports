@@ -27,30 +27,30 @@ EVENTS = (
 
 class Event(models.Model):
     name = models.IntegerField(choices=EVENTS)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=1000)
     class Meta:
         app_label='sp'
     
 class Game(models.Model):
-    id = models.CharField(max_length=20, primary_key=True, default="", unique=True)
+    id = models.CharField(max_length=50, primary_key=True, default="", unique=True)
     org = models.ForeignKey(GameOrg) #组织机构
     name = models.CharField(max_length=50, blank=True)
-    description = models.TextField(max_length=500, blank=True)
-    sponsor = models.CharField(max_length=500, blank=True) #主办单位 ;分隔
-    organizer = models.CharField(max_length=500, blank=True) #承办单位 ;分隔
-    coorganizer = models.CharField(max_length=500, blank=True)#协办单位 ;分隔
+    description = models.TextField(max_length=1000, blank=True)
+    sponsor = models.CharField(max_length=800, blank=True) #主办单位 ;分隔
+    organizer = models.CharField(max_length=800, blank=True) #承办单位 ;分隔
+    coorganizer = models.CharField(max_length=800, blank=True)#协办单位 ;分隔
     schedule = models.TextField(max_length=2000, blank=True) #日程安排，
     province = models.CharField(max_length=20, blank=True)
     city = models.CharField(max_length=30, blank=True)
     dist = models.CharField(max_length=50, blank=True)
-    address = models.CharField(max_length=100, blank=True)
+    address = models.CharField(max_length=200, blank=True)
     events = models.TextField(max_length=20, blank=True) #比赛项目
     limit = models.IntegerField(default=0) #参赛队数
     male_num = models.IntegerField(default=0) #每队男生人数
     female_num = models.IntegerField(default=0) #每队女生人数
     total_num = models.IntegerField(default=0) #每队总人数
     money = models.IntegerField(default=0) #每人参赛费用
-    reg_place = models.CharField(max_length=300, blank=True) #报名地点
+    reg_place = models.CharField(max_length=500, blank=True) #报名地点
     reg_stime = models.DateTimeField(null=True) #报名开始时间
     reg_etime = models.DateTimeField(null=True) #报名截止时间
     game_stime = models.DateTimeField(null=True) #比赛开始时间
@@ -61,9 +61,9 @@ class Game(models.Model):
     game_status = models.IntegerField(choices=TRAIN_STATUS, default=0) #比赛状态
     sub_status = models.IntegerField(choices=SUB_STATUS, default=0) #成绩是否提交
     pub_status = models.IntegerField(choices=PUB_STATUS, default=0) #成绩是否发布
-    contact_name = models.CharField(max_length=20, blank=True) #联系人
-    contact_phone = models.CharField(max_length=20, blank=True)
-    contact_email = models.EmailField(max_length=20, blank=True)
+    contact_name = models.CharField(max_length=50, blank=True) #联系人
+    contact_phone = models.CharField(max_length=100, blank=True)
+    contact_email = models.EmailField(max_length=100, blank=True)
 
     class Meta:
         app_label='sp'
