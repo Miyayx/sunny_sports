@@ -81,7 +81,7 @@
                     <div class="widget-box widget-color-blue2">
                         <div class="widget-header widget-header-small">
                             <h5 class="widget-title smaller">当前状态: &nbsp;&nbsp;
-                                {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
+                                {% if team and team.pay_status > 0 and game.game_status == 2 or game.pub_status == 1 %}
                                 <span class="badge badge-warning">比赛结束</span>
                                 {% elif team and team.pay_status > 0 and game.game_status == 1 %}
                                 <span class="badge badge-warning">比赛进行中</span>
@@ -91,10 +91,6 @@
                                 <span class="badge badge-warning">已付款</span>
                                 {% elif game.reg_status == 2 and game.game_status == 0 %}
                                 <span class="badge badge-warning">报名结束</span>
-                                {% elif game.game_status == 2 %}
-                                <span class="badge badge-warning">比赛结束</span>
-                                {% elif game.pub_status == 1 %}
-                                <span class="badge badge-warning">比赛结束</span>
                                 {% elif not team %}
                                 <span class="badge badge-warning">报名进行中</span>
                                 {% endif %}
@@ -147,12 +143,11 @@
                                     <li class="col-xs-6"> <label >联系QQ:</label> {{team.contact_qq}} </li>
                                     <li class="col-xs-6"> <label >联系微信:</label> {{team.contact_wx}} </li>
                                     <li class="col-xs-12"> <label >邮寄地址:</label> {{team.address}},{{team.postno}} </li>
+                                    <li class="col-xs-12"> <label >其他信息:</label> {{team.other_info}}</li>
                                 </ul>
-                                <!--
-                                {% if game.sub_status == 0 and game.pub_status == 0 and game.game_status == 0 and not role == 'student' %}
-                                <a type="button" class="btn btn-xs btn-inverse" id='ch-contact' href="/game/ch_contact/{{team.id}}">更改信息</a>
+                                {% if game.sub_status == 0 and game.game_status == 0 and not role == 'student' %}
+                                <a type="button" class="btn btn-xs btn-inverse" id='ch-contact' >更改信息</a>
                                 {% endif %}
-                                -->
                                 <div class="hr hr-18 dotted hr-double"></div>
 
                                 <!--
@@ -187,7 +182,12 @@
                                             <td> {{st.student.property.name}} </td> <td>{{st.student.property.get_sex_display}}</td> 
                                             {% if game.game_status == 0 and not role == 'student' %}
                                             <td>
-                                                <button class="btn btn-minier btn-info mem-edit"><i class="ace-icon fa fa-pencil bigger-120"></i></button> 
+                                                <button class="btn btn-minier btn-info mem-edit">
+                                                    <!--
+                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                                    -->
+                                                    替换队员
+                                                </button> 
                                                 <input class="edit-input" style="display:none" placeholder="输入学员手机号并按Enter确定"/>
                                                 <p style="display:none" class="stid">{{st.id}}</p>
                                                 <!--
@@ -268,7 +268,7 @@
                                                 <td>{{te.event.get_name_display}}</td>
                                                 {% if game.pub_status == 1 %}
                                                 <td>{{te.get_award_display}}
-                                                    {% if game.pub_status == 1 and not te.award == 0 and not te.award == 4%}
+                                                    {% if game.pub_status == 1 and not te.award == 0 and not te.award == 4 and not te.award == 5%}
                                                     <a style="margin-left:15px" type="button" class="btn btn-white btn-success btn-xs" href="/dl_qual?cert={{te.certificate}}">下载证书</a>
                                                     {% endif %}
                                                 </td>
@@ -407,6 +407,11 @@
 
             });
         }
+    });
+    $("#ch-contact").click(function(){
+        $.get('/game/ch_contact/{{team.id}}', function(data){
+            bootbox.dialog({message:data}); 
+        });
     });
     {% endif %}
 

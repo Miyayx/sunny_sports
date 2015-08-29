@@ -57,7 +57,7 @@
                             </td>
                             <!-- 状态列 -->
                             <td class="center">
-                                {% if team and team.pay_status > 0 and not game.sub_status == 0 %}
+                                {% if team and team.pay_status > 0 and game.game_status == 2 or game.pub_status == 1 %}
                                 <span class="label label-primary">比赛结束</span>
                                 {% elif team and team.pay_status > 0 and game.game_status == 1 %}
                                 <span class="label label-primary">比赛进行中</span>
@@ -67,8 +67,6 @@
                                 <span class="label label-primary">已付款</span>
                                 {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 0 %}
                                 <span class="label label-primary">等待比赛开始</span>
-                                {% elif team and team.pay_status > 0 and game.reg_status == 2 and game.game_status == 2 %}
-                                <span class="label label-primary">比赛结束</span>
                                 {% elif not team %}
                                 <span class="label label-primary">报名进行中</span>
                                 {% endif %}

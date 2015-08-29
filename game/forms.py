@@ -1,5 +1,5 @@
 #-*-coding:utf-8-*-
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from django import forms
 
 from game.models import *
@@ -19,3 +19,16 @@ class TeamForm(ModelForm):
         if commit:
             instance.save()
         return instance
+
+class TeamContactForm(ModelForm):
+    class Meta:
+        model = Team
+        fields = ['leader','contact_name','contact_phone','contact_email','contact_qq','contact_wx','address','postno', 'other_info']
+        widgets = {
+                'other_info': Textarea(attrs={'cols': 50, 'rows': 8, 'placeholder':'其他信息，如教练、医生等随队人员信息'}),
+                }
+        # Edit by bryan
+    def __init__(self, *args, **kwargs):
+        super(TeamContactForm, self).__init__(*args, **kwargs) # Call to ModelForm constructor
+        self.fields['address'].widget.attrs['style'] = 'width:415px' 
+

@@ -352,4 +352,22 @@ def team_info(req, t_id):
     return HttpResponse(u"该参赛队不存在")
 
 
+@login_required()
+@transaction.atomic
+@csrf_exempt
+@user_passes_test(lambda u: u.is_role(['group','club']))
+def change_contact(req, t_id):
+    
+    if t_id and len(t_id) > 0:
+        if req.method == 'POST':
+            team = Team.objects.get(id=t_id)
+            tcform = TeamContactForm(req.POST, instance=team)
+            if tcform.is_valid():
+                tcform.save()
+            return HttpResponseRedirect('/%s/cur_game/%s/%s'%(team.contestant.role.get_role_display(),team.game.id, team.id))
+        else:
+            team = Team.objects.get(id=t_id)
+            tcform = TeamContactForm(instance=team)
+            return render_to_response('game/contact_form.html', {"form":tcform}, RequestContext(req))
+
 

@@ -178,5 +178,5 @@ urlpatterns += patterns('game.views',
         url(r'^game/del_stu$','del_member'),
         url(r'^game/edit_stu$','edit_member'),
         url(r'^game/reg_cancel$','reg_cancel'),
-        url(r'^game/ch_contact$','change_contact'),
+        url(r'^game/ch_contact/(?P<t_id>\w+)$','change_contact'),
         )
