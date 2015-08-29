@@ -146,10 +146,11 @@ def current_game(req, g_id, t_id, ROLE_ID):
         sts = StudentTeam.objects.filter(team=team)
         print "sts len:",len(sts)
         tes = TeamEvent.objects.filter(team=team)
-        if team.pay_status == 0:
-            time_remain = team.reg_time+PAYMENT_LIMIT-timezone.now()
-            print 'time_remain',time_remain
-            time_remain = int(time_remain.total_seconds())
+        # 倒计时
+        #if team.pay_status == 0:
+        #    time_remain = team.reg_time+PAYMENT_LIMIT-timezone.now()
+        #    print 'time_remain',time_remain
+        #    time_remain = int(time_remain.total_seconds())
         return render_to_response('game/single_game.html',{'base':'./%s/base.html'%role, 'game':team.game, 'team':team, 'sts':sts, 'tes':tes, 'time_remain':time_remain, 'role':role}, RequestContext(req))
 
 @login_required()
@@ -233,8 +234,9 @@ def game_apply(req, g_id, ROLE_ID):
                 #tes.append(TeamEvent(event=e, team=t))
             #TeamEvent.objects.bulk_create(tes)
 
-            check_time = timezone.now() + PAYMENT_LIMIT
-            payment_check.apply_async((t.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
+            #计时器开启
+            #check_time = timezone.now() + PAYMENT_LIMIT
+            #payment_check.apply_async((t.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
 
             return JsonResponse({'success':True, 't_id':t.id})
         else:

@@ -25,7 +25,7 @@ PAY_TYPE = (
 
 # Create your models here.
 class Bill (models.Model):
-    no = models.CharField(max_length=36,primary_key=True)
+    no = models.CharField(max_length=100,primary_key=True)
     user = models.ForeignKey(MyUser)
     bill_type = models.IntegerField(choices=BILL_TYPE, default=0)#账单类型
     pay_type = models.IntegerField(choices=PAY_TYPE, default=0)#支付类型
