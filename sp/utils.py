@@ -88,7 +88,7 @@ def export_xls(req, name, fields, rows):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=%s.xls'%urllib.unquote(urllib.quote(name.encode(code)))
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet(name)
+    ws = wb.add_sheet(name.split('-')[0])
     
     row_num = 0
     
