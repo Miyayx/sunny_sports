@@ -84,10 +84,10 @@ function isHKIdCardNo(num) {
 	return regex.test(num);
 }
 
-function isHKIdCardNo(num) {
+function isPassportNo(num) {
      if (num.length == 0)
          return true;
-     var regex = /^[A-Z]?[A-Z]{1}\d{6}\([0-9A]{1}\)$/;
+     var regex = /^[A-Z\d]{7,9}$/;
      return regex.test(num);
  }
 

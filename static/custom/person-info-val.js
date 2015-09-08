@@ -77,6 +77,7 @@ jQuery(function($) {
 		}
 	});
 
+
 	$('#identity').editable({
 		type: 'text',
 		name: 'identity',
@@ -85,6 +86,7 @@ jQuery(function($) {
             $(this).html(v.replace(v.substring(3,15), "**********"));
         },
 		validate: function(v) {
+            if ($('#id_type').length && $('#id_type').text() == '护照号码') return '';
 			if ($.trim(v) == '') return '身份证号为必填项';
 			if (!(isIdCardNo($.trim(v)) || isHKIdCardNo($.trim(v)))) return '请正确输入您的身份证号码';
 			if (! ($(this).text() == v || $(this)[0].value == v || isHKIdCardNo($.trim(v)))) {
@@ -93,6 +95,22 @@ jQuery(function($) {
             }
             
 		}
+	});
+
+	$('#passport').editable({
+		type: 'text',
+		name: 'passport',
+        display: function(v){
+        if(v.length){
+            v = v.substring(0,9);
+            $(this).html(v.replace(v.substring(3,6), "******"));
+            }
+        },
+		validate: function(v) {
+            if ($('#id_type').length && $('#id_type').text() == '身份证号') return '';
+			if ($.trim(v) == '') return '护照号码必填项';
+			if (!(isPassportNo($.trim(v)))) return '请正确输入护照号码';
+            }
 	});
 
 });

@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from sp.g_import import *
 from sp.utils import *
+from sp.models.status import ID_TYPES
 
 from student.models import *
 from game.models import *
@@ -55,7 +56,7 @@ def center(req):
     if ur.is_first:
         messages.error(req, u"请补全个人信息")
     stu = Student.objects.filter(property__user_id=uuid)
-    return render_to_response('student/center.html',{"student":stu[0], "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
+    return render_to_response('student/center.html',{"student":stu[0],"ID_TYPES":ID_TYPES, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['student']))
@@ -116,8 +117,11 @@ def update_info(req):
         sp.name = data.get("name","")
         if data.has_key("sex"):
             sp.sex = int(data.get("sex"))
-        if data.has_key("identity"):
+        sp.id_type = int(data["id_type"])
+        if sp.id_type == 0 and data.has_key("identity"):
             sp.identity = data.get("identity","")
+        if sp.id_type == 1 and data.has_key("passport"):
+            sp.identity = data.get("passport","")
         if data.has_key('birth'):
             sp.birth = data.get("birth")
         if data.has_key("company"):

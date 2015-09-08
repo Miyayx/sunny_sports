@@ -10,14 +10,14 @@
 -->
 {% block content%}
 {{ block.super }}
-			<div class="page-content-area">
-				<div class="page-header">
-					<h1> 个人中心 <small> <i class="ace-icon fa "></i>
-              <span>注册时间：{{student.property.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
-              <span>上次登录时间：{{student.property.user.last_login}}</span>
-						</small>
-					</h1>
-				</div><!-- /.page-header -->
+<div class="page-content-area">
+    <div class="page-header">
+        <h1> 个人中心 <small> <i class="ace-icon fa "></i>
+                <span>注册时间：{{student.property.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
+                <span>上次登录时间：{{student.property.user.last_login}}</span>
+            </small>
+        </h1>
+    </div><!-- /.page-header -->
 
     {% if messages %}
     <div class="alert alert-danger">
@@ -56,14 +56,14 @@
                                         </span>
                                         <div class="space-4"></div>
                                         <form action="/student/up_img" method="post" enctype="multipart/form-data" >
-											{% csrf_token %}
-											<div class="col-sm-9">
-												<input type="file" id="headImg" name="headImg"/>
-											</div>
-											<button type="submit" style="height:28px" class="btn btn-info btn-xs">
-                                           		上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
-                                       		</button>
-										</form>
+                                            {% csrf_token %}
+                                            <div class="col-sm-9">
+                                                <input type="file" id="headImg" name="headImg"/>
+                                            </div>
+                                            <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                     <form class="form-horizontal">
                                         <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
@@ -85,7 +85,7 @@
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="nickname">{{student.property.user.nickname|default_if_none:""}}</span>
-                                                <label class="control-label no-padding-right"> (登录用) </label>
+                                                        <label class="control-label no-padding-right"> (登录用) </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,14 +123,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-7">
-                                            <label class="col-sm-2 control-label no-padding-right"
-                                                for="form-field-identity"> 身份证号 </label>
+                                            <label class="col-sm-4 control-label no-padding-right"
+                                                for="form-field-identity">
+                                                <span class="myeditable editable editable-click" id="id_type" data-type="select">
+                                                </span>(选择证件类型)
+                                            </label>
                                             <div class="col-sm-8">
                                                 <div class="profile-info-value">
-                                                    {% if student.property.identity %}
-                                                    <span class="myeditable editable editable-click" id="identity">{{student.property.identity}}</span>
+                                                    {% if student.property.id_type == 0 %}
+
+                                                    <span class="myeditable editable editable-click" id="identity">{{student.property.identity|default_if_none:""}}</span>
+                                                    <span class="myeditable editable editable-click" id="passport" style="display:none"></span>
                                                     {% else %}
-                                                    <span class="myeditable editable editable-click" id="identity"></span>
+                                                    <span class="myeditable editable editable-click" id="identity" style="display:none"></span>
+                                                    <span class="myeditable editable editable-click" id="passport" >{{student.property.identity|default_if_none:""}}</span>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -199,7 +205,7 @@
                                                 </div>
                                             </div>
                                             <label class="col-sm-2 control-label no-padding-right">cm</label>
-                                            </div>
+                                        </div>
                                         <div class="form-group col-sm-7">
                                             <label class="col-sm-2 control-label no-padding-right" for="form-field-company">体重</label>
                                             <div class="col-sm-1">
@@ -282,7 +288,7 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-		$('#headImg').ace_file_input({
+        $('#headImg').ace_file_input({
             no_file:'更换头像',
             btn_choose:'选择文件',
             btn_change:'更改文件',
@@ -308,16 +314,39 @@
             }
         });	
 
-
-
         $('#club').editable({
             source: function(){
                 result =[];
                 {% for c in clubs %}
-                result.push({value:"{{c.id}}", text:"{{c.name}}"});
+                result.push({value:{{c.id}}, text:"{{c.name}}"});
                 {% endfor %}
                 return result;
             }()
+
+        });
+
+
+        $('#id_type').editable({
+            value :{{ student.property.id_type }},
+            source:[
+                {% for v, t in ID_TYPES %}
+                {value:{{v}}, text:"{{t}}"},
+                {% endfor %}
+            ],
+            display: function(v, sourceData){
+                if (sourceData){
+                    $(this).text(sourceData[v].text); 
+                } else {
+                    $(this).empty(); 
+                }
+                if(v == 1){
+                    $('#identity').hide();
+                    $('#passport').show();
+                }else{
+                    $('#identity').show();
+                    $('#passport').hide();
+                }
+            }
 
         });
 
