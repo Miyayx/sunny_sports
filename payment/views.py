@@ -56,25 +56,28 @@ def pay(request, b_type, params, b_no=None ):
   params['paymethod'] = 'directPay'
   if 'bank' in params:
       params['defaultbank'] = params['bank']
-  #params['need_ctu_check'] = 'Y'
-  params['enable_paymethod'] = 'directPay^bankPay'
+      params['paymethod'] = 'bankPay'
+  #params['enable_paymethod'] = 'directPay^bankPay'
   params['royalty_type'] = "10"
   params['royalty_parameters'] = '%s^%0.2f^%s'%(params['org_email'], params['total_fee']*org_ratio, params['comment'])
   print params['royalty_parameters']
+  params.pop('org_email')
+  params.pop('comment')
+  params.pop('order_num')
   url = alipayTool.create_direct_pay_by_user_url(**params)
   print url
   return url, bill
 
 #('bankname','bank_no_alipay','bank_imageclass')
 BANKS = [
-        #(u'中国工商银行','ICBC','ICBC'), #工商银行的混合渠道总是超时
+        (u'中国工商银行','ICBC-DEBIT','ICBC'), #工商银行的混合渠道总是超时
         (u'中国建设银行','CCB','CCB'),
         (u'中国农业银行','ABC','ABC'),
         (u'中国邮政储蓄银行','POSTGC','PSBC'),
-        #(u'交通银行','COMM-DEBIT','COMM'), #出错啦！
+        (u'交通银行','COMM','COMM'), 
         (u'招商银行','CMB','CMB'),
         (u'中国银行','BOCB2C','BOC'),
-        ##(u'中国光大银行','CEB-DEBIT','CEB'),
+        #(u'中国光大银行','CEB','CEB'),
         (u'中信银行','CITIC-DEBIT','CITIC'), #中信关闭了信用卡网银支付
         (u'浦发银行','SPDB','SPDB'),
         (u'中国民生银行','CMBC','CMBC'),
