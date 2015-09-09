@@ -45,6 +45,7 @@
                         <th class="center"> 参赛队 </th>
                         <th class="center"> 参赛机构 </th>
                         <th class="center"> 参赛队员</th>
+                        <th class="center">是否付款</th>
                     </tr>
                 </thead>
 
@@ -62,6 +63,13 @@
                             {{st.student.property.name}},
                             {% endfor %}
                         </td>
+                        <td class="center">{{team.get_pay_status_display}}
+                            {% if team.pay_status == 0 %}
+                            <a class="btn btn-danger btn-minier change_st" style="margin-left:10px">
+                                <p style="display:none">{{ team.id }}</p>
+                                更改为已付款</a>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -74,4 +82,30 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+    $('.change_st').click(function(e){
+        var $btn = $(this);
+        e.preventDefault();
+        var $info = '<h4>确定更改<b>'+ $.trim($btn.parents('tr').find("td:first").html())+'</b>的付款状态?</h4>';
+        bootbox.setDefaults({locale:'zh_CN'});
+        bootbox.confirm($info, function(result){
+            if(result){ //选择确认
+                $.post("/centre/ch_team_payment_st",
+                    {
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                        't_id':$.trim($btn.parents('td').find('p').html())
+                    }, function(res){
+                        if(res && res['success']){
+                            $btn.parents('td').html('已付费');
+                        }
+                        else alert('操作失败');
+                    });
+            }
+        });
+    });
+</script>
 {% endblock %}

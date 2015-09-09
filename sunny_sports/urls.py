@@ -80,6 +80,7 @@ urlpatterns += patterns('sp.centre_views',
         url(r'^centre/org_info$', 'org_info'),
         url(r'^centre/password$','password_page'),
         url(r'^centre/ch_payment_st$','change_payment_status'),
+        url(r'^centre/ch_team_payment_st$','change_team_payment_status'),
         )
 
 # coach_org

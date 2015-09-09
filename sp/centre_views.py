@@ -293,6 +293,17 @@ def change_payment_status(req):
         return JsonResponse({'success':False})
 
 @login_required()
+@transaction.atomic
+@user_passes_test(lambda u: u.is_role(['centre']))
+def change_team_payment_status(req):
+    if req.method == "POST":
+        t_id = req.POST.get('t_id', None)
+        if t_id:
+            Team.objects.filter(id=t_id, pay_status=0).update(pay_status=1)
+            return JsonResponse({'success':True})
+        return JsonResponse({'success':False})
+
+@login_required()
 def history_print(req, train_id=None):
     """
     生成csv表格并下载
