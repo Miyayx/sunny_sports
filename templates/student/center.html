@@ -133,9 +133,9 @@
                                                     {% if student.property.id_type == 0 %}
 
                                                     <span class="myeditable editable editable-click" id="identity">{{student.property.identity|default_if_none:""}}</span>
-                                                    <span class="myeditable editable editable-click" id="passport" style="display:none"></span>
+                                                    <span class="myeditable editable editable-click" id="passport" style="display:none">{{""}}</span>
                                                     {% else %}
-                                                    <span class="myeditable editable editable-click" id="identity" style="display:none"></span>
+                                                    <span class="myeditable editable editable-click" id="identity" style="display:none">{{""}}</span>
                                                     <span class="myeditable editable editable-click" id="passport" >{{student.property.identity|default_if_none:""}}</span>
                                                     {% endif %}
                                                 </div>
