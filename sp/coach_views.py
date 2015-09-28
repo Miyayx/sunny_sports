@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from g_import import *
+from sp.models.status import ID_TYPES
 
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
@@ -112,7 +113,7 @@ def center(req):
         messages.error(req, u"请补全个人信息")
     coach = Coach.objects.filter(property__user_id=uuid)
     club = Club.objects.filter()
-    return render_to_response('coach/center.html',{"coach":coach[0], "club":club, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
+    return render_to_response('coach/center.html',{"coach":coach[0], "club":club, "ID_TYPES":ID_TYPES, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
@@ -309,8 +310,11 @@ def update_info(req):
         cp.name = data.get("name","")
         if data.has_key("sex"):
             cp.sex = int(data.get("sex"))
-        if data.has_key("identity"):
+        cp.id_type = int(data["id_type"])
+        if cp.id_type == 0 and data.has_key("identity"):
             cp.identity = data.get("identity","")
+        if cp.id_type == 1 and data.has_key("passport"):
+            cp.identity = data.get("passport","")
         if data.has_key('birth'):
             cp.birth = data.get("birth")
         if data.has_key("company"):

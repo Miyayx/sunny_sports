@@ -60,14 +60,14 @@
                                         </span>
                                         <div class="space-4"></div>
                                         <form action="/coach/up_img" method="post" enctype="multipart/form-data" >
-											{% csrf_token %}
-											<div class="col-sm-9">
-												<input type="file" id="headImg" name="headImg"/>
-											</div>
-											<button type="submit" style="height:28px" class="btn btn-info btn-xs">
-                                           		上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
-                                       		</button>
-										</form>
+                                            {% csrf_token %}
+                                            <div class="col-sm-9">
+                                                <input type="file" id="headImg" name="headImg"/>
+                                            </div>
+                                            <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                     <form class="form-horizontal">
                                         <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
@@ -90,7 +90,7 @@
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="nickname">{{coach.property.user.nickname|default_if_none:""}}</span>
-                                                <label class="control-label no-padding-right"> (登录用) </label>
+                                                        <label class="control-label no-padding-right"> (登录用) </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -128,14 +128,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-sm-7">
-                                            <label class="col-sm-3 control-label no-padding-right"
-                                                for="form-field-identity"> 身份证号 </label>
+                                            <label class="col-sm-4 control-label no-padding-right"
+                                                for="form-field-identity">
+                                                <span class="myeditable editable editable-click" id="id_type" data-type="select">
+                                                </span>(选择证件类型)
+                                            </label>
                                             <div class="col-sm-8">
                                                 <div class="profile-info-value">
-                                                    {% if coach.property.identity %}
-                                                    <span class="myeditable editable editable-click" id="identity">{{coach.property.identity}}</span>
+                                                    {% if coach.property.id_type == 0 %}
+
+                                                    <span class="myeditable editable editable-click" id="identity">{{coach.property.identity|default_if_none:""}}</span>
+                                                    <span class="myeditable editable editable-click" id="passport" style="display:none">{{""}}</span>
                                                     {% else %}
-                                                    <span class="myeditable editable editable-click" id="identity"></span>
+                                                    <span class="myeditable editable editable-click" id="identity" style="display:none">{{""}}</span>
+                                                    <span class="myeditable editable editable-click" id="passport" >{{coach.property.identity|default_if_none:""}}</span>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -272,7 +278,7 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-		$('#headImg').ace_file_input({
+        $('#headImg').ace_file_input({
             no_file:'更换头像',
             btn_choose:'选择文件',
             btn_change:'更改文件',
@@ -283,7 +289,7 @@
         $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
 
         $('#token').editable({
-        //    value: '{{csrf_token}}',
+            //    value: '{{csrf_token}}',
             type: 'text',
             name: 'csrfmiddlewaretoken'
         });
@@ -309,7 +315,29 @@
                 {% endfor %}
                 return result;
             }()
+        });
 
+        $('#id_type').editable({
+            value :{{ coach.property.id_type }},
+            source:[
+                {% for v, t in ID_TYPES %}
+                {value:{{v}}, text:"{{t}}"},
+                {% endfor %}
+            ],
+            display: function(v, sourceData){
+                if (sourceData){
+                    $(this).text(sourceData[v].text); 
+                } else {
+                    $(this).empty(); 
+                }
+                if(v == 1){
+                    $('#identity').hide();
+                    $('#passport').show();
+                }else{
+                    $('#identity').show();
+                    $('#passport').hide();
+                }
+            }
         });
 
         $('#company')
