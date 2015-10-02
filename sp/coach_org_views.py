@@ -63,19 +63,23 @@ def train_publish(req):
         data = req.POST.copy()
         uuid = req.user.id
         t_id = data.get('t_id',0)
+        print data
         if t_id: #update train
             train = Train.objects.get(id=t_id)
-            data['address'] = train.address
             data['org'] = train.org.id
             data.pop('t_id')
             data['level'] = int(data['level'])
             data['money'] = int(data['money'])
             data['limit'] = int(data['limit'])
+            data['province'] = data['prov'].strip()
+            data['address'] = data['addr'].strip()
             tform = TrainPublishForm(data, instance=train)
         else: # create new train
             org = CoachOrg.objects.get(user_id=uuid)
             data['org'] = org.id
-            data['address'] = data.get('prov','')+data.get('city','')+data.get('dist','')+data.get('addr','')
+            #data['address'] = data.get('prov','')+data.get('city','')+data.get('dist','')+data.get('addr','')
+            data['province'] = data['prov'].strip()
+            data['address'] = data['addr'].strip()
             data['level'] = int(data['level'])
             data['money'] = int(data['money'])
             data['limit'] = int(data['limit'])

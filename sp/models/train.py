@@ -29,7 +29,10 @@ class Train(models.Model):
     org = models.ForeignKey(CoachOrg) #组织机构
     name = models.CharField(max_length=30) #培训名称
     demo = models.CharField(max_length=100, blank=True) #??
-    address = models.CharField(max_length=100) #培训地点
+    province = models.CharField(max_length=20, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+    dist = models.CharField(max_length=50, blank=True)
+    address = models.CharField(max_length=200, blank=True) #培训地点
     level = models.IntegerField(choices=TRAIN_LEVEL)#培训等级
     limit = models.IntegerField() #人数上限
     cur_num = models.IntegerField(default=0) #当前报名人数

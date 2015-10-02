@@ -12,9 +12,11 @@
 {{ block.super }}
 <!-- ajax layout which only needs content area -->
 <div class="page-header">
-    <h1>
-        发布培训信息
-    </h1>
+    {% if not train %}
+    <h1> 发布培训信息 </h1>
+    {% else %}
+    <h1> 编辑培训信息 </h1>
+    {% endif %}
 </div><!-- /.page-header -->
 <div class="row">
     <div class="col-sm-1"></div>
@@ -71,30 +73,24 @@
                     </span>
                 </div>
             </div>
-            {% if not train %}
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 培训地点 </label>
                 <div class="col-sm-9" id="position">
-                    <!-- #section:elements.form.input-icon -->
                     <span>
-                        <select class="prov" name="prov"></select>
+                        <select class="prov" name="prov" value="{{train.province}}"></select>
                         省
                     </span>
                     <span>
-                        <select class="city" disabled="disabled" name="city"></select>
+                        <select class="city" disabled="disabled" name="city" value="{{train.city}}"></select>
                         市
                     </span>
                     <span>
-                        <select class="dist" disabled="disabled" name="dist"></select>
+                        <select class="dist" disabled="disabled" name="dist" value="{{train.dist}}"></select>
                         区
                     </span>
-                    <span>
-                        <input type="text" id="addr" name="addr">
-                    </span>
-                    <!-- /section:elements.form.input-icon -->
+                    <span> <input type="text" id="addr" name="addr" value="{{train.address}}"> </span>
                 </div>
             </div>
-            {% endif %}
 
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right">人数限制</label>
@@ -205,7 +201,9 @@
     </div><!-- /.col-sm-10 -->
 </div><!-- /.row -->
 <div class="space-4"></div>
+{% if not train %}
 <p class="alert alert-warning"> 若审核不通过，则该培训删除，届时请重新发布</p>
+{% endif %}
 {% endblock %}
 
 {% block script %}
@@ -220,7 +218,8 @@
 <script type="text/javascript">
     jQuery(function($) {
 
-        $('#position').citySelect();
+        //$('#position').citySelect();
+        $('#position').citySelect({prov:"{{train.province}}", city:"{{train.city}}", dist:"{{train.dist}}"});
 
         //datetimepicker plugin
 
@@ -310,7 +309,11 @@
             var data = $('#t-pub-form').serialize();
             $.post('/coach_org/train_publish',data,function(data){
                 if(data['success']){
+                    {% if not train %}
                     alert("已提交");
+                    {% else %}
+                    alert("编辑成功");
+                    {% endif %}
                     {% if train %}
                     window.location.href = '/coach_org/train_manage#{{train.id}}'
                     {% else %}

@@ -54,7 +54,7 @@
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训地点：</b></font>
-                                &nbsp;{{old_ct.train.address}}<p/>
+                                &nbsp;{{old_ct.train.province}},{{old_ct.train.city}},{{old_ct.train.dist}},{{old_ct.train.address}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>报名时间：</b></font>
@@ -143,7 +143,7 @@
                                         <td>{{ct.train.reg_stime}}</td>
                                         <td>{{ct.train.reg_etime}}</td>
                                         <td>{{ct.train.train_stime|date:"Y-m-d"}}</td>
-                                        <td class="hidden-480">{{ct.train.address}}</td>
+                                        <td>{{ct.train.province}},{{ct.train.city}},{{ct.train.dist}},{{ct.train.address}}</td>
                                         <td>{{ct.train.money}}</td>
                                         <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
                                         {% if ct.status == 0 or ct.train.reg_status == 1%}
@@ -170,7 +170,7 @@
                                         <td>{{t.reg_stime}}</td>
                                         <td>{{t.reg_etime}}</td>
                                         <td>{{t.train_stime|date:"Y-m-d"}}</td>
-                                        <td class="hidden-480">{{t.address}}</td>
+                                        <td>{{t.province}},{{t.city}},{{t.dist}},{{t.address}}</td>
                                         <td>{{t.money}}</td>
                                         <td class="hidden-480">{{t.cur_num}}/{{t.limit}}</td>
                                         {% if t.cur_num < t.limit %}
