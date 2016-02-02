@@ -12,7 +12,7 @@ class PersonProperty(models.Model):
     这是一个父类,所有个人角色继承于它
     """
     user = models.ForeignKey(MyUser, unique=True, db_index=True)
-    name = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=200, blank=True)
     sex = models.IntegerField(choices=SEX, default=0)
     birth = models.DateField(default="1990-01-01")
     identity = models.CharField(max_length=30, unique=True, null=True)
@@ -44,6 +44,7 @@ class Coach(models.Model):
     club = models.ForeignKey(Club, null=True)
     t_level = models.IntegerField(choices=COACH_LEVEL, default=0) #教学等级
     p_level = models.IntegerField(choices=COACH_LEVEL,default=0) #专业等级
+    is_seed = models.BooleanField(default=False) #是否是辅导员
     status = models.IntegerField(default=0)
     isreg = models.BooleanField(default=False) #今年是否注册
     class Meta:

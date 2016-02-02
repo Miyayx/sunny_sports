@@ -105,6 +105,38 @@ def train(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
+def strain(req): #辅导员页面
+    uuid = req.user.id # 用这个id查信息哦
+    coach = Coach.objects.get(property__user_id=uuid)
+
+    old_ct = None
+    ct = []
+    trains = None
+    time_remain = 0
+    if coach.is_seed:
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=4, status__gt=0).latest('id')
+    else:
+        trains = Train.objects.filter(level=4, pass_status=1, reg_status=1, pub_status=0)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=4, train__pub_status=0)
+
+    print trains
+    print ct
+
+    if len(ct): 
+        temp = ct.latest('id')
+        if temp.status == 0:
+            time_remain = temp.reg_time+PAYMENT_LIMIT-timezone.now()
+    print 'time_remain',time_remain
+
+    return render_to_response('coach/seed_train.html',{"coach":coach, 
+        "trains":trains, 
+        "old_ct":old_ct, 
+        "ct":ct.latest("id") if len(ct) > 0 else None,
+        "time_remain":int(time_remain.total_seconds()) if time_remain else 0
+        }, RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -175,7 +207,7 @@ def info_confirm(req):
         train = Train.objects.get(id=t_id)
         coach = Coach.objects.get(property__user_id=uuid)
         club = Club.objects.filter()
-        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train}, RequestContext(req))
+        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train, "return_page":"/coach/strain" if train.level == 4 else "/coach/train"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
