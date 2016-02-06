@@ -7,6 +7,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.db import transaction
+from django import forms
 
 import os
 from utils import *
@@ -19,12 +20,9 @@ from payment.alipay_python.alipay import *
 from photo.views import update_photo_in_qiniu
 
 from sp.tasks import payment_check
-from django import forms
 
 from datetime import datetime, timedelta
-from sunny_sports.settings import HOST
-from sunny_sports.settings import PAYMENT_LIMIT
-from sunny_sports.settings import PHOTO_ROOT
+from sunny_sports.settings import HOST, PAYMENT_LIMIT, PHOTO_ROOT
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -333,7 +331,7 @@ def update_info(req):
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=3)
         ur.is_first = False
-        if data.has_key("nickname") and len(data['nickname'].strip()):
+        if data.has_key("nickname") and len(data["nickname"].strip()):
             MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         else:
             MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
