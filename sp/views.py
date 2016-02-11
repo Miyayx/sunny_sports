@@ -13,7 +13,7 @@ from django.contrib import messages
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 
-from sp.models.status import get_role_id
+from sp.models.status import get_role_id, TRAIN_LEVEL
 from sp.backend import MyBackend 
 
 from student.models import *
@@ -392,15 +392,16 @@ def download_qualification(req):
             uuid = req.user.id
             roles = UserRole.objects.filter(user__id=uuid).values_list('role', flat=True)
             ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
+            URL = 'seed_qualification.html' if ct.train.level == TRAIN_LEVEL.SEED else 'qualification.html'
             if 0 in roles or 1 in roles: #如果是管理员级别的
                 js = cufon.get_js(ct.coach.property.name)
                 print js
-                return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
+                return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
             elif 3 in roles: #如果是本人
                 if uuid == ct.coach.property.user.id:
                     js = cufon.get_js(ct.coach.property.name)
                     #print js
-                    return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
+                    return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
                 else: return HttpResponse(u"没有下载权限")
             else: return HttpResponse(u"没有下载权限")
         except Exception,e:
