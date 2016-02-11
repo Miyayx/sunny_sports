@@ -167,6 +167,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=( 
         os.path.join(BASE_DIR, 'static').replace('\\','/'), 
         ) 
+ICO_URL='/static/ico/'
 
 
 MEDIA_URL = '/media/'
