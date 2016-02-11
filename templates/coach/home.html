@@ -154,6 +154,37 @@
 
             <div class="widget-body">
                 <div class="widget-main">
+                    <!-- 辅导员培训 -->
+                    <div class="profile-activity clearfix">
+                        {% if coach.is_seed %}
+                        <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
+                        辅导员培训：已通过
+                        {% elif not sct %}
+                        <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                        辅导员培训：<a href="/coach/strain"> 去报名 </a>
+                        {% elif sct %}
+                            {% if sct.status < 3 and not sct.train.sub_status == 0 %}
+                            <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                            辅导员培训：<a href="/coach/strain"> 已结束 </a>
+                            {% elif sct.status < 3 and sct.train.reg_status == 1 %}
+                            <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                            辅导员培训：<a href="/coach/strain"> 已报名 </a>
+                            {% elif sct.status < 3 and sct.train.reg_status == 2 and sct.train.train_status == 0 %}
+                            <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                            辅导员培训：<a href="/coach/strain"> 等待培训开始 </a>
+                            {% elif sct.status < 3 and sct.train.train_status == 1 %}
+                            <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                            辅导员培训：<a href="/coach/strain"> 进行中 </a>
+                            {% elif sct.status < 3 and sct.train.train_status == 2 %}
+                            <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
+                            辅导员培训：<a href="/coach/strain"> 已结束 </a>
+                            {% endif %}
+                        {% else %}
+                        <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
+                        辅导员培训：未进行
+                        {% endif %}
+                    </div>
+
                     {% for k in "123" %}
                     {% with forloop.counter0 as i %}
                     <div class="profile-activity clearfix">

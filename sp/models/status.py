@@ -1,5 +1,12 @@
 #-*-coding:utf-8-*-
 
+def triple_enum(*sequentrial):
+    enums = dict(zip([s[0] for s in sequentrial], range(len(sequentrial))))
+    print enums
+    _all = dict(zip(range(len(sequentrial)), [s[1] for s in sequentrial])).items()
+    enums['all'] = _all
+    return type('Enum', (), enums)
+
 ROLE_LIST = (
         (0, 'centre'),
         (1, 'coach_org'),
@@ -95,12 +102,13 @@ COACH_LEVEL=(
         )
 
 #培训课程等级
-TRAIN_LEVEL=(
-        (1, '初级'),
-        (2, '中级'),
-        (3, '高级'),
-        (4, '辅导员培训班'),
-        )
+TRAIN_LEVEL=triple_enum(('SEED','辅导员培训班'),('ELEMENTARY', '初级'), ('INTERMEDIATE','中级'), ('ADVANCED','高级'))
+#TRAIN_LEVEL=(
+#        (0, '辅导员培训班'),
+#        (1, '初级'),
+#        (2, '中级'),
+#        (3, '高级'),
+#        )
 
 #角色状态
 INFO_STATUS = (

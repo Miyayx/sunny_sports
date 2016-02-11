@@ -124,6 +124,8 @@ urlpatterns += patterns('sp.coach_views',
         url(r'^coach/train/pay$', 'pay'),
         url(r'^coach/train/pay_notify$', 'pay_notify'),
         url(r'^coach/train/pay_return$', 'pay_return'),
+        url(r'^coach/strain/pay_notify$', 'pay_notify'),
+        url(r'^coach/strain/pay_return$', 'pay_return'),
         url(r'^coach/up_info$', 'update_info'),
         url(r'^coach/up_img$', 'update_img'),
         )

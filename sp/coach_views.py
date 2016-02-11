@@ -45,14 +45,18 @@ def home(req):
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
     cts = CoachTrain.objects.filter(coach=coach, train__pub_status=0, train__level=coach.t_level+1)
+    sct = CoachTrain.objects.filter(coach=coach, train__pub_status=0, train__level=TRAIN_LEVEL.SEED)
     t_count = Train.objects.filter(level=coach.t_level+1, pass_status=1, reg_status=1, pub_status=0).count()
     if len(cts):
         ct = cts.latest('id')
     else:
         ct = None
-    print "t_count",t_count
+    if len(sct):
+        sct = sct[0]
+    else:
+        sct = None
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "sct":sct, "t_count":t_count, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -112,10 +116,10 @@ def strain(req): #辅导员页面
     trains = None
     time_remain = 0
     if coach.is_seed:
-        old_ct = CoachTrain.objects.filter(coach=coach, train__level=4, status__gt=0).latest('id')
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=TRAIN_LEVEL.SEED, status__gt=0).latest('id')
     else:
-        trains = Train.objects.filter(level=4, pass_status=1, reg_status=1, pub_status=0)
-        ct = CoachTrain.objects.filter(coach=coach, train__level=4, train__pub_status=0)
+        trains = Train.objects.filter(level=TRAIN_LEVEL.SEED, pass_status=1, reg_status=1, pub_status=0)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=TRAIN_LEVEL.SEED, train__pub_status=0)
 
     print trains
     print ct
@@ -205,7 +209,7 @@ def info_confirm(req):
         train = Train.objects.get(id=t_id)
         coach = Coach.objects.get(property__user_id=uuid)
         club = Club.objects.filter()
-        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train, "return_page":"/coach/strain" if train.level == 4 else "/coach/train"}, RequestContext(req))
+        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train, "return_page":"/coach/strain" if train.level == TRAIN_LEVEL.SEED else "/coach/train"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
@@ -229,13 +233,14 @@ def pay(req):
     if req.method == "POST":
         ct_id = req.POST.get("order_num")
         ct = CoachTrain.objects.get(id=ct_id, status=0)
+        URL = 'coach/strain' if ct.train.level == TRAIN_LEVEL.SEED else 'coach/strain'
         method = req.POST.get("channelToken")
         params = {  
                 'subject'     :u"快乐体操教练培训费用",  
                 'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
                 'total_fee'   :ct.train.money,
-                'return_url'  :"http://%s/coach/train/pay_return"%HOST,
-                'notify_url'  :"http://%s/coach/train/pay_notify"%HOST,
+                'return_url'  :"http://%s/%s/pay_return"%(HOST, URL),
+                'notify_url'  :"http://%s/%s/pay_notify"%(HOST, URL),
                 'order_num'   :ct_id,#用来生成账单编号
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
                 'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s, t_id:%s, ct_id:%s"%(ct.train.name, ct.train.id, ct.train.id, ct.id)#给组织机构的备注
@@ -301,17 +306,20 @@ def pay_return(req):
         bill = Bill.objects.get(no=tn)
         bill.trade_status = trade_status
         bill.save()
+        redirect_url = '/coach/train'
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             try:
                 #ct = CoachTrain.objects.get(bill_id=tn)
                 ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
+                if ct.train.level == TRAIN_LEVEL.SEED:
+                    redirect_url = '/coach/strain'
                 print '付款成功！'
             except:
             #return HttpResponse(u'付款成功！')
                 return HttpResponse(u'找不到报名信息！若已付款，请联系网络平台负责人')
-            return HttpResponseRedirect('/coach/train')
+            return HttpResponseRedirect(redirect_url)
         else:
             return HttpResponse(u'付款失败')
     else:

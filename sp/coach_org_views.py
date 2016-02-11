@@ -104,7 +104,7 @@ def train_publish(req):
             t = Train.objects.get(id=t_id)
         uuid = req.user.id
         org = CoachOrg.objects.get(user_id=uuid)
-        return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL,'org':org, 'train': t }, RequestContext(req))
+        return render_to_response('coach_org/train_publish.html',{'level':TRAIN_LEVEL.all,'org':org, 'train': t }, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach_org']))

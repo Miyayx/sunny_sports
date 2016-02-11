@@ -104,7 +104,7 @@ def check_pass(req):
                     pass_c_t[i].check_pass(num=cur+i+1) #编号从1开始计数
                     coach = pass_c_t[i].coach
                     print "train level", train[0].level
-                    if train[0].level == 4: #辅导员培训
+                    if train[0].level == TRAIN_LEVEL.SEED: #辅导员培训
                         coach.is_seed = True
                     else:
                         coach.t_level = train[0].level
