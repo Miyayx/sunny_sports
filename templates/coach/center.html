@@ -76,7 +76,7 @@
                                         <div class="col-xs-12 col-sm-7">
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-username">姓名</label>
+                                                    for="form-field-username">真实姓名<span class="red small">(必填)</span></label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="name">{{coach.property.name}}</span>
@@ -97,7 +97,7 @@
 
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-phone">电话</label>
+                                                    for="form-field-phone">电话<span class="red small">(必填)</span></label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
                                                         <span class="myeditable editable editable-click" id="phone">{{coach.property.user.phone}}</span>
@@ -107,10 +107,10 @@
 
                                             <div class="form-group">
                                                 <label class="col-sm-4 control-label no-padding-right"
-                                                    for="form-field-email">邮箱</label>
+                                                    for="form-field-email">邮箱<span class="red small">(必填)</span></label>
                                                 <div class="col-sm-8">
                                                     <div class="profile-info-value">
-                                                        <span class="myeditable editable editable-click" id="email">{{coach.property.user.email|default_if_none:""}}</span>
+                                                        <span class="myeditable editable editable-click" id="email">{{coach.property.user.email|default_if_none:""}}</span> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,7 +131,7 @@
                                             <label class="col-sm-4 control-label no-padding-right"
                                                 for="form-field-identity">
                                                 <span class="myeditable editable editable-click" id="id_type" data-type="select">
-                                                </span>(选择证件类型)
+                                                </span>(点击选择证件类型)<span class="red small">(必填)</span>
                                             </label>
                                             <div class="col-sm-8">
                                                 <div class="profile-info-value">
@@ -223,6 +223,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="col-sm-3 control-label no-padding-right"
+                                                for="form-field-post"> 辅导员 </label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    {% if coach.is_seed %}
+                                                    <span id="is_seed">已通过</span>
+                                                    {% else %}
+                                                    <span id="is_seed">未考取</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="space"></div>
@@ -256,24 +269,24 @@
     <!-- /.col -->
 </div>
 
-<script src="../../static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
 <!--[if lte IE 8]>
-<script src="../../static/js/excanvas.min.js"></script>
+<script src="/static/js/excanvas.min.js"></script>
 <![endif]-->
-<script src="../../static/js/ace/elements.fileinput.js"></script>
-<script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
-<script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
-<script src="../../static/js/date-time/moment.min.js"></script>
-<script src="../../static/js/select2.min.js"></script>
-<script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="/static/js/ace/elements.fileinput.js"></script>
+<script src="/static/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="/static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="/static/js/date-time/moment.min.js"></script>
+<script src="/static/js/select2.min.js"></script>
+<script src="/static/js/fuelux/fuelux.spinner.min.js"></script>
 
-<script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
-<script src="../../static/js/x-editable/ace-editable.min.js"></script>
+<script src="/static/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="/static/js/x-editable/ace-editable.min.js"></script>
 
-<script src="../../static/custom/myaddress.js"></script>
-<script src="../../static/custom/validate.js"></script>
-<script src="../../static/custom/person-info-val.js"></script>
-<!-- <script src="../../static/custom/avatar.js"></script> -->
+<script src="/static/custom/myaddress.js"></script>
+<script src="/static/custom/validate.js"></script>
+<script src="/static/custom/person-info-val.js"></script>
+<!-- <script src="/static/custom/avatar.js"></script> -->
 
 <script type="text/javascript">
     jQuery(function($) {
@@ -304,8 +317,6 @@
                     if (nicknameExists($.trim(v))) return '昵称已注册';
             }
         });	
-
-
 
         $('#club').editable({
             source: function(){
