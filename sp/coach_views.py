@@ -121,9 +121,6 @@ def strain(req): #辅导员页面
         trains = Train.objects.filter(level=TRAIN_LEVEL.SEED, pass_status=1, reg_status=1, pub_status=0)
         ct = CoachTrain.objects.filter(coach=coach, train__level=TRAIN_LEVEL.SEED, train__pub_status=0)
 
-    print trains
-    print ct
-
     if len(ct): 
         temp = ct.latest('id')
         if temp.status == 0:
