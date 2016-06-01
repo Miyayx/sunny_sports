@@ -125,7 +125,7 @@ function isDate8(sDate) {
 function isPhoneNum(phone) {
     if (phone.length == 0)
     return true;
-	if (! (/^0?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(phone))) return false;
+	if (! (/^0?(13[0-9]|15[012356789]|17[0-9]|18[0-9]|14[57])[0-9]{8}$/.test(phone))) return false;
 	else return true;
 }
 
