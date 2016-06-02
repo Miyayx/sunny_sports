@@ -65,15 +65,17 @@
                                         </div>
                                     </div>
 
+                                    <!--
                                     <div>
                                         <div class="profile-info-name">出生日期</div>
                                         <div class="profile-info-value">
                                             <span class="myeditable editable editable-click" id="birth" data-type="combodate" data-template="YYYY-MM-DD" data-format="YYYY-MM-DD" data-viewformat="YYYY-MM-DD">{{coach.property.birth|date:'Y-m-d'}}</span>
                                         </div>
                                     </div>
+                                    -->
 
                                     <div>
-                                        <div class="profile-info-name">单位</div>
+                                        <div class="profile-info-name">单位/学校</div>
                                         <div class="profile-info-value">
                                             <span class="myeditable editable editable-click" id="company">{{coach.property.company}}</span>
                                         </div>
@@ -112,7 +114,20 @@
                                         </div>
                                     </div>
 
+                                    {% if not train.money == train.student_money %}
+                                    <div>
+                                        <div class="profile-info-name purple">在校学生</div>
+                                        <div class="profile-info-value">
+                                            <!--<input type="checkbox" id="is-student" style="vertical-align: baseline"> -->
+                                            <span class="myeditable editable  editable-click" data-type="select" href="#" id="is-student"></span>
+                                        &nbsp;&nbsp;&nbsp;学生请在培训现场出示学生证
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
                                     <div class="space"></div>
+
+
                                 </div>
                                 <div class="col-sm-10">
                                     <ul class="list-unstyled spaced2">
@@ -142,7 +157,12 @@
                                         </li>
                                         <li><i class="ace-icon fa fa-circle green"></i>
                                         <font size="3px"><b>培训费用：</b></font>
+                                        {% if train.money == train.student_money %}
                                         &nbsp;{{train.money}}<p/>
+                                        {% else %}
+                                        &nbsp;{{train.money}}/{{train.student_money}}(学生价)<p/>
+                                        {% endif %}
+
                                         </li>
                                     </ul>
                                 </div>
@@ -244,6 +264,14 @@
                     }
                 });
 
+                $('#is-student').editable({
+                    name: 'is-student',
+                    type: 'checklist',
+                    source: {1: "是", 0:"否"},
+                    value:0,
+                    emptytext: '否'  
+            });
+
                 // click save btn
                 $('#save-btn').click(function() {
                     $('.myeditable').editable('submit', { 
@@ -254,7 +282,7 @@
                         success: function(data) {
                             if(data && data.success){
                                 bootbox.dialog({
-                                    message: "<h4>报名成功，请在<b>24小时</b>之内付款,否则取消报名记录</h4>",
+                                    message: "<h4>报名成功，请在<b>24小时</b>之内付款,过时则撤销报名记录</h4>",
                                     buttons: {
                                         success: {
                                             label: "马上付款",

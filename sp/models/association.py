@@ -36,6 +36,7 @@ class CoachTrain(models.Model):
     reg_time = models.DateTimeField(default=datetime.datetime.now) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
     bill = models.OneToOneField(Bill, null=True)
+    role = models.IntegerField(default=0,choices=COACH_ROLE)
     
     objects = CoachTrainManager()
 

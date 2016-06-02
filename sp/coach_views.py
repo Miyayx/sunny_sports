@@ -183,7 +183,7 @@ def info_confirm(req):
         except Exception,e:
             return JsonResponse({ 'success':False,'msg':'信息存储错误' })
 
-        train = train=Train.objects.get(id=t_id)
+        train = Train.objects.get(id=t_id)
         if train.cur_num < train.limit:
             try:
                 ct = CoachTrain.objects.get(coach=coach, train=train)
@@ -192,8 +192,13 @@ def info_confirm(req):
                 pass
             try:
                 ct = CoachTrain.objects.create_ct(coach=coach, train=train) #要用create_ct创建CoachTrain，否则报名数量不增加
+                ct.role = int(data.get("is-student"))
+                ct.save()
                 check_time = datetime.utcnow() + PAYMENT_LIMIT
                 payment_check.apply_async((ct.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
+
+                mobile = coach.property.user.phone
+                send_phone_message(mobile, "您已成功报名培训【%s】,请在24小时之内完成付款，过时则自动撤销报名。【快乐体操网络平台】"%train.name)
 
                 return JsonResponse({ 'success':True,'ct_id':ct.id })
             except Exception,e:
@@ -219,6 +224,8 @@ def reg_cancel(req):
         ct_id = req.POST.get("ct_id")
         ct = CoachTrain.objects.get(id=ct_id)
         ct.delete()
+        mobile = ct.coach.property.user.phone
+        send_phone_message(mobile, "您已成功取消培训【%s】。【快乐体操网络平台】"%ct.train.name)
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
@@ -232,31 +239,32 @@ def pay(req):
         ct = CoachTrain.objects.get(id=ct_id, status=0)
         URL = 'coach/strain' if ct.train.level == TRAIN_LEVEL.SEED else 'coach/strain'
         method = req.POST.get("channelToken")
+        money = ct.train.money if ct.role == 0 else ct.train.student_money
         params = {  
-                'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
-                'total_fee'   :ct.train.money,
+                'subject'     :u"快乐体操培训费用",  
+                'body'        :u"快乐体操培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
+                'total_fee'   :money,
                 'return_url'  :"http://%s/%s/pay_return"%(HOST, URL),
                 'notify_url'  :"http://%s/%s/pay_notify"%(HOST, URL),
                 'order_num'   :ct_id,#用来生成账单编号
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
-                'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s, t_id:%s, ct_id:%s"%(ct.train.name, ct.train.id, ct.train.id, ct.id)#给组织机构的备注
+                'comment'     :u"快乐体操培训费用 培训课程:%s, 培训编号:%s, t_id:%s, ct_id:%s"%(ct.train.name, ct.train.id, ct.train.id, ct.id)#给组织机构的备注
                 }  
         if not 'alipay' == method:
             params['bank'] = method
         url, bill = ali_pay(req, 0, params)
         ct.bill = bill
         ct.save()
-        print "reg time:", ct.reg_time
         return HttpResponseRedirect(url)
         #return JsonResponse({'success':True,'url':url})
     else: #GET return pay_method page
         ct_id = req.GET.get("ct_id")
         ct = CoachTrain.objects.get(id=ct_id, status=0)
+        money = ct.train.money if ct.role == 0 else ct.train.student_money
         params = {  
-                'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
-                'total_fee'   :ct.train.money,
+                'subject'     :u"快乐体操培训费用",  
+                'body'        :u"快乐体操培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
+                'total_fee'   :money,
                 'receiver'    :u"北京快乐童年阳光体操文化发展有限责任公司",
                 'order_num'   :ct_id,
                 'bill_type'   :0,
@@ -277,13 +285,14 @@ def pay_notify(req):
         bill.save()
 
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
-            print ('TRADE SUCCESS, so upgrade bill')
             try:
                 #ct = CoachTrain.objects.get(bill_id=tn)
                 ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
-                print '付款成功！'
+                mobile = ct.coach.property.user.phone
+                place = ','.join([ct.train.province, ct.train.city, ct.train.dist, ct.train.address])
+                send_phone_message(mobile, "您已成功报名培训【%s】并完成付款，培训开始时间：%s，培训地点：%s。在校学生请在报到当天带学生证到培训现场。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
             except:
                 return HttpResponse("fail")
             return HttpResponse("success")
@@ -310,9 +319,11 @@ def pay_return(req):
                 ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
+                mobile = ct.coach.property.user.phone
+                place = ','.join([ct.train.province, ct.train.city, ct.train.dist, ct.train.address])
+                send_phone_message(mobile, "您已成功报名培训【%s】并完成付款，培训开始时间：%s，培训地点：%s。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
                 if ct.train.level == TRAIN_LEVEL.SEED:
                     redirect_url = '/coach/strain'
-                print '付款成功！'
             except:
             #return HttpResponse(u'付款成功！')
                 return HttpResponse(u'找不到报名信息！若已付款，请联系网络平台负责人')

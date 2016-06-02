@@ -115,3 +115,9 @@ INFO_STATUS = (
         (0, 'not_complete'), #还未补全个人信息
         (1, 'completed'),
         )
+
+#教练类型，普通，学生等
+COACH_ROLE = (
+        (0, '普通'), 
+        (1, '学生'),
+        )

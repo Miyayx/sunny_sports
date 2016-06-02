@@ -107,7 +107,11 @@
                             <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>截止时间</th>
                             <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
                             <th class="hidden-480">培训地点</th>
+                            {% if ct.train.money == ct.train.student_money%}
                             <th>费用</th>
+                            {% else %}
+                            <th>费用/学生价</th>
+                            {% endif %}
                             <th class="hidden-480">名额</th>
                             {% if not ct or ct.status == 0 or ct.train.reg_status == 1 %}
                             <th>报名</th>
@@ -123,7 +127,11 @@
                             <td>{{ct.train.reg_etime}}</td>
                             <td>{{ct.train.train_stime|date:"Y-m-d"}}</td>
                             <td>{{ct.train.province}},{{ct.train.city}},{{ct.train.dist}},{{ct.train.address}}</td>
-                            <td>{{ct.train.money}}</td>
+                            {% if ct.train.money == ct.train.student_money%}
+                              <td>{{ct.train.money}}</td>
+                            {% else %}
+                              <td>{{ct.train.money}}/{{ct.train.student_money}}</td>
+                            {% endif %}
                             <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
                             {% if ct.status == 0 or ct.train.reg_status == 1%}
                             <td>

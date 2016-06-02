@@ -13,26 +13,29 @@ from sp.models import *
 
 from django.conf import settings
 
-def gen_vcode():
-    return random.randint(100000,999999)
-
-def send_vcode(mobile):
-    vcode = gen_vcode()
+def send_phone_message(mobile, msg):
     if settings.MSG_CODE and not mobile in settings.IGNORE_PHONE:
         resp = requests.post(
                 ("https://sms-api.luosimao.com/v1/send.json"),
                 auth=("api", "b0e0056374704a22f46f9166df13868e"),
                 data={
                     "mobile": mobile,
-                    "message": "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人。【快乐体操网络平台】"%vcode
+                    "message": msg
                     },
                 timeout=6, 
                 verify=False)
-
+        print "send message",msg
         result = json.loads(resp.content)
     else:
         result = {u'msg': u'ok', u'error': 0}
+    return result
 
+def gen_vcode():
+    return random.randint(100000,999999)
+
+def send_vcode(mobile):
+    vcode = gen_vcode()
+    result = send_phone_message(mobile, "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人。【快乐体操网络平台】"%vcode)
     return result,vcode
 
 def check_vcode(phone, vcode):
