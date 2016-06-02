@@ -128,11 +128,7 @@
                                         <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>截止时间</th>
                                         <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
                                         <th class="hidden-480">培训地点</th>
-                                        {% if ct.train.money == ct.train.student_money %}
-                                          <th>费用</th>
-                                        {% else %}
-                                          <th>费用/学生价</th>
-                                        {% endif %}
+                                        <th>费用/学生费用</th>
                                         <th class="hidden-480">名额</th>
                                         {% if not ct or ct.status == 0 or ct.train.reg_status == 1 %}
                                         <th>报名</th>
