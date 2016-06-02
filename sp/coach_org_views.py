@@ -70,6 +70,7 @@ def train_publish(req):
             data.pop('t_id')
             data['level'] = int(data['level'])
             data['money'] = int(data['money'])
+            data['student_money'] = int(data['student_money'])
             data['limit'] = int(data['limit'])
             data['province'] = data['prov'].strip()
             data['address'] = data['addr'].strip()
@@ -82,6 +83,7 @@ def train_publish(req):
             data['address'] = data['addr'].strip()
             data['level'] = int(data['level'])
             data['money'] = int(data['money'])
+            data['student_money'] = int(data['student_money'])
             data['limit'] = int(data['limit'])
             tform = TrainPublishForm(data)
         
