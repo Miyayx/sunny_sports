@@ -169,7 +169,7 @@ class MessagePublishForm(forms.Form):
 class TrainPublishForm(ModelForm):
     class Meta:
         model = Train
-        fields = ['org','name','demo','province', 'city', 'dist', 'address','level','limit','money','reg_stime','reg_etime','train_stime','train_etime']
+        fields = ['org','name','demo','province', 'city', 'dist', 'address','level','limit','money','student_money','reg_stime','reg_etime','train_stime','train_etime']
 
     def is_valid(self):
         if super(TrainPublishForm, self).is_valid():
