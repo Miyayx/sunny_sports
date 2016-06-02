@@ -196,9 +196,10 @@ def info_confirm(req):
                 ct.save()
                 check_time = datetime.utcnow() + PAYMENT_LIMIT
                 payment_check.apply_async((ct.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
+                money = ct.train.money if ct.role == 0 else ct.student_money
 
                 mobile = coach.property.user.phone
-                send_phone_message(mobile, "您已成功报名培训【%s】,请在24小时之内完成付款，过时则自动撤销报名。【快乐体操网络平台】"%train.name)
+                send_phone_message(mobile, "您已成功报名快乐体操培训班：“%s”，费用%d元，请在24小时之内完成付款，过时系统将自动撤销报名。【快乐体操网络平台】"%(money, train.name))
 
                 return JsonResponse({ 'success':True,'ct_id':ct.id })
             except Exception,e:
@@ -225,7 +226,7 @@ def reg_cancel(req):
         ct = CoachTrain.objects.get(id=ct_id)
         ct.delete()
         mobile = ct.coach.property.user.phone
-        send_phone_message(mobile, "您已成功取消培训【%s】。【快乐体操网络平台】"%ct.train.name)
+        send_phone_message(mobile, "您已成功取消培训: “%s”。【快乐体操网络平台】"%ct.train.name)
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
@@ -292,7 +293,7 @@ def pay_notify(req):
                 ct.save()
                 mobile = ct.coach.property.user.phone
                 place = ','.join([ct.train.province, ct.train.city, ct.train.dist, ct.train.address])
-                send_phone_message(mobile, "您已成功报名培训【%s】并完成付款，培训开始时间：%s，培训地点：%s。在校学生请在报到当天带学生证到培训现场。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
+                send_phone_message(mobile, "您已成功报名快乐体操培训“%s”并完成付款，培训开始时间：%s，培训地点：%s。在校学生请在报到当天携带学生证到培训现场。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
             except:
                 return HttpResponse("fail")
             return HttpResponse("success")
@@ -321,7 +322,7 @@ def pay_return(req):
                 ct.save()
                 mobile = ct.coach.property.user.phone
                 place = ','.join([ct.train.province, ct.train.city, ct.train.dist, ct.train.address])
-                send_phone_message(mobile, "您已成功报名培训【%s】并完成付款，培训开始时间：%s，培训地点：%s。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
+                send_phone_message(mobile, "您已成功报名快乐体操培训“%s”并完成付款，培训开始时间：%s，培训地点：%s。在校学生请在报到当天携带学生证到培训现场。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
                 if ct.train.level == TRAIN_LEVEL.SEED:
                     redirect_url = '/coach/strain'
             except:
