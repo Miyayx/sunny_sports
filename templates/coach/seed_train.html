@@ -154,7 +154,11 @@
                             <td>{{t.reg_etime}}</td>
                             <td>{{t.train_stime|date:"Y-m-d"}}</td>
                             <td>{{t.province}},{{t.city}},{{t.dist}},{{t.address}}</td>
-                            <td>{{t.money}}</td>
+                            {% if t.money == t.student_money%}
+                              <td>{{t.money}}</td>
+                            {% else %}
+                              <td>{{t.money}}/{{t.student_money}}</td>
+                            {% endif %}
                             <td class="hidden-480">{{t.cur_num}}/{{t.limit}}</td>
                             {% if t.cur_num < t.limit %}
                             <td><a class="btn btn-minier btn-info" href="/coach/train/info_confirm?t_id={{t.id}}">报名</a></td>
