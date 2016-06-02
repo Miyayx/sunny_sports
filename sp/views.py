@@ -349,7 +349,7 @@ def download_excel(req):
             fields = [u"学员姓名",  u"性别", u"联系电话", u"邮箱", u"证件类型", u"证件编号", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"证书编号"]
             rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.get_id_type_display(), ct.coach.property.identity, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.certificate) for ct in coachtrains]
         else:
-            fields = [u"学员姓名",  u"性别", u"联系电话", u"邮箱", u"证件类型", u"证件编号", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"付费状态", u"是否学生"]
+            fields = [u"学员姓名",  u"性别", u"联系电话", u"邮箱", u"证件类型", u"证件编号", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"付费状态", u"费用类型"]
             rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.get_id_type_display(), ct.coach.property.identity, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.get_status_display(), ct.get_role_display()) for ct in coachtrains]
         return export_xls(req, "%s-%s"%(train.id,train.name), fields, rows)
     elif g_id:
