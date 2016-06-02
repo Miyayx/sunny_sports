@@ -196,10 +196,10 @@ def info_confirm(req):
                 ct.save()
                 check_time = datetime.utcnow() + PAYMENT_LIMIT
                 payment_check.apply_async((ct.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
-                money = ct.train.money if ct.role == 0 else ct.student_money
-
+                money = ct.train.money if ct.role == 0 else ct.train.student_money
+                print "money",money
                 mobile = coach.property.user.phone
-                send_phone_message(mobile, "您已成功报名快乐体操培训班：“%s”，费用%d元，请在24小时之内完成付款，过时系统将自动撤销报名。【快乐体操网络平台】"%(money, train.name))
+                send_phone_message(mobile, "您已成功报名快乐体操培训班：“%s”，费用%d元，请在24小时之内完成付款，过时系统将自动撤销报名。【快乐体操网络平台】"%(train.name, money))
 
                 return JsonResponse({ 'success':True,'ct_id':ct.id })
             except Exception,e:
