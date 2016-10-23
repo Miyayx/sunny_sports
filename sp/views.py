@@ -383,9 +383,36 @@ def download_excel(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach','coach_org','centre','student','club','group','game_org']))
+#def download_qualification(req):
+#"""
+#利用cufon生成字体, 已不能用
+#"""
+#    #证书下载
+#    from sp.tools import cufon
+#    cert = req.GET.get("cert",0)
+#    if cert:
+#        try:
+#            uuid = req.user.id
+#            roles = UserRole.objects.filter(user__id=uuid).values_list('role', flat=True)
+#            ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
+#            URL = 'seed_qualification.html' if ct.train.level == TRAIN_LEVEL.SEED else 'qualification_cufon.html'
+#            if 0 in roles or 1 in roles: #如果是管理员级别的
+#                js = cufon.get_js(ct.coach.property.name)
+#                return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
+#            elif 3 in roles: #如果是本人
+#                if uuid == ct.coach.property.user.id:
+#                    js = cufon.get_js(ct.coach.property.name)
+#                    return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
+#                else: return HttpResponse(u"没有下载权限")
+#            else: return HttpResponse(u"没有下载权限")
+#        except Exception,e:
+#            print e
+#            return HttpResponse(u"证书获取出错")
+#    return HttpResponse(u"不存在相关证书")
+
 def download_qualification(req):
     #证书下载
-    from sp.tools import cufon
+    from sp.tools import hanzi_generator
     cert = req.GET.get("cert",0)
     if cert:
         try:
@@ -394,14 +421,12 @@ def download_qualification(req):
             ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
             URL = 'seed_qualification.html' if ct.train.level == TRAIN_LEVEL.SEED else 'qualification.html'
             if 0 in roles or 1 in roles: #如果是管理员级别的
-                js = cufon.get_js(ct.coach.property.name)
-                print js
-                return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
+                words = hanzi_generator.get_word_src(ct.coach.property.name)
+                return render_to_response(URL, {"ct":ct, "name_src":words}, RequestContext(req))
             elif 3 in roles: #如果是本人
                 if uuid == ct.coach.property.user.id:
-                    js = cufon.get_js(ct.coach.property.name)
-                    #print js
-                    return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
+                    words = hanzi_generator.get_word_src(ct.coach.property.name)
+                    return render_to_response(URL, {"ct":ct, "name_src":words}, RequestContext(req))
                 else: return HttpResponse(u"没有下载权限")
             else: return HttpResponse(u"没有下载权限")
         except Exception,e:

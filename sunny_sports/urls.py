@@ -39,7 +39,7 @@ urlpatterns = patterns('',
         url(r'^tutorial/team', 'sp.help_views.game_group_help'),
 
         url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':os.path.join(os.path.dirname(__file__),'static')}),
-        #url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
+        url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
         url(r'^photo/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.PHOTO_ROOT}),
         url(r'^admin/', include(admin.site.urls)),
         )
