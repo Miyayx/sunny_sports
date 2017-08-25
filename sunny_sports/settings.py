@@ -27,7 +27,7 @@ SECRET_KEY = 'x*7jb4_74q_pf6s05%@7ecrt*fhxp5s&3p%xer$)mw4x#xj+j)'
 if OS == 'centos' and 'nginx' in os.getcwd():
     DEBUG = False
     TEMPLATE_DEBUG = False
-    ALLOWED_HOSTS = ['localhost','127.0.0.1','121.52.209.117','kuaileticao.com','www.kuaileticao.com', 'kuaileticao.miyayx.me', 'test.kuaileticao.com']
+    ALLOWED_HOSTS = ['localhost','127.0.0.1','121.52.209.123','kuaileticao.com','www.kuaileticao.com', 'kuaileticao.miyayx.me', 'test.kuaileticao.com']
 else:
     DEBUG = True
     TEMPLATE_DEBUG = True
@@ -79,7 +79,7 @@ djcelery.setup_loader()
 #BROKER_USER = "kltc"
 #BROKER_PASSWORD = "queen-dorm"
 #BROKER_VHOST = "/"
-BROKER_URL = 'amqp://kltc:queen-dorm@121.52.209.117:5672/kltc_test' if DEBUG else 'amqp://kltc:queen-dorm@121.52.209.117:5672/kltc'
+BROKER_URL = 'amqp://kltc:queen-dorm@121.52.209.123:5672/kltc_test' if DEBUG else 'amqp://kltc:queen-dorm@121.52.209.123:5672/kltc'
 print 'BROKER:',BROKER_URL
 CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
@@ -111,7 +111,7 @@ DATABASES = {
         'USER': 'queen',
         'PASSWORD': 'dorm',
         #'HOST': '104.236.146.204',
-        'HOST': '121.52.209.117',
+        'HOST': '121.52.209.123',
         'PORT': '3306',
         'OPTIONS': {
             'use_unicode': True, 
