@@ -1,6 +1,6 @@
 {
-    "src":          "/mnt/wind/GitProject/sunny_sports/sunny_sports/static/",
-    "dest":         "qiniu:access_key=K0enY6Fkwz94T-u7uHcDvirG08CkbeQ3gADr-cVY&secret_key=SJFkpp4jm-0O3KiTTQN5hfwP2Jq-fnmz3qpQP2_g&bucket=sunny-sports&key_prefix=static/",
+    "src":          "/mnt/wind/GitProject/sunny_sports/media/upload/",
+    "dest":         "qiniu:access_key=K0enY6Fkwz94T-u7uHcDvirG08CkbeQ3gADr-cVY&secret_key=SJFkpp4jm-0O3KiTTQN5hfwP2Jq-fnmz3qpQP2_g&bucket=kuaileticao&key_prefix=upload/",
     "deletable":    0,
     "debug_level":  1
 }

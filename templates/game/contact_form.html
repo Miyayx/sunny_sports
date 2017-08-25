@@ -1,0 +1,14 @@
+<form action="/game/ch_contact/{{form.instance.id}}" method="post">
+  {% csrf_token %}
+  <div><label class="col-sm-2">领队:</label> <span>{{form.leader}}</span></div>
+  <div><label class="col-sm-2">联系人:</label> <span>{{form.contact_name}}</span></div>
+  <div><label class="col-sm-2">联系手机:</label> <span>{{form.contact_phone}}</span></div>
+  <div><label class="col-sm-2">联系邮箱:</label> <span>{{form.contact_email}}</span></div>
+  <div><label class="col-sm-2">联系QQ:</label> <span>{{form.contact_qq}}</span></div>
+  <div><label class="col-sm-2">联系微信:</label> <span>{{form.contact_wx}}</span></div>
+  <div><label class="col-sm-2">邮寄地址:</label> <span>{{form.address}}</span></div>
+  <div><label class="col-sm-2">邮政编码:</label> <span>{{form.postno}}</span></div>
+  <div><label class="col-sm-2">其他信息:</label> <span>{{form.other_info}}</span></div>
+  <hr/>
+  <input class="btn btn-sm btn-primary col-offset-sm-2" type="submit" value="确定" />
+</form>

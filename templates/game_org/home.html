@@ -1,0 +1,139 @@
+
+{% extends "./game_org/base.html" %}
+{% block content %}
+{{ block.super }}
+<div class="page-header"><h1>首页</h1></div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-offset-1 col-sm-6">
+        <!--
+        <div class="space-10"></div>
+
+        <div class="col-sm-6">
+            -->
+            <style type="text/css">
+                .profile-info-name {text-align: left;}
+            </style>
+            <div class="profile-user-info">
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 编号 </div>
+                    <div class="profile-info-value">
+                        <span>{{gameorg.org_num}}</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 名称 </div>
+                    <div class="profile-info-value">
+                        <span>{{gameorg.name}}</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 电话 </div>
+                    <div class="profile-info-value">
+                        <span>{{gameorg.user.phone}}</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 邮箱 </div>
+                    <div class="profile-info-value">
+                        <span>{{gameorg.user.email|default_if_none:""}}</span>
+                    </div>
+                </div>
+
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 地址 </div>
+                    <div class="profile-info-value">
+                        <i class="fa fa-map-marker light-orange bigger-110"></i>
+                        <span>{{gameorg.province}}</span>
+                        <span>{{gameorg.city}}</span>
+                        <span>{{gameorg.dist}}</span>
+                        <span>{{gameorg.address}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="space-20"></div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-1 col-sm-5">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-small">
+                    <h4 class="widget-title smaller">
+                        <i class="ace-icon fa fa-check-square-o bigger-110"></i>
+                        <a href="/game_org/game_manage">当前进行比赛</a>
+                    </h4>
+                </div>
+                <div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>比赛编号</th>
+                                <th>比赛名称</th>
+                                <th>举办省份</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>                      
+                            {% for game in opengames %}
+                            <tr>
+                                <td class="hidden-480">{{game.id}}</td>
+                                <td><a href="/game_org/game_manage#{{game.id}}">{{game.name}}</a></td>
+                                <td>{{game.province}}{{game.city}}</td>
+                                {% if game.pass_status == 0 %}
+                                <td>等待审核</td>
+                                {% elif game.reg_status == 0 %}
+                                <td>未开始</td>
+                                {% elif game.reg_status == 1 %}
+                                <td>报名中</td>
+                                {% elif game.reg_status == 2 and game.game_status == 0 %}
+                                <td>报名结束</td>
+                                {% elif game.game_status == 1 and game.sub_status == 0 %}
+                                <td>比赛中</td>
+                                {% elif game.game_status == 2 and game.sub_status == 0 %}
+                                <td>比赛结束</td>
+                                {% elif game.sub_status == 1 and game.pub_status == 0 %}
+                                <td>等待结果审核</td>
+                                {% elif game.pass_status == 2 or game.sub_status == 2 and game.pub_status == 0 %}
+                                <td>审核未通过</td>
+                                {% endif %}
+
+                            </tr> 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-5">
+            <div class="widget-box transparent">
+                <div class="widget-header widget-header-small header-color-blue2">
+                    <h4 class="widget-title smaller">
+                        <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
+                        <a href="/game_org/game_query">最近历史比赛</a>
+                    </h4>
+                </div>
+                <div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>比赛 ID</th>
+                                <th>比赛名</th>
+                            </tr>
+                        </thead>
+                        <tbody>                      
+                            {% for game in endgames %}
+                            <tr>
+                                <td class="hidden-480">{{game.id}}</td>
+                                <td><a href="/game_org/history_game?g_id={{game.id}}">{{game.name}}</a></td>
+                            </tr> 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

@@ -77,6 +77,19 @@ function isIdCardNo(num) {
 	}
 	return true;
 }
+function isHKIdCardNo(num) {
+    if (num.length == 0)
+        return true;
+	var regex = /^[A-Z]?[A-Z]{1}\d{6}\([0-9A]{1}\)$/;
+	return regex.test(num);
+}
+
+function isPassportNo(num) {
+     if (num.length == 0)
+         return true;
+     var regex = /^[A-Z\d]{7,9}$/;
+     return regex.test(num);
+ }
 
 function isDate6(sDate) {
 	if (!/^[0-9]{6}$/.test(sDate)) {
@@ -112,7 +125,7 @@ function isDate8(sDate) {
 function isPhoneNum(phone) {
     if (phone.length == 0)
     return true;
-	if (! (/^0?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(phone))) return false;
+	if (! (/^0?(13[0-9]|15[012356789]|17[0-9]|18[0-9]|14[57])[0-9]{8}$/.test(phone))) return false;
 	else return true;
 }
 

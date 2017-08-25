@@ -43,33 +43,34 @@ def train_end_p():
     print("%d trains end at %s"%(len(trains), timezone.now()))
     trains.update(train_status=2)
 
-@task
+@task(acks_late=True)
 def train_reg_start(t_id):
     print("%s train reg start at %s"%(t_id, timezone.now()))
     Train.objects.filter(id=t_id, pass_status=1, reg_status=0, reg_stime__lte=timezone.now()).update(reg_status=1)
 
-@task
+@task(acks_late=True)
 def train_reg_end(t_id):
     print("%s train reg end at %s"%(t_id, timezone.now()))
     Train.objects.filter(id=t_id, pass_status=1, reg_status__lte=2, reg_etime__lte=timezone.now()).update(reg_status=2)
 
-@task
+@task(acks_late=True)
 def train_start(t_id):
     print("%s train start at %s"%(t_id, timezone.now()))
     Train.objects.filter(id=t_id, pass_status=1, train_stime__lte=timezone.now()).update(train_status=1)
 
-@task
+@task(acks_late=True)
 def train_end(t_id):
     print("%s train end at %s"%(t_id, timezone.now()))
     Train.objects.filter(id=t_id, pass_status=1, train_etime__lte=timezone.now()).update(train_status=2)
 
-@task
+@task(acks_late=True)
 def payment_check(ct_id):
     #规定时间进行检查，若还未缴费,删除报名记录
     # 若缴费前报名已经截止？
     print("payment check")
     try:
         ct = CoachTrain.objects.get(id=ct_id, status=0)
+        print "delete ct:",ct.id
         ct.delete()
     except:
         print "ct_id:",ct_id,"has paid or doesn't exist"

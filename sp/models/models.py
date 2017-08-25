@@ -6,6 +6,7 @@ from uuid import uuid1
 import datetime
 
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import (
         UserManager, BaseUserManager, AbstractBaseUser
         )
@@ -62,6 +63,7 @@ class MyUserManager(BaseUserManager):
 
         user.id = str(uuid1())
         user.set_password(password)
+        user.last_login = timezone.now()
         user.save()
         r = Role.objects.get(role=int(role))
         ur = UserRole.objects.create(user=user, role=r) #用objects.create可以不用save()
@@ -72,12 +74,18 @@ class MyUserManager(BaseUserManager):
             role_model.Coach(property=cp).save()
         elif r.get_role_display() == "student":
             print "Create Student"
-            sp = role_model.StudentProperty(user=user)
+            import student.models as student
+            sp = student.StudentProperty(user=user)
             sp.save()
-            role_model.Student(property=sp).save()
+            student.Student(property=sp).save()
         elif r.get_role_display() == "club":
             print "Create Club"
-            pass
+            from club.models import Club
+            Club.objects.create(user=user)
+        elif r.get_role_display() == "group":
+            print "Create Group"
+            from group.models import Group
+            Group.objects.create(user=user)
 
         return user
 

@@ -33,7 +33,7 @@
     $("input[type=phone]").blur(function () {
       var $c = $(this);
       var $form = $c.closest("form");
-      var phone = $(this).val().trim();
+      var phone = $.trim($(this).val());
       var flag = true;
 
       var num= /^[0-9]+.?[0-9]*$/;
@@ -49,6 +49,7 @@
         $form.find("button.v-code").attr("disabled", true);
         $c.closest(".form-group").addClass("has-error");
       } else {
+        {% if not pass_check %}
         $.get('/validate/phone?phone='+phone, function(res){
           if(res['exists']){
             $form.find(".phoneErr").show();
@@ -68,6 +69,7 @@
             }
           }
         });
+        {% endif %}
       }
 
     });

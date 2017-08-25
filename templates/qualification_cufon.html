@@ -1,0 +1,132 @@
+<html>
+  <head>
+    <script>
+      if (!document.addEventListener) {
+        // IE6~IE8
+        //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+          //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+            document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
+              }else{
+              document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+              }
+            </script>
+            <script src="../../static/js/jspdf.min.js"></script>
+            <script src="../../static/js/html2canvas.min.js"></script>
+            <script src="../../static/js/cufon/cufon-yui.js"></script>
+          </head>
+          <body>
+            <script type="text/javascript"> {{ cufon|safe }} </script>
+            <script type="text/javascript"> Cufon.now(); </script>
+            <script src="../../static/js/cufon/fangsong.font.js"></script>
+            <script>
+              $(function(){
+                var img = new Image();
+                {% if ct.train.level == 1 %}
+                img.src = "/media/zhengshu-lv1-2.jpg";
+                {% elif ct.train.level == 2 %}
+                img.src = "/media/zhengshu2.png";
+                {% elif ct.train.level == 3 %}
+                img.src = "/media/zhengshu3.jpg";
+                {% endif %}
+                img.onload = function(){
+
+                  var width = img.width;
+                  var height = img.height;
+                  var name_ratio = 0.04;
+                  var date_ratio = 0.03;
+                  var cert_ratio = 0.02;
+                  var name = "{{ct.coach.property.name}}"
+                  if (name.length == 2){
+                      name=name[0]+" "+name[1];
+                    }
+
+                    var $name;
+                  if (name.length == 4)
+                    $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.18+';font-size:'+width*name_ratio+'px"></span>');
+                  else if(name.replace(' ','').length == 2)
+                    $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.22+';font-size:'+width*name_ratio+'px"></span>');
+                  else
+                    $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
+                  for(var i in name)
+                  $name.append($('<span>'+name[i]+'</span>'));
+                  //train start time
+                  var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
+                  var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
+                  var $s_d = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.59+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.day}}</span>');
+                  //train end time
+                  var $e_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.7+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.year}}</span>');
+                  var $e_m = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.82+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.month}}</span>');
+                  var $e_d = $('<span class="number" style="position:absolute;top:'+height*0.52+';left:'+width*0.14+';font-size:'+width*date_ratio+'px">{{ct.train.train_etime.day}}</span>');
+                  var $cert = $('<span class="number" style="position:absolute;top:'+height*0.74+';left:'+width*0.17+';font-size:'+width*cert_ratio+'px;color:red">{{ct.certificate}}</span>');
+                  // get time
+                  var $g_y = $('<span class="number" style="position:absolute;top:'+height*0.79+';left:'+width*0.63+';font-size:'+width*cert_ratio+'px">{{ct.get_time.year}}</span>');
+                  var $g_m = $('<span class="number" style="position:absolute;top:'+height*0.79+';left:'+width*0.715+';font-size:'+width*cert_ratio+'px">{{ct.get_time.month}}</span>');
+                  var $g_d = $('<span class="number" style="position:absolute;top:'+height*0.79+';left:'+width*0.76+';font-size:'+width*cert_ratio+'px">{{ct.get_time.day}}</span>');
+
+                  //var $img = $('<img src="../media/yinzhang.png" style="position:absolute; top:'+height*0.73+';left:'+width*0.68+';"></img>');
+
+                  var $c = $('<div></div>')
+
+                  $c.width(width);
+                  $c.height(height);
+
+                  $c.append(img);
+                  $c.append($name);
+                  $c.append($s_y);
+                  $c.append($s_m);
+                  $c.append($s_d);
+                  $c.append($e_y);
+                  $c.append($e_m);
+                  $c.append($e_d);
+                  $c.append($cert);
+                  $c.append($g_y);
+                  $c.append($g_m);
+                  $c.append($g_d);
+                  //$c.append($img);
+
+                  $('body').append($c);
+
+                  //数字字体
+                  //Cufon.set('fontFamily', 'Times New Roman');
+                  Cufon.set('fontFamily', 'FangSong_GB2312');
+                  //Cufon.set('fontFamily', 'STXingkai');
+                  Cufon.replace('span.number');
+
+                  //姓名字体
+                  //Cufon.set('fontFamily', 'KaiTi_GB2312');
+                  Cufon.set('fontFamily', 'STXingkai');
+                  Cufon.set('fontSize', width*name_ratio+'px');
+                  Cufon.replace('span.name');
+
+                  //对没有渲染体的特殊字
+                  $('span.name').find('span').each(function(i,v){
+                    if (!$(v).find('cufon').length){
+                      $(v).text(name[i]);
+                      $(v).css('font-size',width*name_ratio*0.85);
+                      $(v).css('position','relative');
+                      $(v).css('top','8px');
+                    }
+                  });
+
+                  var pdf = new jsPDF('l','px','b5');
+                  //var pdf = new jsPDF('l','px',[height, width]);
+
+                  {% if ct.train.level == 1 %}
+                  var filename = '全国快乐体操初级教练员培训班证书-' +$cert.text() + '.pdf'
+                  {% elif ct.train.level == 2 %}
+                  var filename = '全国快乐体操中级教练员培训班证书-' +$cert.text() + '.pdf'
+                  {% elif ct.train.level == 3 %}
+                  var filename = '全国快乐体操高级教练员培训班证书-' +$cert.text() + '.pdf'
+                  {% endif %}
+
+                  pdf.addHTML( $c ,function() {
+                    var pdfdata = pdf.output('datauristring');
+                    pdf.save(filename);
+                    sleep(5000);
+                    window.close();
+                  });
+                }
+              });
+            </script>
+          </body>
+        </html>

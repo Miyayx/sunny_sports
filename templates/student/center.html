@@ -1,731 +1,398 @@
-<body class="no-skin">
+{% extends "./student/base.html" %}
 
-<div class="main-container" id="main-container">
-	<div class="main-content">
-		<div class="page-content">
-			<!-- /section:settings.box -->
-			<div class="page-content-area">
-				<div class="page-header">
-					<h1>
-						个人中心
-						<small>
-						<i class="ace-icon fa "></i>
-						注册时间：2014年11月1日
-						</small>
-					</h1>
-				</div><!-- /.page-header -->
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="../../static/css/bootstrap-editable.css">
+{% endblock %}
 
-				<div class="row">
-					<div class="col-xs-12">
-						<div>
-							<div id="user-profile-3" class="user-profile row">
-								<div class="col-sm-offset-1 col-sm-10">
-									<div class="well well-sm">
-										<button type="button" class="close" data-dismiss="alert">&times;</button>
-										&nbsp;
-										<div class="inline middle blue bigger-110"> Your profile is 70% complete </div>
+<!--
+重载页面部分
+-->
+{% block content%}
+{{ block.super }}
+<div class="page-content-area">
+    <div class="page-header">
+        <h1> 个人中心 <small> <i class="ace-icon fa "></i>
+                <span>注册时间：{{student.property.user.regist_time}}</span> &nbsp;&nbsp;&nbsp;
+                <span>上次登录时间：{{student.property.user.last_login}}</span>
+            </small>
+        </h1>
+    </div><!-- /.page-header -->
 
-										&nbsp; &nbsp; &nbsp;
-										<div style="width:200px;" data-percent="70%" class="inline middle no-margin progress progress-striped active">
-											<div class="progress-bar progress-bar-success" style="width:70%"></div>
-										</div>
-									</div><!-- /.well -->
+    {% if messages %}
+    <div class="alert alert-danger">
+        {% for m in messages %}
+        {% if forloop.first %}
+        {{ m }}
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 
-									<div class="space"></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="user-profile-3" class="user-profile row">
+                <div class="col-sm-offset-1 col-sm-10">
+                    <div class="space"></div>
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs padding-16">
+                            <li class="active"><a data-toggle="tab"
+                                href="#edit-basic"> <i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
+                                个人信息
+                            </a></li>
 
-									<form class="form-horizontal">
-										<div class="tabbable">
-											<ul class="nav nav-tabs padding-16">
-												<li class="active">
-													<a data-toggle="tab" href="#edit-basic">
-														<i class="green ace-icon fa fa-pencil-square-o bigger-125"></i>
-														个人信息
-													</a>
-												</li>
+                            <li><a data-toggle="tab" href="#edit-password"> <i
+                                    class="blue ace-icon fa fa-key bigger-125"></i> 密码修改
+                            </a></li>
+                        </ul>
 
-												<li>
-													<a data-toggle="tab" href="#edit-password">
-														<i class="blue ace-icon fa fa-key bigger-125"></i>
-														密码修改
-													</a>
-												</li>
-											</ul>
+                        <div class="tab-content profile-edit-tab-content">
+                            <div id="edit-basic" class="tab-pane in active">
+                                <h4 class="header blue bolder smaller">基本信息</h4>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-offset-1 col-sm-4 center">
+                                        <span class="profile-picture">
+                                            <img src="{{PHOTO_ROOT}}{{student.property.avatar}}" id="avatar" />
+                                        </span>
+                                        <div class="space-4"></div>
+                                        <form action="/student/up_img" method="post" enctype="multipart/form-data" >
+                                            {% csrf_token %}
+                                            <div class="col-sm-9">
+                                                <input type="file" id="headImg" name="headImg"/>
+                                            </div>
+                                            <button type="submit" style="height:28px" class="btn btn-info btn-xs">
+                                                上传<i class="ace-icon fa fa-cloud-upload icon-on-right bigger-100"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <form class="form-horizontal">
+                                        <span class="myeditable" name="csrfmiddlewaretoken" id="token" style="display:none"/>{{csrf_token}}</span>
 
-											<div class="tab-content profile-edit-tab-content">
-												<div id="edit-basic" class="tab-pane in active">
-													<h4 class="header blue bolder smaller">基本信息</h4>
-													<div class="row">
-														<div class="col-xs-12 col-sm-4">
-															<label class="ace-file-input ace-file-multiple">
-																<input type="file">
-																<span class="ace-file-container" data-title="Change avatar">
-																	<span class="ace-file-name" data-title="No File ...">
-																		<i class=" ace-icon ace-icon fa fa-picture-o"></i>
-																	</span>
-																</span>
-																<a class="remove" href="#">
-																	<i class=" ace-icon fa fa-times"></i>
-																</a>
-															</label>
-														</div>
-														<div class="vspace-12-sm"></div>
-														<div class="col-xs-12 col-sm-8">
-															<!-- anno by gll 20141110
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-username">姓名</label>
-																<div class="col-sm-8">
-																	<input class="col-xs-12 col-sm-10" type="text" id="form-field-username" placeholder="Username" value="alexdoe" />
-																</div>
-															</div>
-														-->
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-username">姓名</label>
-																<div class="col-sm-8">
-																<div class="profile-info-value">
-																	<span class="editable editable-click" id="username">alexdoe</span>
-																</div>
-																</div>
-															</div>								
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-stunum">学号</label>
-																<div class="col-sm-8">
-																<div class="profile-info-value">
-																	<span class="editable editable-click" id="stunum">201312343</span>
-																</div>
-																</div>
-															</div>
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right">
-																	性别
-																</label>
-																<div class="col-sm-8">
-																<label class="inline">
-																	<input name="form-field-radio" type="radio" class="ace" checked />
-																	<span class="lbl middle">男</span>
-																</label>
-																&nbsp; &nbsp; &nbsp;
-																<label class="inline">
-																<input name="form-field-radio" type="radio" class="ace" />
-																<span class="lbl middle">女</span>
-																</label>
-																</div>
-															</div>
-															<div class="space-4"></div>
-															<div class="form-group">
-																<label class="col-sm-4 control-label no-padding-right" for="form-field-identity">
-																	身份证号
-																</label>
-																<div class="col-sm-8">
-																<div class="profile-info-value">
-																	<span class="editable editable-click" id="identity">371028309381928312</span>
-																</div>
-																</div>
-															</div>	
-														</div>
-													</div>
-													<hr />
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-birth">出生日期</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="birth">1999-12-22</span>
-															</div>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-height">身高</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="height">172</span>
-															</div>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-weight">体重</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="weight">60</span>
-															</div>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-company">单位</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="company">北京少年宫</span>
-															</div>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-club">俱乐部</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-															<select class="form-control" id="form-field-club">
-																<option value=""></option>
-																<option value="AL">Alabama</option>
-																<option value="AK">Alaska</option>
-															</select>
-															</span>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-place">常驻地</label>
-														<div class="col-sm-9">
-															<span class="input-icon input-icon-right">
-																<input type="text" id="form-field-place" value="北京" />
-															</span>
-														</div>
-													</div>
-													<div class="space"></div>
-													<h4 class="header blue bolder smaller">联系方式</h4>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-email">邮箱</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="email">sdedsdf@gmail.com</span>
-															</div>
-														</div>
-													</div>
-													<div class="space-4"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-phone">电话</label>
-														<div class="col-sm-8">
-															<div class="profile-info-value">
-																<span class="editable editable-click" id="phone">131029424384</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div id="edit-password" class="tab-pane">
-													<div class="space-10"></div>
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-pass1">新密码</label>
-														<div class="col-sm-9">
-															<input type="password" id="form-field-pass1" />
-														</div>
-													</div>
+                                        <div class="vspace-12-sm"></div>
+                                        <div class="col-xs-12 col-sm-7">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-username">姓名</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="name">{{student.property.name}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-													<div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right" for="form-field-nickname"> 昵称 </label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="nickname">{{student.property.user.nickname|default_if_none:""}}</span>
+                                                        <label class="control-label no-padding-right"> (登录用) </label>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-													<div class="form-group">
-														<label class="col-sm-3 control-label no-padding-right" for="form-field-pass2">确认密码</label>
-														<div class="col-sm-9">
-															<input type="password" id="form-field-pass2" />
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-phone">电话</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="phone">{{student.property.user.phone}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-										<div class="clearfix form-actions">
-											<div class="col-md-offset-3 col-md-9">
-												<button class="btn btn-info" type="button">
-													<i class="ace-icon fa fa-check bigger-110"></i>
-													保存
-												</button>
-												&nbsp; &nbsp;
-												<button class="btn" type="reset">
-													<i class="ace-icon fa fa-undo bigger-110"></i>
-													重置
-												</button>
-											</div>
-										</div>
-									</form>
-								</div><!-- /.span -->
-							</div><!-- /.user-profile -->
-						</div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"
+                                                    for="form-field-email">邮箱</label>
+                                                <div class="col-sm-8">
+                                                    <div class="profile-info-value">
+                                                        <span class="myeditable editable editable-click" id="email">{{student.property.user.email|default_if_none:""}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- ./row -->
+                                    <hr />
+                                    <div class="row">
+                                        <div class="form-group col-sm-5">
+                                            <label class="col-sm-3 control-label no-padding-right"
+                                                for="form-field-date">出生日期</label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="birth" data-type="combodate" data-template="YYYY-MM-DD" data-format="YYYY-MM-DD" data-viewformat="YYYY-MM-DD">{{student.property.birth|date:'Y-m-d'}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-7">
+                                            <label class="col-sm-4 control-label no-padding-right"
+                                                for="form-field-identity">
+                                                <span class="myeditable editable editable-click" id="id_type" data-type="select">
+                                                </span>(选择证件类型)
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    {% if student.property.id_type == 0 %}
 
-						<!-- PAGE CONTENT ENDS -->
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div><!-- /.page-content-area -->
-		</div><!-- /.page-content -->
-	</div><!-- /.main-content -->
-	<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
-		<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
-	</a>
-</div><!-- /.main-container -->
-		<!-- basic scripts -->
-		<!-- <![endif]-->
+                                                    <span class="myeditable editable editable-click" id="identity">{{student.property.identity|default_if_none:""}}</span>
+                                                    <span class="myeditable editable editable-click" id="passport" style="display:none">{{""}}</span>
+                                                    {% else %}
+                                                    <span class="myeditable editable editable-click" id="identity" style="display:none">{{""}}</span>
+                                                    <span class="myeditable editable editable-click" id="passport" >{{student.property.identity|default_if_none:""}}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-5">
+                                            <label class="col-sm-3 control-label no-padding-right"> 性别 </label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="sex" data-type="select" value="{{student.property.sex}}"> {{student.property.get_sex_display}} </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-7">
+                                            <label class="col-sm-2 control-label no-padding-right"
+                                                for="form-field-company">单位</label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="company">{{student.property.company}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-5">
+                                            <label class="col-sm-3 control-label no-padding-right"
+                                                for="form-field-club">俱乐部</label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="club" data-type="select">
+                                                        {{ student.club.name }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-7">
+                                            <label class="col-sm-2 control-label no-padding-right"
+                                                for="form-field-place">常驻地</label>
+                                            <div class="col-sm-2">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="province" name="province" data-type="select">{{student.property.province}}</span>
+                                                    省
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="city" name="city" data-type="select">{{student.property.city}}</span>
+                                                    市
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="dist" name="dist" data-type="select">{{student.property.dist}}</span>
+                                                    区/县
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="address">{{student.property.address}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
 
-		<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='../assets/js/jquery1x.min.js'>"+"<"+"/script>");
-</script>
+                                        <div class="form-group col-sm-5">
+                                            <label class="col-sm-3 control-label no-padding-right" for="form-field-company">身高</label>
+                                            <div class="col-sm-1">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="height">{{student.property.height}}</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 control-label no-padding-right">cm</label>
+                                        </div>
+                                        <div class="form-group col-sm-7">
+                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-company">体重</label>
+                                            <div class="col-sm-1">
+                                                <div class="profile-info-value">
+                                                    <span class="myeditable editable editable-click" id="weight">{{student.property.weight}}</span>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-1 control-label no-padding-right">kg</label>
+                                        </div>
+                                        <div class="space"></div>
+                                    </div>
+                                    <h4 class="header blue bolder smaller col-sm-12">级别</h4>
+                                    <div class="row">
+                                        <div class="form-group col-sm-6">
+                                            <label class="col-sm-3 control-label no-padding-right"
+                                                for="form-field-rank"> 等级 </label>
+                                            <div class="col-sm-8">
+                                                <div class="profile-info-value">
+                                                    {% if student.level %}
+                                                    <span id="level">{{student.get_level_display}}</span>
+                                                    {% else %}
+                                                    <span id="level">无等级</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space"></div>
+                                    <div class="row">
+                                        <div class="col-md-offset-4 col-md-8">
+                                            <button class="btn btn-info" type="button" id="save-btn">
+                                                <i class="ace-icon fa fa-check bigger-110"></i> 保存
+                                            </button>
+                                        </div>
+                                        <p id="save-msg" class="col-md-offset-5"></p>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="edit-password" class="tab-pane row">
+                                <h4 class="header blue bolder smaller">密码修改</h4>
+                                <div class="space-10"></div>
+                                {% include "password.html" with csrf_token=csrf_token %}
+                            </div> <!-- #edit-password -->
+                        </div> <!-- tab-content -->
+                    </div> <!-- tab-babble -->
+
+                </div>
+                <!-- /.span -->
+            </div>
+            <!-- /.user-profile -->
+        </div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<script src="../../static/js/bootstrap.min.js"></script>
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="../../static/js/excanvas.min.js"></script>
 <![endif]-->
+<script src="../../static/js/ace/elements.fileinput.js"></script>
+<script src="../../static/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="../../static/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="../../static/js/date-time/moment.min.js"></script>
+<script src="../../static/js/select2.min.js"></script>
+<script src="../../static/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="../../static/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="../../static/js/x-editable/ace-editable.min.js"></script>
+
+<script src="../../static/custom/myaddress.js"></script>
+<script src="../../static/custom/validate.js"></script>
+<script src="../../static/custom/person-info-val.js"></script>
+<!-- <script src="../../static/custom/avatar.js"></script> -->
 
 <script type="text/javascript">
-	var scripts = [null,"http://sunny-sports.qiniudn.com/static/js/jquery-ui.custom.min.js","../../static/js/jquery.ui.touch-punch.min.js","../../static/js/jquery.gritter.min.js","../../static/js/bootbox.min.js","../../static/js/jquery.easypiechart.min.js","../../static/js/date-time/bootstrap-datepicker.min.js","../../static/js/jquery.hotkeys.min.js","../../static/js/bootstrap-wysiwyg.min.js","../../static/js/select2.min.js","../../static/js/fuelux/fuelux.spinner.min.js","../../static/js/x-editable/bootstrap-editable.min.js","../../static/js/x-editable/ace-editable.min.js","../../static/js/jquery.maskedinput.min.js", null]
-	ace.load_ajax_scripts(scripts, function() {
-	  //inline scripts related to this page
-		 jQuery(function($) {
-	
-		//editables on first profile page
-		$.fn.editable.defaults.mode = 'inline';
-		$.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
-	    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>'+
-	                                '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';    
-		
-		//editables 
-		
-		//text editable
-	    $('#username')
-		.editable({
-			type: 'text',
-			name: 'username'
-	    });
-	
-	    $('#stunum')
-		.editable({
-			type: 'text',
-			name: 'stunum'
-	    });	
-	    $('#identity')
-		.editable({
-			type: 'text',
-			name: 'identity'
-	    });	
-		//custom date editable
-		$('#birth').editable({
-			type: 'adate',
-			date: {
-				//datepicker plugin options
-				    format: 'yyyy-mm-dd',
-				viewformat: 'yyyy-mm-dd',
-				 weekStart: 1
-				 
-				//,nativeUI: true//if true and browser support input[type=date], native browser control will be used
-				//,format: 'yyyy-mm-dd',
-				//viewformat: 'yyyy-mm-dd'
-			}
-		})
-		$('#height')
-		.editable({
-			type: 'text',
-			name: 'height'
-	    });	
-	    $('#weight')
-		.editable({
-			type: 'text',
-			name: 'weight'
-	    });	
-	    $('#email')
-		.editable({
-			type: 'text',
-			name: 'email'
-	    });	
-	    $('#phone')
-		.editable({
-			type: 'text',
-			name: 'phone'
-	    });	
-	    $('#company')
-	    .editable({
-	    	type:'text',
-	    	name:'company'
-	    });
-		
-		//select2 editable
-		var countries = [];
-	    $.each({ "CA": "Canada", "IN": "India", "NL": "Netherlands", "TR": "Turkey", "US": "United States"}, function(k, v) {
-	        countries.push({id: k, text: v});
-	    });
-	
-		var cities = [];
-		cities["CA"] = [];
-		$.each(["Toronto", "Ottawa", "Calgary", "Vancouver"] , function(k, v){
-			cities["CA"].push({id: v, text: v});
-		});
-		cities["IN"] = [];
-		$.each(["Delhi", "Mumbai", "Bangalore"] , function(k, v){
-			cities["IN"].push({id: v, text: v});
-		});
-		cities["NL"] = [];
-		$.each(["Amsterdam", "Rotterdam", "The Hague"] , function(k, v){
-			cities["NL"].push({id: v, text: v});
-		});
-		cities["TR"] = [];
-		$.each(["Ankara", "Istanbul", "Izmir"] , function(k, v){
-			cities["TR"].push({id: v, text: v});
-		});
-		cities["US"] = [];
-		$.each(["New York", "Miami", "Los Angeles", "Chicago", "Wysconsin"] , function(k, v){
-			cities["US"].push({id: v, text: v});
-		});
-		
-		var currentValue = "NL";
-	    $('#country').editable({
-			type: 'select2',
-			value : 'NL',
-			//onblur:'ignore',
-	        source: countries,
-			select2: {
-				'width': 140
-			},		
-			success: function(response, newValue) {
-				if(currentValue == newValue) return;
-				currentValue = newValue;
-				
-				var new_source = (!newValue || newValue == "") ? [] : cities[newValue];
-				
-				//the destroy method is causing errors in x-editable v1.4.6+
-				//it worked fine in v1.4.5
-				/**			
-				$('#city').editable('destroy').editable({
-					type: 'select2',
-					source: new_source
-				}).editable('setValue', null);
-				*/
-				
-				//so we remove it altogether and create a new element
-				var city = $('#city').removeAttr('id').get(0);
-				$(city).clone().attr('id', 'city').text('Select City').editable({
-					type: 'select2',
-					value : null,
-					//onblur:'ignore',
-					source: new_source,
-					select2: {
-						'width': 140
-					}
-				}).insertAfter(city);//insert it after previous instance
-				$(city).remove();//remove previous instance
-				
-			}
-	    });
-	
-		$('#city').editable({
-			type: 'select2',
-			value : 'Amsterdam',
-			//onblur:'ignore',
-	        source: cities[currentValue],
-			select2: {
-				'width': 140
-			}
-	    });
-	
-	
-		
-		//custom date editable
-		$('#signup').editable({
-			type: 'adate',
-			date: {
-				//datepicker plugin options
-				    format: 'yyyy/mm/dd',
-				viewformat: 'yyyy/mm/dd',
-				 weekStart: 1
-				 
-				//,nativeUI: true//if true and browser support input[type=date], native browser control will be used
-				//,format: 'yyyy-mm-dd',
-				//viewformat: 'yyyy-mm-dd'
-			}
-		})
-	
-	    $('#age').editable({
-	        type: 'spinner',
-			name : 'age',
-			spinner : {
-				min : 16,
-				max : 99,
-				step: 1,
-				on_sides: true
-				//,nativeUI: true//if true and browser support input[type=number], native browser control will be used
-			}
-		});
-		
-	
-	    $('#login').editable({
-	        type: 'slider',
-			name : 'login',
-			
-			slider : {
-				 min : 1,
-				  max: 50,
-				width: 100
-				//,nativeUI: true//if true and browser support input[type=range], native browser control will be used
-			},
-			success: function(response, newValue) {
-				if(parseInt(newValue) == 1)
-					$(this).html(newValue + " hour ago");
-				else $(this).html(newValue + " hours ago");
-			}
-		});
-	
-		$('#about').editable({
-			mode: 'inline',
-	        type: 'wysiwyg',
-			name : 'about',
-	
-			wysiwyg : {
-				//css : {'max-width':'300px'}
-			},
-			success: function(response, newValue) {
-			}
-		});
-		
-		
-		
-		// *** editable avatar *** //
-		try {//ie8 throws some harmless exceptions, so let's catch'em
-	
-			//first let's add a fake appendChild method for Image element for browsers that have a problem with this
-			//because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
-			try {
-				document.createElement('IMG').appendChild(document.createElement('B'));
-			} catch(e) {
-				Image.prototype.appendChild = function(el){}
-			}
-	
-			var last_gritter
-			$('#avatar').editable({
-				type: 'image',
-				name: 'avatar',
-				value: null,
-				image: {
-					//specify ace file input plugin's options here
-					btn_choose: 'Change Avatar',
-					droppable: true,
-					maxSize: 110000,//~100Kb
-	
-					//and a few extra ones here
-					name: 'avatar',//put the field name here as well, will be used inside the custom plugin
-					on_error : function(error_type) {//on_error function will be called when the selected file has a problem
-						if(last_gritter) $.gritter.remove(last_gritter);
-						if(error_type == 1) {//file format error
-							last_gritter = $.gritter.add({
-								title: 'File is not an image!',
-								text: 'Please choose a jpg|gif|png image!',
-								class_name: 'gritter-error gritter-center'
-							});
-						} else if(error_type == 2) {//file size rror
-							last_gritter = $.gritter.add({
-								title: 'File too big!',
-								text: 'Image size should not exceed 100Kb!',
-								class_name: 'gritter-error gritter-center'
-							});
-						}
-						else {//other error
-						}
-					},
-					on_success : function() {
-						$.gritter.removeAll();
-					}
-				},
-			    url: function(params) {
-					// ***UPDATE AVATAR HERE*** //
-					//for a working upload example you can replace the contents of this function with 
-					//examples/profile-avatar-update.js
-	
-					var deferred = new $.Deferred
-	
-					var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
-					if(!value || value.length == 0) {
-						deferred.resolve();
-						return deferred.promise();
-					}
-	
-	
-					//dummy upload
-					setTimeout(function(){
-						if("FileReader" in window) {
-							//for browsers that have a thumbnail of selected image
-							var thumb = $('#avatar').next().find('img').data('thumb');
-							if(thumb) $('#avatar').get(0).src = thumb;
-						}
-						
-						deferred.resolve({'status':'OK'});
-	
-						if(last_gritter) $.gritter.remove(last_gritter);
-						last_gritter = $.gritter.add({
-							title: 'Avatar Updated!',
-							text: 'Uploading to server can be easily implemented. A working example is included with the template.',
-							class_name: 'gritter-info gritter-center'
-						});
-						
-					 } , parseInt(Math.random() * 800 + 800))
-	
-					return deferred.promise();
-					
-					// ***END OF UPDATE AVATAR HERE*** //
-				},
-				
-				success: function(response, newValue) {
-				}
-			})
-		}catch(e) {}
-		
-		
-	
-		//another option is using modals
-		$('#avatar2').on('click', function(){
-			var modal = 
-			'<div class="modal fade">\
-			  <div class="modal-dialog">\
-			   <div class="modal-content">\
-				<div class="modal-header">\
-					<button type="button" class="close" data-dismiss="modal">&times;</button>\
-					<h4 class="blue">Change Avatar</h4>\
-				</div>\
-				\
-				<form class="no-margin">\
-				 <div class="modal-body">\
-					<div class="space-4"></div>\
-					<div style="width:75%;margin-left:12%;"><input type="file" name="file-input" /></div>\
-				 </div>\
-				\
-				 <div class="modal-footer center">\
-					<button type="submit" class="btn btn-sm btn-success"><i class="ace-icon fa fa-check"></i> Submit</button>\
-					<button type="button" class="btn btn-sm" data-dismiss="modal"><i class="ace-icon fa fa-times"></i> Cancel</button>\
-				 </div>\
-				</form>\
-			  </div>\
-			 </div>\
-			</div>';
-			
-			
-			var modal = $(modal);
-			modal.modal("show").on("hidden", function(){
-				modal.remove();
-			});
-	
-			var working = false;
-	
-			var form = modal.find('form:eq(0)');
-			var file = form.find('input[type=file]').eq(0);
-			file.ace_file_input({
-				style:'well',
-				btn_choose:'Click to choose new avatar',
-				btn_change:null,
-				no_icon:'ace-icon fa fa-picture-o',
-				thumbnail:'small',
-				before_remove: function() {
-					//don't remove/reset files while being uploaded
-					return !working;
-				},
-				allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-				allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-			});
-	
-			form.on('submit', function(){
-				if(!file.data('ace_input_files')) return false;
-				
-				file.ace_file_input('disable');
-				form.find('button').attr('disabled', 'disabled');
-				form.find('.modal-body').append("<div class='center'><i class='ace-icon fa fa-spinner fa-spin bigger-150 orange'></i></div>");
-				
-				var deferred = new $.Deferred;
-				working = true;
-				deferred.done(function() {
-					form.find('button').removeAttr('disabled');
-					form.find('input[type=file]').ace_file_input('enable');
-					form.find('.modal-body > :last-child').remove();
-					
-					modal.modal("hide");
-	
-					var thumb = file.next().find('img').data('thumb');
-					if(thumb) $('#avatar2').get(0).src = thumb;
-	
-					working = false;
-				});
-				
-				
-				setTimeout(function(){
-					deferred.resolve();
-				} , parseInt(Math.random() * 800 + 800));
-	
-				return false;
-			});
-					
-		});
-	
-		
-	
-		//////////////////////////////
-		$('#profile-feed-1').ace_scroll({
-			height: '250px',
-			mouseWheelLock: true,
-			alwaysVisible : true
-		});
-	
-		$('a[ data-original-title]').tooltip();
-	
-		$('.easy-pie-chart.percentage').each(function(){
-		var barColor = $(this).data('color') || '#555';
-		var trackColor = '#E2E2E2';
-		var size = parseInt($(this).data('size')) || 72;
-		$(this).easyPieChart({
-			barColor: barColor,
-			trackColor: trackColor,
-			scaleColor: false,
-			lineCap: 'butt',
-			lineWidth: parseInt(size/10),
-			animate:false,
-			size: size
-		}).css('color', barColor);
-		});
-	  
-		///////////////////////////////////////////
-	
-		//right & left position
-		//show the user info on right or left depending on its position
-		$('#user-profile-2 .memberdiv').on('mouseenter touchstart', function(){
-			var $this = $(this);
-			var $parent = $this.closest('.tab-pane');
-	
-			var off1 = $parent.offset();
-			var w1 = $parent.width();
-	
-			var off2 = $this.offset();
-			var w2 = $this.width();
-	
-			var place = 'left';
-			if( parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2) ) place = 'right';
-			
-			$this.find('.popover').removeClass('right left').addClass(place);
-		}).on('click', function(e) {
-			e.preventDefault();
-		});
-	
-	
-		///////////////////////////////////////////
-		$('#user-profile-3')
-		.find('input[type=file]').ace_file_input({
-			style:'well',
-			btn_choose:'Change avatar',
-			btn_change:null,
-			no_icon:'ace-icon fa fa-picture-o',
-			thumbnail:'large',
-			droppable:true,
-			
-			allowExt: ['jpg', 'jpeg', 'png', 'gif'],
-			allowMime: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
-		})
-		.end().find('button[type=reset]').on(ace.click_event, function(){
-			$('#user-profile-3 input[type=file]').ace_file_input('reset_input');
-		})
-		.end().find('.date-picker').datepicker().next().on(ace.click_event, function(){
-			$(this).prev().focus();
-		})
-		$('.input-mask-phone').mask('(999) 999-9999');
-	
-	
-	
-		////////////////////
-		//change profile
-		$('[data-toggle="buttons"] .btn').on('click', function(e){
-			var target = $(this).find('input[type=radio]');
-			var which = parseInt(target.val());
-			$('.user-profile').parent().addClass('hide');
-			$('#user-profile-'+which).parent().removeClass('hide');
-		});
-	});
-	
-	
-	});
+    jQuery(function($) {
+
+        $('#headImg').ace_file_input({
+            no_file:'更换头像',
+            btn_choose:'选择文件',
+            btn_change:'更改文件',
+            droppable:false,
+            onchange:null,
+            thumbnail:false
+        });
+        $('.ace-file-input').find('.ace-file-name').removeAttr('data-title');
+
+        $('#token').editable({
+            type: 'text',
+            name: 'csrfmiddlewaretoken'
+        });
+
+        $('#nickname')
+        .editable({
+            type: 'text',
+            name: 'nickname',
+            validate: function(v) {
+                v = $.trim(v);
+                if(!($(this).text() == v || $(this)[0].value == v  ))
+                    if (nicknameExists($.trim(v))) return '昵称已注册';
+            }
+        });	
+
+        $('#club').editable({
+            source: function(){
+                result =[];
+                {% for c in clubs %}
+                result.push({value:{{c.id}}, text:"{{c.name}}"});
+                {% endfor %}
+                return result;
+            }()
+
+        });
+
+
+        $('#id_type').editable({
+            value :{{ student.property.id_type }},
+            source:[
+                {% for v, t in ID_TYPES %}
+                {value:{{v}}, text:"{{t}}"},
+                {% endfor %}
+            ],
+            display: function(v, sourceData){
+                if (sourceData){
+                    $(this).text(sourceData[v].text); 
+                } else {
+                    $(this).empty(); 
+                }
+                if(v == 1){
+                    $('#identity').hide();
+                    $('#passport').show();
+                }else{
+                    $('#identity').show();
+                    $('#passport').hide();
+                }
+            }
+
+        });
+
+        $('#company')
+        .editable({
+            type:'text',
+            name:'company'
+        });
+
+        $('#height').editable({
+            type: 'text',
+            name: 'height'
+        });
+
+        $('#weight').editable({
+            type: 'text',
+            name: 'weight'
+        });
+
+
+        // click save btn
+        $('#save-btn').click(function() {
+            $('.myeditable').editable('submit', { 
+                url: '/student/up_info', 
+                ajaxOptions: {
+                    dataType: 'json' //assuming json response
+                },           
+                success: function(data) {
+                    if(data && data.success){
+                        alert("已保存");
+                        location.reload();
+                    }
+                },
+                error: function(errors) {
+                    var info = "";
+                    for(var k in errors){
+                        info += (k+":  "+errors[k]+"\n");
+                    }
+                    alert(info);
+                } 
+            });
+        });
+
+    });
+
 </script>
-</body>
+<!-- basic scripts -->
+
+{% endblock %}

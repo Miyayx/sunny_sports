@@ -1,0 +1,481 @@
+
+{% extends "./game_org/base.html" %}
+<!--
+重载head部分，主要是添加meta，css，js一类
+-->
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="/static/css/date-time/jquery.datetimepicker.css">
+{% endblock %}
+
+{% block content %}
+{{ block.super }}
+<!-- ajax layout which only needs content area -->
+<div class="page-header">
+    <h1>
+        发布比赛信息
+    </h1>
+</div><!-- /.page-header -->
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <!-- PAGE CONTENT BEGINS -->
+        <form class="form-horizontal" role="form" id="g-pub-form">
+            {% csrf_token %}
+            <!-- #section:elements.form -->
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">发布机构</label>
+                <div class="col-sm-9">
+                    <label class="control-label no-padding-right">{{org.name}}</label>
+                </div>
+            </div>
+
+            {% if game %}
+            <input type="hidden" id="g-id" name="g_id" value="{{game.id}}" required="required">
+            {% endif %}
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">比赛名称<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <span>
+                        <input type="text" id="g-name" name="name" value="{{game.name}}" style="width:260px" required="required" >
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">主办单位(;分割)</label>
+                <div class="col-sm-9">
+                    <textarea id="g-sponsor" name="sponsor" rows="2" cols="60">{{game.sponsor}}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">承办单位(;分割)</label>
+                <div class="col-sm-9">
+                    <textarea id="g-organizer" name="organizer" rows="2" cols="60">{{game.organizer}}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">协办单位(;分割)</label>
+                <div class="col-sm-9">
+                    <textarea id="g-coorganizer" name="coorganizer" rows="2" cols="60">{{game.coorganizer}}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" >比赛项目<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    {% for i,e in events %}
+                    <label><input name="events" type="checkbox" disabled="true" checked value="{{i}}" />{{e}}</label> 
+                    <input type="hidden" id="event{{i}}" name="events" value="{{i}}" />
+                    {%endfor%}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> 比赛地点<label class="red">*</label> </label>
+                <div class="col-sm-9" id="position">
+                    <span>
+                        <select class="prov" name="prov" value="{{game.province}}"></select> 省
+                    </span>
+                    <span>
+                        <select class="city" disabled="disabled" name="city" value="{{game.city}}"></select> 市
+                    </span>
+                    <span>
+                        <select class="dist" disabled="disabled" name="dist" value="{{game.dist}}"></select> 区
+                    </span>
+                    <span>
+                        <input type="text" id="address" name="address" value="{{game.address}}">
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">参赛队数量<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <!-- #section:elements.form.input-icon -->
+                    <span>
+                        <input class="col-xs-1" type="text" id="limit" name="limit" value="{{game.limit}}" required="required" >
+                    </span>
+                    <!-- /section:elements.form.input-icon -->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">每队男生数量<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <span>
+                        <input class="col-xs-1" type="text" id="male_num" name="male_num" value="{{game.male_num}}" required="required" >
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">每队女生数量<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <span>
+                        <input class="col-xs-1" type="text" id="female_num" name="female_num" value="{{game.female_num}}" required="required" >
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">报名费(元/人)<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <!-- #section:elements.form.input-icon -->
+                    <span>
+                        <input class="col-xs-1" type="text" id="t-payment" name="money" value="{{game.money}}" required="required" >
+                    </span>
+                    <!-- /section:elements.form.input-icon -->
+                </div>
+            </div>
+            <div class="form-group">
+                <span id="time_list">
+                    <label class="col-sm-3 control-label no-padding-right" for="reg-start"> 报名开始时间<label class="red">*</label></label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-5" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control" required="required" id="reg-start" name="reg_stime" type="text" value="{{game.reg_stime|date:'Y-m-d H:i'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <span id="time_list">
+                    <label class="col-sm-3 control-label no-padding-right"> 报名结束时间<label class="red">*</label></label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-5" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control" required="required" id="reg-end" name="reg_etime" type="text" value="{{game.reg_etime|date:'Y-m-d H:i'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-clock-o bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <span id="time_list">
+                    <label class="col-sm-3 control-label no-padding-right"> 比赛开始时间<label class="red">*</label></label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-5" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control date-picker" required="required" id="game-start" type="text" name="game_stime" data-date-format="yyyy-mm-dd" value="{{game.game_stime|date:'Y-m-d'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <span>
+                    <label class="col-sm-3 control-label no-padding-right"> 比赛结束时间<label class="red">*</label></label>
+                    <div class="col-sm-9">
+                        <span class="col-sm-5" style="padding-left:1px">
+                            <div class="input-group" style="on-padding-left">
+                                <input class="form-control date-picker" required="required" id="game-end" type="text" name="game_etime" data-date-format="yyyy-mm-dd" value="{{game.game_etime|date:'Y-m-d'}}">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">联系人姓名<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <span>
+                        <input type="text" required="required" id="contact-name" name="contact_name" value="{{game.contact_name}}">
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">联系人手机<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <span>
+                        <input type="text" id="contact-phone" name="contact_phone" value="{{game.contact_phone}}" required="required">
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">联系人E-mail<label class="red">*</label></label>
+                <div class="col-sm-9">
+                    <span>
+                        <input type="text" required="required" id="contact-email" name="contact_email" value="{{game.contact_email}}" >
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">日程安排</label>
+                <div class="col-sm-9">
+                    <table id="schedule" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="center">日期</th>
+                                <th class="center">时间</th>
+                                <th class="center">内容</th>
+                                <th class="center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d, t, c in game.schedule %}
+                            <tr>
+                                <td class="center">{{d}}</td>
+                                <td class="center">{{t}}</td>
+                                <td class="center">{{c}}</td>
+                                <td class="center"><button class="btn btn-danger btn-sm"><i class="ace-icon glyphicon glyphicon-trash"></i>删除</button></td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td class="center"><input name="date" type="text" placeholder="填写日期"></td>
+                                <td class="center"><input name="time" type="text" placeholder="填写时间"></td>
+                                <td class="center"><input name="cont" type="text" placeholder="填写内容"></td>
+                                <td class="center"><button class="btn btn-success btn-sm"><i class="ace-icon glyphicon glyphicon-plus"></i>添加</button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">其他说明</label>
+                <div class="col-sm-9">
+                    <textarea id="decription" name="description" style="width:100%;" rows="5">{{game.description}}</textarea>
+                </div>
+            </div>
+            <p class="col-sm-10 col-sm-offset-3">带<label class="red">*</label>为必填项</p>
+            <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-info" type="submit" id="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    {% if game and game.submit_status == 1 %}
+                    确定
+                    {% else %}
+                    提交审核 
+                    {% endif %}
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                {% if not game or game.submit_status == 0 %}
+                <button class="btn btn-success" type="button" id="save">
+                    <i class="ace-icon fa fa-save bigger-110"></i>
+                    保存 
+                </button>
+                &nbsp; &nbsp; &nbsp;
+                {% endif %}
+                <button class="btn" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    重置
+                </button>
+            </div>
+        </form>
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col-sm-10 -->
+</div><!-- /.row -->
+<div class="space-4"></div>
+<p class="alert alert-warning"> 若审核不通过，则该比赛删除，届时请重新发布</p>
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+<!--[if lte IE 8]>
+<script src="../../assets/js/excanvas.min.js"></script>
+<![endif]-->
+<script src="/static/js/date-time/jquery.datetimepicker.js"></script>
+<script src="/static/js/date-time/moment.min.js"></script>
+<script src="/static/custom/jquery.cityselect.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script src="/static/js/jquery.validate.messages_cn.js"></script>
+<script type="text/javascript">
+    jQuery(function($) {
+
+        $('#position').citySelect({prov:"{{game.province}}", city:"{{game.city}}", dist:"{{game.dist}}"});
+
+        //日程
+        $("#schedule .btn-danger").click(function(e){
+            e.preventDefault();
+            $(this).parents('tr').remove();
+        });
+        $("#schedule .btn-success").click(function(e){
+            e.preventDefault();
+            var $intr = $(this).parents('tr');
+            var d = $intr.find('input[name="date"]').val();
+            var t = $intr.find('input[name="time"]').val();
+            var c = $intr.find('input[name="cont"]').val();
+            if (d.length == 0 && t.length == 0 && c.length == 0)
+                return;
+            $intr.find('input').val("");
+            
+            var $tr = $('<tr> <td class="center">' + d + '</td>'+
+                '<td class="center">' + t + '</td>'+
+            '<td class="center">' + c + '</td>'+
+            '<td class="center"><button class="btn btn-danger btn-sm"><i class="ace-icon glyphicon glyphicon-trash"></i>删除</button></td></tr>');
+        $tr.find('.btn-danger').click(function(){
+            $(this).parents('tr').remove();
+        });
+            $tr.insertBefore($intr);
+        });
+
+        var parse_sche = function(){
+            var sche = "";
+            $('#schedule .btn-danger').each(function(i, btn){
+                $(btn).parents('tr').find('td').each(function(j, td){
+                    if(j<3)
+                        sche += $(td).text()+"#;;";
+                });
+                sche += ";;";
+            });
+            return sche;
+        };
+
+        //datetimepicker plugin
+
+        $('#reg-start').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d H:i',
+            defaultTime:'00:00'
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#reg-end').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d H:i',
+            defaultTime:'00:00'
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#game-start').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d',
+            timepicker:false
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+        $('#game-end').datetimepicker({
+            lang:'zh',
+            format:'Y-m-d',
+            timepicker:false
+        }).next().on(ace.click_event, function(){
+            $(this).prev().focus();
+        });
+
+
+        jQuery.validator.addMethod("reg_etime", function (value, element) {
+            return moment($('#reg-end').val()) > moment($('#reg-start').val());//要用moment转换一下
+        }, "<p class='red'>开始时间晚于结束时间</p>");
+        jQuery.validator.addMethod("game_stime", function (value, element) {
+            return moment($('#game-start').val()) > moment($('#reg-end').val());//要用moment转换一下
+        }, "<p class='red'>比赛时间早于报名时间</p>");
+        jQuery.validator.addMethod("game_etime", function (value, element) {
+            return moment($('#game-end').val()) > moment($('#game-start').val());//要用moment转换一下
+        }, "<p class='red'>开始时间晚大于结束时间</p>");
+        jQuery.validator.addMethod('minStrict', function (value, el, param) {
+                return value > param;
+    }, "<p class='red'>请填写大于0的整数</p>");
+
+        var form_val = function($form){
+            $($form).removeAttr('novalidate');
+            $($form).validate({
+                rules: {
+                    name:"required",
+                    limit:{
+                        required: true,
+                        digits:true,
+                        minStrict:0
+                    },
+                    male_num:{
+                        required: true,
+                        digits:true,
+                        minStrict:-1
+                    },
+                    female_num:{
+                        required: true,
+                        digits:true,
+                        minStrict:-1
+                    },
+                    reg_etime:{
+                        reg_etime:true
+                    },
+                    game_etime:{
+                        game_etime:true
+                    },
+                    game_stime:{
+                        game_stime:true
+                    },
+                    money:{
+                        required: true,
+                        digits:true,
+                        minStrict:0
+                    },
+                    contact_email: {
+                        required: true,
+                        email:true
+                    }
+                },
+
+                highlight: function (e) {
+                    $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+                },
+
+                success: function (e) {
+                    $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                    $(e).remove();
+                },
+
+                errorPlacement: function (error, element) {
+                    error.appendTo(element.closest('.form-group span'));
+                },
+
+                submitHandler: function (form) {
+                },
+                invalidHandler: function (form) {
+                }
+            });
+        }
+
+        form_val('#g-pub-form');
+
+        $('#submit').click(function(e){
+            //e.preventDefault();
+            if(!$('#g-pub-form').valid()) return;
+            var data = $('#g-pub-form').serializeArray();                                                                                                 
+            data.push({name:'schedule', value: parse_sche()});
+            $.post('/game_org/game_publish',$.param(data))
+            .done(function(data){
+                if(data['success']){
+                    {% if game %}
+                    alert("已修改");
+                    window.location.href = '/game_org/game_manage#{{game.id}}'
+                    {% else %}
+                    alert("已提交");
+                    $('#g-pub-form').trigger('reset');
+                    {% endif %}
+                }else{
+                    alert(data["msg"]);
+                }
+
+            }).fail(function(){
+                alert("失败，请检查信息完整性并重试");
+            });
+        });
+
+        $('#save').click(function(e){
+            //e.preventDefault();
+            if(!$('#g-pub-form').valid()) return;
+            var data = $('#g-pub-form').serializeArray();
+            data.push({name:'save', value:1});
+            data.push({name:'schedule', value: parse_sche()});
+            $.post('/game_org/game_publish',$.param(data))
+            .done(function(data){
+                if(data['success']){
+                    alert("已保存");
+                }else{
+                    alert(data["msg"]);
+                }
+            }).fail(function(){
+                alert("失败，请检查信息完整性并重试");
+            });
+        });
+    });
+</script>
+{% endblock %}

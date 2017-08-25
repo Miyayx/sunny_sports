@@ -13,26 +13,29 @@ from sp.models import *
 
 from django.conf import settings
 
+def send_phone_message(mobile, msg):
+    if settings.MSG_CODE and not mobile in settings.IGNORE_PHONE:
+        resp = requests.post(
+                ("https://sms-api.luosimao.com/v1/send.json"),
+                auth=("api", ""),
+                data={
+                    "mobile": mobile,
+                    "message": msg
+                    },
+                timeout=6, 
+                verify=False)
+        print "send message",msg
+        result = json.loads(resp.content)
+    else:
+        result = {u'msg': u'ok', u'error': 0}
+    return result
+
 def gen_vcode():
     return random.randint(100000,999999)
 
 def send_vcode(mobile):
     vcode = gen_vcode()
-    if settings.MSG_CODE:
-        resp = requests.post(
-                ("https://sms-api.luosimao.com/v1/send.json"),
-                auth=("api", "b0e0056374704a22f46f9166df13868e"),
-                data={
-                    "mobile": mobile,
-                    "message": "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人。【快乐体操网络平台】"%vcode
-                    },
-                timeout=6, 
-                verify=False)
-
-        result = json.loads(resp.content)
-    else:
-        result = {u'msg': u'ok', u'error': 0}
-
+    result = send_phone_message(mobile, "验证码：%d。验证码有效时间为15分钟，请勿将此验证码发给任何号码及其他人。【快乐体操网络平台】"%vcode)
     return result,vcode
 
 def check_vcode(phone, vcode):
@@ -76,10 +79,19 @@ def export_xls(req, name, fields, rows):
     import xlwt
     from django.http import HttpResponse
     import urllib
+    import sys
+
+    code="utf-8"
+    if req.META.has_key('HTTP_USER_AGENT'):
+        user_agent = req.META['HTTP_USER_AGENT'].lower()
+        print user_agent
+        if 'trident' in user_agent or 'msie' in user_agent: #如果是IE浏览器发来的请求
+            code="gb2312"
+
     response = HttpResponse(content_type='application/ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=%s.xls'%urllib.unquote(urllib.quote(name.encode("utf-8")))
+    response['Content-Disposition'] = 'attachment; filename=%s.xls'%urllib.unquote(urllib.quote(name.encode(code)))
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet(name)
+    ws = wb.add_sheet(name.split('-')[0])
     
     row_num = 0
     

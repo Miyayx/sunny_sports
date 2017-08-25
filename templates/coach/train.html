@@ -54,7 +54,7 @@
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>培训地点：</b></font>
-                                &nbsp;{{old_ct.train.address}}<p/>
+                                &nbsp;{{old_ct.train.province}},{{old_ct.train.city}},{{old_ct.train.dist}},{{old_ct.train.address}}<p/>
                                 </li>
                                 <li><i class="ace-icon fa fa-circle green"></i>
                                 <font size="3px"><b>报名时间：</b></font>
@@ -128,7 +128,7 @@
                                         <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>截止时间</th>
                                         <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>培训时间</th>
                                         <th class="hidden-480">培训地点</th>
-                                        <th>费用</th>
+                                        <th>费用/学生费用</th>
                                         <th class="hidden-480">名额</th>
                                         {% if not ct or ct.status == 0 or ct.train.reg_status == 1 %}
                                         <th>报名</th>
@@ -143,8 +143,12 @@
                                         <td>{{ct.train.reg_stime}}</td>
                                         <td>{{ct.train.reg_etime}}</td>
                                         <td>{{ct.train.train_stime|date:"Y-m-d"}}</td>
-                                        <td class="hidden-480">{{ct.train.address}}</td>
-                                        <td>{{ct.train.money}}</td>
+                                        <td>{{ct.train.province}},{{ct.train.city}},{{ct.train.dist}},{{ct.train.address}}</td>
+                                        {% if ct.train.money == ct.train.student_money %}
+                                          <td>{{ct.train.money}}</td>
+                                        {% else %}
+                                          <td>{{ct.train.money}}/{{ct.train.student_money}}</td>
+                                        {% endif %}
                                         <td class="hidden-480">{{ct.train.cur_num}}/{{ct.train.limit}}</td>
                                         {% if ct.status == 0 or ct.train.reg_status == 1%}
                                         <td>
@@ -170,8 +174,12 @@
                                         <td>{{t.reg_stime}}</td>
                                         <td>{{t.reg_etime}}</td>
                                         <td>{{t.train_stime|date:"Y-m-d"}}</td>
-                                        <td class="hidden-480">{{t.address}}</td>
-                                        <td>{{t.money}}</td>
+                                        <td>{{t.province}},{{t.city}},{{t.dist}},{{t.address}}</td>
+                                        {% if t.money == t.student_money %}
+                                          <td>{{t.money}}</td>
+                                        {% else %}
+                                          <td>{{t.money}}/{{t.student_money}}</td>
+                                        {% endif %}
                                         <td class="hidden-480">{{t.cur_num}}/{{t.limit}}</td>
                                         {% if t.cur_num < t.limit %}
                                         <td><a class="btn btn-minier btn-info" href="/coach/train/info_confirm?t_id={{t.id}}">报名</a></td>
@@ -183,7 +191,7 @@
                                 </tbody>
                                 {% endif %}
                             </table>
-                                <p>若付款遇到问题，请联系网络平台负责人：13488875566</p>
+                            <!-- <p>若付款遇到问题，请联系网络平台负责人：15210807516</p> -->
                         </div>
                     </div>
                     {% endif %}

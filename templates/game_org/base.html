@@ -1,0 +1,61 @@
+{% extends "./base/base.html" %}
+
+{% block title %} 赛事管理机构 {% endblock %}
+
+{% block menu %}
+<ul class="nav nav-list">
+    <li class="">
+    <a data-url="game_org/home" href="/game_org/home">
+        <i class="menu-icon fa fa-dashboard"></i> <span class="menu-text"> 首页 </span>
+    </a>
+    <b class="arrow"></b>
+    </li>
+
+    <li class="hsub">
+    <a href="#" class="dropdown-toggle">
+        <i class="menu-icon fa fa-list"></i> <span class="menu-text"> 赛事管理 </span>
+        <b class="arrow fa fa-angle-down"></b>
+    </a>
+    <b class="arrow"></b>
+    <ul class="submenu">
+        <li class="">
+        <a data-url="game_org/game_publish" href="/game_org/game_publish">
+            <i class="menu-icon fa fa-caret-right"></i>
+            发布比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+
+        <li class="">
+        <a data-url="game_org/game_manage" href="/game_org/game_manage">
+            <i class="menu-icon fa fa-caret-right"></i>
+            当前比赛
+        </a>
+        <b class="arrow"></b>
+        </li>
+
+        <li class="">
+        <a data-url="game_org/history_game" href="/game_org/history_game">
+            <i class="menu-icon fa fa-caret-right"></i>
+            历史比赛查看
+        </a>
+        <b class="arrow"></b>
+        </li>
+    </ul>
+    </li>
+
+    <li class="">
+    <a data-url="game_org/center" href="/game_org/center">
+        <i class="menu-icon fa fa-users"></i> <span class="menu-text"> 个人中心 </span>
+    </a>
+    <b class="arrow"></b>
+    </li>
+
+</ul><!-- /.nav-list -->
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block script %}
+{% endblock %}

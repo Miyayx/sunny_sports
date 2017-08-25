@@ -3,7 +3,7 @@
   <span class="block input-icon input-icon-right">
     <input id="{{form.hidden_input_id}}" required="required" type="hidden" value={{form.cptch_key}} name="captcha_0" />
     <input required="required"  class="form-control" name="captcha_1" placeholder="图形验证码" id="{{form.input_id}}" />
-    <img class="width-47" style="float:right; position:relative; margin-top:-32px; cursor:pointer;z-index:100" alt="点击更换" id={{form.img_id}} src="{{form.cptch_img}}"/>
+    <img class="width-47" style="right:0; top:1px; cursor:pointer;z-index:100; position:absolute; max-height:94%; width:auto" alt="点击更换" id={{form.img_id}} src="{{form.cptch_img}}"/>
   </span>
 </label>
 

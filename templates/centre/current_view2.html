@@ -1,0 +1,112 @@
+
+{% extends base %} 
+{% block content %}
+{{ block.super }}
+
+<div class="page-header"><h1>培训历史信息</h1></div>
+<div class="row">
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <div>
+            <div >
+                <div class="profile-info-name">培训ID</div>
+                <div class="profile-info-value">{{train.id}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">培训名称</div>
+                <div class="profile-info-value">{{train.name}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">培训等级</div>
+                <div class="profile-info-value">{{train.get_level_display}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">报名时间</div>
+                <div class="profile-info-value">{{train.reg_stime}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">开始时间</div>
+                <div class="profile-info-value">{{train.train_stime|date:"Y-m-d"}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">培训地点</div>
+                <div class="profile-info-value">{{train.province}},{{train.city}},{{train.dist}},{{train.address}}</div>
+            </div>
+            <div>
+                <div class="profile-info-name">报名/上限人数</div>
+                <div class="profile-info-value">{{train.cur_num}}/{{train.limit}}</div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name">培训机构</div>
+                <div class="profile-info-value">{{train.org.name}}</div>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <table id="checked-table" class="table table-striped table-bordered table-hover">
+                <thead class="thin-border-bottom">
+                    <tr>
+                        <th class="center">
+                            <i class="ace-icon fa fa-user"></i>
+                            姓名 
+                        </th>
+                        <th class="center">性别</th>
+                        <th class="center">手机号码</th>
+                        <th class="center">报名时间</th>
+                        <th class="center">是否付款</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for i in c_t %}
+                    <tr>
+                        <td class="center"><a>{{i.coach.property.name}}</a></td>
+                        <td class="center">{{i.coach.property.get_sex_display}}</td>
+                        <td class="center">{{i.coach.property.user.phone}}</td>
+                        <td class="center">{{i.reg_time|date:"Y-m-d H:i"}}</td>
+                        <td class="center">{{i.get_status_display}}
+                            {% if i.status == 0 %}
+                            <a class="btn btn-danger btn-minier change_st" style="margin-left:10px">
+                                <p style="display:none">{{ i.id }}</p>
+                                更改为已付款</a>
+                            {% endif %}
+                        </td>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row center">
+        {% if train.cur_num > 0  %}
+        <a class="btn btn-success download-btn" href="/download?t_id={{train.id}}">下载Excel</a>
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="../../static/js/bootbox.min.js"></script>
+<script type="text/javascript">
+    $('.change_st').click(function(e){
+        var $btn = $(this);
+        e.preventDefault();
+        var $info = '<h4>确定更改<b>'+ $.trim($btn.parents('tr').find("td:first").html())+'</b>的付款状态?</h4>';
+        bootbox.setDefaults({locale:'zh_CN'});
+        bootbox.confirm($info, function(result){
+            if(result){ //选择确认
+                $.post("/centre/ch_payment_st",
+                    {
+                        'csrfmiddlewaretoken': '{{csrf_token}}',
+                        'ct_id':$.trim($btn.parents('td').find('p').html())
+                    }, function(res){
+                        if(res && res['success']){
+                            $btn.parents('td').html('已付费');
+                        }
+                        else alert('操作失败');
+                    });
+            }
+        });
+    });
+</script>
+{% endblock %}

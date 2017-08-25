@@ -1,0 +1,50 @@
+
+<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+  <i class="ace-icon fa fa-exchange icon-animated-exchange"></i>
+</a>
+
+<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+  <li class="dropdown-header">
+  <i class="ace-icon fa fa-exchange"></i>
+  角色切换
+  </li>
+
+  {% for r in roles %}
+    {% if r.role_id == 2 %}
+      <li class="dropdown-footer">
+        <a href="/student">
+        切换到学生
+        <i class="ace-icon fa fa-arrow-right"></i>
+        </a>
+      </li>
+    {% endif %}
+
+    {% if r.role_id == 3%}
+      <li class="dropdown-footer">
+        <a href="/coach">
+          切换到教练
+          <i class="ace-icon fa fa-arrow-right"></i>
+        </a>
+      </li>
+    {% endif %}
+
+    {% if r.role_id == 4%}
+      <li class="dropdown-footer">
+        <a href="/club">
+          切换到俱乐部
+          <i class="ace-icon fa fa-arrow-right"></i>
+        </a>
+      </li>
+    {% endif %}
+
+    {% if r.role_id == 5%}
+      <li class="dropdown-footer">
+        <a href="/group">
+          切换到社会团体
+          <i class="ace-icon fa fa-arrow-right"></i>
+        </a>
+      </li>
+    {% endif %}
+
+  {% endfor %}
+</ul>

@@ -5,33 +5,56 @@
     <meta charset="utf-8" />
     <title>快乐体操网络平台</title>
 
+    <!--
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ICO_URL}}/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ICO_URL}}/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ICO_URL}}/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ICO_URL}}/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ICO_URL}}/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ICO_URL}}/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ICO_URL}}/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ICO_URL}}/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ICO_URL}}/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="{{ICO_URL}}/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ICO_URL}}/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ICO_URL}}/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ICO_URL}}/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{{ICO_URL}}/manifest.json">
+    <link rel="mask-icon" href="{{ICO_URL}}/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="{{ICO_URL}}/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    -->
+
+    <link rel="shortcut icon" type="image/png" href="{{ICO_URL}}/favicon.ico"/>
+
     <meta name="description" content="User login page" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
     <!-- bootstrap & fontawesome -->
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
 
     <!-- text fonts -->
-    <link rel="stylesheet" href="../../static/css/ace-fonts.css" />
+    <link rel="stylesheet" href="/static/css/ace-fonts.css" />
 
     <!-- ace styles -->
-    <link rel="stylesheet" href="../../static/css/ace.min.css" />
-    <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/static/css/ace.min.css" />
+    <link rel="stylesheet" href="/static/css/ace-rtl.min.css" />
 
     <!-- page specific plugin styles -->
-    <link rel="stylesheet" href="../../static/css/jquery-ui.custom.min.css" />
-    <link rel="stylesheet" href="../../static/css/jquery.gritter.css" />
+    <link rel="stylesheet" href="/static/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="/static/css/jquery.gritter.css" />
 
     <!-- basic scripts -->
     <script>
       if (!document.addEventListener) {
         // IE6~IE8
-        //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
-          //document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
+        //document.write('<script src="/static/js/ieBetter.js"><\/script>'); 
+          //document.write('<script src="/static/js/jquery1x.min.js"><\/script>'); 
             document.write('<script src="http://code.jquery.com/jquery-1.9.0.js"><\/script>'); 
               }else{
-              document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+              document.write('<script src="/static/js/jquery.min.js"><\/script>'); 
               }
             </script>
 
@@ -39,7 +62,7 @@
             <!--[if lte IE 9]>
             <link rel="stylesheet" href="../assets/css/ace-part2.min.css" />
             <![endif]-->
-            <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+            <link rel="stylesheet" href="/static/css/ace-rtl.min.css" />
 
             <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -49,9 +72,11 @@
             <![endif]-->
 
 
+            <!--
             <script type="text/javascript">
-              if('ontouchstart' in document.documentElement) document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+              if('ontouchstart' in document.documentElement) document.write("<script src='/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
               </script>
+              -->
 
             </head>
 
@@ -113,8 +138,9 @@
                                         {% csrf_token %}
 
                                         <fieldset> 
-                                          <input type="radio" name="role" value="student" disabled="true"/> 学生
-                                          <input type="radio" name="role" value="coach" checked="true"/> 教练
+                                          <input type="hidden" name="next" value="{{next}}"/>
+                                          <input type="radio" name="role" value="student" /> 学员通级
+                                          <input type="radio" name="role" value="coach" checked="true"/> 教练/辅导员培训
 
                                           {% include "components/login.html"%}
 
@@ -125,7 +151,9 @@
                                     <div id="organization-tab" class="tab-pane">
                                       <form action="login" method="post">
                                         {% csrf_token %}
-                                        <input type="radio" name="role" value="club" checked="true"/> 俱乐部
+                                        <input type="hidden" name="next" value="{{next}}"/>
+                                        <input type="radio" name="role" value="club" /> 俱乐部
+                                        <input type="radio" name="role" value="group" /> 社会团体
                                         {% include "components/login.html"%}
                                       </form>
                                     </div>
@@ -135,6 +163,7 @@
                                       <form action="login" method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="role" value="admin"/>
+                                        <input type="hidden" name="next" value="{{next}}"/>
 
                                         {% include "components/login.html" with form=form1%}
                                       </form>
@@ -226,17 +255,19 @@
                                         <div class="btn-group" data-toggle="buttons">
                                           <label id="student2" class="btn btn-success">
                                             -->
-                                            <input type="radio" name="role2" value="student" disabled="true"/> 学生
+                                            <input type="radio" name="role2" value="student"/> 学生
                                             <input type="radio" name="role2" value="coach" checked="true" /> 教练
                                             <br/>
-                                            <input type="radio" name="role2" value="club" disabled="true"/> 俱乐部
+                                            <input type="radio" name="role2" value="club" /> 俱乐部
+                                            <input type="radio" name="role2" value="group" /> 社会团体
                                             <!-- 
                                           </label>
                                         </div>  
                                         -->
-                                        <div class="space"></div>
 
+                                        <div class="space"></div>
                                         {% include "components/register/phone.html"%}
+                                        <p>手机号已用？<a href="/morerole">申请新角色</a></p>
                                         {% include "components/register/password.html"%}
                                         {% include "components/register/v_code.html" with btn_id="reg-code-btn" form=form3 %}
 
@@ -274,23 +305,28 @@
                     <div class="footer-content" style="border-top: 0px">
                       <h4 class="light-blue" id="id-company-text">
                         &copy;北京快乐童年阳光体操文化有限责任公司</h4>
+                      <!--
                       <span class="bigger-110">
                         <span class="blue bolder">Created by Queendorm</span>
                       </span>
+                      -->
                     </div>
                   </div>
                 </div>
               </div><!-- /.main-content -->
 
-              <script src="../../static/js/bootstrap.min.js"></script>
-              <script src="../../static/js/jquery-ui.custom.min.js"></script>
-              <script src="../../static/js/jquery.ui.touch-punch.min.js"></script>
-              <script src="../../static/js/bootbox.min.js"></script>
-              <script src="../../static/js/jquery.hotkeys.min.js"></script>
-              <script src="../../static/js/jquery.gritter.min.js"></script>
+              <script src="/static/js/bootstrap.min.js"></script>
+              <!--
+              <script src="/static/js/bootbox.min.js"></script>
+              <script src="/static/js/jquery-ui.custom.min.js"></script>
+              <script src="/static/js/jquery.ui.touch-punch.min.js"></script>
+              <script src="/static/js/jquery.hotkeys.min.js"></script>
+              -->
+              <script src="/static/js/jquery.gritter.min.js"></script>
+
               <!-- ace scripts -->
-              <script src="../../static/js/ace.min.js"></script>
-              <script src="../../static/js/ace-elements.min.js"></script>
+              <script src="/static/js/ace.min.js"></script>
+              <script src="/static/js/ace-elements.min.js"></script>
 
               <script type="text/javascript">
                 jQuery(function($) {
@@ -326,21 +362,17 @@
                     title: '请使用兼容的浏览器',
                     sticky:true,
                     // (string | mandatory) the text inside the notification
-                    text: '请尽量选择Chrome，Firefox以及IE10以上版本进行操作'
+                    text: '请选择Chrome，Firefox以及IE10以上版本进行操作'
                   });
 
+                  /*
                   $.gritter.add({
                     // (string | mandatory) the heading of the notification
-                    title: '学生报名系统将于6月1日开放',
+                    title: '操作说明下载',
                     sticky:true,
-                    text: ''
+                    text: '<a href="/tutorial/coach">教练培训报名与付款教程下载</a><br/><a href="/tutorial/team">参赛队报名与付款教程下载</a>'
                   });
-                  $.gritter.add({
-                    // (string | mandatory) the heading of the notification
-                    title: '参赛报名系统将于8月1日开放',
-                    sticky:true,
-                    text: ''
-                  });
+                  */
 
                 });
               </script>

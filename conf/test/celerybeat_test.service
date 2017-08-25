@@ -8,7 +8,7 @@ User=kltc
 Group=kltc
 EnvironmentFile=/etc/sysconfig/celerybeat_test
 WorkingDirectory=/home/kltc/Project/sunny_sports/
-ExecStart=/usr/bin/celery  -A ${CELERY_APP}\
+ExecStart=/usr/bin/celery  -A ${APP}\
      $CELERYD_NODES --pidfile=${CELERYD_PID_FILE} \
     --logfile=${CELERYD_LOG_FILE} --loglevel=${CELERYD_LOG_LEVEL}
 #ExecStop=/usr/bin/celery multi stopwait $CELERYD_NODES \

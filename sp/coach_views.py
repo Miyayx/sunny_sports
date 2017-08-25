@@ -1,33 +1,35 @@
-
 # -*- coding:utf-8 -*-
 
 from g_import import *
+from sp.models.status import ID_TYPES
 
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.db import transaction
+from django import forms
 
+import os
 from utils import *
 from payment.models import Bill
 from payment.views import pay as ali_pay
 from payment.views import pay_method 
 from payment.alipay_python.alipay import *
 
+#from photo.views import update_photo
+from photo.views import update_photo_in_qiniu
+
 from sp.tasks import payment_check
-from django import forms
+
 from datetime import datetime, timedelta
-from PIL import Image
-import os
-from sunny_sports.settings import MEDIA_ROOT
-from sunny_sports.settings import HOST
-from sunny_sports.settings import PAYMENT_LIMIT
+from sunny_sports.settings import HOST, PAYMENT_LIMIT, PHOTO_ROOT
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
 def coach(req):
     uuid = req.user.id
     u=UserRole.objects.get(user_id=uuid, role_id=3)
+    req.session['role'] = 3
     if u.is_first:
         messages.error(req, u"请补全个人信息")
         return HttpResponseRedirect("coach/center")
@@ -43,14 +45,18 @@ def home(req):
     coach = Coach.objects.get(property__user_id=uuid)
     coach.property.age = calculate_age(coach.property.birth) 
     cts = CoachTrain.objects.filter(coach=coach, train__pub_status=0, train__level=coach.t_level+1)
+    sct = CoachTrain.objects.filter(coach=coach, train__pub_status=0, train__level=TRAIN_LEVEL.SEED)
     t_count = Train.objects.filter(level=coach.t_level+1, pass_status=1, reg_status=1, pub_status=0).count()
     if len(cts):
         ct = cts.latest('id')
     else:
         ct = None
-    print "t_count",t_count
+    if len(sct):
+        sct = sct[0]
+    else:
+        sct = None
 
-    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "t_count":t_count}, RequestContext(req))
+    return render_to_response('coach/home.html',{"coach":coach, "ct":ct, "sct":sct, "t_count":t_count, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
@@ -101,6 +107,35 @@ def train(req):
 
 @login_required()
 @user_passes_test(lambda u: u.is_role(['coach']))
+def strain(req): #辅导员页面
+    uuid = req.user.id # 用这个id查信息哦
+    coach = Coach.objects.get(property__user_id=uuid)
+
+    old_ct = None
+    ct = []
+    trains = None
+    time_remain = 0
+    if coach.is_seed:
+        old_ct = CoachTrain.objects.filter(coach=coach, train__level=TRAIN_LEVEL.SEED, status__gt=0).latest('id')
+    else:
+        trains = Train.objects.filter(level=TRAIN_LEVEL.SEED, pass_status=1, reg_status=1, pub_status=0)
+        ct = CoachTrain.objects.filter(coach=coach, train__level=TRAIN_LEVEL.SEED, train__pub_status=0)
+
+    if len(ct): 
+        temp = ct.latest('id')
+        if temp.status == 0:
+            time_remain = temp.reg_time+PAYMENT_LIMIT-timezone.now()
+    print 'time_remain',time_remain
+
+    return render_to_response('coach/seed_train.html',{"coach":coach, 
+        "trains":trains, 
+        "old_ct":old_ct, 
+        "ct":ct.latest("id") if len(ct) > 0 else None,
+        "time_remain":int(time_remain.total_seconds()) if time_remain else 0
+        }, RequestContext(req))
+
+@login_required()
+@user_passes_test(lambda u: u.is_role(['coach']))
 def center(req):
     uuid = req.user.id
     # 用这个id查信息哦
@@ -109,7 +144,7 @@ def center(req):
         messages.error(req, u"请补全个人信息")
     coach = Coach.objects.filter(property__user_id=uuid)
     club = Club.objects.filter()
-    return render_to_response('coach/center.html',{"coach":coach[0], "club":club}, RequestContext(req))
+    return render_to_response('coach/center.html',{"coach":coach[0], "club":club, "ID_TYPES":ID_TYPES, "PHOTO_ROOT":PHOTO_ROOT}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
@@ -148,7 +183,7 @@ def info_confirm(req):
         except Exception,e:
             return JsonResponse({ 'success':False,'msg':'信息存储错误' })
 
-        train = train=Train.objects.get(id=t_id)
+        train = Train.objects.get(id=t_id)
         if train.cur_num < train.limit:
             try:
                 ct = CoachTrain.objects.get(coach=coach, train=train)
@@ -157,8 +192,14 @@ def info_confirm(req):
                 pass
             try:
                 ct = CoachTrain.objects.create_ct(coach=coach, train=train) #要用create_ct创建CoachTrain，否则报名数量不增加
+                ct.role = int(data.get("is-student"))
+                ct.save()
                 check_time = datetime.utcnow() + PAYMENT_LIMIT
                 payment_check.apply_async((ct.id,), eta=check_time) #24小时后进行check，若未缴费，删除报名记录
+                money = ct.train.money if ct.role == 0 else ct.train.student_money
+                print "money",money
+                mobile = coach.property.user.phone
+                send_phone_message(mobile, "您已成功报名快乐体操培训班：“%s”，费用%d元，请在24小时之内完成付款，过时系统将自动撤销报名。【快乐体操网络平台】"%(train.name, money))
 
                 return JsonResponse({ 'success':True,'ct_id':ct.id })
             except Exception,e:
@@ -171,7 +212,7 @@ def info_confirm(req):
         train = Train.objects.get(id=t_id)
         coach = Coach.objects.get(property__user_id=uuid)
         club = Club.objects.filter()
-        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train}, RequestContext(req))
+        return render_to_response('coach/info_confirm.html',{"coach":coach, "club":club, "train":train, "return_page":"/coach/strain" if train.level == TRAIN_LEVEL.SEED else "/coach/train"}, RequestContext(req))
 
 @login_required()
 @transaction.atomic
@@ -184,6 +225,8 @@ def reg_cancel(req):
         ct_id = req.POST.get("ct_id")
         ct = CoachTrain.objects.get(id=ct_id)
         ct.delete()
+        mobile = ct.coach.property.user.phone
+        send_phone_message(mobile, "您已成功取消培训: “%s”。【快乐体操网络平台】"%ct.train.name)
         return JsonResponse({'success':True})
     return JsonResponse({'success':False})
 
@@ -195,32 +238,34 @@ def pay(req):
     if req.method == "POST":
         ct_id = req.POST.get("order_num")
         ct = CoachTrain.objects.get(id=ct_id, status=0)
+        URL = 'coach/strain' if ct.train.level == TRAIN_LEVEL.SEED else 'coach/strain'
         method = req.POST.get("channelToken")
+        money = ct.train.money if ct.role == 0 else ct.train.student_money
         params = {  
-                'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
-                'total_fee'   :ct.train.money,
-                'return_url'  :"http://%s/coach/train/pay_return"%HOST,
-                'notify_url'  :"http://%s/coach/train/pay_notify"%HOST,
+                'subject'     :u"快乐体操培训费用",  
+                'body'        :u"快乐体操培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
+                'total_fee'   :money,
+                'return_url'  :"http://%s/%s/pay_return"%(HOST, URL),
+                'notify_url'  :"http://%s/%s/pay_notify"%(HOST, URL),
                 'order_num'   :ct_id,#用来生成账单编号
                 'org_email'   :ct.train.org.ali_email,#分润给组织机构
-                'comment'     :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s, t_id:%s, ct_id:%s"%(ct.train.name, ct.train.id, ct.train.id, ct.id)#给组织机构的备注
+                'comment'     :u"快乐体操培训费用 培训课程:%s, 培训编号:%s, t_id:%s, ct_id:%s"%(ct.train.name, ct.train.id, ct.train.id, ct.id)#给组织机构的备注
                 }  
         if not 'alipay' == method:
             params['bank'] = method
         url, bill = ali_pay(req, 0, params)
         ct.bill = bill
         ct.save()
-        print "reg time:", ct.reg_time
         return HttpResponseRedirect(url)
         #return JsonResponse({'success':True,'url':url})
     else: #GET return pay_method page
         ct_id = req.GET.get("ct_id")
         ct = CoachTrain.objects.get(id=ct_id, status=0)
+        money = ct.train.money if ct.role == 0 else ct.train.student_money
         params = {  
-                'subject'     :u"快乐体操教练培训费用",  
-                'body'        :u"快乐体操教练培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
-                'total_fee'   :ct.train.money,
+                'subject'     :u"快乐体操培训费用",  
+                'body'        :u"快乐体操培训费用 培训课程:%s, 培训编号:%s"%(ct.train.name, ct.train.id),
+                'total_fee'   :money,
                 'receiver'    :u"北京快乐童年阳光体操文化发展有限责任公司",
                 'order_num'   :ct_id,
                 'bill_type'   :0,
@@ -241,14 +286,16 @@ def pay_notify(req):
         bill.save()
 
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
-            print ('TRADE SUCCESS, so upgrade bill')
             try:
-                ct = CoachTrain.objects.get(bill_id=tn)
+                #ct = CoachTrain.objects.get(bill_id=tn)
+                ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
-                print '付款成功！'
+                mobile = ct.coach.property.user.phone
+                place = ','.join([ct.train.province, ct.train.city, ct.train.dist, ct.train.address])
+                send_phone_message(mobile, "您已成功报名快乐体操培训“%s”并完成付款，培训开始时间：%s，培训地点：%s。在校学生请在报到当天携带学生证到培训现场。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
             except:
-                pass
+                return HttpResponse("fail")
             return HttpResponse("success")
         else:
             return HttpResponse("success")
@@ -266,16 +313,22 @@ def pay_return(req):
         bill = Bill.objects.get(no=tn)
         bill.trade_status = trade_status
         bill.save()
+        redirect_url = '/coach/train'
         if trade_status == 'WAIT_SELLER_SEND_GOODS' or trade_status == "TRADE_SUCCESS":
             try:
-                ct = CoachTrain.objects.get(bill_id=tn)
+                #ct = CoachTrain.objects.get(bill_id=tn)
+                ct = CoachTrain.objects.get(id=int(tn[14:]))
                 ct.status = 1
                 ct.save()
-                print '付款成功！'
+                mobile = ct.coach.property.user.phone
+                place = ','.join([ct.train.province, ct.train.city, ct.train.dist, ct.train.address])
+                send_phone_message(mobile, "您已成功报名快乐体操培训“%s”并完成付款，培训开始时间：%s，培训地点：%s。在校学生请在报到当天携带学生证到培训现场。取消报名请联系培训组织方。【快乐体操网络平台】"%(ct.train.name, ct.train.train_stime, place ))
+                if ct.train.level == TRAIN_LEVEL.SEED:
+                    redirect_url = '/coach/strain'
             except:
             #return HttpResponse(u'付款成功！')
                 return HttpResponse(u'找不到报名信息！若已付款，请联系网络平台负责人')
-            return HttpResponseRedirect('/coach/train')
+            return HttpResponseRedirect(redirect_url)
         else:
             return HttpResponse(u'付款失败')
     else:
@@ -295,7 +348,7 @@ def update_info(req):
         uuid = req.user.id
         ur = UserRole.objects.get(user_id=uuid, role_id=3)
         ur.is_first = False
-        if data.has_key("nickname") and len(data['nickname'].strip()):
+        if data.has_key("nickname") and len(data["nickname"].strip()):
             MyUser.objects.filter(id=uuid).update(nickname=data.pop("nickname")[0], phone=data.pop("phone")[0], email=data.pop("email")[0])
         else:
             MyUser.objects.filter(id=uuid).update(phone=data.pop("phone")[0], email=data.pop("email")[0])
@@ -304,8 +357,11 @@ def update_info(req):
         cp.name = data.get("name","")
         if data.has_key("sex"):
             cp.sex = int(data.get("sex"))
-        if data.has_key("identity"):
+        cp.id_type = int(data["id_type"])
+        if cp.id_type == 0 and data.has_key("identity"):
             cp.identity = data.get("identity","")
+        if cp.id_type == 1 and data.has_key("passport"):
+            cp.identity = data.get("passport","")
         if data.has_key('birth'):
             cp.birth = data.get("birth")
         if data.has_key("company"):
@@ -326,32 +382,12 @@ def update_info(req):
             return JsonResponse({'success':False})
         return JsonResponse({'success':True})
 
-
 @login_required()
 @transaction.atomic
 @user_passes_test(lambda u: u.is_role(['coach']))
-def update_img(request):
-    uuid = request.user.id
+def update_img(req):
+    uuid = req.user.id
     coach = Coach.objects.get(property__user_id=uuid)
-    if request.method == "POST":
-        uf = UserForm(request.POST,request.FILES)
-        if uf.is_valid():
-            headImg = uf.cleaned_data['headImg']
-            suffix = headImg.name.split('.')[-1]; #check if it's an image
-            if suffix == "jpg" or suffix=="jpeg" or suffix=="gif" or suffix=="png" or suffix =="bmp":
-                old = coach.property.avatar.name
-                print "old-->"+old
-                coach.property.avatar = headImg
-                coach.property.save() #保存到数据库
-                path = coach.property.avatar.name
-                imgpath = os.path.join(MEDIA_ROOT, path) #图片真实路径
-                print "imgpath-->"+imgpath
-                im = Image.open(imgpath)
-                new_img=im.resize((200,200),Image.ANTIALIAS)
-                new_img.save(imgpath) #保存图片
-                old = os.path.join(MEDIA_ROOT, old)
-                if os.path.isfile(old):
-                    os.remove(old) #删除旧头像
-                print "delete-->"+os.path.join(MEDIA_ROOT, old)
-    
+    #update_photo(req, coach.property)
+    update_photo_in_qiniu(req, coach.property)
     return HttpResponseRedirect('/coach/center')

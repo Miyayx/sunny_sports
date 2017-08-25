@@ -13,12 +13,14 @@ from django.contrib import messages
 from captcha.models import CaptchaStore
 from captcha.helpers import captcha_image_url
 
-from sp.models.status import get_role_id
+from sp.models.status import get_role_id, TRAIN_LEVEL
 from sp.backend import MyBackend 
 
-from utils import *
+from student.models import *
+from group.models import *
+from club.models import *
 
-# Create your views here.
+from utils import *
 
 #客户端提交的post如果不加这段，会出现403error  
 @csrf_exempt  
@@ -54,6 +56,23 @@ def get_msg(req):
         html = render_to_string('base/msg.html', {'num':len(msgs), 'msgs': msgs[:5]})
         return HttpResponse(html)
     return None
+
+@login_required()
+def get_otherrole(req):
+    """
+    header部分角色切换
+    """
+    uuid = req.user.id
+    r = req.session.get('role')
+    print "role-->"+str(r)
+    if uuid:
+        roles = UserRole.objects.filter(user_id=uuid)
+        if len(roles) > 1:
+            roles = [role for role in roles if not role.role_id == r]
+            html = render_to_string('base/switch.html', {'roles':roles})
+            return HttpResponse(html)
+        return HttpResponse("")
+    return HttpResponse("")
 
 @login_required()
 def inbox(req):
@@ -104,6 +123,7 @@ def signup(req):
 @transaction.atomic
 def mylogin(req): #登录view，跟自带的auth.login 区分开
     if req.method == 'POST':
+        next_page = req.POST.get('next',None)
         req.session.clear()
         un = req.POST['username']
         pw = req.POST['password']
@@ -131,15 +151,23 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
                         messages.error(req, u"图形验证码错误")
                         return redirect('/login')
                     if "centre" in roles:
-                        return HttpResponseRedirect('/centre')
+                        return HttpResponseRedirect(next_page) if next_page and 'centre' in next_page else HttpResponseRedirect('/centre')
                     elif "coach_org" in roles:
                         if CoachOrg.objects.get(user=user).is_active:
-                            return HttpResponseRedirect('/coach_org')
+                            return HttpResponseRedirect(next_page) if next_page and 'coach_org' in next_page else HttpResponseRedirect('/coach_org')
+                        else:
+                            messages.error(req, u"该机构已禁用")
+                            mylogout(req)
+                    elif "game_org" in roles:
+                        if GameOrg.objects.get(user=user).is_active:
+                            return HttpResponseRedirect(next_page) if next_page and 'game_org' in next_page else HttpResponseRedirect('/game_org')
                         else:
                             messages.error(req, u"该机构已禁用")
                             mylogout(req)
                 elif role in roles:
-                    return HttpResponseRedirect('/%s'%role)
+                    r_id = get_role_id(role)
+                    req.session['role'] = r_id
+                    return HttpResponseRedirect(next_page) if next_page and role in next_page else HttpResponseRedirect('/%s'%role)
                 else:
                     messages.error(req, u"请选择正确的角色")
                 #return render_to_response("login.html", context_instance=RequestContext(req))
@@ -154,15 +182,77 @@ def mylogin(req): #登录view，跟自带的auth.login 区分开
             return redirect('/login')
     else:
         print "login page"
+        print req.GET.items()
         form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
         form2 = CustomCaptcha("hidden2", "captcha2", "captcha-img2")
         form3 = CustomCaptcha("hidden3", "captcha3", "captcha-img3")
-        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3 }, context_instance=RequestContext(req))
+        return render_to_response("login.html", { "form1":form1, "form2":form2, "form3":form3, "next":req.GET.get('next', None) }, context_instance=RequestContext(req))
           
 def index(req):
     uuid = req.user.id
     name = req.user.name
     return render_to_response('index.html', {'username': name}, context_instance=RequestContext(req))
+
+@transaction.atomic
+def more_role(req):
+    if req.method == "POST":
+        req.session.clear()
+        un = req.POST['phone']
+        pw = req.POST['password']
+        role = req.POST.get('role',None)
+        if not role in ["coach","student","group","club"]:
+            messages.error(req, u"请选择正确的角色")
+            return redirect('/morerole')
+
+        v_code    = req.POST.get('v_code')
+        #检验手机验证码
+        p, msg = check_vcode(un, v_code)
+        if not p:
+            messages.error(req, msg,extra_tags='regist')
+            return redirect('/#signup-box')
+
+        user = None
+        if un and len(un) >0: #如果用用户名
+            user = authenticate(username=un.encode('utf-8'), password=pw)#用django自带函数检验
+        if user is not None:
+            # the password verified for the user
+            if user.is_active:
+                login(req, user) #django自带的login将userid写入session
+                roles = [r.get_role_display() for r in user.role.all()] #all()是取多对多值的办法
+                print "roles:",roles
+                if role in roles:
+                    messages.error(req, u"该角色已注册")
+                    mylogout(req)
+                    return redirect('/morerole')
+                r_id = get_role_id(role)
+                UserRole.objects.create(role_id=r_id, user_id=user.id)
+                if role == "coach":
+                    print "Create Coach"
+                    cp = CoachProperty(user=user)
+                    cp.save()
+                    Coach(property=cp).save()
+                elif role == "student":
+                    print "Create Student"
+                    sp = StudentProperty(user=user)
+                    sp.save()
+                    Student(property=sp).save()
+                elif role == "group":
+                    print "Create Group"
+                    g = Group(user=user)
+                    g.save()
+                elif role == "club":
+                    c = Club(user=user)
+                    c.save()
+                return HttpResponseRedirect('/%s'%role)
+            else:
+                return redirect('/morerole')
+        else:
+        # the authentication system was unable to verify the username and password
+            messages.error(req, u"用户名或密码错误")
+            return redirect('/morerole')
+    else:
+        form1 = CustomCaptcha("hidden1", "captcha1", "captcha-img1")
+        return render_to_response("more_role.html", {"form1":form1}, context_instance=RequestContext(req))
           
 @login_required()
 def mylogout(req):
@@ -246,42 +336,97 @@ def password(req):
         return render_to_response('password.html', {"phone":u.phone}, RequestContext(req))
 
 @login_required()
-@user_passes_test(lambda u: u.is_role(['coach_org','centre']))
+@user_passes_test(lambda u: u.is_role(['coach_org','centre','game_org']))
 def download_excel(req):
     t_id = req.GET.get("t_id",0)
+    g_id = req.GET.get("g_id",0)
     if t_id:
-        coachtrains = CoachTrain.objects.filter(train_id=t_id, status__gt=0)
+        coachtrains = CoachTrain.objects.filter(train_id=t_id)
         if not len(coachtrains):
             return HttpResponse(u"该培训暂无学员报名，不提供名单")
         train = coachtrains[0].train
         if train.pub_status: #如果已经发布，包括是否通过，证书号
-            fields = [u"学员姓名",  u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"证书编号"]
-            rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.certificate) for ct in coachtrains]
+            fields = [u"学员姓名",  u"性别", u"联系电话", u"邮箱", u"证件类型", u"证件编号", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"证书编号"]
+            rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.get_id_type_display(), ct.coach.property.identity, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.certificate) for ct in coachtrains]
         else:
-            fields = [u"学员姓名",  u"性别", u"联系方式", u"邮箱", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"付费状态"]
-            rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.get_status_display()) for ct in coachtrains]
+            fields = [u"学员姓名",  u"性别", u"联系电话", u"邮箱", u"证件类型", u"证件编号", u"出生日期", u"年龄", u"常驻地", u"工作单位", u"付费状态", u"费用类型"]
+            rows = [(ct.coach.property.name, ct.coach.property.get_sex_display(), ct.coach.property.user.phone, ct.coach.property.user.email, ct.coach.property.get_id_type_display(), ct.coach.property.identity, ct.coach.property.birth.strftime('%Y-%m-%d'), calculate_age(ct.coach.property.birth), join_position(ct.coach), ct.coach.property.company, ct.get_status_display(), ct.get_role_display()) for ct in coachtrains]
         return export_xls(req, "%s-%s"%(train.id,train.name), fields, rows)
+    elif g_id:
+        try:
+            game = Game.objects.get(id=g_id)
+        except:
+            return HttpResponse(u"无该比赛记录")
+        teams = Team.objects.filter(game=game)
+        for t in teams:
+            role = str(t.contestant.role)
+            if role == 'group':
+                t.Contestant = Group.objects.get(user=t.contestant.user)
+            elif role == 'club':
+                t.Contestant = Club.objects.get(user=t.contestant.user)
+            sts = StudentTeam.objects.filter(team=t)
+            t.girls = ",".join([st.student.property.name for st in sts if st.student.property.sex == 1])
+            t.boys = ",".join([st.student.property.name for st in sts if st.student.property.sex == 0])
+        if not len(teams):
+            return HttpResponse(u"该比赛暂无参赛队报名，不提供名单")
+        if not game.pub_status: 
+            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员(男)", u"参赛队员(女)"]
+            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.boys, t.girls) for t in teams]
+        else:#如果已经发布，包括是否通过，证书号
+            for t in teams:
+                tes = TeamEvent.objects.filter(team=t)
+                awards = ["%s:%s"%(te.event.get_name_display(), te.get_award_display()) for te in tes]
+                t.result = "\n".join(awards)
+            fields = [u"参赛机构", u"参赛队", u"领队", u"联系人", u"联系手机", u"联系邮箱", u"QQ", u"微信", u"地址", u"邮编", u"参赛队员(男)",u"参赛队员(女)", u"比赛结果"]
+            rows = [(t.Contestant.name, t.name, t.leader, t.contact_name, t.contact_phone, t.contact_email, t.contact_qq, t.contact_wx, t.address, t.postno, t.boys, t.girls, t.result) for t in teams]
+        return export_xls(req, "%s-%s"%(game.id,game.name), fields, rows)
 
 @login_required()
-@user_passes_test(lambda u: u.is_role(['coach','coach_org','centre']))
+@user_passes_test(lambda u: u.is_role(['coach','coach_org','centre','student','club','group','game_org']))
+#def download_qualification(req):
+#"""
+#利用cufon生成字体, 已不能用
+#"""
+#    #证书下载
+#    from sp.tools import cufon
+#    cert = req.GET.get("cert",0)
+#    if cert:
+#        try:
+#            uuid = req.user.id
+#            roles = UserRole.objects.filter(user__id=uuid).values_list('role', flat=True)
+#            ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
+#            URL = 'seed_qualification.html' if ct.train.level == TRAIN_LEVEL.SEED else 'qualification_cufon.html'
+#            if 0 in roles or 1 in roles: #如果是管理员级别的
+#                js = cufon.get_js(ct.coach.property.name)
+#                return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
+#            elif 3 in roles: #如果是本人
+#                if uuid == ct.coach.property.user.id:
+#                    js = cufon.get_js(ct.coach.property.name)
+#                    return render_to_response(URL, {"ct":ct, "cufon":js}, RequestContext(req))
+#                else: return HttpResponse(u"没有下载权限")
+#            else: return HttpResponse(u"没有下载权限")
+#        except Exception,e:
+#            print e
+#            return HttpResponse(u"证书获取出错")
+#    return HttpResponse(u"不存在相关证书")
+
 def download_qualification(req):
     #证书下载
-    from sp.tools import cufon
+    from sp.tools import hanzi_generator
     cert = req.GET.get("cert",0)
     if cert:
         try:
             uuid = req.user.id
             roles = UserRole.objects.filter(user__id=uuid).values_list('role', flat=True)
             ct = CoachTrain.objects.get(certificate=cert, pass_status=1)
+            URL = 'seed_qualification.html' if ct.train.level == TRAIN_LEVEL.SEED else 'qualification.html'
             if 0 in roles or 1 in roles: #如果是管理员级别的
-                js = cufon.get_js(ct.coach.property.name)
-                print js
-                return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
+                words = hanzi_generator.get_word_src(ct.coach.property.name)
+                return render_to_response(URL, {"ct":ct, "name_src":words}, RequestContext(req))
             elif 3 in roles: #如果是本人
                 if uuid == ct.coach.property.user.id:
-                    js = cufon.get_js(ct.coach.property.name)
-                    #print js
-                    return render_to_response('qualification.html', {"ct":ct, "cufon":js}, RequestContext(req))
+                    words = hanzi_generator.get_word_src(ct.coach.property.name)
+                    return render_to_response(URL, {"ct":ct, "name_src":words}, RequestContext(req))
                 else: return HttpResponse(u"没有下载权限")
             else: return HttpResponse(u"没有下载权限")
         except Exception,e:

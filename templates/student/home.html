@@ -1,36 +1,18 @@
+{% extends "./student/base.html" %}
+{% block content %}
+{{ block.super }}
 <!--[if lte IE 8]>
- <script src="http://sunny-sports.qiniudn.com/static/js/excanvas.min.js"></script>
+<script src="http://sunny-sports.qiniudn.com/static/js/excanvas.min.js"></script>
 <![endif]-->
-<script src="http://sunny-sports.qiniudn.com/static/js/jquery.easypiechart.min.js"></script>
-<script src="http://sunny-sports.qiniudn.com/static/js/jquery.easy-pie-chart-older.js"></script>
-<script type="text/javascript">
-jQuery(function($) {
-    $('.easy-pie-chart.percentage').each(function(){
-                    var $box = $(this).closest('.infobox');
-                    var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
-                    var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
-                    var size = parseInt($(this).data('size')) || 50;
-                    $(this).easyPieChart({
-                        barColor: barColor,
-                        trackColor: trackColor,
-                        scaleColor: false,
-                        lineCap: 'butt',
-                        lineWidth: parseInt(size/10),
-                        animate: /msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()) ? false : 1000,
-                        size: size
-                    });
-                })
-});
-</script>
-
 <div class="page-header"><h1>首页</h1></div>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-3 center">
+    <div class="col-sm-1"></div>
+    <div class="col-xs-10 col-sm-3 center">
         <div>
             <!-- #section:pages/profile.picture -->
             <span class="profile-picture">
-                <img id="avatar" src="http://sunny-sports.qiniudn.com/static/avatars/profile-pic.jpg" />
+                <img id="avatar" src="{{PHOTO_ROOT}}{{student.property.avatar}}" />
             </span>
 
             <!-- /section:pages/profile.picture -->
@@ -38,7 +20,7 @@ jQuery(function($) {
 
             <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
                 <div class="inline position-relative">
-                    <span class="white">张三</span>
+                    <span class="white">{{student.property.user.nickname|default_if_none:""}}</span>
                 </div>
             </div>
         </div>
@@ -48,33 +30,29 @@ jQuery(function($) {
         <!-- #section:pages/profile.contact -->
         <div class="profile-contact-info">
             <div class="profile-contact-links align-left">
-                <a class="btn btn-link">
+                <a class="btn btn-link" style="text-decoration:none;cursor:default">
                     <i class="ace-icon fa fa-phone bigger-120 green"></i>
-                    13333333333
+                    {{student.property.user.phone}}
                 </a>
 
-                <a class="btn btn-link">
+                <a class="btn btn-link" style="text-decoration:none;cursor:default">
                     <i class="ace-icon fa fa-comment bigger-125 blue"></i>
-                    435673454
-                </a>
-
-                <a class="btn btn-link">
-                    <i class="ace-icon fa fa-envelope bigger-120 pink"></i>
-                    moumoug@gmail.com
+                    {{student.property.user.email|default_if_none:""}}
                 </a>
             </div>
         </div>
     </div>
 
-    <div class="col-xs-12 col-sm-9">
+    <div class="col-sm-1"></div>
+    <div class="col-xs-12 col-sm-6">
         <div class="space-10"></div>
-        <div class="col-sm-12">
+        <div class="col-sm-11">
         <div class="profile-user-info">
             <div class="profile-info-row">
                 <div class="profile-info-name"> 姓名 </div>
 
                 <div class="profile-info-value">
-                    <span>张三</span>
+                    <span>{{student.property.name}}</span>
                 </div>
             </div>
 
@@ -83,72 +61,43 @@ jQuery(function($) {
 
                 <div class="profile-info-value">
                     <i class="fa fa-map-marker light-orange bigger-110"></i>
-                    <span>北京</span>
-                    <span>海淀</span>
+                    <span>{{student.property.province}}</span>
+                    <span>{{student.property.city}}</span>
+                    <span>{{student.property.dist}}</span>
+                    <span>{{student.property.address}}</span>
                 </div>
             </div>
 
             <div class="profile-info-row">
                 <div class="profile-info-name"> 年龄 </div>
-
                 <div class="profile-info-value">
-                    <span>9</span>
+                        <span>{{student.property.age}}</span>
                 </div>
             </div>
 
             <div class="profile-info-row">
                 <div class="profile-info-name"> 所属俱乐部 </div>
-
                 <div class="profile-info-value">
-                    <span>funny</span>
+                    <span>{{student.club_id}}</span>
                 </div>
             </div>
     
             <div class="profile-info-row">
                 <div class="profile-info-name"> 等级 </div>
-
                 <div class="profile-info-value">
-                    <span>1</span>
+                    <span>{{student.get_level_display}}</span>
                 </div>
             </div>
-    
-            <div class="profile-info-row">
-                <div class="profile-info-name"> 等级获得时间 </div>
-
-                <div class="profile-info-value">
-                    <span>3 hours ago</span>
-                </div>
-            </div>
-            <div class="profile-info-row">
-            <div class="profile-info-name"> 最后一次登录 </div>
-
-            <div class="profile-info-value">
-                <span>3 hours ago</span>
-            </div>
         </div>
-        </div>
-        </div>
-    <div class="col-sm-12">
-        <span class="btn btn-app btn-sm btn-success no-hover">
-            <span class="line-height-1 bigger-170"><i class="fa fa-trophy"></i></span>
-
-            <br />
-            <span class="line-height-1 smaller-90"> 初级荣誉 </span>
-        </span>
-        <span class="btn btn-app btn-sm btn-primary no-hover">
-            <span class="line-height-1 bigger-170"><i class="fa fa-bookmark"></i></span>
-
-            <br />
-            <span class="line-height-1 smaller-90"> 初级徽章 </span>
-        </span>
     </div>
 </div>
-</div>
+    </div>
 
 <div class="space-20"></div>
 
 <div class="row">
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-sm-1"></div>
+    <div class="col-xs-12 col-sm-5">
         <div class="widget-box transparent">
             <div class="widget-header widget-header-small header-color-blue2">
                 <h4 class="widget-title smaller">
@@ -161,47 +110,62 @@ jQuery(function($) {
                 <div class="widget-main">
                     <div class="profile-activity clearfix">
                         <i class="pull-left thumbicon fa fa-check btn-success no-hover"></i>
-                        已通过：1-3级
+                        已通过：{{student.level}}级
                     </div>
+                    <!--
                     <div class="profile-activity clearfix">
                         <i class="pull-left thumbicon fa fa-pencil btn-warning no-hover"></i>
-                        <a data-url="judge/train" href="#page/judge/train">可报名：4级</a>
+                        <a data-url="judge/train" href="#page/judge/train">可报名：{{student.level|add:"1"}}级</a>
                     </div>
                     <div class="profile-activity clearfix">
                         <i class="pull-left thumbicon fa fa-pencil-square-o btn-yellow no-hover"></i>
-                        进行中：4级
+                        进行中：{{student.level|add:"1"}}级
                     </div>
-                    <div class="profile-activity clearfix">
-                        <i class="pull-left thumbicon fa fa-ban btn-pink no-hover"></i>
-                        未通过：5-10级
-                    </div>
+                    -->
 
-                    <!-- /section:pages/profile.skill-progress -->
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12 col-sm-5">
         <div class="widget-box transparent">
             <div class="widget-header widget-header-small header-color-blue2">
                 <h4 class="widget-title smaller">
                     <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
-                    比赛
+                    进行中比赛
                 </h4>
             </div>
 
             <div class="widget-body">
                 <div class="widget-main">
+                    {% if cur_game %}
                     <div class="profile-activity clearfix">
                         <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
-                        &nbsp;进行中的比赛：&nbsp;第八套体操比赛
+                        <a href="/student/cur_game">{{cur_game.name}}</a>
                     </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-small header-color-blue2">
+                <h4 class="widget-title smaller">
+                    <i class="ace-icon fa fa-lightbulb-o bigger-120"></i>
+                    历史比赛
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    {% for game in games %}
                     <div class="profile-activity clearfix">
                         <i class="pull-left ace-icon fa fa-circle green no-hover"></i>
-                        &nbsp;已参加的比赛：&nbsp;第七套体操比赛，第六套体操比赛，第五套体操比赛
+                        <a href="/student/history_game?g_id={{game.id}}">{{game.name}}</a>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}

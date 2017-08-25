@@ -3,6 +3,30 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta charset="utf-8" />
+
+        <!--
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+        -->
+
+    <link rel="shortcut icon" type="image/png" href="{{ICO_URL}}/favicon.ico"/>
+
         <title>{% block title %}{% endblock %}</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -10,28 +34,28 @@
         {% block head %}
 
         <!-- bootstrap & fontawesome -->
-        <link rel="stylesheet" href="../../static/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="../../static/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
 
         <!-- text fonts -->
-        <link rel="stylesheet" href="../../static/css/ace-fonts.css" />
+        <link rel="stylesheet" href="/static/css/ace-fonts.css" />
 
         <!-- ace styles -->
-        <link rel="stylesheet" href="../../static/css/ace.min.css" id="main-ace-style" />
+        <link rel="stylesheet" href="/static/css/ace.min.css" id="main-ace-style" />
 
         <!--[if lte IE 9]>
-        <link rel="stylesheet" href="../../static/css/ace-part2.min.css" />
+        <link rel="stylesheet" href="/static/css/ace-part2.min.css" />
         <![endif]-->
-        <link rel="stylesheet" href="../../static/css/ace-skins.min.css" />
-        <link rel="stylesheet" href="../../static/css/ace-rtl.min.css" />
+        <link rel="stylesheet" href="/static/css/ace-skins.min.css" />
+        <link rel="stylesheet" href="/static/css/ace-rtl.min.css" />
 
         <!--[if lte IE 9]>
           <link rel="stylesheet" href="../../assets/css/ace-ie.min.css" />
         <![endif]-->
 
         <!-- page specific plugin styles -->
-        <link rel="stylesheet" href="../../static/css/jquery-ui.custom.min.css" />
-        <link rel="stylesheet" href="../../static/css/jquery.gritter.css" />
+        <link rel="stylesheet" href="/static/css/jquery-ui.custom.min.css" />
+        <link rel="stylesheet" href="/static/css/jquery.gritter.css" />
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -55,31 +79,31 @@
         <!-- basic scripts -->
         <!--[if !IE]> -->
         <script type="text/javascript">
-            window.jQuery || document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
+            window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>'); 
             </script>
             <!-- <![endif]-->
 
 
             <!--[if IE]>
         <script type="text/javascript">
-            //window.jQuery || document.write('<script src="../../static/js/jquery-1.11.2.js"><\/script>'); 
-            window.jQuery || document.write('<script src="../../static/js/jquery1x.min.js"><\/script>'); 
-            //document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+            //window.jQuery || document.write('<script src="/static/js/jquery-1.11.2.js"><\/script>'); 
+            window.jQuery || document.write('<script src="/static/js/jquery1x.min.js"><\/script>'); 
+            //document.write('<script src="/static/js/ieBetter.js"><\/script>'); 
             if (!document.addEventListener) {
                 // IE6~IE8
-               //     document.write('<script src="../../static/js/ieBetter.js"><\/script>'); 
+               //     document.write('<script src="/static/js/ieBetter.js"><\/script>'); 
                         }
             </script>
                     <![endif]-->
 
 
                     <!--[if lte IE 9]>
-                    <link rel="stylesheet" href="../../static/css/ace-ie.min.css" />
+                    <link rel="stylesheet" href="/static/css/ace-ie.min.css" />
                     <![endif]-->
 
                     <script type="text/javascript">
                         if('ontouchstart' in document.documentElement) 
-                            document.write("<script src='../../static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+                            document.write("<script src='/static/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
                             </script>
 
                             {% endblock %}
@@ -162,22 +186,22 @@
 
                             <!-- basic scripts -->
 
-                            <script src="../../static/js/jquery-ui.min.js"></script>
-                            <script src="../../static/js/jquery.hotkeys.min.js"></script>
-                            <script src="../../static/js/bootstrap.min.js"></script>
+                            <script src="/static/js/jquery-ui.min.js"></script>
+                            <script src="/static/js/jquery.hotkeys.min.js"></script>
+                            <script src="/static/js/bootstrap.min.js"></script>
 
                             <!-- ace scripts -->
-                            <script src="../../static/js/ace.min.js"></script>
-                            <script src="../../static/js/ace-elements.min.js"></script>
+                            <script src="/static/js/ace.min.js"></script>
+                            <script src="/static/js/ace-elements.min.js"></script>
 
                             <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
                             <!--[if lte IE 8]>
-                            <script src="../../static/js/html5shiv.js"></script>
-                            <script src="../../static/js/respond.min.js"></script>
+                            <script src="/static/js/html5shiv.js"></script>
+                            <script src="/static/js/respond.min.js"></script>
                             <![endif]-->
 
-                            <script src="../../static/custom/base.js"></script>
+                            <script src="/static/custom/base.js"></script>
 
                             <script type="text/javascript">
                                 //Load content via ajax

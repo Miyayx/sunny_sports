@@ -22,6 +22,7 @@ from captcha.helpers import captcha_image_url
 
 from sp.models.models import *
 from sp.models import *
+from game.models import *
 
 from utils import *
 
@@ -168,7 +169,7 @@ class MessagePublishForm(forms.Form):
 class TrainPublishForm(ModelForm):
     class Meta:
         model = Train
-        fields = ['org','name','demo','address','level','limit','money','reg_stime','reg_etime','train_stime','train_etime']
+        fields = ['org','name','demo','province', 'city', 'dist', 'address','level','limit','money','student_money','reg_stime','reg_etime','train_stime','train_etime']
 
     def is_valid(self):
         if super(TrainPublishForm, self).is_valid():
@@ -195,15 +196,56 @@ class TrainPublishForm(ModelForm):
             instance.save()
         return instance
 
+class GamePublishForm(ModelForm):
+    class Meta:
+        model = Game
+        fields = ['org','name','description','sponsor','organizer','coorganizer', 'schedule', 'province', 'city', 'dist', 'address', 'events', 'limit','male_num','female_num', 'total_num', 'money','reg_place', 'reg_stime','reg_etime','game_stime','game_etime', 'contact_name', 'contact_phone', 'contact_email']
+
+    def is_valid(self):
+        if super(GamePublishForm, self).is_valid():
+            if self.cleaned_data['reg_stime'] > self.cleaned_data['reg_etime']:
+                self._errors['error'] = u"结束时间早于开始时间"
+                print self._errors['error']
+                return False
+            elif self.cleaned_data['reg_etime'] > self.cleaned_data['game_stime']:
+                self._errors['error'] = u"比赛时间早于报名时间"
+                print self._errors['error']
+                return False
+            elif self.cleaned_data['game_stime'] > self.cleaned_data['game_etime']:
+                self._errors['error'] = u"结束时间早于开始时间"
+                print self._errors['error']
+                return False
+            if len(self.cleaned_data['contact_name'].strip()) == 0:
+                self._errors['error'] = u"联系人必填"
+                return False
+            if len(self.cleaned_data['contact_phone'].strip()) == 0:
+                self._errors['error'] = u"联系方式必填"
+                return False
+            if len(self.cleaned_data['province'].strip()) == 0:
+                self._errors['error'] = u"地址必填"
+                return False
+            if len(self.cleaned_data['city'].strip()) == 0:
+                self._errors['error'] = u"地址必填"
+                return False
+            if len(self.cleaned_data['dist'].strip()) == 0:
+                self._errors['error'] = u"地址必填"
+                return False
+
+            return True
+        else:
+            return False
+
+    def save(self, commit=True):
+        instance = super(GamePublishForm, self).save(commit=False)
+        instance.reg_status = 1 if instance.reg_stime < timezone.now() and instance.pass_status else 0
+        if commit:
+            instance.save()
+        return instance
+
 class CoachPropertyForm(ModelForm):
     class Meta:
         model = CoachProperty
         fields = ['name','sex','identity','avatar','company','province','city','dist','address']
-
-
-#头像上传
-class UserForm(forms.Form):
-    headImg = forms.FileField()
 
 #验证码
 class CaptchaForm(forms.Form):

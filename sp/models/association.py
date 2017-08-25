@@ -31,11 +31,12 @@ class CoachTrain(models.Model):
     train = models.ForeignKey(Train)
     score = models.IntegerField(default=0) 
     status = models.IntegerField(default=0,choices=ROLE_TRAIN_STATUS)
-    pass_status = models.IntegerField(default=0,choices=ROLE_TRAIN_PASS_STATUS)
+    pass_status = models.IntegerField(default=0,choices=ROLE_TRAIN_PASS_STATUS) #是否通过
     certificate = models.CharField(max_length=100, null=True) #证书编号
     reg_time = models.DateTimeField(default=datetime.datetime.now) #报名时间
     get_time = models.DateTimeField(null=True) #通过时间
     bill = models.OneToOneField(Bill, null=True)
+    role = models.IntegerField(default=0,choices=COACH_ROLE)
     
     objects = CoachTrainManager()
 
@@ -66,44 +67,3 @@ class CoachTrain(models.Model):
         self.train.save()
         super(CoachTrain, self).delete(*args, **kwargs)
 
-
-#class StudentTeam(models.Model):
-#    team = models.ForeignKey(Team)
-#    student = models.ForeignKey(Student)
-#    game = models.ForeignKey(Game)
-#    stu_number = models.CharField(max_length=20)
-#    stu_status = models.IntegerField()
-#    class Meta:
-#        app_label='sp'
-#    
-#class GameEvent(models.Model):
-#    game = models.ForeignKey(Game)
-#    event = models.ForeignKey(Event)
-#    property = models.IntegerField()
-#    umpires = models.CharField(max_length=20)
-#    class Meta:
-#        app_label='sp'
-#    
-#class TeamGame(models.Model):
-#    team = models.ForeignKey(Team)
-#    game = models.ForeignKey(Game)
-#    team_num = models.CharField(max_length=20)
-#    team_name = models.CharField(max_length=30)
-#    team_principal = models.CharField(max_length=20)
-#    prin_contact = models.CharField(max_length=30)
-#    team_status = models.IntegerField()
-#    score = models.IntegerField()
-#    award = models.CharField(max_length=50)
-#    pay_status = models.IntegerField()
-#    members = models.CharField(max_length=100)
-#    class Meta:
-#        app_label='sp'
-#    
-#class StudentEvent(models.Model):
-#    event = models.ForeignKey(GameEvent)
-#    stu_number = models.CharField(max_length=20)
-#    team_num = models.CharField(max_length=20)
-#    score = models.IntegerField()
-#    award = models.CharField(max_length=50)
-#    class Meta:
-#        app_label='sp'

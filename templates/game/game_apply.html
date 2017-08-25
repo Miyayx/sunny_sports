@@ -1,0 +1,425 @@
+
+{% extends base %}
+<!--
+重载head部分，主要是添加meta，css，js一类
+-->
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="/static/css/bootstrap-tagsinput.css">
+
+<style type="text/css">
+    .bootstrap-tagsinput{
+        display:block;
+        margin-bottom:0px;
+        border-radius:0px;
+        line-height:26px;
+    }
+</style>
+{% endblock %}
+<!--
+重载页面部分
+-->
+{% block content%}
+{{ block.super }}
+
+<div class="page-header"><h1> 填写报名信息 </h1></div>
+
+<div class="row">
+
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+
+        <div class="space"></div>
+        <div class="col-sm-10">
+            <ul class="list-unstyled spaced2">
+                <li><i class="ace-icon fa fa-circle green"></i>
+                <font size="3px"><b>比赛名称：</b></font>
+                &nbsp;{{game.name}}<p/>
+                </li>
+                <li><i class="ace-icon fa fa-circle green"></i>
+                <font size="3px"><b>比赛机构：</b></font>
+                &nbsp;{{game.org.name}}<p/>
+                </li>
+                <li><i class="ace-icon fa fa-circle green"></i>
+                <font size="3px"><b>联系人：</b></font>
+                &nbsp;{{game.contact_name}}, {{game.contact_phone}}, {{game.contact_email}}<p/>
+                </li>
+                <li><i class="ace-icon fa fa-circle green"></i>
+                <font size="3px"><b>费用：</b></font>
+                &nbsp;{{game.money}}元/人<p/>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="col-sm-10">
+            <!--
+            <div class="alert alert-info">此处资料来源于个人信息，编辑同时会更新原有个人信息</div>
+            -->
+            <form class="form-horizontal" role="form" id='team-form' >
+                <input type="hidden" name="csrfmiddlewaretoken" id="token" style="display:none" value="{{csrf_token}}">
+                <input type="hidden" name="game" id="game_id" style="display:none"/ value="{{game.id}}">
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >机构名称<label class="red">*</label></label>
+                        <div class="col-sm-4">
+                            {% if group.name|length == 0 %}
+                            <input type="text" id="group-name" name="group_name" value="{{group.name}}" required="required">
+                            {% else %}
+                            <input type="text" id="group-name" name="group_name" value="{{group.name}}" required="required" disabled="disabled">
+                            {% endif %}
+                        </div>
+                        <label class="col-sm-2 control-label no-padding-right" >工商执照注册号</label>
+                        <div class="col-sm-4">
+                            <span>
+                                {% if group.org_num|length == 0 %}
+                                <input type="text" id="group-id" name="group_id" value="{{group.org_num}}">
+                                {% else %}
+                                <input type="text" id="group-id" name="group_id" value="{{group.org_num}}" disabled="disabled">
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >法人姓名<label class="red">*</label></label>
+                        <div class="col-sm-3">
+                            {% if group.corporator|length == 0 %}
+                            <input type="text" id="corporator" name="corporator" value="{{group.corporator}}" required="required">
+                            {% else %}
+                            <input type="text" id="corporator" name="corporator" value="{{group.corporator}}" required="required" disabled="disabled">
+                            {% endif %}
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" >办公电话（座机）<label class="red">*</label></label>
+                        <div class="col-sm-3">
+                            <span>
+                                {% if group.office_num|length == 0 %}
+                                <input type="text" id="off-num" name="office_num" value="{{group.office_num}}" required="required">
+                                {% else %}
+                                <input type="text" id="off-num" name="office_num" value="{{group.office_num}}" required="required" disabled="disabled">
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >机构名称缩写<label class="red">*</label></label>
+                        <div class="col-sm-4">
+                            {% if group.shortname|length == 0 %}
+                            <input type="text" id="shortname" name="shortname" value="{{group.shortname}}" required="required">
+                            {% else %}
+                            <input type="text" id="shortname" name="shortname" value="{{group.shortname}}" required="required" disabled="disabled">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space"></div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >参赛队名<label class="red">*</label></label>
+                        <div class="col-sm-9">
+                            <span >
+                                <input type="text" id="team-name" name="name" value="{{team.name}}" required="required" >
+                                <p class="red">报名后不可更改</p>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p class="col-sm-offset-2 blue">请添加规定数量的队员，比赛前可更改队员</p>
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-tags">添加<b>男</b>队员({{game.male_num}}人)<label class="red">*</label></label>
+                        <div class="col-sm-9">
+                            <input type="text" id="boys-input" placeholder="输入手机号并回车">
+                            <p class='wrong-alert red'></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="form-field-tags">添加<b>女</b>队员({{game.female_num}}人)<label class="red">*</label></label>
+                        <div class="col-sm-9">
+                            <input type="text" id="girls-input" placeholder="输入手机号并回车">
+                            <p class='wrong-alert red'></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >领队<label class="red">*</label></label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="leader" name="leader" value="{{team.leader}}" required="required" >
+                            </span>
+                        </div>
+                        <label class="col-sm-2 control-label no-padding-right" >联系人<label class="red">*</label></label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="c-name" name="contact_name" value="{{team.contact_name}}" required="required">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >联系人手机<label class="red">*</label></label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="c-phone" name="contact_phone" value="{{team.contact_phone}}" required="required" >
+                            </span>
+                        </div>
+                        <label class="col-sm-2 control-label no-padding-right" >联系人E-mail<label class="red">*</label></label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="c-email" name="contact_email" value="{{team.contact_email}}" required="required" >
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >联系人QQ</label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="c-qq" name="contact_qq" value="{{team.contact_qq}}">
+                            </span>
+                        </div>
+                        <label class="col-sm-2 control-label no-padding-right" >联系人微信</label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="c-wx" name="contact_wx" value="{{team.contact_wx}}">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >邮寄地址</label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="addr" name="address" value="{{team.address}}">
+                            </span>
+                        </div>
+                        <label class="col-sm-2 control-label no-padding-right" >邮编</label>
+                        <div class="col-sm-4">
+                            <span>
+                                <input type="text" id="postno" name="postno" value="{{team.postno}}">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" >备注</label>
+                        <div class="col-sm-9">
+                            <span>
+                                <textarea placeholder="其他信息，如教练、医生等随队人员信息" type="text" id="other" name="other_info" style="width:100%" rows="3">{{team.other_info}}</textarea>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <p class="col-sm-10 col-sm-offset-1">带<label class="red">*</label>为必填项</p>
+
+            <div class="space"></div>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-8">
+                    <a class="btn btn-info" type="submit" id="save-btn">
+                        <i class="ace-icon fa fa-check bigger-110"></i> 确认信息并报名
+                    </a>
+                </div>
+            </div>
+            <form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/bootbox.min.js"></script>
+    <!--
+    <script src="/static/js/bootstrap-tagsinput.js"></script>
+    <script src="/static/js/typeahead.js"></script>
+    -->
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+    <script src="/static/js/jquery.validate.messages_cn.js" type="text/javascript"></script>
+    <!-- page specific plugin scripts -->
+
+    <!--[if lte IE 8]>
+    <script src="../../static/js/excanvas.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+
+        $('.wrong-alert').hide();
+
+        //$('#mem-tags').tagsinput({
+            //    itemText: 'name',
+            //    itemValue: 'uuid',
+            //    allowDuplicates:true,
+            //    //typeaheadjs: {
+                //        //    source: function(query){return [{id:1, label:'aaa'},
+                    //            //        {id:2, label:'bbb'}]}
+                    //            //}
+    //});
+
+    //var $tags = $('#mem-tags');
+    //$tags.on('itemRemoved', function(event) { //删除一个tag
+        //                if ($('.bootstrap-tagsinput span.tag').length < {{game.total_num}})
+            //                    $('.bootstrap-tagsinput input').show(); //数量少于限制可再输入
+    //      });
+    //var $elt = $tags.tagsinput('input');
+    //$elt.keydown(function(e){
+        //    if (e.keyCode == 13 || e.keyCode == 44){
+            //        var phone = $elt.val();
+            //        $.get('/find_stu/'+phone, function(d){
+                //            if(d.name && d.gender && d.name.length > 0 && d.gender.length > 0){
+                    //                $('#wrong-alert').hide();
+                    //                d.name = d.name +","+d.gender;
+                    //                console.log(d.name)
+                    //                $tags.tagsinput('add', d);
+                    //                $elt.val('');
+                    //                $elt.attr('size',20);
+                    //                if ($('.bootstrap-tagsinput span.tag').length >= {{game.total_num}})
+                        //                    $('.bootstrap-tagsinput input').hide(); //数量超过限制不再输入
+
+                    //            }else{
+                        //                if(d.success == false){
+                            //                    $('#wrong-alert').text('该学员已报名其他比赛');
+                            //                    $('#wrong-alert').show();
+                            //                }else{
+                                //                    $('#wrong-alert').text('未找到相应学员');
+                                //                    $('#wrong-alert').show();
+                                //                }
+                                //            }
+    //        });
+    //    }
+    //});
+
+
+    jQuery(function($) {
+
+        var add_member = function($input, g, color, limit){
+            $input.parent().find('span.badge').click(function(){
+                $(this).parent().remove();
+                if ($input.parent().find('span.label').length >= limit)
+                    $input.hide(); //数量超过限制不再输入
+                else
+                    $input.show(); //
+
+            });
+
+            $input.keydown(function(e){
+                if (e.keyCode == 13 || e.keyCode == 44){
+                    $al = $input.parent().find('.wrong-alert');
+                    var phone = $.trim($input.val());
+                    $.get('/find_stu/'+phone+'/'+g, function(d){
+                        if(d.name && d.gender && d.name.length > 0 && d.gender.length > 0){
+                            $input.val("");
+                            $al.hide();
+                            d.name = d.name +","+d.gender;
+                            console.log(d.name);
+                            $span = $('<span class="label label-'+color+' label-lg" style="margin-right:5px">'+d.name+'<span class="phone-span" style="display:none">'+phone+'</span><span class="badge" style="margin-left:6px; cursor:pointer">x</span></span>');
+                            $span.find('span.badge').click(function(){
+                                $(this).parent().remove();
+                                if ($input.parent().find('span.label').length >= limit)
+                                    $input.hide(); //数量超过限制不再输入
+                                else
+                                    $input.show(); //
+
+                            });
+                            $span.insertBefore($input);
+                            if ($input.parent().find('span.label').length >= limit)
+                                $input.hide(); //数量超过限制不再输入
+
+                        }else{
+                            if(d.success == false){
+                                $al.text('该学员已报名其他比赛');
+                                $al.show();
+                            }else{
+                                $al.text('未找到相应学员');
+                                $al.show();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        var $ginput = $("#girls-input");
+        var $binput = $("#boys-input");
+
+        add_member($ginput, 1, "pink", {{game.female_num}});
+        add_member($binput, 0, "info", {{game.male_num}});
+
+        $( "#team-form" ).validate({
+            rules: {
+                contact_email: {
+                    required: true,
+                    email: true
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                error.appendTo(element.closest('.form-group span'));
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+
+        $('#save-btn').click(function(e){
+            e.preventDefault();
+            if (!$('#team-form').valid()) return;
+            //$('#team-form').removeAttr('novalidate');
+            if ($ginput.parent().find('span.label').length < {{game.female_num}} || $binput.parent().find('span.label').length < {{game.male_num}} ){
+                alert("队员人数未满");
+                return;
+            }
+            var mems = [];
+            $(".phone-span").each(function() { mems.push($(this).text()) });
+            var data = $('#team-form').serializeArray();                                                                                                 
+            data.push({name:'member', value: mems.join(',')});
+            //var data = $('#team-form').serialize();
+            //$.post('/{{role}}/game_apply',data,function(data){
+                $.post('/{{role}}/game_apply/{{game.id}}',$.param(data),function(data){
+                    if(data && data['success']){
+                        bootbox.dialog({
+                            //message: '<h4>报名成功，请在<b>24小时</b>之内付款</h4>',
+                            message: '<h4>报名成功，别忘了付款哦～',
+                            buttons: {
+                                success: {
+                                    label: "马上付款",
+                                    className: "btn-success",
+                                    callback: function() {
+                                        window.location.href="/game/pay/"+data.t_id;
+                                    }
+                                },
+                                main: {
+                                    label: "稍后付款",
+                                    className: "btn-primary",
+                                    callback: function() {
+                                        window.location.href="/{{role}}/cur_game/{{game.id}}/"+data.t_id;
+                                    }
+                                }
+                            }
+                        });
+                    }else{
+                        alert(data.msg);
+                    }
+                });
+        });
+    });
+
+</script>
+{% endblock %}

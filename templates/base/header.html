@@ -21,10 +21,13 @@
     <div class="navbar-header pull-left">
       <!-- #section:basics/navbar.layout.brand -->
       <a href="#" class="navbar-brand">
+      <!--
         <small>
           <i class="fa fa-leaf"></i>
           快乐体操
         </small>
+      -->
+      <img src="/static/images/header-logo.png">
       </a>
 
       <!-- /section:basics/navbar.layout.brand -->
@@ -38,8 +41,13 @@
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
       <ul class="nav ace-nav">
 
+        <li class="purple" id="switch-box" style="display:none">
+        </li>
+
+        <!--
         <li class="green" id="msg-box">
         </li>
+        -->
 
         <!-- #section:basics/navbar.logout -->
         <li class="grey">
@@ -60,11 +68,21 @@
 <script type="text/javascript">
 
   jQuery(function(){
+    //$.ajax({
+    //  type: "GET",
+    //  url: "/msg", 
+    //  success : function(data) {
+    //    $('#msg-box').html(data);
+    //  }
+    //});
+
     $.ajax({
       type: "GET",
-      url: "/msg", 
+      url: "/switch", 
       success : function(data) {
-        $('#msg-box').html(data);
+        if (data.length > 0 )
+            $('#switch-box').html(data);
+            $('#switch-box').show();
       }
     });
   });

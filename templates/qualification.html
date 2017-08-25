@@ -10,14 +10,13 @@
               document.write('<script src="../../static/js/jquery.min.js"><\/script>'); 
               }
             </script>
-            <script src="../../static/js/jspdf.min.js"></script>
-            <script src="../../static/js/html2canvas.min.js"></script>
-            <script src="../../static/js/cufon/cufon-yui.js"></script>
+            <script src="/static/js/jspdf.min.js"></script>
+            <script src="/static/js/html2canvas.min.js"></script>
+            <script src="/static/js/cufon/cufon-yui.js"></script>
           </head>
           <body>
-            <script type="text/javascript"> {{ cufon|safe }} </script>
             <script type="text/javascript"> Cufon.now(); </script>
-            <script src="../../static/js/cufon/fangsong.font.js"></script>
+            <script src="/static/js/cufon/fangsong.font.js"></script>
             <script>
               $(function(){
                 var img = new Image();
@@ -35,12 +34,12 @@
                   var name_ratio = 0.04;
                   var date_ratio = 0.03;
                   var cert_ratio = 0.02;
-                  var name = "{{ct.coach.property.name}}"
+                  var name = "{{ct.coach.property.name}}";
                   if (name.length == 2){
                       name=name[0]+" "+name[1];
                     }
 
-                    var $name;
+                  var $name;
                   if (name.length == 4)
                     $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.18+';font-size:'+width*name_ratio+'px"></span>');
                   else if(name.replace(' ','').length == 2)
@@ -49,6 +48,10 @@
                     $name = $('<span class="name" style="position:absolute;top:'+height*0.425+';left:'+width*0.2+';font-size:'+width*name_ratio+'px"></span>');
                   for(var i in name)
                   $name.append($('<span>'+name[i]+'</span>'));
+
+                  //{% for src in name_src %}
+                  //$name.append($('<span><img src="'+"{{src}}"+'"></span>'));
+                  //{% endfor %}
                   //train start time
                   var $s_y = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.38+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.year}}</span>');
                   var $s_m = $('<span class="number" style="position:absolute;top:'+height*0.445+';left:'+width*0.5+';font-size:'+width*date_ratio+'px">{{ct.train.train_stime.month}}</span>');
@@ -91,12 +94,6 @@
                   Cufon.set('fontFamily', 'FangSong_GB2312');
                   //Cufon.set('fontFamily', 'STXingkai');
                   Cufon.replace('span.number');
-
-                  //姓名字体
-                  //Cufon.set('fontFamily', 'KaiTi_GB2312');
-                  Cufon.set('fontFamily', 'STXingkai');
-                  Cufon.set('fontSize', width*name_ratio+'px');
-                  Cufon.replace('span.name');
 
                   //对没有渲染体的特殊字
                   $('span.name').find('span').each(function(i,v){

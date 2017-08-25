@@ -4,21 +4,23 @@ import os
 import sys
 import django
 
+
+
 def init():
-    r0 = Role(0)
-    r0.save()
-    r1 = Role(1)
-    r1.save()
-    r2 = Role(2)
-    r2.save()
-    r3 = Role(3)
-    r3.save()
-    r4 = Role(4)
-    r4.save()
-    r5 = Role(5)
-    r5.save()
-    
-    u0 = MyUser.objects.create_superuser("00000", "centre", "", role=0, password="centre")
+    #r0 = Role(0)
+    #r0.save()
+    #r1 = Role(1)
+    #r1.save()
+    #r2 = Role(2)
+    #r2.save()
+    #r3 = Role(3)
+    #r3.save()
+    #r4 = Role(4)
+    #r4.save()
+    #r5 = Role(5)
+    #r5.save()
+    #
+    #u0 = MyUser.objects.create_superuser("00000", "centre", "", role=0, password="centre")
     #u1 = MyUser.objects.create_user("11111", "org1","org1@test.com", 1, "org")
     #u11 = MyUser.objects.create_user("111111", "org2","org2@test.com", 1, "org")
     #u2 = MyUser.objects.create_user("22222", "student","student@test.com", 2, "student")
@@ -44,6 +46,15 @@ def init():
     #
     #c_t = association.CoachTrain(coach=c1, train=train1)
     #c_t.save()
+
+    #Event(name=0).save()
+    #Event(name=1).save()
+    #Event(name=2).save()
+    #Event(name=3).save()
+
+    u0 = MyUser.objects.get(phone="00000")
+    u0.set_password("kuaileticaocentre")
+    u0.save()
     
 def new_data():
     #pass #新数据的添加写在这里，把pass删掉
@@ -65,6 +76,8 @@ if __name__ == "__main__":
     import datetime
     from sp.models import *
     from sp.models.models import *
+
+    from game.models import *
 
     init()
     #new_data()
