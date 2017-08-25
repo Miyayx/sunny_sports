@@ -78,10 +78,10 @@ DATABASES = {
         #'USER': 'root',
         #'PASSWORD': '123',
         #'HOST': '127.0.0.1',
-        'USER': 'queen',
-        'PASSWORD': 'dorm',
-        #'HOST': '104.236.146.204',
-        'HOST': '121.52.209.117',
+        'USER': '',
+        'PASSWORD': '',
+        #'HOST': '',
+        'HOST': '',
         'PORT': '3306',
     }
 }
