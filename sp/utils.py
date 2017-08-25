@@ -17,7 +17,7 @@ def send_phone_message(mobile, msg):
     if settings.MSG_CODE and not mobile in settings.IGNORE_PHONE:
         resp = requests.post(
                 ("https://sms-api.luosimao.com/v1/send.json"),
-                auth=("api", "b0e0056374704a22f46f9166df13868e"),
+                auth=("api", ""),
                 data={
                     "mobile": mobile,
                     "message": msg
